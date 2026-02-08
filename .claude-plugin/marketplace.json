@@ -1,0 +1,22 @@
+{
+  "name": "juxt-plugins",
+  "owner": {
+    "name": "JUXT Ltd",
+    "email": "info@juxt.pro"
+  },
+  "metadata": {
+    "description": "JUXT plugin marketplace for Claude Code",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "allium",
+      "description": "An LLM-native language for sharpening intent alongside implementation. Velocity through clarity.",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./plugins/allium"
+      ]
+    }
+  ]
+}
