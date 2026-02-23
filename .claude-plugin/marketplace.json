@@ -12,12 +12,19 @@
     {
       "name": "allium",
       "description": "An LLM-native language for sharpening intent alongside implementation. Velocity through clarity.",
-      "source": "./",
-      "strict": false,
+      "source": {
+        "source": "github",
+        "repo": "juxt/allium",
+        "sha": "0d6a513e84db57eb5cf01891ffed941c6278844f"
+      },
       "skills": [
-        "./plugins/allium",
-        "./plugins/allium/skills/distill",
-        "./plugins/allium/skills/elicit"
+        "./",
+        "./skills/distill",
+        "./skills/elicit"
+      ],
+      "agents": [
+        "./.claude/agents/tend.md",
+        "./.claude/agents/weed.md"
       ]
     },
     {

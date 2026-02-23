@@ -1,3 +1,0 @@
-[submodule "plugins/allium"]
-	path = plugins/allium
-	url = git@github.com:juxt/allium.git
