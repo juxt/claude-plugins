@@ -15,7 +15,9 @@
       "source": "./",
       "strict": false,
       "skills": [
-        "./plugins/allium"
+        "./plugins/allium",
+        "./plugins/allium/skills/distill",
+        "./plugins/allium/skills/elicit"
       ]
     },
     {
