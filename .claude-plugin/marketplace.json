@@ -31,6 +31,18 @@
       "name": "chalk",
       "description": "GitHub Issue-backed agent session memory. Like beads but uses GitHub Issues as the storage backend.",
       "source": "./plugins/chalk"
+    },
+    {
+      "name": "glance",
+      "description": "Pipe long command output through glance for token-efficient summaries instead of reading all tokens.",
+      "source": {
+        "source": "github",
+        "repo": "juxt/glance",
+        "sha": "1e485e9f250b020efabf69cbf4c8199429e841a1"
+      },
+      "skills": [
+        "./skills/glance"
+      ]
     }
   ]
 }
