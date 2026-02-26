@@ -12,6 +12,15 @@ allowed-tools: Bash(gh issue *), Bash(gh api *)
 Track your work against a GitHub Issue.
 The issue description is shared territory (respect existing format); session comments are yours.
 
+## Plan Mode Integration
+
+When chalk is active and you write a plan, the plan document MUST include:
+
+1. **First step**: update the session comment with the plan's work items before any implementation begins.
+2. **Final step** (after commit): update the session comment with outcomes, decisions, and anything surprising.
+
+These are plan steps like any other — they appear in the plan file the user reviews.
+
 ## Auto-Activation
 
 This skill auto-activates when the user mentions a GitHub issue number.
@@ -130,11 +139,24 @@ Edit it in-place whenever something worth recording happens:
 
 Don't update on routine mechanical steps — only when a future reader would benefit from knowing.
 
+**Before each update**, review the conversation history since your last update.
+Look for decisions, tradeoffs, and context that emerged naturally during work but weren't explicitly called out.
+If you're uncertain whether something was a deliberate choice vs. a constraint, ask the user before recording it.
+
 **Before stopping or ending the session**: finalize your session comment (mark checklist items, set status to `completed` or `blocked`).
 Update the issue description's Current Status section if the overall picture changed.
 
 **Before context compaction**: ensure your session comment captures all progress so far.
 Include the issue number in your compaction summary so you can resume tracking afterward.
+
+**After context compaction (resuming a session)**: if your compaction summary mentions a chalk issue number, re-activate by reading the issue and your last session comment:
+
+```
+gh issue view N
+gh issue view N --json comments --jq '[.comments[] | select(.body | startswith("### Session —"))] | last | .body'
+```
+
+Continue editing that same session comment — don't create a new one.
 
 ## Editing Your Session Comment
 
@@ -157,10 +179,10 @@ Fall back to editing by comment ID:
 gh api --method PATCH /repos/{owner}/{repo}/issues/comments/{comment_id} -f body="..."
 ```
 
-To find the session comment ID, search backwards through comments for the one starting with `### Session —`:
+To find the session comment's numeric ID, extract it from the comment URL (the `.id` field is a GraphQL node ID which won't work with the REST API):
 
 ```
-gh issue view N --json comments --jq '[.comments[] | select(.body | startswith("### Session —"))] | last | .id'
+gh issue view N --json comments --jq '[.comments[] | select(.body | startswith("### Session —"))] | last | .url | split("-") | last'
 ```
 
 ## Example Session Comment
