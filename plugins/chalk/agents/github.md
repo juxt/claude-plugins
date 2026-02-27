@@ -55,7 +55,9 @@ Create a GitHub issue with a `## Progress` section in the body:
 gh issue create --title "..." --body "..."
 ```
 
-The body should include whatever context the caller provides, plus an initial `## Progress` section.
+The body should describe the issue or feature — what and why, not how to implement it.
+Include whatever context the caller provides, plus an initial `## Progress` section.
+Do not outline an implementation plan in the issue body.
 Report back the issue number from the output.
 
 ### Create a chalk comment
