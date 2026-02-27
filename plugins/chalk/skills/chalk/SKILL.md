@@ -1,16 +1,34 @@
 ---
 name: chalk
-description: This skill should be used when the user says "chalk #N", "chalk new", "chalk status", "chalk off", "track issue #N", mentions a GitHub issue number (e.g. "#123", "issue 456", "GH-789"), or references a github.com issue URL. Tracks agent session progress against GitHub Issues via session comments.
-version: 0.1.0
+description: Tracks agent session progress against GitHub Issues. This skill should be used when the user says "chalk #N", "chalk new", "chalk status", "chalk off", "track issue #N", mentions a GitHub issue number (e.g. "#123", "issue 456", "GH-789"), or references a github.com issue URL.
+version: 0.2.0
 user-invocable: true
 disable-model-invocation: false
-allowed-tools: Bash(gh issue *), Bash(gh api *)
 ---
 
-# Chalk — GitHub Issue Session Tracking
+# Chalk — GitHub Issue Tracking
 
-Track your work against a GitHub Issue.
-The issue description is shared territory (respect existing format); session comments are yours.
+Track work against a GitHub Issue.
+The issue description is the user's territory; comments belong to chalk.
+
+## Injecting Chalk Into Plans
+
+When chalk is active, **every implementation plan MUST include chalk steps as concrete plan steps**.
+This is how chalk stays in sync — it rides the plan, not the session.
+Always include the issue number in each chalk step so it survives context compaction.
+
+Inject these steps into the plan document:
+
+1. **Create chalk comment** on #N (via chalk agent) with the planned work items.
+2. *(... implementation steps ...)*
+3. **Update chalk comment** on #N (via chalk agent) with outcomes, decisions, dead ends, and anything surprising.
+4. **Update progress** on #N (via chalk agent) if the overall checklist changed.
+
+Each plan = one comment. Next plan = new comment.
+
+All GitHub interaction goes through the chalk agent (`Task(subagent_type="chalk:chalk")`).
+Run chalk agent write calls (create comment, update comment, update progress) in the background.
+Activation reads must be awaited — the result is needed before proceeding.
 
 ## Plan Mode Integration
 
@@ -32,42 +50,84 @@ If declined, don't ask again for that issue in the same session.
 
 - `chalk #N` — track this session against issue N
 - `chalk new` — create a new issue and track against it
-- `chalk status` — show what you're tracking
-- `chalk off` — stop tracking
+- `chalk status` — show what you're tracking (report the issue number and current Progress summary)
+- `chalk off` — finalize the current comment (if one is in progress) via the chalk agent, then stop tracking
 
 ## Activation: `chalk #N`
 
-1. Read the issue:
-   ```
-   gh issue view N
-   gh issue view N --comments --json comments
-   ```
+1. Use the chalk agent to read the issue and its recent comments.
 2. Internalize the issue context without repeating the entire issue to the user.
-3. Read the last 2-3 comments to understand recent history.
-4. Create your session comment (see format below).
-5. Note the comment URL from the creation output — you'll need it to edit in-place later.
-6. Tell the user you're tracking against #N.
+3. If no `## Progress` section exists in the issue description, ask the chalk agent to add one.
+4. Tell the user you're tracking against #N.
 
 ## Activation: `chalk new`
 
 1. Ask the user for a title and brief context.
-2. Create the issue:
-   ```
-   gh issue create --title "..." --body "..."
-   ```
-3. Note the issue number from the output.
-4. Create your session comment.
-5. Tell the user you're tracking against the new issue.
+2. Use the chalk agent to create the issue with a `## Progress` section in the body.
+3. Note the issue number from the agent's response.
+4. Tell the user you're tracking against the new issue.
 
-## Session Comment Format
+## Two Layers of State
 
-Create one comment per session.
-Edit it in-place as work progresses — don't create multiple comments.
+### Issue Description — The Progress Checklist
+
+Chalk owns a `## Progress` section within the issue description.
+Leave everything else untouched.
+
+The `## Progress` section contains:
+- A checklist of all known work items (checked/unchecked).
+- A **Status** line (`in-progress`, `completed`, `blocked`).
+- An **Open Questions** checklist if there are unresolved items.
 
 ```markdown
-### Session — YYYY-MM-DD
+## Progress
 
 **Status**: in-progress
+
+- [x] Investigate flaky test in expression_test
+- [x] Fix root cause: race condition in temporal bounds
+- [ ] Add regression test for concurrent temporal queries
+
+### Open Questions
+
+- [ ] Should we also make TemporalBounds immutable? (see comment)
+```
+
+Update the progress section (via the chalk agent) whenever the checklist changes — items added, completed, or deferred.
+
+**Restructuring the issue description** (beyond the Progress section) is only appropriate if the issue's direction or aim has genuinely changed — not as routine maintenance.
+
+### Comments — One Per Implementation Loop
+
+Each implementation loop (plan → implement → commit) gets its own comment.
+Comments are created at the start of a loop and updated at the end.
+
+This gives you an append-only log: scroll down = chronological history of implementation.
+
+## Delegating to the Chalk Agent
+
+**All GitHub interaction goes through the chalk agent.**
+The main conversation MUST NOT call `gh issue` or `gh api` directly for chalk updates.
+This keeps the main context clean and avoids filling it with API output.
+
+To create or update a chalk comment, launch the chalk agent via the Task tool:
+
+```
+Task(subagent_type="chalk:chalk", prompt="...")
+```
+
+The prompt should contain:
+- The issue number
+- What action to take (create comment, update comment, update progress)
+- The content to write
+
+Run chalk agent write calls in the background.
+Await read calls (activation) — the result is needed to proceed.
+
+## Comment Format
+
+```markdown
+### Chalk — Short description of this task
 
 - [ ] First work item
 - [ ] Second work item
@@ -85,13 +145,14 @@ Details...
 </details>
 ```
 
+No date in the header — GitHub timestamps the comment itself.
+
 **Rules:**
 - The checklist is the scannable overview.
   Each item mirrors a `<details>` block below.
 - Check items off as you complete them.
 - Add new items as work emerges.
 - Keep details blocks focused — one per theme or work item.
-- Update **Status** to `completed` or `blocked` at session end.
 
 **Writing style — focus on the why, not the what:**
 Details blocks should read like knowledge-sharing, not a changelog.
@@ -107,92 +168,34 @@ Omit:
 - Obvious details self-evident from the diff or issue description.
 - Play-by-play of mechanical steps ("then I ran the tests", "then I edited the file").
 
-## Updating the Issue Description
+## Lifecycle of a Comment
 
-You don't own the issue description — respect whatever format exists.
-Your job is to ensure two things exist:
+**Create** when starting an implementation loop — when you have a plan and are about to implement.
+If there's no formal plan (e.g. a quick bugfix), still create a comment before starting work.
 
-1. **Current Status** — a section (usually `## Current Status`) near the bottom with a concise summary of where things stand.
-2. **Open Questions** — a checklist section (usually `## Open Questions`) if there are unresolved items.
-   Link to comments for longer discussions.
+**Update** when the loop is done:
+- Check off completed items.
+- Fill in details blocks with decisions, findings, dead ends.
+- Add any items that emerged during implementation.
 
-**How to update:**
-- Read the current description.
-- If a status section exists, update it in-place.
-- If not, append one at the bottom.
-- Same for open questions.
-- Leave everything else untouched.
+**Before stopping or ending the session**: finalize your current comment via the chalk agent.
+Update the Progress section if the overall picture changed.
 
-Use `gh issue edit N --body "..."` to update.
-You must pass the full body (GH replaces the entire body), so read it first, modify, then write back.
-
-## When to Update Your Session Comment
-
-Keep the comment current as you work — don't wait until the end.
-Edit it in-place whenever something worth recording happens:
-
-- **On a decision**: you chose approach X over Y, or ruled something out.
-- **On a discovery**: you found something surprising, or confirmed a hypothesis.
-- **On a dead end**: you tried something that didn't work — record what and why.
-- **On a scope change**: something was added, dropped, or deferred.
-- **On a blocker**: you're stuck and need input.
-
-Don't update on routine mechanical steps — only when a future reader would benefit from knowing.
-
-**Before each update**, review the conversation history since your last update.
-Look for decisions, tradeoffs, and context that emerged naturally during work but weren't explicitly called out.
-If you're uncertain whether something was a deliberate choice vs. a constraint, ask the user before recording it.
-
-**Before stopping or ending the session**: finalize your session comment (mark checklist items, set status to `completed` or `blocked`).
-Update the issue description's Current Status section if the overall picture changed.
-
-**Before context compaction**: ensure your session comment captures all progress so far.
+**Before context compaction**: ensure your current comment captures all progress so far.
 Include the issue number in your compaction summary so you can resume tracking afterward.
 
-**After context compaction (resuming a session)**: if your compaction summary mentions a chalk issue number, re-activate by reading the issue and your last session comment:
+**After context compaction (resuming)**: if your compaction summary mentions a chalk issue number, re-activate by reading the issue and the last chalk comment.
+If the last comment has unchecked items and you are resuming the same implementation loop (not starting new work), continue updating it.
+If starting a new plan, always create a new comment.
 
-```
-gh issue view N
-gh issue view N --json comments --jq '[.comments[] | select(.body | startswith("### Session —"))] | last | .body'
-```
+## Example Comment
 
-Continue editing that same session comment — don't create a new one.
-
-## Editing Your Session Comment
-
-Before each edit, verify your session comment is still the last one on the issue:
-
-```
-gh issue view N --json comments --jq '.comments[-1].body' | head -1
-```
-
-If the output starts with `### Session —`, it's yours — proceed with the edit:
-
-```
-gh issue comment N --edit-last --body "..."
-```
-
-If it doesn't match (e.g. you manually commented on the issue since the session started), `--edit-last` would edit the wrong comment.
-Fall back to editing by comment ID:
-
-```
-gh api --method PATCH /repos/{owner}/{repo}/issues/comments/{comment_id} -f body="..."
-```
-
-To find the session comment's numeric ID, extract it from the comment URL (the `.id` field is a GraphQL node ID which won't work with the REST API):
-
-```
-gh issue view N --json comments --jq '[.comments[] | select(.body | startswith("### Session —"))] | last | .url | split("-") | last'
-```
-
-## Example Session Comment
-
-See `examples/session-comment-filled.md` for a realistic filled-in example.
+See `examples/implementation-comment.md` for a realistic filled-in example.
 
 ## Important
 
-- **Don't create multiple comments per session.** One comment, edited in-place.
-- **Don't restructure the issue description.** Only touch status and open questions.
-- **Do update at milestones.** The value is in the live progress, not just the final summary.
-- **Do include enough detail in `<details>` blocks** that a future session (possibly after compaction) can pick up where you left off.
-  Key files, decisions and why, what was tried, what didn't work and why.
+- **One comment per implementation loop.** Not per session — per unit of planned work.
+- **Issue description owns the checklist.** The `## Progress` section is the canonical state.
+- **All GH interaction through the chalk agent.** Keep the main context clean.
+- **Don't restructure the issue description** unless the issue's direction has genuinely changed.
+- **Do include enough detail in `<details>` blocks** that a future session can pick up where you left off.

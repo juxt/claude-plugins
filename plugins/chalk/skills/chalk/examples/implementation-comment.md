@@ -1,6 +1,4 @@
-### Session — 2026-02-18
-
-**Status**: in-progress
+### Chalk — Fix flaky temporal bounds test
 
 - [x] Investigate flaky test in `expression_test`
 - [x] Fix root cause: race condition in temporal bounds
