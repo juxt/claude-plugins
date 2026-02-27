@@ -30,7 +30,13 @@
     {
       "name": "chalk",
       "description": "GitHub Issue-backed agent session memory. Like beads but uses GitHub Issues as the storage backend.",
-      "source": "./plugins/chalk"
+      "source": "./plugins/chalk",
+      "skills": [
+        "./skills/chalk"
+      ],
+      "agents": [
+        "./agents/github.md"
+      ]
     },
     {
       "name": "glance",

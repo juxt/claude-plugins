@@ -39,7 +39,7 @@ Chalk also auto-activates when you mention a GitHub issue number (e.g. "#123").
 ## Components
 
 - **Skill** (`chalk`): The main user-facing skill for session tracking commands
-- **Agent** (`chalk`): Handles all GitHub API interaction, keeping the main context clean
+- **Agent** (`github`): Handles all GitHub API interaction, keeping the main context clean
 
 ## Permissions
 

@@ -26,7 +26,7 @@ Inject these steps into the plan document:
 
 Each plan = one comment. Next plan = new comment.
 
-All GitHub interaction goes through the chalk agent (`Task(subagent_type="chalk:chalk")`).
+All GitHub interaction goes through the chalk agent (`Task(subagent_type="chalk:github")`).
 Run chalk agent write calls (create comment, update comment, update progress) in the background.
 Activation reads must be awaited — the result is needed before proceeding.
 
@@ -113,7 +113,7 @@ This keeps the main context clean and avoids filling it with API output.
 To create or update a chalk comment, launch the chalk agent via the Task tool:
 
 ```
-Task(subagent_type="chalk:chalk", prompt="...")
+Task(subagent_type="chalk:github", prompt="...")
 ```
 
 The prompt should contain:

@@ -1,5 +1,5 @@
 ---
-name: chalk
+name: github
 description: >
   Manages GitHub Issue state for chalk session tracking.
   Use this agent to create or update chalk comments on issues, update the Progress section
