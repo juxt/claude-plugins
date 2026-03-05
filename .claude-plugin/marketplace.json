@@ -15,7 +15,13 @@
       "source": {
         "source": "github",
         "repo": "juxt/allium",
-        "sha": "346440ca338c6e0d6cf375ddd41f4278ec6382a0"
+        "sha": "346440ca338c6e0d6cf375ddd41f4278ec6382a0",
+        "pinning_policy": {
+          "type": "sha",
+          "review_required": true,
+          "last_reviewed": "2026-03-05",
+          "note": "SHA is updated on each plugin release. Review the diff at https://github.com/juxt/allium/compare/<prev-sha>...<new-sha> before updating."
+        }
       },
       "skills": [
         "./",
@@ -44,7 +50,13 @@
       "source": {
         "source": "github",
         "repo": "juxt/glance",
-        "sha": "1e485e9f250b020efabf69cbf4c8199429e841a1"
+        "sha": "1e485e9f250b020efabf69cbf4c8199429e841a1",
+        "pinning_policy": {
+          "type": "sha",
+          "review_required": true,
+          "last_reviewed": "2026-03-05",
+          "note": "SHA is updated on each plugin release. Review the diff at https://github.com/juxt/glance/compare/<prev-sha>...<new-sha> before updating."
+        }
       },
       "skills": [
         "./skills/glance"
