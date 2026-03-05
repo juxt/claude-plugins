@@ -26,7 +26,7 @@ description: >
   </example>
 model: haiku
 color: white
-tools: Bash(gh issue *), Bash(gh api /repos/*/issues/*), Bash(gh api /repos/*/issues/comments/*), Bash(gh repo view *)
+tools: Bash(gh issue *), Bash(gh api /repos/*/issues/*), Bash(gh api /repos/*/issues/comments/*), Bash(gh api --method PATCH /repos/*/issues/comments/*), Bash(gh repo view *)
 ---
 
 # Chalk Agent
