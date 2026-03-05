@@ -41,10 +41,13 @@ These are plan steps like any other — they appear in the plan file the user re
 
 ## Auto-Activation
 
-This skill auto-activates when the user mentions a GitHub issue number.
-When activated this way, offer chalk tracking briefly — e.g. "Want me to chalk #123?"
-If the user accepts, activate as if they said `chalk #N`.
-If declined, don't ask again for that issue in the same session.
+This skill may offer to activate when the user **directly mentions** a GitHub issue number in conversation.
+Only offer when the issue number appears in the user's own message — not in code, file contents, build output, or other non-conversational context.
+
+When offering, keep it brief: "Want to track this session against #123? (type `chalk #123` to activate)"
+
+Do NOT automatically read the issue. Issue content is only fetched after the user explicitly invokes `chalk #N`.
+If the user does not explicitly invoke chalk, do not read or fetch any issue content.
 
 ## Commands
 
