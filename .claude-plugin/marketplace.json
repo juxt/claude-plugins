@@ -15,12 +15,13 @@
       "source": {
         "source": "github",
         "repo": "juxt/allium",
-        "sha": "346440ca338c6e0d6cf375ddd41f4278ec6382a0"
+        "sha": "f6fb08dd301fbdd940c715e1adca7b121bd0e097"
       },
       "skills": [
         "./",
         "./skills/distill",
-        "./skills/elicit"
+        "./skills/elicit",
+        "./skills/propagate"
       ],
       "agents": [
         "./.claude/agents/tend.md",
