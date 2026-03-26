@@ -40,6 +40,14 @@
       ]
     },
     {
+      "name": "chill",
+      "description": "Interrupt forward momentum and step back to reassess. A circuit-breaker for when Claude is spinning or scope-creeping.",
+      "source": "./plugins/chill",
+      "skills": [
+        "./skills/chill"
+      ]
+    },
+    {
       "name": "glance",
       "description": "Pipe long command output through glance for token-efficient summaries instead of reading all tokens.",
       "source": {
