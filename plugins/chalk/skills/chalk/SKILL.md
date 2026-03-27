@@ -1,12 +1,14 @@
 ---
 name: chalk
-description: Tracks agent session progress against GitHub Issues. This skill should be used when the user says "chalk #N", "chalk new", "chalk status", "chalk off", "track issue #N", mentions a GitHub issue number (e.g. "#123", "issue 456", "GH-789"), or references a github.com issue URL.
+description: Track session intent and progress against GitHub Issues. Use when the user says "chalk #N", "chalk new", "chalk status", "chalk off", "track issue #N", mentions a GitHub issue number (e.g. "#123", "issue 456", "GH-789"), or references a github.com issue URL.
 version: 0.2.0
 user-invocable: true
 disable-model-invocation: false
 ---
 
 # Chalk — GitHub Issue Tracking
+
+Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 Track work against a GitHub Issue.
 The issue description is the user's territory; comments belong to chalk.
@@ -19,12 +21,10 @@ Always include the issue number in each chalk step so it survives context compac
 
 Inject these steps into the plan document:
 
-1. **Create chalk comment** on #N (via chalk agent) with the planned work items.
+1. **Create chalk comment** on #N (via chalk agent) with the planned work items — if one doesn't already exist for this session.
 2. *(... implementation steps ...)*
 3. **Update chalk comment** on #N (via chalk agent) with outcomes, decisions, dead ends, and anything surprising.
 4. **Update progress** on #N (via chalk agent) if the overall checklist changed.
-
-Each plan = one comment. Next plan = new comment.
 
 All GitHub interaction goes through the chalk agent (`Task(subagent_type="chalk:github")`).
 Run chalk agent write calls (create comment, update comment, update progress) in the background.
@@ -34,7 +34,7 @@ Activation reads must be awaited — the result is needed before proceeding.
 
 When chalk is active and you write a plan, the plan document MUST include:
 
-1. **First step**: update the session comment with the plan's work items before any implementation begins.
+1. **First step**: create or update the session comment with the plan's work items before any implementation begins.
 2. **Final step** (after commit): update the session comment with outcomes, decisions, and anything surprising.
 
 These are plan steps like any other — they appear in the plan file the user reviews.
@@ -100,12 +100,12 @@ Update the progress section (via the chalk agent) whenever the checklist changes
 
 **Restructuring the issue description** (beyond the Progress section) is only appropriate if the issue's direction or aim has genuinely changed — not as routine maintenance.
 
-### Comments — One Per Implementation Loop
+### Comments — One Per Session
 
-Each implementation loop (plan → implement → commit) gets its own comment.
-Comments are created at the start of a loop and updated at the end.
+Each session gets one comment.
+The comment is created when work begins and updated as the session progresses.
 
-This gives you an append-only log: scroll down = chronological history of implementation.
+Across sessions, this gives you an append-only log: scroll down = chronological history of implementation.
 
 ## Delegating to the Chalk Agent
 
@@ -157,48 +157,37 @@ No date in the header — GitHub timestamps the comment itself.
 - Add new items as work emerges.
 - Keep details blocks focused — one per theme or work item.
 
-**Writing style — focus on the why, not the what:**
+**Writing style**: follow the chalk voice (see `VOICE.md` at the plugin root).
 Details blocks should read like knowledge-sharing, not a changelog.
-A future developer (or a future session after compaction) needs to understand *reasoning*, not just *actions*.
-
-Include:
-- **Decisions and tradeoffs**: why you chose approach X over Y, what constraints drove the choice.
-- **Counter-intuitive findings**: anything that surprised you or would surprise someone reading the code.
-- **What didn't work and why**: dead ends are valuable context — they prevent re-investigation.
-- **What was explicitly out-of-scope**: if you deliberately skipped something, say so and say why.
-
-Omit:
-- Obvious details self-evident from the diff or issue description.
-- Play-by-play of mechanical steps ("then I ran the tests", "then I edited the file").
 
 ## Lifecycle of a Comment
 
-**Create** when starting an implementation loop — when you have a plan and are about to implement.
+**Create** when starting work — when you have a plan and are about to implement.
 If there's no formal plan (e.g. a quick bugfix), still create a comment before starting work.
 
-**Update** when the loop is done:
+**Update** as the session progresses:
 - Check off completed items.
 - Fill in details blocks with decisions, findings, dead ends.
 - Add any items that emerged during implementation.
 
-**Before stopping or ending the session**: finalize your current comment via the chalk agent.
+**Before stopping or ending the session**: finalize the comment via the chalk agent.
 Update the Progress section if the overall picture changed.
 
-**Before context compaction**: ensure your current comment captures all progress so far.
+**Before context compaction**: ensure the comment captures all progress so far.
 Include the issue number in your compaction summary so you can resume tracking afterward.
 
-**After context compaction (resuming)**: if your compaction summary mentions a chalk issue number, re-activate by reading the issue and the last chalk comment.
-If the last comment has unchecked items and you are resuming the same implementation loop (not starting new work), continue updating it.
-If starting a new plan, always create a new comment.
+**After context compaction (resuming)**: if your compaction summary mentions a chalk issue number, re-activate by reading the issue and the session comment.
+Continue updating the existing comment — do not create a new one.
 
 ## Example Comment
 
 See `examples/implementation-comment.md` for a realistic filled-in example.
 
-## Important
+## Constraints
 
-- **One comment per implementation loop.** Not per session — per unit of planned work.
-- **Issue description owns the checklist.** The `## Progress` section is the canonical state.
-- **All GH interaction through the chalk agent.** Keep the main context clean.
-- **Don't restructure the issue description** unless the issue's direction has genuinely changed.
-- **Do include enough detail in `<details>` blocks** that a future session can pick up where you left off.
+- There MUST be one comment per session.
+- The `## Progress` section MUST be the canonical state of the issue checklist.
+- All GitHub interaction MUST go through the chalk agent. The main context MUST NOT call `gh` directly for chalk updates.
+- The issue description MUST NOT be restructured unless the issue's direction has genuinely changed.
+- `<details>` blocks MUST contain enough context that a future session can pick up where you left off.
+- All writing MUST follow the chalk voice (`VOICE.md` at the plugin root).

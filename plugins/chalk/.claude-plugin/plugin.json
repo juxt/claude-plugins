@@ -1,5 +1,5 @@
 {
   "name": "chalk",
-  "version": "0.2.2",
-  "description": "GitHub Issue-backed agent session memory"
+  "version": "0.3.0",
+  "description": "Capture intent across issues and commits — why, not just what"
 }

@@ -5,7 +5,7 @@ description: >
   Use this agent to create or update chalk comments on issues, update the Progress section
   of issue descriptions, create new issues, or read current issue state.
   <example>
-  Context: Starting an implementation loop and need to create a chalk comment.
+  Context: Starting a session and need to create a chalk comment.
   user: "Create a chalk comment on issue #42 with these work items: fix auth bug, add tests"
   assistant: "I'll create the chalk comment on #42."
   </example>
@@ -113,8 +113,7 @@ COMMENT_ID=$(gh issue view N --json comments --jq '[.comments[] | select(.body |
 gh api --method PATCH /repos/$REPO/issues/comments/$COMMENT_ID -f body="..."
 ```
 
-When updating, fill in `<details>` blocks with substance — focus on decisions, tradeoffs, dead ends, and surprising findings.
-Omit play-by-play of mechanical steps.
+When updating, fill in `<details>` blocks following the chalk voice (`VOICE.md` at the plugin root).
 
 ### Update the Progress section
 

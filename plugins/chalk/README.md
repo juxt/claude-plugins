@@ -1,19 +1,20 @@
 # Chalk
 
-GitHub Issue-backed agent session memory.
+Capture intent across issues and commits — why, not just what.
+
+Chalk is an intent layer for Claude Code.
+It ensures that the *reasoning* behind your work is captured at every level: why you're doing this work (issues), and why each change was made the way it was (commits).
 
 Similar to [beads](https://github.com/steveyegge/beads) but uses GitHub Issues as the storage backend, for projects that already have their issue tracking in GitHub.
 
-Chalk tracks your Claude Code session progress against a GitHub Issue.
-The issue description holds the current-state checklist (a `## Progress` section); each implementation loop gets its own comment capturing decisions, progress, and blockers.
+## The Intent Stack
 
-## Conventions
-
-- **Issue description** = current state (mutable). The `## Progress` section is the canonical checklist of where things stand. Updated in-place as items are completed or added.
-- **Comments** = implementation log (append-only). One comment per implementation loop (plan → implement → commit). Each comment captures what was tried, decided, and learned.
+- **Issues** (`chalk #N`): track session progress against a GitHub Issue. The issue description holds current state; each session gets a comment capturing decisions, tradeoffs, and dead ends.
+- **Commits** (`/chalk:commit`): create commits with contextual bodies that explain the *why*. When chalk is tracking an issue, commits automatically reference it and draw on the session context for richer messages.
 
 The issue description is what you read to get up to speed quickly.
-The comments are what you read when you need to understand *how* you got here — essential context for resuming after compaction or picking up someone else's work.
+The comments are what you read when you need to understand *how* you got here.
+The commits are what you read when you need to understand why a specific change was made.
 
 ## Installation
 
@@ -33,12 +34,14 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 - `chalk new` — create a new issue and track against it
 - `chalk status` — show what you're tracking
 - `chalk off` — stop tracking
+- `/chalk:commit <headline>` — create a contextual commit (references tracked issue when chalk is active)
 
 Chalk also auto-activates when you mention a GitHub issue number (e.g. "#123").
 
 ## Components
 
-- **Skill** (`chalk`): The main user-facing skill for session tracking commands
+- **Skill** (`chalk`): Session tracking against GitHub Issues
+- **Skill** (`commit`): Contextual commits that capture the why, with chalk integration
 - **Agent** (`github`): Handles all GitHub API interaction, keeping the main context clean
 
 ## Permissions
