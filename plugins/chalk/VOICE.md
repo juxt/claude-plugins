@@ -13,10 +13,12 @@ What they can't reconstruct is what was going on in your head.
 
 ## What to capture
 
+- **The problem first**: set up *why this matters* before explaining what you did. The reader needs to understand the situation before the solution makes sense.
 - **Decisions and tradeoffs**: why you chose approach X over Y, what constraints drove the choice.
 - **Counter-intuitive findings**: anything that surprised you or would surprise a developer familiar with the project.
-- **Dead ends**: what didn't work and why — this prevents re-investigation.
-- **Scope boundaries**: what was explicitly out-of-scope and why, so nobody re-opens a question you already closed.
+- **Dead ends**: what didn't work and why — this prevents re-investigation. Include *why* the wrong approach seemed right, not just that it was wrong.
+- **Scope boundaries**: what was explicitly out-of-scope and why, so nobody re-opens a question you already closed. If there's a natural "next up", say so.
+- **The mental model**: when the change introduces or reshapes a concept, explain the model — what the abstractions are, how they relate, why they're shaped this way. Don't assume the reader already has the mental model you built up while implementing.
 
 ## What to omit
 
@@ -47,8 +49,26 @@ What they can't reconstruct is what was going on in your head.
 > Queries against the Kafka log can stall indefinitely when a partition leader is mid-election.
 > A per-query timeout lets callers fail fast rather than blocking on a cluster event they can't control.
 
+**Not this** (abstract hand-waving):
+> Updated the type system to better represent logical types, improving the separation between compile-time and run-time representations.
+
+**This** (teaches the mental model, uses concrete examples):
+> A logical type is one of: Mono (null, scalar, listy, struct), Maybe (nullable mono), or Poly (set of monos).
+> Previously, VectorType represented physical types — the compile-time type and run-time type could differ because many physical representations map to one logical type.
+> For physical representations, we now exclusively use Arrow's `Field` class.
+
+**Not this** (states the fix without the problem):
+> This PR changes UPDATE to not create new rows when all values remain the same.
+
+**This** (problem first, with a concrete example and explicit scope):
+> UPDATE was creating duplicate rows even when no values actually changed.
+> Uses type-strict equality — `UPDATE docs SET a = 1.0 WHERE _id = 1` on a doc with `{:a 1}` *will* create a new record because `1 ≠ 1.0`.
+> PATCH is out of scope of this PR (see #5030).
+
 ## Style
 
 - One sentence per line (no 80-char wrapping).
-- Lead with the decision or finding, not the process.
+- Lead with the problem or context, not the solution.
+- Use concrete examples — specific scenarios, code snippets, data — to ground the reasoning. Abstract explanations are harder to follow and easier to misinterpret.
+- When the reasoning is complex but the change is simple, say so. "Simple change in the end: ..." helps the reader calibrate expectations before looking at the diff.
 - Be concise but don't strip out the reasoning — a terse note with no *why* is just as unhelpful as a verbose one.

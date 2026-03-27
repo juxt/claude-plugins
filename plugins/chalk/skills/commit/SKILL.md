@@ -1,7 +1,8 @@
 ---
 name: commit
-description: Create a commit with contextual body explaining the why
+description: Create a commit with contextual body explaining the why. Use when the user says "commit this", "commit", "make a commit", or "/chalk:commit".
 user-invocable: true
+disable-model-invocation: false
 ---
 
 # Contextual Git Commit

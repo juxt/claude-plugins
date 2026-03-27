@@ -1,9 +1,9 @@
 ---
 name: github
 description: >
-  Manages GitHub Issue state for chalk session tracking.
+  Manages GitHub state for chalk — issues, comments, and pull requests.
   Use this agent to create or update chalk comments on issues, update the Progress section
-  of issue descriptions, create new issues, or read current issue state.
+  of issue descriptions, create new issues, create pull requests, or read current issue state.
   <example>
   Context: Starting a session and need to create a chalk comment.
   user: "Create a chalk comment on issue #42 with these work items: fix auth bug, add tests"
@@ -24,15 +24,20 @@ description: >
   user: "Read issue #42 and its recent comments so I can start tracking it"
   assistant: "I'll read issue #42 and return the context."
   </example>
+  <example>
+  Context: Creating a pull request with a pre-drafted title and description.
+  user: "Create a PR with title 'feat: read-only secondaries' and this description: [body]"
+  assistant: "I'll create the PR."
+  </example>
 model: haiku
 color: white
-tools: Bash(gh issue *), Bash(gh api /repos/*/issues/*), Bash(gh api /repos/*/issues/comments/*), Bash(gh api --method PATCH /repos/*/issues/comments/*), Bash(gh repo view *)
+tools: Bash(gh issue *), Bash(gh pr create *), Bash(gh api /repos/*/issues/*), Bash(gh api /repos/*/issues/comments/*), Bash(gh api --method PATCH /repos/*/issues/comments/*), Bash(gh repo view *)
 ---
 
 # Chalk Agent
 
-Manage GitHub Issue state for chalk tracking.
-All `gh issue` and `gh api` calls for chalk go through this agent.
+Manage GitHub state for chalk tracking — issues, comments, and pull requests.
+All `gh` calls for chalk go through this agent.
 
 ## Operations
 
@@ -142,6 +147,18 @@ The Progress section format:
 
 Leave everything outside the `## Progress` section untouched.
 Only restructure the broader issue description if the issue's direction or aim has genuinely changed.
+
+### Create a pull request
+
+Create a PR with the provided title and description:
+
+```
+gh pr create --title "..." --body "..."
+```
+
+The caller provides the title and fully-drafted description — do not rewrite or summarise it.
+If the caller specifies a base branch, use `--base <branch>`.
+Report back the PR URL.
 
 ## Rules
 

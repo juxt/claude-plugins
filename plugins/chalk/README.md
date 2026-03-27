@@ -11,6 +11,7 @@ Similar to [beads](https://github.com/steveyegge/beads) but uses GitHub Issues a
 
 - **Issues** (`chalk #N`): track session progress against a GitHub Issue. The issue description holds current state; each session gets a comment capturing decisions, tradeoffs, and dead ends.
 - **Commits** (`/chalk:commit`): create commits with contextual bodies that explain the *why*. When chalk is tracking an issue, commits automatically reference it and draw on the session context for richer messages.
+- **Pull requests** (`/chalk:pr`): create PRs with descriptions that capture the problem, the approach, key decisions, and scope boundaries. Delegates to the github agent for the actual creation.
 
 The issue description is what you read to get up to speed quickly.
 The comments are what you read when you need to understand *how* you got here.
@@ -35,6 +36,7 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 - `chalk status` — show what you're tracking
 - `chalk off` — stop tracking
 - `/chalk:commit <headline>` — create a contextual commit (references tracked issue when chalk is active)
+- `/chalk:pr [title]` — create a PR with an intent-driven description
 
 Chalk also auto-activates when you mention a GitHub issue number (e.g. "#123").
 
@@ -42,6 +44,7 @@ Chalk also auto-activates when you mention a GitHub issue number (e.g. "#123").
 
 - **Skill** (`chalk`): Session tracking against GitHub Issues
 - **Skill** (`commit`): Contextual commits that capture the why, with chalk integration
+- **Skill** (`pr`): Pull requests with intent-driven descriptions
 - **Agent** (`github`): Handles all GitHub API interaction, keeping the main context clean
 
 ## Permissions
@@ -54,6 +57,7 @@ Bash(gh issue view *)
 Bash(gh issue comment *)
 Bash(gh issue edit *)
 Bash(gh issue create *)
+Bash(gh pr create *)
 Bash(gh repo view *)
 Bash(gh api *)
 ```

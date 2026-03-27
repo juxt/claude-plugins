@@ -30,22 +30,13 @@
     },
     {
       "name": "chalk",
-      "description": "GitHub Issue-backed agent session memory. Like beads but uses GitHub Issues as the storage backend.",
-      "source": "./plugins/chalk",
-      "skills": [
-        "./skills/chalk"
-      ],
-      "agents": [
-        "./agents/github.md"
-      ]
+      "description": "Capture intent across issues, commits, and PRs — why, not just what.",
+      "source": "./plugins/chalk"
     },
     {
       "name": "chill",
       "description": "Interrupt forward momentum and step back to reassess. A circuit-breaker for when Claude is spinning or scope-creeping.",
-      "source": "./plugins/chill",
-      "skills": [
-        "./skills/chill"
-      ]
+      "source": "./plugins/chill"
     },
     {
       "name": "glance",
