@@ -38,6 +38,13 @@ The user will provide the commit headline as an argument to this command (e.g., 
    - Add your drafted commit body
    - The user will review the commit message in the Bash tool request before approving
 
+## Issue References in the Subject Line
+
+When the work relates to a GitHub issue:
+
+- If the commit **resolves** the issue, suffix the subject line with `(resolves #N)`.
+- If the commit is an **iteration towards** resolving the issue (partial progress), suffix the subject line with `(#N)`.
+
 ## Chalk Integration
 
 When chalk is active (tracking a GitHub issue), the commit is part of a larger story:
