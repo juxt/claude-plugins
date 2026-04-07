@@ -11,7 +11,39 @@ disable-model-invocation: false
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 Track work against a GitHub Issue.
-The issue description is the user's territory; comments belong to chalk.
+The issue description is the source of truth — a developer should be able to understand the current state of the issue by reading the description alone, without trawling through comments.
+Keep the description accurate as facts change (new failure modes, updated analysis, revised scope).
+Comments are the append-only session log — what was tried, decided, and learned.
+
+## Writing Descriptions
+
+Don't impose a rigid structure, but good issue and PR descriptions typically draw from sections like:
+
+- **Summary** — what's happening, in a sentence or two
+- **Context** — how was this observed? what environment, deployment, test configuration? link to CI runs, logs, dashboards, prior PRs, or the broader initiative. This is often the most valuable section — without it, a reader can't assess whether the issue applies to them or where a PR fits
+- **Symptoms** — observable behaviour, error messages, affected conditions (e.g. "multi-writer only", "under chaos monkey testing")
+- **Root cause** / **Analysis** — why it's happening, with evidence (log excerpts, stack traces, block file analysis, annotated offset tables)
+- **Evidence** — concrete artefacts: replica log dumps, application log excerpts with timestamps, block file contents, message type distributions. Annotate them — raw dumps without explanation are noise
+- **Motivation** — for features/refactors: why this matters, what it unblocks
+- **Key invariants** / **Constraints** — non-obvious things the solution must preserve
+- **Proposed approach** / **Fix** — the design direction or fix strategy (but not a step-by-step implementation plan — that belongs in the chalk comment)
+- **Reasons for / against** — for decisions or removals: the trade-offs
+
+PRs additionally draw from:
+
+- **Usage** — for user-visible features: concrete examples (SQL queries with realistic output, CLI invocations, config snippets). Show what the feature looks like, not just that it exists
+- **Changes** — for multi-commit PRs: a numbered list of commits with a sentence each, so the reviewer knows the intended reading order
+- **Implementation notes** — grouped by sub-concern, not a flat list. Call out non-obvious design choices, key invariants, or anything counter-intuitive
+- **Dead ends** — "we tried X, it didn't work because Y" prevents the reviewer from suggesting X
+- **Scope** — what's explicitly out of scope, what's deferred to follow-up. Reference related issues/PRs
+- **Test plan** — what was tested and how
+
+Not every description needs all of these.
+A flaky test issue might just need the failure mode, stack trace, and conditions.
+A small bugfix PR might just need summary and test plan.
+A large feature PR might need context, usage examples, implementation notes, and scope.
+A refactor PR should call out that behaviour is intentionally preserved.
+Use judgement.
 
 ## Injecting Chalk Into Plans
 
@@ -66,7 +98,7 @@ If the user does not explicitly invoke chalk, do not read or fetch any issue con
 ## Activation: `chalk new`
 
 1. Ask the user for a title and brief context.
-2. Use the chalk agent to create the issue with a `## Progress` section in the body.
+2. Use the chalk agent to create the issue. Provide enough context for a good description — the agent will write it for a developer who needs to understand the situation without reading comments.
 3. Note the issue number from the agent's response.
 4. Tell the user you're tracking against the new issue.
 
@@ -98,7 +130,8 @@ The `## Progress` section contains:
 
 Update the progress section (via the chalk agent) whenever the checklist changes — items added, completed, or deferred.
 
-**Restructuring the issue description** (beyond the Progress section) is only appropriate if the issue's direction or aim has genuinely changed — not as routine maintenance.
+**Updating the issue description** (beyond the Progress section): update factual content when the current state has changed (new failure mode, updated context, revised scope).
+Preserve the user's framing and intent — don't rewrite the narrative, just keep the facts current.
 
 ### Comments — One Per Session
 
@@ -188,6 +221,6 @@ See `examples/implementation-comment.md` for a realistic filled-in example.
 - There MUST be one comment per session.
 - The `## Progress` section MUST be the canonical state of the issue checklist.
 - All GitHub interaction MUST go through the chalk agent. The main context MUST NOT call `gh` directly for chalk updates.
-- The issue description MUST NOT be restructured unless the issue's direction has genuinely changed.
+- The issue description MUST be kept accurate — update facts when they change, but preserve the user's framing and intent.
 - `<details>` blocks MUST contain enough context that a future session can pick up where you left off.
 - All writing MUST follow the chalk voice (`VOICE.md` at the plugin root).

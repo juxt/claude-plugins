@@ -24,13 +24,14 @@ If no title is provided, draft one from the branch's commits.
    - Use the user's provided title if given
    - Otherwise, draft a short title (under 70 chars) that captures the intent
 
-3. **Draft a PR description** following the chalk voice (see `VOICE.md` at the plugin root):
-   - **Lead with the problem or context** — why does this change exist? What situation motivated it?
-   - **Explain the approach and key decisions** — not what the diff does, but why it's shaped this way. Include tradeoffs, alternatives considered, and anything counter-intuitive.
-   - **Use concrete examples** — scenarios, code snippets, data — to ground the reasoning. If a concept is new or reshaped, explain the mental model.
-   - **Note dead ends** if they'd save a reviewer time — "we tried X, it didn't work because Y" prevents the reviewer from suggesting X.
-   - **State scope boundaries** — what's explicitly out of scope, and what's a natural follow-on. Reference related issues/PRs.
-   - **When the reasoning is complex but the change is simple**, say so — helps the reviewer calibrate before looking at the diff.
+3. **Draft a PR description** following the chalk voice (see `VOICE.md` at the plugin root) and the "Writing Descriptions" guidance in the chalk skill spec.
+
+   **Issue references come first.**
+   If there's a related issue, reference it at the top (`Resolves #123` or `Part of #123`).
+   The issue description is where the problem context lives — don't duplicate it in the PR.
+   The PR description covers how the issue affected the implementation: approach, decisions, trade-offs, dead ends.
+
+   If there is no related issue (unusual but possible), the PR description MUST include the problem context itself — effectively acting as both issue and PR description.
 
 4. **Ask clarifying questions** if you can't reconstruct the reasoning from the commits and conversation history.
 
@@ -43,7 +44,6 @@ If no title is provided, draft one from the branch's commits.
 
 When chalk is tracking an issue:
 
-- The PR description SHOULD reference the issue (e.g., `Resolves #123` or `Part of #123`).
 - The chalk comments are the primary source material for the PR description. They capture the decisions, tradeoffs, dead ends, and scope boundaries from each session. Review all of them — not just the most recent.
 - Distil, don't copy. The PR description should synthesise the reasoning across sessions into a coherent narrative. Chalk comments are append-only session logs; the PR description is the polished summary for a reviewer.
 

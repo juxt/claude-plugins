@@ -60,9 +60,9 @@ Create a GitHub issue with a `## Progress` section in the body:
 gh issue create --title "..." --body "..."
 ```
 
-The body should describe the issue or feature — what and why, not how to implement it.
-Include whatever context the caller provides, plus an initial `## Progress` section.
-Do not outline an implementation plan in the issue body.
+The description is the source of truth for the current state of the issue.
+Follow the "Writing Descriptions" guidance in the chalk skill spec.
+Include a `## Progress` section at the end.
 Report back the issue number from the output.
 
 ### Create a chalk comment
@@ -145,8 +145,8 @@ The Progress section format:
 - [ ] Unresolved question
 ```
 
-Leave everything outside the `## Progress` section untouched.
-Only restructure the broader issue description if the issue's direction or aim has genuinely changed.
+Leave everything outside the `## Progress` section untouched unless the factual content has changed.
+Update facts (failure modes, reproduction steps, scope) when they change, but preserve the user's framing and intent.
 
 ### Create a pull request
 
