@@ -19,13 +19,17 @@ The commits are what you read when you need to understand why a specific change 
 
 ## Installation
 
-Add this plugin to your `.claude/settings.json`:
-
-```json
-{
-  "plugins": ["path/to/chalk"]
-}
+Add the marketplace (one-time):
 ```
+/plugin marketplace add juxt/claude-plugins
+```
+
+Then install chalk:
+```
+/plugin install chalk@juxt-plugins
+```
+
+Or use the interactive `/plugin` UI and find chalk under the **Discover** tab.
 
 Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 
