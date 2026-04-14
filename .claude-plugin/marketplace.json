@@ -15,17 +15,19 @@
       "source": {
         "source": "github",
         "repo": "juxt/allium",
-        "sha": "f6fb08dd301fbdd940c715e1adca7b121bd0e097"
+        "ref": "v3.1.4"
       },
       "skills": [
         "./",
         "./skills/distill",
         "./skills/elicit",
-        "./skills/propagate"
+        "./skills/propagate",
+        "./skills/tend",
+        "./skills/weed"
       ],
       "agents": [
-        "./.claude/agents/tend.md",
-        "./.claude/agents/weed.md"
+        "./agents/tend.md",
+        "./agents/weed.md"
       ]
     },
     {
