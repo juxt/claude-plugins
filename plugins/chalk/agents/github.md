@@ -92,7 +92,18 @@ Every checklist item MUST have a corresponding `<details>` block.
 No date in the header — GitHub timestamps the comment itself.
 
 Use `gh issue comment N --body "..."` to create.
-Report back the comment URL.
+
+**Assignment**: creating a chalk comment is the signal that the current user is picking the issue up.
+Unless the caller explicitly says otherwise, also assign the current user to the issue in the same call:
+
+```
+gh issue edit N --add-assignee @me
+```
+
+`--add-assignee` only adds — it does not displace existing assignees, so it's safe to run even when the issue is already assigned to someone else.
+Skip this step only when the caller explicitly opts out (e.g. "don't assign me") or specifies a different assignee.
+
+Report back the comment URL and whether assignment was applied.
 
 ### Update a chalk comment
 

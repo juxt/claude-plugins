@@ -53,7 +53,7 @@ Always include the issue number in each chalk step so it survives context compac
 
 Inject these steps into the plan document:
 
-1. **Create chalk comment** on #N (via chalk agent) with the planned work items — if one doesn't already exist for this session.
+1. **Create chalk comment** on #N (via chalk agent) with the planned work items — if one doesn't already exist for this session. Unless the user has specified otherwise, the same agent call MUST ensure the current user is an assignee on the issue (add `@me` if not already present — do not displace existing assignees).
 2. *(... implementation steps ...)*
 3. **Update chalk comment** on #N (via chalk agent) with outcomes, decisions, dead ends, and anything surprising.
 4. **Update progress** on #N (via chalk agent) if the overall checklist changed.
@@ -197,6 +197,7 @@ Details blocks should read like knowledge-sharing, not a changelog.
 
 **Create** when starting work — when you have a plan and are about to implement.
 If there's no formal plan (e.g. a quick bugfix), still create a comment before starting work.
+Creating the chalk comment is the signal that you're picking the issue up: unless the user has specified otherwise, the same agent call ensures the current user is an assignee (adding `@me` if not already present — chalk only adds, never displaces).
 
 **Update** as the session progresses:
 - Check off completed items.
