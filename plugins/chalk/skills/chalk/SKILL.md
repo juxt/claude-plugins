@@ -199,10 +199,16 @@ Details blocks should read like knowledge-sharing, not a changelog.
 If there's no formal plan (e.g. a quick bugfix), still create a comment before starting work.
 Creating the chalk comment is the signal that you're picking the issue up: unless the user has specified otherwise, the same agent call ensures the current user is an assignee (adding `@me` if not already present — chalk only adds, never displaces).
 
-**Update** as the session progresses:
-- Check off completed items.
+**Update** as the session progresses — frequently, and without asking.
+Chalk updates are part of the work, not a separate task that needs the user's permission each time.
+Treat them like staging a file before committing: just do it, then move on.
+
+- Check off completed items as they land.
 - Fill in details blocks with decisions, findings, dead ends.
 - Add any items that emerged during implementation.
+
+The user MUST NOT have to prompt each update.
+If there's something new to record (a decision, a dead end, a completed item, a surprising finding), update the comment — don't ask "should I update chalk?" first.
 
 **Before stopping or ending the session**: finalize the comment via the chalk agent.
 Update the Progress section if the overall picture changed.

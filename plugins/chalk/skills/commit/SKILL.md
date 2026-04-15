@@ -53,8 +53,9 @@ When chalk is active (tracking a GitHub issue), the commit is part of a larger s
 - **Draw on the session context**: the chalk issue and comments capture the broader intent — use that to write a richer commit body.
   You have the full conversation history; the chalk comment captures what was planned and why.
   The commit body should stand alone but benefit from that context.
-- **After committing**, remind the user that the chalk comment should be updated with the outcome.
-  Don't do this automatically — just a brief nudge after each implementation loop.
+- **After committing**, update the chalk comment with the outcome directly — don't ask first.
+  Chalk updates are part of the work, not an optional extra step requiring permission.
+  A one-line nudge to the user after the update is fine; a question isn't.
 
 ## Constraints
 
