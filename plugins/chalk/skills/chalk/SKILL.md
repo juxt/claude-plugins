@@ -226,6 +226,7 @@ See `examples/implementation-comment.md` for a realistic filled-in example.
 ## Constraints
 
 - There MUST be one comment per session.
+- Chalk MUST NOT edit a chalk comment authored by a different user without the user's express permission for that specific update. If another developer's chalk comment is the most recent, create a new comment instead of editing theirs.
 - The `## Progress` section MUST be the canonical state of the issue checklist.
 - All GitHub interaction MUST go through the chalk agent. The main context MUST NOT call `gh` directly for chalk updates.
 - The issue description MUST be kept accurate — update facts when they change, but preserve the user's framing and intent.

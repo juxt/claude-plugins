@@ -107,25 +107,37 @@ Report back the comment URL and whether assignment was applied.
 
 ### Update a chalk comment
 
-Edit the most recent chalk comment in-place.
+Edit the **current user's own** chalk comment in-place.
+Never edit another user's chalk comment without the caller explicitly granting permission for this specific update.
+Another developer's chalk comment is their session log — editing it silently rewrites their record of work.
 
-Before editing, verify the chalk comment is still the last one:
+Before editing, identify the target comment and verify its author:
+
+```bash
+ME=$(gh api user --jq .login)
+gh issue view N --json comments --jq --arg me "$ME" '[.comments[] | select(.body | startswith("### Chalk —")) | select(.author.login == $me)] | last'
+```
+
+If no such comment exists, create one instead — do not fall back to editing someone else's.
+If the caller asks you to update a chalk comment that belongs to a different user, stop and report this back; do not proceed without express permission.
+
+Once you've identified your own chalk comment, check whether it's still the last comment on the issue:
 
 ```
 gh issue view N --json comments --jq '.comments[-1].body' | head -1
 ```
 
-If it starts with `### Chalk —`, edit with:
+If it starts with `### Chalk —` and is yours, edit with:
 
 ```
 gh issue comment N --edit-last --body "..."
 ```
 
-If not (someone commented since), find the comment ID and edit by ID:
+If not (someone commented since), edit by comment ID:
 
 ```bash
 REPO=$(gh repo view --json nameWithOwner --jq .nameWithOwner)
-COMMENT_ID=$(gh issue view N --json comments --jq '[.comments[] | select(.body | startswith("### Chalk —"))] | last | .url | split("-") | last')
+COMMENT_ID=$(gh issue view N --json comments --jq --arg me "$ME" '[.comments[] | select(.body | startswith("### Chalk —")) | select(.author.login == $me)] | last | .url | split("-") | last')
 gh api --method PATCH /repos/$REPO/issues/comments/$COMMENT_ID -f body="..."
 ```
 
@@ -174,6 +186,7 @@ Report back the PR URL.
 ## Rules
 
 - Always read before writing (GH replaces entire body on edit).
+- Only edit chalk comments authored by the current user. Editing another user's chalk comment requires express permission from the caller — if in doubt, create a new comment instead.
 - Keep comment format consistent — `### Chalk — <description>` header, checklist + details blocks.
 - Every checklist item mirrors a `<details>` block.
 - Report back what was done (comment URL, items updated, issue number for creates).
