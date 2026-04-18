@@ -15,10 +15,10 @@
       "source": {
         "source": "github",
         "repo": "juxt/allium",
-        "ref": "v3.1.4"
+        "ref": "v3.1.5"
       },
       "skills": [
-        "./",
+        "./skills/allium",
         "./skills/distill",
         "./skills/elicit",
         "./skills/propagate",
