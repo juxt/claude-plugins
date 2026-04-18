@@ -51,6 +51,34 @@ gh issue view N --json comments --jq '[.comments[-3:][].body]'
 ```
 
 Report back: issue title, current Progress section contents, and last 2-3 comment summaries.
+If the caller asks for the one-hop neighbourhood too, combine with "Read issue neighbourhood" below.
+
+### Read issue neighbourhood
+
+Fetch the issue's one-hop neighbourhood — parent, sub-issues, blocked-by, blocking — in a single GraphQL call.
+This is what gives a caller the "why now" context that an isolated issue view misses (a parent epic, a just-unblocked predecessor, a sibling already in progress).
+
+```bash
+REPO=$(gh repo view --json nameWithOwner --jq .nameWithOwner)
+OWNER=${REPO%/*}
+NAME=${REPO#*/}
+gh api graphql -f query='
+  query($owner: String!, $repo: String!, $number: Int!) {
+    repository(owner: $owner, name: $repo) {
+      issue(number: $number) {
+        parent { number title state }
+        subIssues(first: 20) { nodes { number title state } }
+        blockedBy(first: 20) { nodes { number title state } }
+        blocking(first: 20) { nodes { number title state } }
+      }
+    }
+  }' -f owner="$OWNER" -f repo="$NAME" -F number=N
+```
+
+Report back the neighbourhood as a compact list: numbers, titles, and states only.
+Don't fetch bodies — the goal is a map, not a context dump.
+Don't recurse past one hop unless the caller explicitly asks.
+Omit empty sections (no parent, no sub-issues, etc.) rather than reporting "none".
 
 ### Create a new issue
 

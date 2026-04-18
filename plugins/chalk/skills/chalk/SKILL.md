@@ -29,6 +29,19 @@ A one-sentence answer now is cheaper than reconstructing the reasoning later fro
 Trivial changes (typo fixes, mechanical bumps, one-line config tweaks) don't need this step — the motivation is self-evident.
 Non-trivial changes (refactors, new features, non-obvious fixes, scope decisions) do: the issue description, the chalk comment, and the commit message all depend on you having it.
 
+## Issue Relationships
+
+Use parent/child and blocked-by liberally — they carry structure the description can't, and they answer two questions cheaply that prose would answer expensively.
+
+- **Parent / sub-issues**: when work naturally nests, link them. A sub-issue inherits the parent's motivation, so its own description can stay focused on the specific slice. Good fit for epic → sub-tasks, or a broad refactor split into reviewable pieces.
+- **Blocked-by**: for order-dependent work. This is the one that pays back most — a filter for "open, un-blocked" becomes the queue of workable cards, and nobody has to triage to find out what they can pick up today.
+
+Wire relationships in the same session they emerge.
+When creating a new issue that depends on or belongs under existing work, link it immediately — deferring it usually means the link never gets made.
+When starting on an issue, scan its neighbours for why-now context: a parent epic or a recently-unblocked predecessor often explains why *this* is the card to pick up today.
+
+The github agent has GraphQL recipes for reading and mutating these relationships (`addSubIssue`, `addBlockedBy`, and the neighbourhood query).
+
 ## Writing Descriptions
 
 Don't impose a rigid structure, but good issue and PR descriptions typically draw from sections like:
@@ -104,10 +117,10 @@ If the user does not explicitly invoke chalk, do not read or fetch any issue con
 
 ## Activation: `chalk #N`
 
-1. Use the chalk agent to read the issue and its recent comments.
+1. Use the chalk agent to read the issue, its recent comments, and its one-hop neighbourhood (parent, sub-issues, blocked-by, blocking).
 2. Internalize the issue context without repeating the entire issue to the user.
 3. If no `## Progress` section exists in the issue description, ask the chalk agent to add one.
-4. If the change is non-trivial and the *why* or *why now* isn't obvious from the issue (see "Understanding Why"), ask the user before starting.
+4. If the change is non-trivial and the *why* or *why now* isn't obvious from the issue or its neighbours (see "Understanding Why"), ask the user before starting.
 5. Tell the user you're tracking against #N.
 
 ## Activation: `chalk new`
