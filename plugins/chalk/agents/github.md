@@ -262,12 +262,16 @@ Only run these mutations on issues in the current repo.
 Create a PR with the provided title and description:
 
 ```
-gh pr create --title "..." --body "..."
+gh pr create --title "..." --body "..." --assignee @me
 ```
 
 The caller provides the title and fully-drafted description — do not rewrite or summarise it.
 If the caller specifies a base branch, use `--base <branch>`.
-Report back the PR URL.
+
+**Assignment**: opening the PR is the signal that the current user owns the review cycle, so assign them by default with `--assignee @me`.
+Skip this only when the caller explicitly opts out or names a different assignee.
+
+Report back the PR URL and whether assignment was applied.
 
 ## Rules
 
