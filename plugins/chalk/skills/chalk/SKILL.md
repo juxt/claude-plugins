@@ -15,6 +15,20 @@ The issue description is the source of truth — a developer should be able to u
 Keep the description accurate as facts change (new failure modes, updated analysis, revised scope).
 Comments are the append-only session log — what was tried, decided, and learned.
 
+## Understanding Why
+
+Chalk's job is to capture the *why*, not just the *what* — and the diff won't carry that reasoning on its own.
+Before starting anything beyond a trivial change, make sure you understand two things:
+
+- **Why this change** — what problem it solves, what it unblocks, what constraint drove it.
+- **Why now** — what prompted it today. A deadline, a dependent piece of work, a recent incident, someone else blocked on it?
+
+If either isn't obvious from the issue, the conversation, or the code you've read, **ask the user before starting**.
+A one-sentence answer now is cheaper than reconstructing the reasoning later from the diff.
+
+Trivial changes (typo fixes, mechanical bumps, one-line config tweaks) don't need this step — the motivation is self-evident.
+Non-trivial changes (refactors, new features, non-obvious fixes, scope decisions) do: the issue description, the chalk comment, and the commit message all depend on you having it.
+
 ## Writing Descriptions
 
 Don't impose a rigid structure, but good issue and PR descriptions typically draw from sections like:
@@ -93,11 +107,12 @@ If the user does not explicitly invoke chalk, do not read or fetch any issue con
 1. Use the chalk agent to read the issue and its recent comments.
 2. Internalize the issue context without repeating the entire issue to the user.
 3. If no `## Progress` section exists in the issue description, ask the chalk agent to add one.
-4. Tell the user you're tracking against #N.
+4. If the change is non-trivial and the *why* or *why now* isn't obvious from the issue (see "Understanding Why"), ask the user before starting.
+5. Tell the user you're tracking against #N.
 
 ## Activation: `chalk new`
 
-1. Ask the user for a title and brief context.
+1. Ask the user for a title and brief context — including *why now*, if it's not already clear. See "Understanding Why".
 2. Use the chalk agent to create the issue. Provide enough context for a good description — the agent will write it for a developer who needs to understand the situation without reading comments.
 3. Note the issue number from the agent's response.
 4. Tell the user you're tracking against the new issue.
