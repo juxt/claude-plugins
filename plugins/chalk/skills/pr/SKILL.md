@@ -24,7 +24,12 @@ If no title is provided, draft one from the branch's commits.
    - Use the user's provided title if given
    - Otherwise, draft a short title (under 70 chars) that captures the intent
 
-3. **Draft a PR description** following the chalk voice (see `VOICE.md` at the plugin root) and the "Writing Descriptions" guidance in the chalk skill spec.
+3. **Draft a PR description.**
+
+   A PR description is an **explanation** artefact (see `VOICE.md` at the plugin root) — reasoning distilled across the branch: context, decisions, tradeoffs, dead ends, scope boundaries.
+   Usage examples, test-plan checklists and commit lists have a reference *shape* but they're illustrations inside the explanation, not separate reference sections.
+
+   See the chalk skill's "Writing issue and PR descriptions" section for the section palette you can draw from.
 
    **Issue references come first.**
    If there's a related issue, reference it at the top (`Resolves #123` or `Part of #123`).
@@ -49,9 +54,8 @@ When chalk is tracking an issue:
 
 ## Constraints
 
-- The PR description MUST follow the chalk voice (`VOICE.md`).
+- The PR description MUST follow the explanation-quadrant voice in `VOICE.md`.
 - The PR description MUST NOT just list what changed — the diff shows that.
-- The PR description MUST use sentence-per-line formatting.
 - The PR title MUST be under 70 characters.
 - Behaviour-preserving changes (refactorings) SHOULD be called out explicitly so the reviewer knows the change is supposed to behave exactly the same as before.
 

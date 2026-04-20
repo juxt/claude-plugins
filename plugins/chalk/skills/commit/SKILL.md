@@ -25,10 +25,12 @@ The user will provide the commit headline as an argument to this command (e.g., 
    Optimise for later reading — a future developer looking at this commit won't care about the journey, they need to understand *why* this change exists and *why* it was done this way.
    Consider what you'd explain to that developer and organise the commit accordingly.
 
-3. **Draft a commit body** following the chalk voice (see `VOICE.md` at the plugin root):
-   - Focus on the *why*, not the what
-   - The diff shows what changed; the commit body explains the reasoning
-   - Keep it concise but don't strip out the reasoning
+3. **Draft a commit body.**
+
+   A commit body is an **explanation** artefact (see `VOICE.md` at the plugin root).
+   The diff is the code change; the body explains *why* it exists — decisions, alternatives rejected, constraints, dead ends, counter-intuitive findings, scope boundaries.
+   Open with the problem or context, then the reasoning.
+   Embed concrete examples (code snippets, call sites, specific scenarios) as illustrative material.
 
 4. **Ask clarifying questions** if you can't reconstruct the *why* from the conversation history — particularly around whether something was a deliberate choice vs. a constraint, or intentionally out-of-scope vs. overlooked.
 
@@ -59,10 +61,9 @@ When chalk is active (tracking a GitHub issue), the commit is part of a larger s
 
 ## Constraints
 
-- The commit body MUST follow the chalk voice (`VOICE.md`) — explain the *why*, not the *what*.
+- The commit body MUST follow the explanation-quadrant voice in `VOICE.md`.
 - Each commit MUST be an atomic, cohesive unit of change.
 - Unrelated changes MUST NOT be staged together.
-- The commit body MUST use sentence-per-line formatting.
 - The commit body MUST NOT describe what changed — the diff shows that.
 - A co-author header SHOULD be included (replacing the model as appropriate):
   ```

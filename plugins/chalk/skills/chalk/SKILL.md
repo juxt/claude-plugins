@@ -42,28 +42,31 @@ When starting on an issue, scan its neighbours for why-now context: a parent epi
 
 The github agent has GraphQL recipes for reading and mutating these relationships (`addSubIssue`, `addBlockedBy`, and the neighbourhood query).
 
-## Writing Descriptions
+## Writing issue and PR descriptions
 
-Don't impose a rigid structure, but good issue and PR descriptions typically draw from sections like:
+Issue and PR descriptions are **explanation** artefacts (see `VOICE.md` at the plugin root).
+The reader needs to understand *why* this matters and *why* the approach is shaped this way.
 
-- **Summary** — what's happening, in a sentence or two
-- **Context** — how was this observed? what environment, deployment, test configuration? link to CI runs, logs, dashboards, prior PRs, or the broader initiative. This is often the most valuable section — without it, a reader can't assess whether the issue applies to them or where a PR fits
-- **Symptoms** — observable behaviour, error messages, affected conditions (e.g. "multi-writer only", "under chaos monkey testing")
-- **Root cause** / **Analysis** — why it's happening, with evidence (log excerpts, stack traces, block file analysis, annotated offset tables)
-- **Evidence** — concrete artefacts: replica log dumps, application log excerpts with timestamps, block file contents, message type distributions. Annotate them — raw dumps without explanation are noise
-- **Motivation** — for features/refactors: why this matters, what it unblocks
-- **Key invariants** / **Constraints** — non-obvious things the solution must preserve
-- **Proposed approach** / **Fix** — the design direction or fix strategy (but not a step-by-step implementation plan — that belongs in the chalk comment)
-- **Reasons for / against** — for decisions or removals: the trade-offs
+Common sections — all explanation, with reference-shaped evidence embedded where useful:
+
+- **Summary** — one or two sentences on what's happening.
+- **Context** — how was this observed? What environment, deployment, test configuration? Links to CI runs, logs, dashboards, prior PRs, the broader initiative. Often the most valuable section — without it, a reader can't assess whether the issue applies to them or where a PR fits.
+- **Symptoms** — observable behaviour, error messages, affected conditions (e.g. "multi-writer only", "under chaos monkey testing"). Evidence-shaped.
+- **Root cause / Analysis** — why it's happening, grounded in evidence (log excerpts, stack traces, block file analysis, annotated offset tables).
+- **Evidence** — concrete artefacts: replica log dumps, application log excerpts with timestamps, block file contents, message type distributions. Annotate them — raw dumps without explanation are noise.
+- **Motivation** (features/refactors) — why this matters, what it unblocks.
+- **Invariants / Constraints** — non-obvious things the solution must preserve.
+- **Proposed approach / Fix** — the design direction or fix strategy. Not a step-by-step implementation plan — that belongs in the chalk comment.
+- **Reasons for / against** — for decisions or removals: the trade-offs.
 
 PRs additionally draw from:
 
-- **Usage** — for user-visible features: concrete examples (SQL queries with realistic output, CLI invocations, config snippets). Show what the feature looks like, not just that it exists
-- **Changes** — for multi-commit PRs: a numbered list of commits with a sentence each, so the reviewer knows the intended reading order
-- **Implementation notes** — grouped by sub-concern, not a flat list. Call out non-obvious design choices, key invariants, or anything counter-intuitive
-- **Dead ends** — "we tried X, it didn't work because Y" prevents the reviewer from suggesting X
-- **Scope** — what's explicitly out of scope, what's deferred to follow-up. Reference related issues/PRs
-- **Test plan** — what was tested and how
+- **Usage** (user-visible features) — concrete examples (SQL queries with realistic output, CLI invocations, config snippets). Show what the feature looks like.
+- **Changes** (multi-commit) — a numbered list of commits with a sentence each, so the reviewer knows the intended reading order.
+- **Implementation notes** — grouped by sub-concern, not a flat list. Non-obvious design choices, key invariants, counter-intuitive bits.
+- **Dead ends** — "tried X, didn't work because Y" prevents the reviewer from suggesting X.
+- **Scope** — what's explicitly out of scope, what's deferred to follow-up; with reasons. Reference related issues/PRs.
+- **Test plan** — what was tested and how.
 
 Not every description needs all of these.
 A flaky test issue might just need the failure mode, stack trace, and conditions.
@@ -218,7 +221,7 @@ No date in the header — GitHub timestamps the comment itself.
 - Add new items as work emerges.
 - Keep details blocks focused — one per theme or work item.
 
-**Writing style**: follow the chalk voice (see `VOICE.md` at the plugin root).
+**Writing style**: each `<details>` block is an **explanation** chunk — what was explored, decided, tried. The checklist above is navigation, not a separate quadrant. Follow the explanation-quadrant voice in `VOICE.md`.
 Details blocks should read like knowledge-sharing, not a changelog.
 
 ## Lifecycle of a Comment
@@ -259,4 +262,4 @@ See `examples/implementation-comment.md` for a realistic filled-in example.
 - All GitHub interaction MUST go through the chalk agent. The main context MUST NOT call `gh` directly for chalk updates.
 - The issue description MUST be kept accurate — update facts when they change, but preserve the user's framing and intent.
 - `<details>` blocks MUST contain enough context that a future session can pick up where you left off.
-- All writing MUST follow the chalk voice (`VOICE.md` at the plugin root).
+- All writing MUST follow the voice in `VOICE.md` at the plugin root — issues, PRs, and chalk comments are explanation artefacts.
