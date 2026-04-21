@@ -152,9 +152,15 @@ A CLI flag, an API signature, a config key, a SQL clause.
 - No narrative, no "we"/"you".
 - Alphabetised or structurally ordered (not narratively ordered).
 - Complete — every flag, every field, every case.
+- **Keep rationale out of the body.** This is the one quadrant where chalk's usual "always capture the why" does not apply inline. 
+  The *why* — tradeoffs, motivation, upgrade story — belongs in an adjacent explanation section or changelog block, not next to the definition. 
+  A reader looking up a flag wants the semantics, not the story behind it.
 
 Reference is unforgiving: if it's incomplete, the reader gets burned.
 Better to generate it from the source of truth (schema, CLI help, spec) than to hand-write and drift.
+
+Watch for rationale that drifts in unnoticed — phrases like *"This exists for compatibility with..."*, *"These functions are provided so that..."*, *"This was added because..."* are explanation quadrant sentences wearing reference clothing.
+Strip them, or relocate them to the adjacent changelog or explainer.
 
 ### Tutorial — acquire action
 
