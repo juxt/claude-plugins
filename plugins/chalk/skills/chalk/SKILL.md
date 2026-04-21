@@ -187,9 +187,20 @@ The prompt should contain:
 - The issue number
 - What action to take (create comment, update comment, update progress)
 - The content to write
+- Any project-specific GitHub conventions that apply to this operation (see below)
 
 Run chalk agent write calls in the background.
 Await read calls (activation) — the result is needed to proceed.
+
+### Passing project-specific conventions
+
+The chalk agent is deliberately generic — it doesn't know which project board new issues should land on, what the default labels are, or who reviews PRs.
+Those conventions live in the calling project (typically the project's `CLAUDE.md`, or explicit user instructions during the session).
+
+Before calling the agent, scan your current context for project-specific GitHub conventions relevant to the operation — project boards, default labels, milestones, assignees, reviewers, base branches — and include them verbatim in the agent's prompt.
+Do not try to paraphrase or pre-interpret them; pass them through and let the agent apply them alongside its defaults.
+
+If a convention is session-specific or has been overridden by the user for this operation (e.g. "don't add this one to the board"), reflect that in the prompt rather than the project default.
 
 ## Comment Format
 

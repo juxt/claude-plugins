@@ -43,6 +43,7 @@ If no title is provided, draft one from the branch's commits.
 5. **Delegate to the chalk github agent** to create the PR:
    - Push the branch if needed
    - Pass the title and description to the agent
+   - Pass any project-specific PR conventions relevant to this operation — default reviewers, labels, base branch, draft status, project boards — that you can see in your current context (typically the project's `CLAUDE.md` or explicit user instructions for this session). Include them verbatim; let the agent apply them alongside its defaults.
    - The agent handles the platform-specific mechanics — including assigning the current user by default (opening a PR is the signal that you own the review cycle). Tell the agent to skip assignment only if the user has asked you to.
 
 ## Chalk Integration

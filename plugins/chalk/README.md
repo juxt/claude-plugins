@@ -62,6 +62,26 @@ Bash(gh issue comment *)
 Bash(gh issue edit *)
 Bash(gh issue create *)
 Bash(gh pr create *)
+Bash(gh pr edit *)
+Bash(gh project *)
 Bash(gh repo view *)
 Bash(gh api *)
 ```
+
+## Project-specific conventions
+
+Chalk itself is generic — it doesn't know which project board your new issues should land on, which labels to apply, or who should review your PRs.
+Capture those conventions in the project's `CLAUDE.md` so they're in the main agent's context; the chalk and pr skills will pass them through to the github agent when it creates issues and PRs.
+
+Example `CLAUDE.md` section:
+
+```markdown
+## GitHub conventions
+
+- New issues go on the `Platform` project board.
+- Apply the `needs-triage` label to new issues unless labels are already specified.
+- Request review from `@alice` on every new PR.
+- PRs target `develop`, not `main`.
+```
+
+Anything the main agent can see, the chalk/pr skills can pass through — there's no separate config file to maintain.

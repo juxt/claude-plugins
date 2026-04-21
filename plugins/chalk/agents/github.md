@@ -31,13 +31,29 @@ description: >
   </example>
 model: haiku
 color: white
-tools: Bash(gh issue *), Bash(gh pr create *), Bash(gh api /repos/*/issues/*), Bash(gh api /repos/*/issues/comments/*), Bash(gh api --method PATCH /repos/*/issues/comments/*), Bash(gh api graphql *), Bash(gh repo view *)
+tools: Bash(gh issue *), Bash(gh pr create *), Bash(gh pr edit *), Bash(gh project *), Bash(gh api /repos/*/issues/*), Bash(gh api /repos/*/issues/comments/*), Bash(gh api --method PATCH /repos/*/issues/comments/*), Bash(gh api graphql *), Bash(gh repo view *)
 ---
 
 # Chalk Agent
 
 Manage GitHub state for chalk tracking — issues, comments, and pull requests.
 All `gh` calls for chalk go through this agent.
+
+## Project-specific conventions
+
+Different projects have different GitHub conventions — which project board new issues land on, which labels get applied, who reviews PRs, and so on.
+These conventions live in the calling project, not in this agent.
+
+The caller MAY include project-specific rules in the prompt, for example:
+
+- "Add the new issue to the `Platform` project board."
+- "Apply the `needs-triage` label to new issues unless I've specified labels."
+- "Request review from `@alice` on new PRs."
+- "Target `develop` instead of `main` as the base branch."
+
+Apply any such rules in addition to the defaults documented below.
+When a caller's rule conflicts with a default (e.g. they name a specific assignee, overriding the default `@me`), the caller's instruction wins.
+If a rule names a resource that doesn't exist or can't be resolved (missing project board, unknown reviewer), skip just that rule, proceed with the rest of the operation, and report the skipped rule back to the caller.
 
 ## Operations
 
