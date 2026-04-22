@@ -22,6 +22,7 @@ Once the marketplace is added, you can install any of the following:
 - **[Chalk](plugins/chalk/)**: GitHub Issue-backed agent session memory. Like [beads](https://github.com/steveyegge/beads) but uses GitHub Issues as the storage backend.
 - **[Chill](plugins/chill/)**: a circuit-breaker skill that interrupts forward momentum when Claude is spinning, scope-creeping, or pushing through errors.
 - **[Clojure-lsp](plugins/clojure-lsp/)**: Clojure / ClojureScript language server (clojure-lsp + clj-kondo) for code intelligence, refactoring, and analysis.
+- **[Code-map](plugins/code-map/)**: build and query a code-only LSP-based symbol and call-graph map of the current project. A navigation accelerator for multi-file code reasoning.
 - **[Glance](https://github.com/juxt/glance)**: pipe long command output through glance for token-efficient summaries.
 
 Each plugin is open source. Visit the links above for documentation and examples.

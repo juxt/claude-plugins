@@ -62,6 +62,11 @@
       }
     },
     {
+      "name": "code-map",
+      "description": "Build and query a code-only LSP-based symbol and call-graph map of the current project. A navigation accelerator for multi-file code reasoning.",
+      "source": "./plugins/code-map"
+    },
+    {
       "name": "glance",
       "description": "Pipe long command output through glance for token-efficient summaries instead of reading all tokens.",
       "source": {

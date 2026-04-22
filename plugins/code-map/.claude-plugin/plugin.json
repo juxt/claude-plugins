@@ -1,0 +1,5 @@
+{
+  "name": "code-map",
+  "version": "0.1.0",
+  "description": "Build and query a code-only LSP-based symbol and call-graph map of the current project"
+}
