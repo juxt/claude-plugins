@@ -41,6 +41,27 @@
       "source": "./plugins/chill"
     },
     {
+      "name": "clojure-lsp",
+      "description": "Clojure / ClojureScript language server (clojure-lsp + clj-kondo) for code intelligence, refactoring, and analysis.",
+      "version": "1.0.0",
+      "source": "./plugins/clojure-lsp",
+      "category": "development",
+      "strict": false,
+      "lspServers": {
+        "clojure-lsp": {
+          "command": "clojure-lsp",
+          "extensionToLanguage": {
+            ".clj": "clojure",
+            ".cljs": "clojure",
+            ".cljc": "clojure",
+            ".edn": "clojure",
+            ".bb": "clojure"
+          },
+          "startupTimeout": 120000
+        }
+      }
+    },
+    {
       "name": "glance",
       "description": "Pipe long command output through glance for token-efficient summaries instead of reading all tokens.",
       "source": {
