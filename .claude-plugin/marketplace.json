@@ -15,7 +15,7 @@
       "source": {
         "source": "github",
         "repo": "juxt/allium",
-        "ref": "v3.1.5"
+        "ref": "v3.2.0"
       },
       "skills": [
         "./skills/allium",
