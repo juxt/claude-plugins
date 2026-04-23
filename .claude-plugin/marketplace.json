@@ -11,7 +11,7 @@
   "plugins": [
     {
       "name": "allium",
-      "description": "An LLM-native language for sharpening intent alongside implementation. Velocity through clarity.",
+      "description": "Velocity through clarity.",
       "source": {
         "source": "github",
         "repo": "juxt/allium",
