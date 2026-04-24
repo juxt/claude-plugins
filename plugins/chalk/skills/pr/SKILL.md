@@ -1,6 +1,6 @@
 ---
 name: pr
-description: Create a pull request with a description that captures the intent and reasoning behind the change. Use when the user says "create a PR", "open a PR", "submit a PR", "raise a PR", "make a PR", "PR this", or "/chalk:pr".
+description: Create a pull request with a description that captures the intent and reasoning behind the change, in the chalk voice. Use when the user says "create a PR", "open a PR", "submit a PR", "raise a PR", "make a PR", "PR this", "/chalk:pr"; OR is about to compose, draft, write or update any pull request title or body (e.g. "write a PR description", "draft the PR body", "update the PR description", "let's put that in the PR"). Load this skill BEFORE drafting any such prose — it carries the voice guidance the PR body needs.
 user-invocable: true
 disable-model-invocation: false
 ---

@@ -1,6 +1,6 @@
 ---
 name: commit
-description: Create a commit with contextual body explaining the why. Use when the user says "commit this", "commit", "make a commit", or "/chalk:commit".
+description: Create a commit with a contextual body explaining the why, in the chalk voice. Use when the user says "commit this", "commit", "make a commit", "/chalk:commit"; OR is about to compose, draft, write or amend any git commit message body (e.g. "write a commit message", "draft the commit body", "amend the commit message"). Load this skill BEFORE drafting any such prose — it carries the voice guidance the commit body needs.
 user-invocable: true
 disable-model-invocation: false
 ---

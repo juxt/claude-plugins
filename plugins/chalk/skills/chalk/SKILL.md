@@ -1,7 +1,7 @@
 ---
 name: chalk
-description: Track session intent and progress against GitHub Issues. Use when the user says "chalk #N", "chalk new", "chalk status", "chalk off", "track issue #N", mentions a GitHub issue number (e.g. "#123", "issue 456", "GH-789"), or references a github.com issue URL.
-version: 0.2.0
+description: Track session intent and progress against GitHub Issues, and write every GitHub-bound prose body (issue, comment, description, progress update) in the chalk voice. Use when the user says "chalk #N", "chalk new", "chalk status", "chalk off", "track issue #N"; mentions a GitHub issue number (e.g. "#123", "issue 456", "GH-789"); references a github.com issue URL; OR is about to compose, draft, write, update or edit any GitHub issue body, issue description, issue comment, chalk comment, or progress section (e.g. "open an issue", "file a bug", "comment on #123", "update the issue description", "note that in the chalk comment", "add to the progress", "write up what we found on the ticket"). Load this skill BEFORE drafting any such prose — it carries the voice guidance the body needs.
+version: 0.3.0
 user-invocable: true
 disable-model-invocation: false
 ---
@@ -9,6 +9,22 @@ disable-model-invocation: false
 # Chalk — GitHub Issue Tracking
 
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
+
+## Before you draft anything GitHub-bound
+
+Every issue body, issue description, chalk comment, progress section, and PR description you touch in this session MUST be drafted against the guidance in this skill and in `VOICE.md` at the plugin root.
+Do not rely on your own default prose habits — they will not match the chalk voice, and the artefact will read wrong.
+
+Before writing any such prose:
+
+1. If you haven't already, **Read `VOICE.md` at the plugin root** — it holds the quadrant framing (explanation vs reference vs how-to vs tutorial) and the concrete/abstract examples. Issues, comments, and PRs are all explanation artefacts.
+2. Skim the **"Writing issue and PR descriptions"** section below for the section palette (Context, Symptoms, Root cause, Evidence, Motivation, Invariants, Proposed approach, Reasons for/against, Usage, Changes, Implementation notes, Dead ends, Scope, Test plan).
+3. Only then draft.
+
+This is not optional for body composition.
+If you find yourself typing a GitHub-bound body without having consulted the voice guidance, stop and reload it.
+
+## What chalk does
 
 Track work against a GitHub Issue.
 The issue description is the source of truth — a developer should be able to understand the current state of the issue by reading the description alone, without trawling through comments.
@@ -83,10 +99,10 @@ Always include the issue number in each chalk step so it survives context compac
 
 Inject these steps into the plan document:
 
-1. **Create chalk comment** on #N (via chalk agent) with the planned work items — if one doesn't already exist for this session. Unless the user has specified otherwise, the same agent call MUST ensure the current user is an assignee on the issue (add `@me` if not already present — do not displace existing assignees).
+1. **Draft and create chalk comment** on #N — compose the comment body in the main context, then hand it to the chalk agent to post — if one doesn't already exist for this session. Unless the user has specified otherwise, the same agent call MUST ensure the current user is an assignee on the issue (add `@me` if not already present — do not displace existing assignees).
 2. *(... implementation steps ...)*
-3. **Update chalk comment** on #N (via chalk agent) with outcomes, decisions, dead ends, and anything surprising.
-4. **Update progress** on #N (via chalk agent) if the overall checklist changed.
+3. **Draft and update chalk comment** on #N — compose the updated body in the main context (outcomes, decisions, dead ends, and anything surprising), then hand it to the chalk agent.
+4. **Draft and update progress** on #N — compose the new Progress section in the main context, then hand it to the chalk agent to write it back.
 
 All GitHub interaction goes through the chalk agent (`Task(subagent_type="chalk:github")`).
 Run chalk agent write calls (create comment, update comment, update progress) in the background.
@@ -129,9 +145,10 @@ If the user does not explicitly invoke chalk, do not read or fetch any issue con
 ## Activation: `chalk new`
 
 1. Ask the user for a title and brief context — including *why now*, if it's not already clear. See "Understanding Why".
-2. Use the chalk agent to create the issue. Provide enough context for a good description — the agent will write it for a developer who needs to understand the situation without reading comments.
-3. Note the issue number from the agent's response.
-4. Tell the user you're tracking against the new issue.
+2. **Draft the issue body yourself** in the main context, following "Writing issue and PR descriptions" above and the voice in `VOICE.md`. Include a `## Progress` section at the end. Do not delegate this drafting to the agent — it won't have the conversation context and will produce a thinner description than you can.
+3. Pass the title and the fully-drafted body to the chalk agent to create the issue.
+4. Note the issue number from the agent's response.
+5. Tell the user you're tracking against the new issue.
 
 ## Two Layers of State
 
@@ -177,16 +194,23 @@ Across sessions, this gives you an append-only log: scroll down = chronological 
 The main conversation MUST NOT call `gh issue` or `gh api` directly for chalk updates.
 This keeps the main context clean and avoids filling it with API output.
 
+**You compose; the agent executes.**
+The agent is a small-model mechanics layer — it runs `gh` and reports results.
+It does not have your conversation history, the chalk comments you've read, the diff, or the voice guidance in full.
+Draft issue bodies, comment bodies, Progress sections and PR descriptions **in the main context** before calling the agent, following "Writing issue and PR descriptions" above and the voice in `VOICE.md`.
+The agent's prompt MUST include the full content ready to post verbatim.
+Passing "here are some bullet points, write this up" is not acceptable — that pushes an explanation-quadrant job onto a model that can't do it well and loses the reasoning the reader actually needs.
+
 To create or update a chalk comment, launch the chalk agent via the Task tool:
 
 ```
 Task(subagent_type="chalk:github", prompt="...")
 ```
 
-The prompt should contain:
+The prompt MUST contain:
 - The issue number
-- What action to take (create comment, update comment, update progress)
-- The content to write
+- What action to take (create comment, update comment, update progress, create issue, create PR)
+- The **fully-drafted content** to write, ready to paste verbatim into GitHub
 - Any project-specific GitHub conventions that apply to this operation (see below)
 
 Run chalk agent write calls in the background.
