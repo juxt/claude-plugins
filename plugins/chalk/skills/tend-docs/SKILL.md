@@ -103,7 +103,7 @@ If the user asks for those, decline politely and suggest a different approach.
 
 5. **Apply the per-quadrant voice from `VOICE.md`.**
 
-   Universal principles first (concrete examples, sentence-per-line, problem-first, no marketing fluff).
+   Universal principles first (concrete examples, sentence-per-line for repo files, problem-first, no marketing fluff).
    Then the quadrant-specific voice.
    Don't restate the rules inline — reference `VOICE.md`.
 

@@ -6,14 +6,11 @@
 
 <details><summary>Investigate flaky test in expression_test</summary>
 
-Test `can-compare-temporal-bounds` fails intermittently on CI.
-Reproduced locally by running with `-Piterations=500`.
+Test `can-compare-temporal-bounds` fails intermittently on CI. Reproduced locally by running with `-Piterations=500`.
 
-Root cause: `TemporalBounds.intersect()` reads `validFrom` and `validTo` non-atomically.
-Under concurrent access from the compactor, the bounds can be mid-update.
+Root cause: `TemporalBounds.intersect()` reads `validFrom` and `validTo` non-atomically. Under concurrent access from the compactor, the bounds can be mid-update.
 
-Initially suspected a test ordering issue since it only failed in the full suite.
-That was a red herring — the full suite just increases thread contention enough to trigger the race.
+Initially suspected a test ordering issue since it only failed in the full suite. That was a red herring — the full suite just increases thread contention enough to trigger the race.
 
 Key files:
 - `src/main/kotlin/xtdb/temporal/TemporalBounds.kt:89`
@@ -36,8 +33,6 @@ Decision: volatile over lock — simpler, lower contention, sufficient for read-
 
 <details><summary>Add regression test for concurrent temporal queries</summary>
 
-Not yet started.
-Plan: spin up 4 threads doing overlapping temporal range queries while compactor runs.
-Assert no `IllegalStateException` from bounds intersection.
+Not yet started. Plan: spin up 4 threads doing overlapping temporal range queries while compactor runs. Assert no `IllegalStateException` from bounds intersection.
 
 </details>

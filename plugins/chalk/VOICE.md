@@ -30,10 +30,23 @@ This:
 > Previously, VectorType represented physical types — the compile-time type and run-time type could differ because many physical representations map to one logical type.
 > For physical representations, we now exclusively use Arrow's `Field` class.
 
-### One sentence per line
+### Line formatting depends on the destination
 
-No 80-character wrapping.
-Line-per-sentence makes diffs cleaner and structure easier to scan.
+Where prose ends up shapes how to break lines.
+No 80-character wrapping in either case.
+
+**Files that get `git diff`'d — sentence per line.**
+Docs pages, code comments, READMEs, any markdown checked into the repo.
+Sentence-per-line keeps diffs minimal — a one-sentence edit touches one line — and makes structure easier to scan in plain source.
+
+**Everything else — paragraph per line.**
+Commit messages, issue bodies, issue comments, chalk comments, PR descriptions, progress sections — anything read primarily after rendering (GitHub, `gh`, commit views) rather than as a tracked source file.
+GitHub Flavored Markdown renders single newlines as soft `<br>` breaks, so sentence-per-line fragments the rendered output into staccato lines instead of paragraphs that wrap to the viewport.
+Put each paragraph on a single line, separate paragraphs with a blank line, and let the rendering wrap.
+
+The split is `git diff`, not the artefact.
+A docs page goes sentence-per-line because reviewers read its diff.
+A commit message goes paragraph-per-line because nobody diffs it — they read it rendered in `git log`, GitHub, or a PR commit list.
 
 ### Lead with the problem or context
 
