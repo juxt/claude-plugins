@@ -66,14 +66,17 @@ The reader needs to understand *why* this matters and *why* the approach is shap
 Common sections — all explanation, with reference-shaped evidence embedded where useful:
 
 - **Summary** — one or two sentences on what's happening.
-- **Context** — how was this observed? What environment, deployment, test configuration? Links to CI runs, logs, dashboards, prior PRs, the broader initiative. Often the most valuable section — without it, a reader can't assess whether the issue applies to them or where a PR fits.
-- **Symptoms** — observable behaviour, error messages, affected conditions (e.g. "multi-writer only", "under chaos monkey testing"). Evidence-shaped.
-- **Root cause / Analysis** — why it's happening, grounded in evidence (log excerpts, stack traces, block file analysis, annotated offset tables).
-- **Evidence** — concrete artefacts: replica log dumps, application log excerpts with timestamps, block file contents, message type distributions. Annotate them — raw dumps without explanation are noise.
-- **Motivation** (features/refactors) — why this matters, what it unblocks.
+- **Context / Motivation** — how was this observed, or why does this matter? Environment, deployment, test configuration, links to CI runs, logs, dashboards, prior PRs, the broader initiative. Often the most valuable section — without it, a reader can't assess whether the issue applies to them or where a PR fits.
+- **Symptoms** (bugs / incidents) — observable behaviour, error messages, affected conditions (e.g. "multi-writer only", "under chaos monkey testing"). Evidence-shaped.
+- **Root cause / Analysis** (bugs / incidents) — why it's happening, grounded in evidence (log excerpts, stack traces, block file analysis, annotated offset tables).
+- **Evidence** (bugs / incidents) — concrete artefacts: replica log dumps, application log excerpts with timestamps, block file contents, message type distributions. Annotate them — raw dumps without explanation are noise.
+- **Current state** (refactors / features) — a concrete sketch of what exists today, in enough detail that the gap to the future state is visible. Reference-shaped: name the specific types, functions, flags, or files that the change touches.
+- **Future state** (refactors / features) — the target end state. What the new world looks like once the change is shipped. Concrete and structural — the reader should be able to picture the resulting code or system shape from this section alone.
 - **Invariants / Constraints** — non-obvious things the solution must preserve.
-- **Proposed approach / Fix** — the design direction or fix strategy. Not a step-by-step implementation plan — that belongs in the chalk comment.
-- **Reasons for / against** — for decisions or removals: the trade-offs.
+- **Out of scope** — what's explicitly not in this change, with reasons. Reference related issues/PRs that pick those pieces up.
+- **Alternatives considered** — other designs or approaches at the same level of abstraction as the chosen one, with a sketch of each and the trade-offs that ruled it in or out. Dated rejections ("Rejected on 2026-05-23 because …") help the next reader who's tempted to reopen the question. Implementation-strategy choices (refactor-in-place vs. parallel impl, big-bang vs. incremental) aren't alternatives at this level — they belong in Implementation.
+- **Decision rationale** — compare the chosen approach against each alternative on the points that differentiate them. Reads as a side-by-side, not a re-summary of the chosen approach.
+- **Implementation** — direction and high-level plan for an issue; what landed for a PR. Step-by-step granular execution (which sub-task next, what files to touch) belongs in the chalk comment, not here.
 
 PRs additionally draw from:
 
@@ -81,7 +84,6 @@ PRs additionally draw from:
 - **Changes** (multi-commit) — a numbered list of commits with a sentence each, so the reviewer knows the intended reading order.
 - **Implementation notes** — grouped by sub-concern, not a flat list. Non-obvious design choices, key invariants, counter-intuitive bits.
 - **Dead ends** — "tried X, didn't work because Y" prevents the reviewer from suggesting X.
-- **Scope** — what's explicitly out of scope, what's deferred to follow-up; with reasons. Reference related issues/PRs.
 - **Test plan** — what was tested and how.
 
 Not every description needs all of these.
@@ -90,6 +92,18 @@ A small bugfix PR might just need summary and test plan.
 A large feature PR might need context, usage examples, implementation notes, and scope.
 A refactor PR should call out that behaviour is intentionally preserved.
 Use judgement.
+
+### Ordering
+
+Sections roughly flow: **setup → state → decision → plan**.
+
+- **Setup**: Summary, Context / Motivation. The why-we're-here.
+- **State**: Current state and Future state (refactors / features); Symptoms, Root cause, Evidence (bugs / incidents). The what-it-looks-like, today and at completion.
+- **Decision**: Out of scope, Alternatives considered, Decision rationale, Invariants / Constraints. The why-this-path-and-not-others.
+- **Plan**: Implementation, and (for PRs) Test plan. At the end.
+
+The explanation-quadrant material (why this, why this way) sits above the reference-shaped step list.
+A reader who only scans the top of the issue should still understand the *what* and *why*; the *how* lives at the bottom.
 
 ## Injecting Chalk Into Plans
 
