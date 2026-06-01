@@ -5,7 +5,12 @@ Capture intent across issues and commits — why, not just what.
 Chalk is an intent layer for Claude Code.
 It ensures that the *reasoning* behind your work is captured at every level: why you're doing this work (issues), and why each change was made the way it was (commits).
 
-Similar to [beads](https://github.com/steveyegge/beads) but uses GitHub Issues as the storage backend, for projects that already have their issue tracking in GitHub.
+tl;dr: similar to [beads](https://github.com/steveyegge/beads) but uses the project's existing issue tracker (e.g. GitHub issues).
+
+It's task management for the LLM itself.
+An agent working through anything non-trivial has to track what it's doing — what's done, what's next, what it decided and why — and that state has to live somewhere.
+Held in the model's context it evaporates at the next compaction; kept in a bespoke store it becomes a silo that drifts from wherever the team actually tracks work.
+Chalk keeps it in the tracker you already have: the agent's task list becomes the issue's progress, its reasoning becomes the issue's comments — durable across sessions, visible to the team, with no second source of truth to reconcile.
 
 ## The Intent Stack
 
