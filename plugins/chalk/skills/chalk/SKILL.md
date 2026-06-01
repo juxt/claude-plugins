@@ -80,7 +80,10 @@ Common sections — all explanation, with reference-shaped evidence embedded whe
 
 PRs additionally draw from:
 
-- **Usage** (user-visible features) — concrete examples (SQL queries with realistic output, CLI invocations, config snippets). Show what the feature looks like.
+- **Usage** (user-visible features) — concrete examples (SQL queries with realistic output, CLI invocations, config snippets).
+  Show what the feature looks like.
+  This is also where any **manual steps to adopt the change** belong — a PR is how the team learns the change exists, so if using it requires a teammate to run a migration, set a config value or env var, enable a flag, regenerate something, or observe a deploy-order constraint, spell those steps out.
+  If a reader can't act on the change without a step that isn't in the diff, the step goes here.
 - **Changes** (multi-commit) — a numbered list of commits with a sentence each, so the reviewer knows the intended reading order.
 - **Implementation notes** — grouped by sub-concern, not a flat list. Non-obvious design choices, key invariants, counter-intuitive bits.
 - **Dead ends** — "tried X, didn't work because Y" prevents the reviewer from suggesting X.

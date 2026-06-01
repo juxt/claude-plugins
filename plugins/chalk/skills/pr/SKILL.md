@@ -38,6 +38,11 @@ If no title is provided, draft one from the branch's commits.
 
    If there is no related issue (unusual but possible), the PR description MUST include the problem context itself — effectively acting as both issue and PR description.
 
+   **A PR is knowledge sharing with the team.**
+   It's the moment the rest of the team learns this change exists and how to work with it.
+   So if *using* the new functionality requires any manual steps a teammate has to take themselves — running a migration, setting a config value or env var, enabling a flag, regenerating something, a deploy-order constraint — those steps MUST be documented in the PR body (a Usage section is the natural home; see the chalk skill's section palette).
+   Don't assume the steps are obvious or that they live somewhere else: if a reader can't act on the change without a step that isn't in the diff, the step belongs in the description.
+
 4. **Ask clarifying questions** if you can't reconstruct the reasoning from the commits and conversation history.
 
 5. **Delegate to the chalk github agent** to create the PR:
