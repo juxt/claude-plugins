@@ -11,6 +11,16 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 The user will provide the commit headline as an argument to this command (e.g., `/commit fix: boolean logic error in expression.clj`).
 
+## Before you draft
+
+The commit body is an **explanation** artefact and MUST be drafted in the chalk voice, not your own default prose habits.
+`chalk:commit` loads on its own and does **not** pull the shared voice into context, so before writing the body, **load the `chalk:voice` skill** (via the Skill tool) for the Diataxis framing and the concrete-over-abstract examples.
+Unlike a PR, a commit body is a single explanation, not a sectioned document — there's no palette to apply, just the voice.
+
+**Line format: paragraph-per-line** by default.
+A commit body is read rendered (`git log`, GitHub, a PR commit list), never as a `git diff`, so put each paragraph on a single line and separate paragraphs with a blank line — sentence-per-line would fragment into `<br>` staccato when rendered.
+Some projects override this and ask for sentence-per-line in commit messages; follow the project's convention where it states one (see "Discover project conventions" in `chalk:voice`).
+
 ## Your Responsibilities
 
 1. **Stage relevant changes**:
@@ -27,7 +37,7 @@ The user will provide the commit headline as an argument to this command (e.g., 
 
 3. **Draft a commit body.**
 
-   A commit body is an **explanation** artefact (see `VOICE.md` at the plugin root).
+   A commit body is an **explanation** artefact (see the `chalk:voice` skill).
    The diff is the code change; the body explains *why* it exists — decisions, alternatives rejected, constraints, dead ends, counter-intuitive findings, scope boundaries.
    Open with the problem or context, then the reasoning.
    Embed concrete examples (code snippets, call sites, specific scenarios) as illustrative material.
@@ -61,7 +71,7 @@ When chalk is active (tracking a GitHub issue), the commit is part of a larger s
 
 ## Constraints
 
-- The commit body MUST follow the explanation-quadrant voice in `VOICE.md`.
+- The commit body MUST follow the explanation-quadrant voice in the `chalk:voice` skill.
 - Each commit MUST be an atomic, cohesive unit of change.
 - Unrelated changes MUST NOT be staged together.
 - The commit body MUST NOT describe what changed — the diff shows that.

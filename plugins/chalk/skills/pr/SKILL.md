@@ -12,6 +12,19 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 The user MAY provide a PR title as an argument (e.g., `/chalk:pr feat: read-only secondaries`).
 If no title is provided, draft one from the branch's commits.
 
+## Before you draft
+
+A PR description is an **explanation** artefact, and it MUST be drafted against the chalk voice — not your own default prose habits, which read wrong and lose the reasoning the reviewer needs.
+
+`chalk:pr` loads on its own and does **not** pull the shared voice into context.
+Before drafting the description, **load the `chalk:voice` skill** (via the Skill tool) — it carries the Diataxis framing, the universal principles, and the issue/PR section palette.
+Then **structure the description into sections drawn from that palette**, choosing the ones this change needs.
+A wall of undifferentiated prose is the wrong shape; if you've written one, you skipped this step.
+
+**Line format: paragraph-per-line.**
+A PR description is read rendered on GitHub, never as a `git diff`.
+GitHub renders single newlines as `<br>`, so sentence-per-line fragments into staccato — put each paragraph on a single line, separate paragraphs with a blank line, and let the rendering wrap.
+
 ## Your Responsibilities
 
 1. **Gather context**:
@@ -22,14 +35,14 @@ If no title is provided, draft one from the branch's commits.
 
 2. **Draft a PR title**:
    - Use the user's provided title if given
-   - Otherwise, draft a short title (under 70 chars) that captures the intent
+   - Otherwise, draft a short title that captures the intent
 
 3. **Draft a PR description.**
 
-   A PR description is an **explanation** artefact (see `VOICE.md` at the plugin root) — reasoning distilled across the branch: context, decisions, tradeoffs, dead ends, scope boundaries.
+   A PR description is an **explanation** artefact (see the `chalk:voice` skill) — reasoning distilled across the branch: context, decisions, tradeoffs, dead ends, scope boundaries.
    Usage examples, test-plan checklists and commit lists have a reference *shape* but they're illustrations inside the explanation, not separate reference sections.
 
-   See the chalk skill's "Writing issue and PR descriptions" section for the section palette you can draw from.
+   Draw the sections from the palette in the `chalk:voice` skill you loaded in **Before you draft** above — don't default to flat prose.
 
    **Issue references come first.**
    If there's a related issue, reference it at the top (`Resolves #123` or `Part of #123`).
@@ -40,7 +53,7 @@ If no title is provided, draft one from the branch's commits.
 
    **A PR is knowledge sharing with the team.**
    It's the moment the rest of the team learns this change exists and how to work with it.
-   So if *using* the new functionality requires any manual steps a teammate has to take themselves — running a migration, setting a config value or env var, enabling a flag, regenerating something, a deploy-order constraint — those steps MUST be documented in the PR body (a Usage section is the natural home; see the chalk skill's section palette).
+   So if *using* the new functionality requires any manual steps a teammate has to take themselves — running a migration, setting a config value or env var, enabling a flag, regenerating something, a deploy-order constraint — those steps MUST be documented in the PR body (the **Usage** section is the natural home).
    Don't assume the steps are obvious or that they live somewhere else: if a reader can't act on the change without a step that isn't in the diff, the step belongs in the description.
 
 4. **Ask clarifying questions** if you can't reconstruct the reasoning from the commits and conversation history.
@@ -60,9 +73,8 @@ When chalk is tracking an issue:
 
 ## Constraints
 
-- The PR description MUST follow the explanation-quadrant voice in `VOICE.md`.
+- The PR description MUST follow the explanation-quadrant voice in the `chalk:voice` skill.
 - The PR description MUST NOT just list what changed — the diff shows that.
-- The PR title MUST be under 70 characters.
 - Behaviour-preserving changes (refactorings) SHOULD be called out explicitly so the reviewer knows the change is supposed to behave exactly the same as before.
 
 ## Workflow

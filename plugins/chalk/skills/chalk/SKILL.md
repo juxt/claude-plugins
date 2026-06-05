@@ -12,17 +12,14 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 ## Before you draft anything GitHub-bound
 
-Every issue body, issue description, chalk comment, progress section, and PR description you touch in this session MUST be drafted against the guidance in this skill and in `VOICE.md` at the plugin root.
-Do not rely on your own default prose habits — they will not match the chalk voice, and the artefact will read wrong.
+Every issue body, issue description, chalk comment, progress section, and PR description you touch in this session MUST be drafted in the chalk voice — not your own default prose habits, which read wrong and lose the reasoning the reader needs.
 
-Before writing any such prose:
+`chalk` carries the issue-tracking mechanics, not the writing voice.
+Before drafting any such prose, **load the `chalk:voice` skill** (via the Skill tool) — it holds the Diataxis framing, the universal principles, and the issue/PR section palette.
+Then structure the body into sections drawn from that palette, choosing the ones the issue or PR needs.
 
-1. If you haven't already, **Read `VOICE.md` at the plugin root** — it holds the quadrant framing (explanation vs reference vs how-to vs tutorial) and the concrete/abstract examples. Issues, comments, and PRs are all explanation artefacts.
-2. Skim the **"Writing issue and PR descriptions"** section below for the section palette (Context, Symptoms, Root cause, Evidence, Motivation, Invariants, Proposed approach, Reasons for/against, Usage, Changes, Implementation notes, Dead ends, Scope, Test plan).
-3. Only then draft.
-
-This is not optional for body composition.
-If you find yourself typing a GitHub-bound body without having consulted the voice guidance, stop and reload it.
+**Line format: paragraph-per-line.**
+Issue bodies, comments, and progress sections are read rendered on GitHub, never as a `git diff`, so put each paragraph on a single line and separate paragraphs with a blank line — GitHub renders single newlines as `<br>`, which would fragment sentence-per-line prose into staccato.
 
 ## What chalk does
 
@@ -57,56 +54,6 @@ When creating a new issue that depends on or belongs under existing work, link i
 When starting on an issue, scan its neighbours for why-now context: a parent epic or a recently-unblocked predecessor often explains why *this* is the card to pick up today.
 
 The github agent has GraphQL recipes for reading and mutating these relationships (`addSubIssue`, `addBlockedBy`, and the neighbourhood query).
-
-## Writing issue and PR descriptions
-
-Issue and PR descriptions are **explanation** artefacts (see `VOICE.md` at the plugin root).
-The reader needs to understand *why* this matters and *why* the approach is shaped this way.
-
-Common sections — all explanation, with reference-shaped evidence embedded where useful:
-
-- **Summary** — one or two sentences on what's happening.
-- **Context / Motivation** — how was this observed, or why does this matter? Environment, deployment, test configuration, links to CI runs, logs, dashboards, prior PRs, the broader initiative. Often the most valuable section — without it, a reader can't assess whether the issue applies to them or where a PR fits.
-- **Symptoms** (bugs / incidents) — observable behaviour, error messages, affected conditions (e.g. "multi-writer only", "under chaos monkey testing"). Evidence-shaped.
-- **Root cause / Analysis** (bugs / incidents) — why it's happening, grounded in evidence (log excerpts, stack traces, block file analysis, annotated offset tables).
-- **Evidence** (bugs / incidents) — concrete artefacts: replica log dumps, application log excerpts with timestamps, block file contents, message type distributions. Annotate them — raw dumps without explanation are noise.
-- **Current state** (refactors / features) — a concrete sketch of what exists today, in enough detail that the gap to the future state is visible. Reference-shaped: name the specific types, functions, flags, or files that the change touches.
-- **Future state** (refactors / features) — the target end state. What the new world looks like once the change is shipped. Concrete and structural — the reader should be able to picture the resulting code or system shape from this section alone.
-- **Invariants / Constraints** — non-obvious things the solution must preserve.
-- **Out of scope** — what's explicitly not in this change, with reasons. Reference related issues/PRs that pick those pieces up.
-- **Alternatives considered** — other designs or approaches at the same level of abstraction as the chosen one, with a sketch of each and the trade-offs that ruled it in or out. Dated rejections ("Rejected on 2026-05-23 because …") help the next reader who's tempted to reopen the question. Implementation-strategy choices (refactor-in-place vs. parallel impl, big-bang vs. incremental) aren't alternatives at this level — they belong in Implementation.
-- **Decision rationale** — compare the chosen approach against each alternative on the points that differentiate them. Reads as a side-by-side, not a re-summary of the chosen approach.
-- **Implementation** — direction and high-level plan for an issue; what landed for a PR. Step-by-step granular execution (which sub-task next, what files to touch) belongs in the chalk comment, not here.
-
-PRs additionally draw from:
-
-- **Usage** (user-visible features) — concrete examples (SQL queries with realistic output, CLI invocations, config snippets).
-  Show what the feature looks like.
-  This is also where any **manual steps to adopt the change** belong — a PR is how the team learns the change exists, so if using it requires a teammate to run a migration, set a config value or env var, enable a flag, regenerate something, or observe a deploy-order constraint, spell those steps out.
-  If a reader can't act on the change without a step that isn't in the diff, the step goes here.
-- **Changes** (multi-commit) — a numbered list of commits with a sentence each, so the reviewer knows the intended reading order.
-- **Implementation notes** — grouped by sub-concern, not a flat list. Non-obvious design choices, key invariants, counter-intuitive bits.
-- **Dead ends** — "tried X, didn't work because Y" prevents the reviewer from suggesting X.
-- **Test plan** — what was tested and how.
-
-Not every description needs all of these.
-A flaky test issue might just need the failure mode, stack trace, and conditions.
-A small bugfix PR might just need summary and test plan.
-A large feature PR might need context, usage examples, implementation notes, and scope.
-A refactor PR should call out that behaviour is intentionally preserved.
-Use judgement.
-
-### Ordering
-
-Sections roughly flow: **setup → state → decision → plan**.
-
-- **Setup**: Summary, Context / Motivation. The why-we're-here.
-- **State**: Current state and Future state (refactors / features); Symptoms, Root cause, Evidence (bugs / incidents). The what-it-looks-like, today and at completion.
-- **Decision**: Out of scope, Alternatives considered, Decision rationale, Invariants / Constraints. The why-this-path-and-not-others.
-- **Plan**: Implementation, and (for PRs) Test plan. At the end.
-
-The explanation-quadrant material (why this, why this way) sits above the reference-shaped step list.
-A reader who only scans the top of the issue should still understand the *what* and *why*; the *how* lives at the bottom.
 
 ## Injecting Chalk Into Plans
 
@@ -162,7 +109,7 @@ If the user does not explicitly invoke chalk, do not read or fetch any issue con
 ## Activation: `chalk new`
 
 1. Ask the user for a title and brief context — including *why now*, if it's not already clear. See "Understanding Why".
-2. **Draft the issue body yourself** in the main context, following "Writing issue and PR descriptions" above and the voice in `VOICE.md`. Include a `## Progress` section at the end. Do not delegate this drafting to the agent — it won't have the conversation context and will produce a thinner description than you can.
+2. **Draft the issue body yourself** in the main context, following the section palette and voice in the `chalk:voice` skill. Include a `## Progress` section at the end. Do not delegate this drafting to the agent — it won't have the conversation context and will produce a thinner description than you can.
 3. Pass the title and the fully-drafted body to the chalk agent to create the issue.
 4. Note the issue number from the agent's response.
 5. Tell the user you're tracking against the new issue.
@@ -214,7 +161,7 @@ This keeps the main context clean and avoids filling it with API output.
 **You compose; the agent executes.**
 The agent is a small-model mechanics layer — it runs `gh` and reports results.
 It does not have your conversation history, the chalk comments you've read, the diff, or the voice guidance in full.
-Draft issue bodies, comment bodies, Progress sections and PR descriptions **in the main context** before calling the agent, following "Writing issue and PR descriptions" above and the voice in `VOICE.md`.
+Draft issue bodies, comment bodies, Progress sections and PR descriptions **in the main context** before calling the agent, following the section palette and voice in the `chalk:voice` skill.
 The agent's prompt MUST include the full content ready to post verbatim.
 Passing "here are some bullet points, write this up" is not acceptable — that pushes an explanation-quadrant job onto a model that can't do it well and loses the reasoning the reader actually needs.
 
@@ -273,7 +220,7 @@ No date in the header — GitHub timestamps the comment itself.
 - Add new items as work emerges.
 - Keep details blocks focused — one per theme or work item.
 
-**Writing style**: each `<details>` block is an **explanation** chunk — what was explored, decided, tried. The checklist above is navigation, not a separate quadrant. Follow the explanation-quadrant voice in `VOICE.md`.
+**Writing style**: each `<details>` block is an **explanation** chunk — what was explored, decided, tried. The checklist above is navigation, not a separate quadrant. Follow the explanation-quadrant voice in the `chalk:voice` skill.
 Details blocks should read like knowledge-sharing, not a changelog.
 
 ## Lifecycle of a Comment
@@ -315,4 +262,4 @@ See `examples/implementation-comment.md` for a realistic filled-in example.
 - All GitHub interaction MUST go through the chalk agent. The main context MUST NOT call `gh` directly for chalk updates.
 - The issue description MUST be kept accurate — update facts when they change, but preserve the user's framing and intent.
 - `<details>` blocks MUST contain enough context that a future session can pick up where you left off.
-- All writing MUST follow the voice in `VOICE.md` at the plugin root — issues, PRs, and chalk comments are explanation artefacts.
+- All writing MUST follow the voice in the `chalk:voice` skill — issues, PRs, and chalk comments are explanation artefacts.

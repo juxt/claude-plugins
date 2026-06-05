@@ -1,17 +1,24 @@
+---
+name: voice
+description: Shared chalk writing voice — Diataxis quadrants, universal principles, and the issue/PR section palette. The chalk, chalk:commit, chalk:pr and chalk:tend-docs skills load this before drafting any GitHub-bound or docs prose; a human may run it to read the guide. Not auto-invoked on its own.
+user-invocable: true
+disable-model-invocation: true
+---
+
 # Chalk Voice — Writing Principles
+
+You're reading this because you're about to write something in the chalk voice — a commit body, an issue, a PR description, a docs page.
+Draft against this guidance, not your own default prose habits: the defaults read wrong and lose the reasoning the reader actually needs.
 
 Optimise for the reader, not the writer.
 
-Whatever you're writing — a commit, an issue, a PR description, a docs page — the reader is trying to do one of four things: acquire cognition, acquire action, apply cognition, apply action.
+Whatever you're writing, the reader is trying to do one of four things: acquire cognition, acquire action, apply cognition, apply action.
 [Diataxis](https://diataxis.fr) names these quadrants (explanation, tutorial, reference, how-to) and they apply recursively at every level, from a whole docs site down to a paragraph inside a commit body.
 
-This file has three parts:
+What follows: **universal principles** (apply everywhere), **the four quadrants** (what each is for), **artefacts as compositions** (which quadrants each chalk artefact occupies), and the **issue/PR section palette**.
 
-1. **Universal principles** — apply everywhere, regardless of quadrant.
-2. **The four quadrants** — what each is for and how the voice differs.
-3. **Artefacts as compositions** — which quadrants each chalk artefact (commit, issue, PR, docs page) actually occupies.
-
-The existing chalk skills (`chalk:commit`, `chalk:pr`, `chalk`) inherit from this file — they stop reciting principles and just name their quadrant(s).
+One thing this skill deliberately does *not* cover: **line-break style** — sentence-per-line vs paragraph-per-line.
+That depends on the artefact's destination — whether it's read as a `git diff` or rendered — so the skill you came from (`chalk:commit`, `chalk:pr`, `chalk`, `chalk:tend-docs`) states its own rule.
 
 ## Universal principles
 
@@ -29,24 +36,6 @@ This:
 > A logical type is one of: Mono (null, scalar, listy, struct), Maybe (nullable mono), or Poly (set of monos).
 > Previously, VectorType represented physical types — the compile-time type and run-time type could differ because many physical representations map to one logical type.
 > For physical representations, we now exclusively use Arrow's `Field` class.
-
-### Line formatting depends on the destination
-
-Where prose ends up shapes how to break lines.
-No 80-character wrapping in either case.
-
-**Files that get `git diff`'d — sentence per line.**
-Docs pages, code comments, READMEs, any markdown checked into the repo.
-Sentence-per-line keeps diffs minimal — a one-sentence edit touches one line — and makes structure easier to scan in plain source.
-
-**Everything else — paragraph per line.**
-Commit messages, issue bodies, issue comments, chalk comments, PR descriptions, progress sections — anything read primarily after rendering (GitHub, `gh`, commit views) rather than as a tracked source file.
-GitHub Flavored Markdown renders single newlines as soft `<br>` breaks, so sentence-per-line fragments the rendered output into staccato lines instead of paragraphs that wrap to the viewport.
-Put each paragraph on a single line, separate paragraphs with a blank line, and let the rendering wrap.
-
-The split is `git diff`, not the artefact.
-A docs page goes sentence-per-line because reviewers read its diff.
-A commit message goes paragraph-per-line because nobody diffs it — they read it rendered in `git log`, GitHub, or a PR commit list.
 
 ### Lead with the problem or context
 
@@ -214,9 +203,52 @@ Each section does one quadrant's job; they don't blur together.
 The test isn't "where does this page live?"
 It's "what is *this paragraph/section* for?"
 
-## A note on the skills
+## Writing issue and PR descriptions
 
-The chalk skills (`chalk:commit`, `chalk:pr`, the core `chalk` skill, and eventually `chalk:docs`) don't restate the rules in this file.
-They name the quadrant(s) they cover and inherit the voice.
+Issue and PR descriptions are **explanation** artefacts (see the quadrants above).
+The reader needs to understand *why* this matters and *why* the approach is shaped this way.
 
-This keeps guidance in one place and lets the skills stay short.
+Common sections — all explanation, with reference-shaped evidence embedded where useful:
+
+- **Summary** — one or two sentences on what's happening.
+- **Context / Motivation** — how was this observed, or why does this matter? Environment, deployment, test configuration, links to CI runs, logs, dashboards, prior PRs, the broader initiative. Often the most valuable section — without it, a reader can't assess whether the issue applies to them or where a PR fits.
+- **Symptoms** (bugs / incidents) — observable behaviour, error messages, affected conditions (e.g. "multi-writer only", "under chaos monkey testing"). Evidence-shaped.
+- **Root cause / Analysis** (bugs / incidents) — why it's happening, grounded in evidence (log excerpts, stack traces, block file analysis, annotated offset tables).
+- **Evidence** (bugs / incidents) — concrete artefacts: replica log dumps, application log excerpts with timestamps, block file contents, message type distributions. Annotate them — raw dumps without explanation are noise.
+- **Current state** (refactors / features) — a concrete sketch of what exists today, in enough detail that the gap to the future state is visible. Reference-shaped: name the specific types, functions, flags, or files that the change touches.
+- **Future state** (refactors / features) — the target end state. What the new world looks like once the change is shipped. Concrete and structural — the reader should be able to picture the resulting code or system shape from this section alone.
+- **Invariants / Constraints** — non-obvious things the solution must preserve.
+- **Out of scope** — what's explicitly not in this change, with reasons. Reference related issues/PRs that pick those pieces up.
+- **Alternatives considered** — other designs or approaches at the same level of abstraction as the chosen one, with a sketch of each and the trade-offs that ruled it in or out. Dated rejections ("Rejected on 2026-05-23 because …") help the next reader who's tempted to reopen the question. Implementation-strategy choices (refactor-in-place vs. parallel impl, big-bang vs. incremental) aren't alternatives at this level — they belong in Implementation.
+- **Decision rationale** — compare the chosen approach against each alternative on the points that differentiate them. Reads as a side-by-side, not a re-summary of the chosen approach.
+- **Implementation** — direction and high-level plan for an issue; what landed for a PR. Step-by-step granular execution (which sub-task next, what files to touch) belongs in the chalk comment, not here.
+
+PRs additionally draw from:
+
+- **Usage** (user-visible features) — concrete examples (SQL queries with realistic output, CLI invocations, config snippets).
+  Show what the feature looks like.
+  This is also where any **manual steps to adopt the change** belong — a PR is how the team learns the change exists, so if using it requires a teammate to run a migration, set a config value or env var, enable a flag, regenerate something, or observe a deploy-order constraint, spell those steps out.
+  If a reader can't act on the change without a step that isn't in the diff, the step goes here.
+- **Changes** (multi-commit) — a numbered list of commits with a sentence each, so the reviewer knows the intended reading order.
+- **Implementation notes** — grouped by sub-concern, not a flat list. Non-obvious design choices, key invariants, counter-intuitive bits.
+- **Dead ends** — "tried X, didn't work because Y" prevents the reviewer from suggesting X.
+- **Test plan** — what was tested and how.
+
+Not every description needs all of these.
+A flaky test issue might just need the failure mode, stack trace, and conditions.
+A small bugfix PR might just need summary and test plan.
+A large feature PR might need context, usage examples, implementation notes, and scope.
+A refactor PR should call out that behaviour is intentionally preserved.
+Use judgement.
+
+### Ordering
+
+Sections roughly flow: **setup → state → decision → plan**.
+
+- **Setup**: Summary, Context / Motivation. The why-we're-here.
+- **State**: Current state and Future state (refactors / features); Symptoms, Root cause, Evidence (bugs / incidents). The what-it-looks-like, today and at completion.
+- **Decision**: Out of scope, Alternatives considered, Decision rationale, Invariants / Constraints. The why-this-path-and-not-others.
+- **Plan**: Implementation, and (for PRs) Test plan. At the end.
+
+The explanation-quadrant material (why this, why this way) sits above the reference-shaped step list.
+A reader who only scans the top of the issue should still understand the *what* and *why*; the *how* lives at the bottom.

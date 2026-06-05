@@ -37,7 +37,7 @@ If the user asks for those, decline politely and suggest a different approach.
 
 2. **Identify the Diataxis quadrant(s).**
 
-   Diataxis names four quadrants: **tutorial**, **how-to**, **reference**, **explanation** (see `VOICE.md` at the plugin root).
+   Diataxis names four quadrants: **tutorial**, **how-to**, **reference**, **explanation** (see the `chalk:voice` skill).
    Each page leans toward one at the top level; each sub-section within it may hit a different quadrant.
 
    The test isn't "where does this page live?" — it's "what is *this paragraph/section* for?".
@@ -101,11 +101,13 @@ If the user asks for those, decline politely and suggest a different approach.
    A chalk comment is author-to-maintainer; a docs page is author-to-user.
    The audience is different; the phrasing has to be too.
 
-5. **Apply the per-quadrant voice from `VOICE.md`.**
+5. **Apply the chalk voice.**
 
-   Universal principles first (concrete examples, sentence-per-line for repo files, problem-first, no marketing fluff).
-   Then the quadrant-specific voice.
-   Don't restate the rules inline — reference `VOICE.md`.
+   **Load the `chalk:voice` skill** (via the Skill tool) for the Diataxis framing and universal principles, then apply the quadrant-specific voice to each section.
+   Don't restate those rules inline — they live in `chalk:voice`.
+
+   **Line format: sentence-per-line.**
+   A docs page is checked into the repo and reviewed as a `git diff`, so put each sentence on its own line — it keeps diffs minimal (a one-sentence edit touches one line) and the structure scannable in source.
 
 6. **Ask clarifying questions** — don't invent.
 
@@ -125,7 +127,7 @@ If the user asks for those, decline politely and suggest a different approach.
 - The audience MUST be named (to the user or in a code comment on the draft) before the page is written.
 - Each section MUST commit to one Diataxis quadrant.
   Sections MUST NOT blur quadrants.
-- The page MUST follow `VOICE.md` — universal principles plus the quadrant-specific voice.
+- The page MUST follow the `chalk:voice` skill — universal principles plus the quadrant-specific voice — and be written sentence-per-line (a docs page is reviewed as a diff).
 - Project-specific conventions (version markers, changelog shape, frontmatter fields, callout style) MUST be discovered from the repo, not invented.
 - The skill MUST decline (politely) if asked to write for a non-technical audience — that's not what this skill is for.
 - If chalk is active, the skill SHOULD read the tracked issue, its one-hop issue-graph neighbourhood, and the landing PR(s) before writing a non-trivial section — the *why* lives across them, not in any single artefact.
@@ -142,7 +144,7 @@ If the user asks for those, decline politely and suggest a different approach.
 4. Identify the quadrant of the page (and each section).
 5. Pull the *why* from chalk context — tracked issue, one-hop neighbourhood (parent/sub/blocked-by), landing PR(s) including review discussion, and landing commit body(ies).
 6. Draft.
-   Apply `VOICE.md` — universal principles plus per-quadrant voice.
+   Apply the `chalk:voice` skill — universal principles plus per-quadrant voice; write sentence-per-line.
 7. Match discovered project conventions (frontmatter, version markers, changelog, callouts, cross-links).
 8. Ask clarifying questions if the audience, quadrant, or a material project convention is unclear.
 
