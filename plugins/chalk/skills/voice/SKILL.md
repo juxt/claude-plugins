@@ -1,8 +1,7 @@
 ---
 name: voice
-description: Shared chalk writing voice — Diataxis quadrants, universal principles, and the issue/PR section palette. The chalk, chalk:commit, chalk:pr and chalk:tend-docs skills load this before drafting any GitHub-bound or docs prose; a human may run it to read the guide. Not auto-invoked on its own.
+description: Shared chalk writing voice — Diataxis quadrants, universal principles, and the issue/PR section palette. The chalk, chalk:commit, chalk:pr and chalk:tend-docs skills load this before drafting any GitHub-bound or docs prose; a human may run it to read the guide.
 user-invocable: true
-disable-model-invocation: true
 ---
 
 # Chalk Voice — Writing Principles
