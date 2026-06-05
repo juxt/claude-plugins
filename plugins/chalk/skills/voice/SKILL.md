@@ -49,6 +49,13 @@ A terse note with no *why* is just as unhelpful as a verbose one.
 When the reasoning is complex but the change is simple, say so.
 "Simple change in the end: ..." helps the reader calibrate.
 
+### Structure what the reader must follow
+
+When you want the reader to *follow* a chain — a sequence of events, a multi-step rationale, a set of conditions — reach for structure (a numbered or bulleted list, a short tree) over a prose paragraph.
+Structure lets the reader checkpoint their understanding step by step; a dense paragraph makes them hold the whole thing in their head and trust they reassembled it the way you meant.
+Reserve prose for short causal arguments where the connectives ("because", "so", "but only when") carry the meaning and the chain is two or three links long.
+This is about the *followable* parts, not the tone — an explanation can read discursively and still lay its reasoning out as steps.
+
 ### No marketing fluff
 
 "Powerful", "seamless", "blazing-fast", "revolutionary" — cut them.
@@ -240,6 +247,29 @@ A small bugfix PR might just need summary and test plan.
 A large feature PR might need context, usage examples, implementation notes, and scope.
 A refactor PR should call out that behaviour is intentionally preserved.
 Use judgement.
+
+### Annotated traces for sequencing bugs
+
+When the bug *is* an ordering — a race, a leadership transition, a distributed-log divergence — the explanation **is** the sequence of events.
+Prose describing that sequence is much harder to follow than the sequence itself; a raw log dump is the opposite failure — all the data, none of the causality, so it reads as noise.
+
+Reconstruct a chronological trace and annotate it.
+Name the actors (`[A]`/`[B]`, leader/follower) rather than "the node" — the reader is tracking several at once.
+Show the load-bearing state inline as it changes, mark the point where things diverge, and end at the failure.
+Distil from a real trace (a captured log, a debugger session) down to the events that carry the causality; drop everything else.
+
+A multi-actor race told this way lands in a way a paragraph can't:
+
+```
+TERM 1 — node A is leader:
+  leader ← source 0..4             [A] watermark → 4   (local, NOT replicated)
+  leader → replica: ResolvedTx     [B] follower stays at -1   ← B never sees A's progress
+
+FLIP: A → follower (keeps src=4),  B → leader
+  B resumes from -1 (its own stale watermark) → re-reads source 0 → emits BlockBoundary(src=0)
+
+FAILURE — follower A applies it:   notifyMsg(0) while watermark=4   →   0 < 4, throws
+```
 
 ### Ordering
 
