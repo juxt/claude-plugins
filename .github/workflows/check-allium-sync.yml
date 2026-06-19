@@ -1,0 +1,22 @@
+name: Check Allium vendor sync
+
+# Fails if the vendored plugins/allium drifts from the juxt/allium ref pinned
+# in scripts/allium-ref.txt. Runs only when the vendored copy, the pin, or the
+# sync tooling changes — so unrelated PRs are unaffected, and it no-ops until
+# plugins/allium is vendored.
+on:
+  pull_request:
+    paths:
+      - "plugins/allium/**"
+      - "scripts/allium-ref.txt"
+      - "scripts/sync-allium.sh"
+      - ".github/workflows/check-allium-sync.yml"
+  workflow_dispatch:
+
+jobs:
+  check-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify plugins/allium matches the pinned juxt/allium ref
+        run: bash scripts/sync-allium.sh --check
