@@ -12,23 +12,7 @@
     {
       "name": "allium",
       "description": "Velocity through clarity.",
-      "source": {
-        "source": "github",
-        "repo": "juxt/allium",
-        "ref": "v3.3.0"
-      },
-      "skills": [
-        "./skills/allium",
-        "./skills/distill",
-        "./skills/elicit",
-        "./skills/propagate",
-        "./skills/tend",
-        "./skills/weed"
-      ],
-      "agents": [
-        "./agents/tend.md",
-        "./agents/weed.md"
-      ]
+      "source": "./plugins/allium"
     },
     {
       "name": "chalk",
