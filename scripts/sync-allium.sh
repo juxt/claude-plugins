@@ -33,6 +33,11 @@ git clone --quiet https://github.com/juxt/allium "$tmp/allium"
 git -C "$tmp/allium" checkout --quiet "$REF"
 rm -rf "$tmp/allium/.git"
 
+# design/ holds internal, non-user-facing design notes; keep them out of the
+# vendored marketplace payload. Stripped from the source snapshot here so that
+# both `sync` and `--check` operate on the same design-less tree.
+rm -rf "$tmp/allium/design"
+
 if [ "$MODE" = "--check" ]; then
   if [ ! -d "$DEST" ]; then
     echo "plugins/allium not present yet — nothing to check (vendor it with: scripts/sync-allium.sh)."
