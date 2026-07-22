@@ -4,7 +4,7 @@
 
 ---
 
-Feed your AI something healthier than Markdown. [juxt.github.io/allium](https://juxt.github.io/allium/)
+Feed your AI something healthier than Markdown. [allium-lang.org](https://allium-lang.org/)
 
 ## What this is
 
@@ -17,8 +17,8 @@ You keep a `.allium` file alongside your code describing what the system should 
 Two forces feed the spec, and one loop keeps it honest against the code:
 
 ```
-        intent ──/elicit──►  ┌──────────────┐  ◄──/distill── existing code
-       (forward)             │ .allium spec │              (backward)
+        intent ──/elicit──►  ┌───────────────┐  ◄──/distill── existing code
+       (forward)             │ .allium spec  │              (backward)
                              └──────┬───┬────┘
                           /tend     │   │   /weed
                       (edit spec)   │   │  (reconcile with code)
@@ -312,9 +312,9 @@ Like its namesake, working with Allium may produce tears during the peeling, but
 
 <a href="https://www.star-history.com/?repos=juxt%2Fallium&type=date&legend=top-left">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/image?repos=juxt/allium&type=date&theme=dark&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/image?repos=juxt/allium&type=date&legend=top-left" />
-   <img alt="Star History Chart" src="https://api.star-history.com/image?repos=juxt/allium&type=date&legend=top-left" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=juxt/allium&type=date&theme=dark&legend=top-left&sealed_token=vt0GNhF_frBP9ZqhIlkjvtV23Gc_DWcj6qsQ_8KGNyUZ3DhLS12B2A_pjCYzDMdOzG7jkZaXrySjpqd8F56yde5soJlN5qM30I07Nw0xbTg78E6OABguNwYRHLk9ayL9ts7TP0Rst9Ysk7c1oD6VasbdJzyVgFUtrydXzXKqej6YxB-nbfcc42BGeWmY" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=juxt/allium&type=date&legend=top-left&sealed_token=vt0GNhF_frBP9ZqhIlkjvtV23Gc_DWcj6qsQ_8KGNyUZ3DhLS12B2A_pjCYzDMdOzG7jkZaXrySjpqd8F56yde5soJlN5qM30I07Nw0xbTg78E6OABguNwYRHLk9ayL9ts7TP0Rst9Ysk7c1oD6VasbdJzyVgFUtrydXzXKqej6YxB-nbfcc42BGeWmY" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=juxt/allium&type=date&legend=top-left&sealed_token=vt0GNhF_frBP9ZqhIlkjvtV23Gc_DWcj6qsQ_8KGNyUZ3DhLS12B2A_pjCYzDMdOzG7jkZaXrySjpqd8F56yde5soJlN5qM30I07Nw0xbTg78E6OABguNwYRHLk9ayL9ts7TP0Rst9Ysk7c1oD6VasbdJzyVgFUtrydXzXKqej6YxB-nbfcc42BGeWmY" />
  </picture>
 </a>
 
