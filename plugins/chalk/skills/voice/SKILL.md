@@ -6,7 +6,7 @@ user-invocable: true
 
 # Chalk Voice — Writing Principles
 
-You're reading this because you're about to write something in the chalk voice — a commit body, an issue, a PR description, a docs page.
+You're reading this because you're about to write something in the chalk voice — a commit body, an issue, a PR description, a code comment, a docs page.
 Draft against this guidance, not your own default prose habits: the defaults read wrong and lose the reasoning the reader actually needs.
 
 Optimise for the reader, not the writer.
@@ -50,10 +50,23 @@ When the reasoning is complex but the change is simple, say so.
 
 ### Structure what the reader must follow
 
-When you want the reader to *follow* a chain — a sequence of events, a multi-step rationale, a set of conditions — reach for structure (a numbered or bulleted list, a short tree) over a prose paragraph.
-Structure lets the reader checkpoint their understanding step by step; a dense paragraph makes them hold the whole thing in their head and trust they reassembled it the way you meant.
-Reserve prose for short causal arguments where the connectives ("because", "so", "but only when") carry the meaning and the chain is two or three links long.
-This is about the *followable* parts, not the tone — an explanation can read discursively and still lay its reasoning out as steps.
+Anything the reader has to *follow* — a sequence of events, a multi-step rationale, a set of conditions — **defaults to a bullet-point tree, one logical checkpoint per bullet**, not a prose paragraph. This is the single highest-leverage habit in this guide; reach for it first, and drop to prose only deliberately.
+
+- **One checkpoint per bullet.** Each bullet is a place the reader stops, confirms they've followed, and moves on. A dense paragraph makes them hold the whole chain in their head and trust they reassembled it the way you meant.
+- **Lead each bullet with its point, and bold the load-bearing words** — the tree should be graspable from the bolded phrases alone, before a word of the surrounding prose is read.
+- **Nest for sub-steps, but stay shallow** — about two levels. A checkpoint can have its own checkpoints; a third level of indentation is usually its own wall, so promote or flatten it.
+- **Cut ruthlessly.** Less text beats better-formatted text — a bullet the reader doesn't need is noise, and noise hides the checkpoints that matter.
+
+Reserve prose for a short causal argument where the connectives ("because", "so", "but only when") carry the meaning and the chain is only two or three links long. This is about the *followable* parts, not the tone — an explanation can still read discursively and lay its reasoning out as a tree.
+
+### Transitions vs. current state
+
+Every *why* belongs in one of two homes, and the artefact's job decides which.
+
+- **Change-log artefacts** — commit bodies, PR descriptions, changelog entries — carry the *transition*: why it changed from X to Y, and how to migrate. Read once, around the change.
+- **Durable artefacts** — code comments, docs bodies, reference — carry the *current contract*, written as if it had always been this way. Read long after, by someone who doesn't care what it used to be.
+
+So a "this used to…" comment in the source, or a "previously we…" line in a docs body, is misfiled — the transition it describes belongs in the commit or the changelog, and it rots where it sits. Conversely a commit body that only restates current behaviour, not what changed and why, has thrown away the one thing it was for.
 
 ### No marketing fluff
 
@@ -201,6 +214,12 @@ The evidence is illustrative material inside the explanation; it's not a separat
 Context, decisions, tradeoffs, dead ends, scope — all explanation.
 Usage examples, test-plan checklists, and commit lists have a reference *shape* but they're illustrations embedded in explanation, not standalone reference.
 
+**Code comments** are **explanation** artefacts too — the most-read one.
+The code is the *what*; the comment carries the *why* the code can't show: the rationale for a counter-intuitive choice, a non-obvious invariant, a gotcha or edge case, a link to the issue context, a warning about subtle behaviour.
+A comment that restates the code — echoing the function name, narrating the steps — is noise; delete it.
+Comments describe the *current contract* (see "Transitions vs. current state" above): the story of what the code used to do belongs in the commit that changed it, not in a comment that will rot.
+The line-break rules the calling skill states don't apply — comments are read in-source, not rendered — but terse, why-first and concrete all do.
+
 **Docs pages** play all four.
 Each page leans toward one quadrant at the top level; sections within it may hit other quadrants.
 A how-to page often has a short explanation intro (what this setup is for), numbered steps (how-to), a commented config block (reference), and a closing section on failure modes (explanation).
@@ -235,6 +254,7 @@ PRs additionally draw from:
   Show what the feature looks like.
   This is also where any **manual steps to adopt the change** belong — a PR is how the team learns the change exists, so if using it requires a teammate to run a migration, set a config value or env var, enable a flag, regenerate something, or observe a deploy-order constraint, spell those steps out.
   If a reader can't act on the change without a step that isn't in the diff, the step goes here.
+- **Rollout / compatibility** — when the change is only safe under conditions the diff can't express: a deploy order, a mixed-version window, an "upgrade the whole fleet to X before enabling Y" constraint. State which versions interoperate and the safe sequence. Distinct from Usage — Usage is how to *use* the feature; this is how to *land* it without breaking a running system.
 - **Changes** (multi-commit) — a numbered list of commits with a sentence each, so the reviewer knows the intended reading order.
 - **Implementation notes** — grouped by sub-concern, not a flat list. Non-obvious design choices, key invariants, counter-intuitive bits.
 - **Dead ends** — "tried X, didn't work because Y" prevents the reviewer from suggesting X.
