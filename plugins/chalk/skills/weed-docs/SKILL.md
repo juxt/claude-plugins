@@ -121,7 +121,7 @@ This skill reports drift; resolving it is a separate step (often via `chalk:tend
 - The skill MUST state when there's nothing to audit (empty diff, no docs tree) rather than producing a fake empty punch list.
 - The skill MUST NOT fabricate rationales for punch-list items.
   If the issue graph and PRs don't carry the intent, say so on the item ("rationale unclear — ask the author").
-  See the main chalk skill's "Understanding Why" section.
+  See "Establish the why and the why now" in `chalk:voice`.
 
 ## Workflow
 

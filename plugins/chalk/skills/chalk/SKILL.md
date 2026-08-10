@@ -1,7 +1,7 @@
 ---
 name: chalk
-description: Track session intent and progress against GitHub Issues, and write every GitHub-bound prose body (issue, comment, description, progress update) in the chalk voice. Use when the user says "chalk #N", "chalk new", "chalk status", "chalk off", "track issue #N"; mentions a GitHub issue number (e.g. "#123", "issue 456", "GH-789"); references a github.com issue URL; OR is about to compose, draft, write, update or edit any GitHub issue body, issue description, issue comment, chalk comment, or progress section (e.g. "open an issue", "file a bug", "comment on #123", "update the issue description", "note that in the chalk comment", "add to the progress", "write up what we found on the ticket"). Load this skill BEFORE drafting any such prose — it carries the voice guidance the body needs.
-version: 0.3.0
+description: Track session intent and progress against GitHub Issues, and write chalk comments and Progress sections in the chalk voice. Use when the user says "chalk #N", "chalk new", "chalk status", "chalk off", "track issue #N"; mentions a GitHub issue number (e.g. "#123", "issue 456", "GH-789"); references a github.com issue URL; OR is about to compose, draft, write, update or edit any GitHub issue comment, chalk comment, or progress section (e.g. "comment on #123", "note that in the chalk comment", "add to the progress", "write up what we found on the ticket"). Load this skill BEFORE drafting any such prose — it carries the voice guidance the body needs. For drafting an issue body or description itself ("open an issue", "file a bug", "update the issue description"), use the `chalk:issue` skill.
+version: 0.4.0
 user-invocable: true
 disable-model-invocation: false
 ---
@@ -12,14 +12,19 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 ## Before you draft anything GitHub-bound
 
-Every issue body, issue description, chalk comment, progress section, and PR description you touch in this session MUST be drafted in the chalk voice — not your own default prose habits, which read wrong and lose the reasoning the reader needs.
+Every chalk comment, progress section, issue description, and PR description you touch in this session MUST be drafted in the chalk voice — not your own default prose habits, which read wrong and lose the reasoning the reader needs.
 
 `chalk` carries the issue-tracking mechanics, not the writing voice.
 Before drafting any such prose, **load the `chalk:voice` skill** (via the Skill tool) — it holds the Diataxis framing, the universal principles, and the issue/PR section palette.
-Then structure the body into sections drawn from that palette, choosing the ones the issue or PR needs.
+Then structure the body into sections drawn from that palette, choosing the ones the artefact needs.
+
+Two artefacts have their own skill carrying rules beyond the voice — load it instead of drafting from here:
+
+- **The issue description** — `chalk:issue`. Covers creating an issue and keeping its description accurate.
+- **The PR description** — `chalk:pr`.
 
 **Line format: paragraph-per-line.**
-Issue bodies, comments, and progress sections are read rendered on GitHub, never as a `git diff`, so put each paragraph on a single line and separate paragraphs with a blank line — GitHub renders single newlines as `<br>`, which would fragment sentence-per-line prose into staccato.
+Comments and progress sections are read rendered on GitHub, never as a `git diff`, so put each paragraph on a single line and separate paragraphs with a blank line — GitHub renders single newlines as `<br>`, which would fragment sentence-per-line prose into staccato.
 
 ## What chalk does
 
@@ -30,28 +35,20 @@ Comments are the append-only session log — what was tried, decided, and learne
 
 ## Understanding Why
 
-Chalk's job is to capture the *why*, not just the *what* — and the diff won't carry that reasoning on its own.
-Before starting anything beyond a trivial change, make sure you understand two things:
+Chalk's job is to capture the *why*, not just the *what*.
+The rule — establish **why this** and **why now**, and ask rather than guess — is a universal principle in the `chalk:voice` skill, because every chalk artefact depends on it.
+See "Establish the why and the why now" there.
 
-- **Why this change** — what problem it solves, what it unblocks, what constraint drove it.
-- **Why now** — what prompted it today. A deadline, a dependent piece of work, a recent incident, someone else blocked on it?
-
-If either isn't obvious from the issue, the conversation, or the code you've read, **ask the user before starting**.
-A one-sentence answer now is cheaper than reconstructing the reasoning later from the diff.
-
-Trivial changes (typo fixes, mechanical bumps, one-line config tweaks) don't need this step — the motivation is self-evident.
-Non-trivial changes (refactors, new features, non-obvious fixes, scope decisions) do: the issue description, the chalk comment, and the commit message all depend on you having it.
+What's chalk's specifically is the **timing**: establish it at the *start* of the work, not when you sit down to write.
+Chalk is active from the moment you pick the issue up, so it's the one skill positioned to catch a missing *why now* before the work is done rather than after — by which point the cheap answer ("someone's blocked on it") has to be reconstructed instead of asked for.
 
 ## Issue Relationships
 
-Use parent/child and blocked-by liberally — they carry structure the description can't, and they answer two questions cheaply that prose would answer expensively.
+Parent/child and blocked-by carry structure the description can't — use them liberally.
+`chalk:issue` covers what each is for and when to reach for it; two things are chalk's job specifically:
 
-- **Parent / sub-issues**: when work naturally nests, link them. A sub-issue inherits the parent's motivation, so its own description can stay focused on the specific slice. Good fit for epic → sub-tasks, or a broad refactor split into reviewable pieces.
-- **Blocked-by**: for order-dependent work. This is the one that pays back most — a filter for "open, un-blocked" becomes the queue of workable cards, and nobody has to triage to find out what they can pick up today.
-
-Wire relationships in the same session they emerge.
-When creating a new issue that depends on or belongs under existing work, link it immediately — deferring it usually means the link never gets made.
-When starting on an issue, scan its neighbours for why-now context: a parent epic or a recently-unblocked predecessor often explains why *this* is the card to pick up today.
+- **Read the neighbourhood on activation** — a parent epic or a recently-unblocked predecessor often explains why *this* is the card to pick up today. That's the *why now* an isolated issue view misses.
+- **Wire relationships in the same session they emerge** — a dependency discovered mid-implementation ("this is blocked by #45") gets linked as soon as you find it. Deferring it usually means the link never gets made.
 
 The github agent has GraphQL recipes for reading and mutating these relationships (`addSubIssue`, `addBlockedBy`, and the neighbourhood query).
 
@@ -103,16 +100,17 @@ If the user does not explicitly invoke chalk, do not read or fetch any issue con
 1. Use the chalk agent to read the issue, its recent comments, and its one-hop neighbourhood (parent, sub-issues, blocked-by, blocking).
 2. Internalize the issue context without repeating the entire issue to the user.
 3. If no `## Progress` section exists in the issue description, ask the chalk agent to add one.
-4. If the change is non-trivial and the *why* or *why now* isn't obvious from the issue or its neighbours (see "Understanding Why"), ask the user before starting.
+4. If the change is non-trivial and the *why* or *why now* isn't obvious from the issue or its neighbours, ask the user before starting (see "Understanding Why" above).
 5. Tell the user you're tracking against #N.
 
 ## Activation: `chalk new`
 
-1. Ask the user for a title and brief context — including *why now*, if it's not already clear. See "Understanding Why".
-2. **Draft the issue body yourself** in the main context, following the section palette and voice in the `chalk:voice` skill. Include a `## Progress` section at the end. Do not delegate this drafting to the agent — it won't have the conversation context and will produce a thinner description than you can.
-3. Pass the title and the fully-drafted body to the chalk agent to create the issue.
-4. Note the issue number from the agent's response.
-5. Tell the user you're tracking against the new issue.
+`chalk new` is *file an issue, then track against it* — the filing half is `chalk:issue`, not a second copy of it here.
+
+1. **Load the `chalk:issue` skill** (via the Skill tool) and follow it to draft and create the issue. It carries the why/why-now step, the duplicate check, and the problem-focused section palette.
+2. Take the issue number from the result and start tracking against it, as for `chalk #N`.
+3. Add the `## Progress` section — a freshly-filed issue doesn't have one, because filing an issue isn't picking it up. Tracking is what creates it.
+4. Tell the user you're tracking against the new issue.
 
 ## Two Layers of State
 
@@ -142,8 +140,8 @@ The `## Progress` section contains:
 
 Update the progress section (via the chalk agent) whenever the checklist changes — items added, completed, or deferred.
 
-**Updating the issue description** (beyond the Progress section): update factual content when the current state has changed (new failure mode, updated context, revised scope).
-Preserve the user's framing and intent — don't rewrite the narrative, just keep the facts current.
+**Updating the issue description** (beyond the Progress section) is `chalk:issue`'s job — load it rather than editing the body from here.
+The rule it applies: keep the facts current as they change, but preserve the author's framing and intent.
 
 ### Comments — One Per Session
 
@@ -161,7 +159,7 @@ This keeps the main context clean and avoids filling it with API output.
 **You compose; the agent executes.**
 The agent is a small-model mechanics layer — it runs `gh` and reports results.
 It does not have your conversation history, the chalk comments you've read, the diff, or the voice guidance in full.
-Draft issue bodies, comment bodies, Progress sections and PR descriptions **in the main context** before calling the agent, following the section palette and voice in the `chalk:voice` skill.
+Draft comment bodies and Progress sections **in the main context** before calling the agent, following the section palette and voice in the `chalk:voice` skill.
 The agent's prompt MUST include the full content ready to post verbatim.
 Passing "here are some bullet points, write this up" is not acceptable — that pushes an explanation-quadrant job onto a model that can't do it well and loses the reasoning the reader actually needs.
 
