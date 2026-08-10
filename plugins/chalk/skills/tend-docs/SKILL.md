@@ -111,7 +111,7 @@ If the user asks for those, decline politely and suggest a different approach.
 
 6. **Ask clarifying questions** — don't invent.
 
-   The main chalk skill's "Understanding Why" rule applies here: if the *why* isn't obvious from the issue graph, the PR, or the conversation, ask.
+   `chalk:voice`'s "Establish the why and the why now" applies here: if the *why* isn't obvious from the issue graph, the PR, or the conversation, ask.
    A one-sentence answer from the user beats a fabricated rationale every time, and fabricated rationales in docs are particularly corrosive — they look authoritative and they rot silently.
 
    Ask when:
@@ -132,7 +132,7 @@ If the user asks for those, decline politely and suggest a different approach.
 - The skill MUST decline (politely) if asked to write for a non-technical audience — that's not what this skill is for.
 - If chalk is active, the skill SHOULD read the tracked issue, its one-hop issue-graph neighbourhood, and the landing PR(s) before writing a non-trivial section — the *why* lives across them, not in any single artefact.
 - The skill MUST NOT fabricate a rationale for a section when the issue graph / PR / commits don't carry one.
-  Ask the user instead (see the main chalk skill's "Understanding Why" section).
+  Ask the user instead (see "Establish the why and the why now" in `chalk:voice`).
 
 ## Workflow
 

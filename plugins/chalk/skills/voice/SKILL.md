@@ -1,6 +1,6 @@
 ---
 name: voice
-description: Shared chalk writing voice — Diataxis quadrants, universal principles, and the issue/PR section palette. The chalk, chalk:commit, chalk:pr and chalk:tend-docs skills load this before drafting any GitHub-bound or docs prose; a human may run it to read the guide.
+description: Shared chalk writing voice — Diataxis quadrants, universal principles, and the issue/PR section palette. The chalk, chalk:issue, chalk:commit, chalk:pr and chalk:tend-docs skills load this before drafting any GitHub-bound or docs prose; a human may run it to read the guide.
 user-invocable: true
 ---
 
@@ -17,11 +17,27 @@ Whatever you're writing, the reader is trying to do one of four things: acquire 
 What follows: **universal principles** (apply everywhere), **the four quadrants** (what each is for), **artefacts as compositions** (which quadrants each chalk artefact occupies), and the **issue/PR section palette**.
 
 One thing this skill deliberately does *not* cover: **line-break style** — sentence-per-line vs paragraph-per-line.
-That depends on the artefact's destination — whether it's read as a `git diff` or rendered — so the skill you came from (`chalk:commit`, `chalk:pr`, `chalk`, `chalk:tend-docs`) states its own rule.
+That depends on the artefact's destination — whether it's read as a `git diff` or rendered — so the skill you came from (`chalk:commit`, `chalk:issue`, `chalk:pr`, `chalk`, `chalk:tend-docs`) states its own rule.
 
 ## Universal principles
 
 These apply to all writing in this plugin's voice.
+
+### Establish the why and the why now
+
+This one comes first because it's a prerequisite, not a style rule: you cannot write the *why* if you never found it out, and the diff won't carry it for you.
+
+- **Why this** — what problem it solves, what it unblocks, what constraint drove it.
+- **Why now** — what prompted it today. A deadline, a dependent piece of work, a recent incident, someone else blocked on it?
+
+**Ask rather than guess.**
+If either isn't clear from the conversation, the issue and its neighbours, or the code you've read, ask the user — ideally before starting the work, and at the latest before drafting.
+A one-sentence answer now is cheaper than a reader reconstructing it later from the artefact, which is the only place they'll be able to look.
+
+Trivial changes — typo fixes, mechanical bumps, one-line config tweaks — don't need this step; the motivation is self-evident.
+Everything else does, and one answer serves every artefact: the issue description, the commit body, the PR description and the docs page all draw on the same *why*.
+
+*Why now* is the half that goes missing, and its absence is what leaves an issue un-triageable in the backlog and a commit unexplainable six months on.
 
 ### Concrete over abstract
 
