@@ -57,7 +57,12 @@ Chalk also auto-activates when you mention a GitHub issue number (e.g. "#123").
 - **Skill** (`issue`): Problem-focused issue descriptions, and keeping them accurate
 - **Skill** (`commit`): Contextual commits that capture the why, with chalk integration
 - **Skill** (`pr`): Pull requests with intent-driven descriptions
+- **Skill** (`voice`): The shared writing voice — Diataxis quadrants, universal principles, the issue/PR section palette
+- **Skill** (`mindmap`): The shape of anything the reader has to follow — nested bullets whose parents are claims and whose children back them up
+- **Skill** (`goal-tree`): Goal trees, where children accomplish their parent rather than argue for it, and each node is tested for sufficiency
 - **Agent** (`github`): Handles all GitHub API interaction, keeping the main context clean
+
+The writing skills are loaded by the others rather than run directly, though you can read any of them yourself with `/chalk:voice`, `/chalk:mindmap` or `/chalk:goal-tree`.
 
 ## Permissions
 

@@ -26,10 +26,19 @@ It does not track a session against the issue.
 
 An issue description is an **explanation** artefact, and it MUST be drafted against the chalk voice — not your own default prose habits, which read wrong and lose the reasoning the reader needs.
 
-`chalk:issue` loads on its own and does **not** pull the shared voice into context.
-Before drafting the body, **load the `chalk:voice` skill** (via the Skill tool) — it carries the Diataxis framing, the universal principles, and the issue/PR section palette.
-Then **structure the body into sections drawn from that palette**, choosing the ones this issue needs.
+`chalk:issue` loads on its own and pulls in none of the shared skills.
+Before drafting the body, load these (via the Skill tool):
+
+- **`chalk:voice`** — the Diataxis framing, the universal principles, and the issue/PR section palette.
+- **`chalk:mindmap`** — the shape of the content inside each section.
+- **`chalk:goal-tree`** — wherever a section has a goal structure to express, and its children accomplish their parent rather than argue for it.
+
+Then **structure the body into sections drawn from that palette**, choosing the ones this issue needs, and **write each section as a mindmap** — a short tl;dr opening it, then the tree.
 A wall of undifferentiated prose is the wrong shape; if you've written one, you skipped this step.
+
+**Your audience is whoever triages this card and whoever picks it up** — most often not you, and often months from now.
+They are deciding whether it applies to them and whether it's workable today, from the description alone.
+Write for someone who wasn't in the session that found the problem; see "Name your audience" in `chalk:voice`.
 
 **Line format: paragraph-per-line.**
 An issue body is read rendered on GitHub, never as a `git diff`.
@@ -69,6 +78,10 @@ GitHub renders single newlines as `<br>`, so sentence-per-line fragments into st
    - **Include them** when the session genuinely worked the implementation: you traced the code, weighed approaches, or the user talked through a design. Then the reasoning is real and losing it is the expensive outcome.
    - **Leave them out** when the session was about *noticing* the problem. A guess at the fix, written up as though it were a decision, is worse than no section at all — the next reader can't tell your speculation from a conclusion.
    - **When a fix is obvious but unconsidered**, one line under the problem ("probably wants X") is enough. Don't inflate it into an Implementation section.
+
+   **Where you do include them, they take a goal tree** (`chalk:goal-tree`) rather than a flat list of tasks.
+   An issue's goal tree sits higher than a plan's — it answers what has to be true for this to be done, not which files to touch — and a child may be a link to the issue that owns that part, which is what keeps it high-level.
+   Wire that link as a sub-issue relationship too (step 6), so the tree maps the issue graph rather than duplicating it.
 
    **The description is the source of truth.**
    A developer MUST be able to understand the current state of the issue by reading the description alone, without trawling the comments.
@@ -111,7 +124,8 @@ The description is the source of truth, so it MUST be kept accurate as facts cha
 
 ## Constraints
 
-- The issue body MUST follow the explanation-quadrant voice in the `chalk:voice` skill.
+- The issue body MUST follow the explanation-quadrant voice in the `chalk:voice` skill, and each section MUST be shaped per `chalk:mindmap`.
+- A section whose items accomplish their parent rather than argue for it MUST be shaped as a goal tree per `chalk:goal-tree` — Implementation and Future state, where earned, always are.
 - The body MUST be drafted in the main context and handed to the github agent ready to post verbatim. Passing bullet points and asking the agent to "write this up" is not acceptable — it pushes an explanation-quadrant job onto a model that can't do it well.
 - All GitHub interaction MUST go through the github agent. The main context MUST NOT call `gh issue` directly.
 - The description MUST be understandable on its own, without reading the comments.
@@ -126,7 +140,7 @@ The description is the source of truth, so it MUST be kept accurate as facts cha
 2. Establish the *why* and *why now*; ask if either is unclear
 3. Search for an existing issue covering this
 4. Gather the concrete evidence
-5. Load `chalk:voice`, then draft the title and body against the problem-focused sections of the palette
+5. Load `chalk:voice` and `chalk:mindmap` (and `chalk:goal-tree` if any section has a goal structure), then draft the title and body against the problem-focused sections of the palette
 6. Ask any clarifying questions if needed
 7. Delegate to the github agent to create the issue, and wire up any parent / blocked-by relationships
 8. Report the issue number back to the user

@@ -1,0 +1,90 @@
+---
+name: goal-tree
+description: Structure a goal as a tree whose children accomplish their parent rather than argue for it, and test each node for sufficiency. Load whenever writing something with a goal structure in it — the direction or target end state of a piece of work, an issue's Implementation or Future state section, the shape of a problem, or a plan. Covers the sufficiency test, the three kinds of leaf, and the named moves for closing a gap. The chalk, chalk:issue and chalk:pr skills load it alongside chalk:mindmap.
+user-invocable: true
+---
+
+# Chalk Goal Trees
+
+Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
+
+A goal tree is a mindmap whose relation is **serves**, not **supports**.
+Load `chalk:mindmap` first — subject lines, bolding, shallow nesting, tags and typed IDs all apply here unchanged.
+What this skill adds is the completeness test that only a goal tree can support.
+
+## The shape
+
+**The root is the goal.**
+Each node's children are what it takes to achieve it, recursively, down to leaves that are directly actionable.
+
+The distinction from an argument tree is the whole reason this is a separate skill: **children don't argue for a parent goal, they accomplish it.**
+An argument tree's children are evidence, and you can only ever check whether they're *sound*.
+A goal tree's children are work, and a goal states what its children have to add up to — so completeness becomes a real question with a real answer.
+
+## The test at each node is sufficiency
+
+**Assume every child is done, then ask whether the parent is thereby achieved.**
+
+Not "do these look related to the parent?" but "do these, **plus what we already know about this system**, get us there?"
+
+- **The domain knowledge is part of the test.** Half the children in a real tree are only sufficient because of something existing behaviour already guarantees — say that out loud rather than leaning on it silently, because it's exactly the assumption that stops holding.
+- **Read bottom-up it's induction.** If each child achieves its part and the children are sufficient, the parent holds, and the root goal is sound.
+- **Reason about it explicitly at each node** rather than assuming. `check:` any node where you're unsure the children cover it.
+- **This is why goal trees don't need the decomposition note** an argument tree needs (see `chalk:mindmap`). There the split rule is the only thing standing in for completeness; here the parent *is* the yardstick.
+
+**To find a missing child, ask what would stop the parent** rather than what would achieve it.
+Enumerating the obstacles to a goal surfaces children that "how do we achieve this?" doesn't.
+
+## Every leaf is one of three things — say which
+
+- **Something we do.** The ordinary case.
+- **Something expected of someone or something else** — the user, CI, another team, an upstream library, existing behaviour.
+- **A plain fact about the world** we're relying on.
+
+**The middle one is where plans quietly fail**, because an expectation written like a task is a dependency nobody owns.
+It reads as covered, it sits in the tree looking like work, and nothing happens until someone notices it was never assigned.
+
+`assumption:` covers whether a leaf has been *verified*; this is the separate question of who's *on the hook*.
+A leaf can be both — a verified fact about an upstream library is still someone else's to keep true.
+
+## A gap anywhere invalidates everything above it
+
+Surface it rather than patching around it.
+A tree that looks complete because a hole got papered over is worse than one that admits the hole: the next reader trusts it.
+
+**Closing a gap has named moves — pick one deliberately** rather than reflexively adding a task:
+
+- **Achieve the parent a different way.**
+- **Reassign it** to someone or something that won't fail like that.
+- **Add a step that prevents it.**
+- **Make it less likely** without eliminating it.
+- **Let it happen and recover afterwards.**
+- **Let it happen and limit the damage.**
+- **Weaken the goal** so the gap no longer matters.
+- **Accept the risk** and move on.
+
+**"Weaken the goal" and "accept the risk" are real answers**, and both MUST be recorded rather than dropped — in **Out of scope** or **Decision rationale**, per the palette in `chalk:voice`.
+Scope that was deliberately cut is a decision someone will want the reasoning for later.
+Scope that silently evaporated reads as an oversight, and a reader can't tell the two apart.
+
+## In an issue description
+
+**An issue's goal tree sits higher than a plan's.**
+The issue answers what has to be true for this to be done; a plan answers which files to touch in what order.
+Granular execution — which sub-task is next, what was tried — stays in the chalk comment, per the line the palette already draws.
+
+- **A child may be a link to another issue that owns that part.** This is how the tree stays high-level: `- [ ] Secondaries serve stale reads without blocking the primary — #412`.
+- **If a child is doing real work, it probably wants to be a sub-issue.** Then the tree is a readable map *of* the sub-issue graph rather than a second copy of it that drifts. Wire the relationship, don't just write the link — see `chalk:issue`.
+- **Palette placement**: **Implementation** for the direction, **Future state** for the target end state — and anywhere else a section has a goal structure to express.
+- **A goal tree of the proposed solution is earned, not default.** The rule in `chalk:issue` applies unchanged: include it when the session genuinely worked the direction, and leave it out when the session was about noticing the problem. A speculative solution tree is the most authoritative-looking guess you can put on a card.
+- **The `## Progress` checklist is not a goal tree.** It's chalk's flat record of work items and their status. Don't merge them, and don't restructure one into the other.
+
+## Constraints
+
+- Every node's children MUST be work that accomplishes it, not evidence that argues for it. If they argue, it's an argument tree — see `chalk:mindmap`.
+- Each node MUST be tested for sufficiency, and any node whose children are not clearly sufficient MUST be marked `check:` rather than left to read as settled.
+- A leaf MUST declare which of the three kinds it is where that isn't obvious. An expectation of someone else MUST NOT be written as though it were our own task.
+- A gap MUST be surfaced rather than papered over. Closing it MUST be a deliberate choice from the named moves.
+- Weakening the goal or accepting a risk MUST be recorded in Out of scope or Decision rationale — these are the two moves that leave no trace in the tree itself.
+- A goal tree proposing a solution MUST NOT be written into an issue description the session didn't earn, per `chalk:issue`.
+- A goal tree MUST NOT be written into or merged with the `## Progress` section.

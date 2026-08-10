@@ -104,7 +104,8 @@ If the user asks for those, decline politely and suggest a different approach.
 5. **Apply the chalk voice.**
 
    **Load the `chalk:voice` skill** (via the Skill tool) for the Diataxis framing and universal principles, then apply the quadrant-specific voice to each section.
-   Don't restate those rules inline — they live in `chalk:voice`.
+   **Load `chalk:mindmap`** too, for the shape of anything the reader has to follow — a how-to's steps, an explainer's reasoning, a failure-mode section. Note its line-format rule: on a docs page the bullets are sentence-per-line like the rest of the file.
+   Don't restate those rules inline — they live in those skills.
 
    **Line format: sentence-per-line.**
    A docs page is checked into the repo and reviewed as a `git diff`, so put each sentence on its own line — it keeps diffs minimal (a one-sentence edit touches one line) and the structure scannable in source.
@@ -124,7 +125,7 @@ If the user asks for those, decline politely and suggest a different approach.
 
 ## Constraints
 
-- The audience MUST be named (to the user or in a code comment on the draft) before the page is written.
+- The audience MUST be named (to the user or in a code comment on the draft) before the page is written. This is the general rule in `chalk:voice` ("Name your audience"), made explicit here because a docs page is the one artefact whose audience is *not* the team by default.
 - Each section MUST commit to one Diataxis quadrant.
   Sections MUST NOT blur quadrants.
 - The page MUST follow the `chalk:voice` skill — universal principles plus the quadrant-specific voice — and be written sentence-per-line (a docs page is reviewed as a diff).
@@ -144,7 +145,7 @@ If the user asks for those, decline politely and suggest a different approach.
 4. Identify the quadrant of the page (and each section).
 5. Pull the *why* from chalk context — tracked issue, one-hop neighbourhood (parent/sub/blocked-by), landing PR(s) including review discussion, and landing commit body(ies).
 6. Draft.
-   Apply the `chalk:voice` skill — universal principles plus per-quadrant voice; write sentence-per-line.
+   Apply the `chalk:voice` and `chalk:mindmap` skills — universal principles, per-quadrant voice, and the tree for anything followable; write sentence-per-line.
 7. Match discovered project conventions (frontmatter, version markers, changelog, callouts, cross-links).
 8. Ask clarifying questions if the audience, quadrant, or a material project convention is unclear.
 

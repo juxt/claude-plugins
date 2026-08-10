@@ -1,6 +1,6 @@
 ---
 name: voice
-description: Shared chalk writing voice — Diataxis quadrants, universal principles, and the issue/PR section palette. The chalk, chalk:issue, chalk:commit, chalk:pr and chalk:tend-docs skills load this before drafting any GitHub-bound or docs prose; a human may run it to read the guide.
+description: Shared chalk writing voice — Diataxis quadrants, universal principles, and the issue/PR section palette. The chalk, chalk:issue, chalk:commit, chalk:pr and chalk:tend-docs skills load this before drafting any GitHub-bound or docs prose; a human may run it to read the guide. Companion skills chalk:mindmap (the shape of followable content) and chalk:goal-tree (goal trees) carry the structure this one deliberately leaves out.
 user-invocable: true
 ---
 
@@ -16,7 +16,12 @@ Whatever you're writing, the reader is trying to do one of four things: acquire 
 
 What follows: **universal principles** (apply everywhere), **the four quadrants** (what each is for), **artefacts as compositions** (which quadrants each chalk artefact occupies), and the **issue/PR section palette**.
 
-One thing this skill deliberately does *not* cover: **line-break style** — sentence-per-line vs paragraph-per-line.
+Two things this skill deliberately leaves to a companion skill:
+
+- **The shape of followable content** — nested bullets, subject lines, tags, cross-reference IDs, tl;dr placement — is in `chalk:mindmap`. Load it too: it's the default for anything the reader has to follow, and it applies in every quadrant.
+- **Goal trees**, where a node's children *accomplish* it rather than argue for it, are in `chalk:goal-tree`. Load that when writing the direction of a piece of work.
+
+And one it doesn't cover at all: **line-break style** — sentence-per-line vs paragraph-per-line.
 That depends on the artefact's destination — whether it's read as a `git diff` or rendered — so the skill you came from (`chalk:commit`, `chalk:issue`, `chalk:pr`, `chalk`, `chalk:tend-docs`) states its own rule.
 
 ## Universal principles
@@ -38,6 +43,21 @@ Trivial changes — typo fixes, mechanical bumps, one-line config tweaks — don
 Everything else does, and one answer serves every artefact: the issue description, the commit body, the PR description and the docs page all draw on the same *why*.
 
 *Why now* is the half that goes missing, and its absence is what leaves an issue un-triageable in the backlog and a commit unexplainable six months on.
+
+### Name your audience
+
+"Optimise for the reader" is only actionable once you've said who the reader is.
+
+**For everything in this plugin it's nearly always your teammates** — including the two who are easiest to forget and who between them are most of the readership:
+
+- **You in six months**, with none of the context you have while writing.
+- **A future agent session**, starting cold from the artefact and nothing else.
+
+Both read the artefact without the conversation that produced it, so:
+
+- **Lead with what they need, not with what you did.** The two diverge most sharply in summaries: a summary of the *work* reads as a session changelog, where a summary for the *reader* states what's true now and what it means for them.
+- **Assume none of your session's shared context.** A sentence that only parses if you know which files were touched, which commit came before, or what was said in chat is a sentence the audience can't use.
+- **Name the audience explicitly whenever it isn't the default** — a docs page for end users, an issue aimed at another team, a comment for whoever next debugs this function. `chalk:tend-docs` requires this before a page is written; the same test is worth applying to any artefact.
 
 ### Concrete over abstract
 
@@ -66,14 +86,38 @@ When the reasoning is complex but the change is simple, say so.
 
 ### Structure what the reader must follow
 
-Anything the reader has to *follow* — a sequence of events, a multi-step rationale, a set of conditions — **defaults to a bullet-point tree, one logical checkpoint per bullet**, not a prose paragraph. This is the single highest-leverage habit in this guide; reach for it first, and drop to prose only deliberately.
+Anything the reader has to *follow* — a sequence of events, a multi-step rationale, a set of conditions — **defaults to a mindmap: nested bullets whose parents are claims and whose children back them up**, not a prose paragraph.
+This is the single highest-leverage habit in this guide; reach for it first, and drop to prose only deliberately.
 
-- **One checkpoint per bullet.** Each bullet is a place the reader stops, confirms they've followed, and moves on. A dense paragraph makes them hold the whole chain in their head and trust they reassembled it the way you meant.
-- **Lead each bullet with its point, and bold the load-bearing words** — the tree should be graspable from the bolded phrases alone, before a word of the surrounding prose is read.
-- **Nest for sub-steps, but stay shallow** — about two levels. A checkpoint can have its own checkpoints; a third level of indentation is usually its own wall, so promote or flatten it.
-- **Cut ruthlessly.** Less text beats better-formatted text — a bullet the reader doesn't need is noise, and noise hides the checkpoints that matter.
+**The rules are in `chalk:mindmap` — load it rather than improvising the shape.**
+Getting the format roughly right and the *relation* wrong produces a tidy bullet list that carries no argument, which is the common failure and the one this guide can't catch for you.
 
-Reserve prose for a short causal argument where the connectives ("because", "so", "but only when") carry the meaning and the chain is only two or three links long. This is about the *followable* parts, not the tone — an explanation can still read discursively and lay its reasoning out as a tree.
+Reserve prose for a short causal argument where the connectives ("because", "so", "but only when") carry the meaning and the chain is only two or three links long.
+This is about the *followable* parts, not the tone — an explanation can still read discursively and lay its reasoning out as a tree.
+
+### Write in specification register
+
+**Every sentence carries a fact, a constraint or a decision.**
+None exists to convey that a person is delivering it.
+
+**You're not writing to impress anyone.**
+Your reader is a teammate trying to get something done, not an assessor — so there's nothing here to reward the motive that produces flourishes, alternatives nobody would take, and caveats that change nothing.
+Drop it and most of the rest of this section follows.
+
+- **No filler in headings or lead-ins.** "Caveat:" not "One honest caveat"; "Agreed:" not "Agreed — and here's why that's the stronger design".
+- **Personality is fine exactly where removing it would change how the reader acts on the sentence.** Otherwise it's decoration they have to read past to reach the claim.
+- **Depth isn't the problem.** Expand a section as far as it needs; every sentence in it earns its place on the same test.
+- **The tells**: an opening reaction line, a sign-off offer, an aside carrying attitude rather than a fact, a frame wrapped around a claim instead of the claim.
+
+### One word, one meaning
+
+Aim for what [ASD-STE100](https://www.asd-ste100.org) aims for — the reader gets the meaning with minimum effort and no ambiguity — but get there by **technical precision rather than a restricted vocabulary**.
+
+`sufficient` and `necessary` each carry an exact meaning that a paraphrase spends a clause on and still blurs.
+So **precision beats simplicity where the two conflict**: what gets cut is the decorative metaphor, not the exact term.
+
+Use one word for one concept throughout an artefact.
+Synonym variation reads as elegant and costs the reader a re-check every time they have to ask whether you meant something different.
 
 ### Transitions vs. current state
 
@@ -235,6 +279,7 @@ The code is the *what*; the comment carries the *why* the code can't show: the r
 A comment that restates the code — echoing the function name, narrating the steps — is noise; delete it.
 Comments describe the *current contract* (see "Transitions vs. current state" above): the story of what the code used to do belongs in the commit that changed it, not in a comment that will rot.
 The line-break rules the calling skill states don't apply — comments are read in-source, not rendered — but terse, why-first and concrete all do.
+A comment with real structure in it takes a mindmap like anything else, but the threshold is higher and the markup depends on whether the language's tooling renders it — see the code-comment rules in `chalk:mindmap`.
 
 **Docs pages** play all four.
 Each page leans toward one quadrant at the top level; sections within it may hit other quadrants.
@@ -257,12 +302,12 @@ Common sections — all explanation, with reference-shaped evidence embedded whe
 - **Root cause / Analysis** (bugs / incidents) — why it's happening, grounded in evidence (log excerpts, stack traces, block file analysis, annotated offset tables).
 - **Evidence** (bugs / incidents) — concrete artefacts: replica log dumps, application log excerpts with timestamps, block file contents, message type distributions. Annotate them — raw dumps without explanation are noise.
 - **Current state** (refactors / features) — a concrete sketch of what exists today, in enough detail that the gap to the future state is visible. Reference-shaped: name the specific types, functions, flags, or files that the change touches.
-- **Future state** (refactors / features) — the target end state. What the new world looks like once the change is shipped. Concrete and structural — the reader should be able to picture the resulting code or system shape from this section alone.
+- **Future state** (refactors / features) — the target end state. What the new world looks like once the change is shipped. Concrete and structural — the reader should be able to picture the resulting code or system shape from this section alone. This section and Implementation both want a **goal tree** rather than a plain list — see `chalk:goal-tree`.
 - **Invariants / Constraints** — non-obvious things the solution must preserve.
 - **Out of scope** — what's explicitly not in this change, with reasons. Reference related issues/PRs that pick those pieces up.
 - **Alternatives considered** — other designs or approaches at the same level of abstraction as the chosen one, with a sketch of each and the trade-offs that ruled it in or out. Dated rejections ("Rejected on 2026-05-23 because …") help the next reader who's tempted to reopen the question. Implementation-strategy choices (refactor-in-place vs. parallel impl, big-bang vs. incremental) aren't alternatives at this level — they belong in Implementation.
 - **Decision rationale** — compare the chosen approach against each alternative on the points that differentiate them. Reads as a side-by-side, not a re-summary of the chosen approach.
-- **Implementation** — direction and high-level plan for an issue; what landed for a PR. Step-by-step granular execution (which sub-task next, what files to touch) belongs in the chalk comment, not here.
+- **Implementation** — direction and high-level plan for an issue; what landed for a PR. Step-by-step granular execution (which sub-task next, what files to touch) belongs in the chalk comment, not here. Shape it as a **goal tree** (`chalk:goal-tree`), and name whose each item is: **an expectation of someone else, written like a task, is a dependency nobody owns** — the most common way a plan in an issue quietly fails.
 
 PRs additionally draw from:
 

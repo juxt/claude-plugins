@@ -15,8 +15,14 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 Every chalk comment, progress section, issue description, and PR description you touch in this session MUST be drafted in the chalk voice — not your own default prose habits, which read wrong and lose the reasoning the reader needs.
 
 `chalk` carries the issue-tracking mechanics, not the writing voice.
-Before drafting any such prose, **load the `chalk:voice` skill** (via the Skill tool) — it holds the Diataxis framing, the universal principles, and the issue/PR section palette.
-Then structure the body into sections drawn from that palette, choosing the ones the artefact needs.
+Before drafting any such prose, load these (via the Skill tool):
+
+- **`chalk:voice`** — the Diataxis framing, the universal principles, and the issue/PR section palette. Structure the body into sections drawn from that palette, choosing the ones the artefact needs.
+- **`chalk:mindmap`** — the shape of the content inside each section, and of each `<details>` block, which behaves like a bullet.
+- **`chalk:goal-tree`** — when the artefact carries the direction of the work rather than its history.
+
+**Your audience is the next session on this issue** — a teammate, or you, or an agent starting cold with only the issue in front of it.
+That's the most literal case of the rule in "Name your audience" (`chalk:voice`): a comment written for whoever already sat through this session is a comment that helps nobody, because by definition they've gone.
 
 Two artefacts have their own skill carrying rules beyond the voice — load it instead of drafting from here:
 
@@ -218,7 +224,7 @@ No date in the header — GitHub timestamps the comment itself.
 - Add new items as work emerges.
 - Keep details blocks focused — one per theme or work item.
 
-**Writing style**: each `<details>` block is an **explanation** chunk — what was explored, decided, tried. The checklist above is navigation, not a separate quadrant. Follow the explanation-quadrant voice in the `chalk:voice` skill.
+**Writing style**: each `<details>` block is an **explanation** chunk — what was explored, decided, tried. The checklist above is navigation, not a separate quadrant. Follow the explanation-quadrant voice in the `chalk:voice` skill, and shape the contents as a mindmap per `chalk:mindmap` — the summary line is the block's subject line and carries the same contract, so a reader who only reads the summaries still follows the session.
 Details blocks should read like knowledge-sharing, not a changelog.
 
 ## Lifecycle of a Comment
@@ -260,4 +266,4 @@ See `examples/implementation-comment.md` for a realistic filled-in example.
 - All GitHub interaction MUST go through the chalk agent. The main context MUST NOT call `gh` directly for chalk updates.
 - The issue description MUST be kept accurate — update facts when they change, but preserve the user's framing and intent.
 - `<details>` blocks MUST contain enough context that a future session can pick up where you left off.
-- All writing MUST follow the voice in the `chalk:voice` skill — issues, PRs, and chalk comments are explanation artefacts.
+- All writing MUST follow the voice in the `chalk:voice` skill — issues, PRs, and chalk comments are explanation artefacts — and MUST be shaped per `chalk:mindmap`.

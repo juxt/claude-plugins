@@ -16,10 +16,21 @@ If no title is provided, draft one from the branch's commits.
 
 A PR description is an **explanation** artefact, and it MUST be drafted against the chalk voice — not your own default prose habits, which read wrong and lose the reasoning the reviewer needs.
 
-`chalk:pr` loads on its own and does **not** pull the shared voice into context.
-Before drafting the description, **load the `chalk:voice` skill** (via the Skill tool) — it carries the Diataxis framing, the universal principles, and the issue/PR section palette.
-Then **structure the description into sections drawn from that palette**, choosing the ones this change needs.
+`chalk:pr` loads on its own and pulls in neither of the shared skills.
+Before drafting the description, load both (via the Skill tool):
+
+- **`chalk:voice`** — the Diataxis framing, the universal principles, and the issue/PR section palette.
+- **`chalk:mindmap`** — the shape of the content inside each section.
+
+Then **structure the description into sections drawn from that palette**, choosing the ones this change needs, and **write each section as a mindmap** — a short tl;dr opening it, then the tree.
 A wall of undifferentiated prose is the wrong shape; if you've written one, you skipped this step.
+
+**Also load `chalk:goal-tree`** where a section states what the work has to achieve rather than what it did — a Future state section, or the remaining steps of a change landing in pieces.
+A PR's Implementation section is retrospective ("what landed") and doesn't want one.
+
+**Your audience is the team, not the author.**
+A PR is the moment the rest of the team learns the change exists, so the reader arrives with none of your session's context and is deciding two things: whether this affects them, and whether the approach holds.
+Write the summary for someone who has not seen the branch, the issue or the conversation — see "Name your audience" in `chalk:voice`, and the tl;dr rules in `chalk:mindmap`, which is where this most often goes wrong.
 
 **Line format: paragraph-per-line.**
 A PR description is read rendered on GitHub, never as a `git diff`.
@@ -42,7 +53,7 @@ GitHub renders single newlines as `<br>`, so sentence-per-line fragments into st
    A PR description is an **explanation** artefact (see the `chalk:voice` skill) — reasoning distilled across the branch: context, decisions, tradeoffs, dead ends, scope boundaries.
    Usage examples, test-plan checklists and commit lists have a reference *shape* but they're illustrations inside the explanation, not separate reference sections.
 
-   Draw the sections from the palette in the `chalk:voice` skill you loaded in **Before you draft** above — don't default to flat prose.
+   Draw the sections from the palette in the `chalk:voice` skill you loaded in **Before you draft** above, and shape each one as a mindmap per `chalk:mindmap` — don't default to flat prose.
 
    **Issue references come first.**
    If there's a related issue, reference it at the top (`Resolves #123` or `Part of #123`).
@@ -73,7 +84,7 @@ When chalk is tracking an issue:
 
 ## Constraints
 
-- The PR description MUST follow the explanation-quadrant voice in the `chalk:voice` skill.
+- The PR description MUST follow the explanation-quadrant voice in the `chalk:voice` skill, and each section MUST be shaped per `chalk:mindmap`.
 - The PR description MUST NOT just list what changed — the diff shows that.
 - Behaviour-preserving changes (refactorings) SHOULD be called out explicitly so the reviewer knows the change is supposed to behave exactly the same as before.
 
