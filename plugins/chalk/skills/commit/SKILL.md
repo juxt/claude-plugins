@@ -16,8 +16,10 @@ The user will provide the commit headline as an argument to this command (e.g., 
 The commit body is an **explanation** artefact and MUST be drafted in the chalk voice, not your own default prose habits.
 `chalk:commit` loads on its own and pulls in neither, so before writing the body, load both (via the Skill tool):
 
-- **`chalk:voice`** — the Diataxis framing, the universal principles, and the concrete-over-abstract examples.
-- **`chalk:mindmap`** — the shape of the body. A commit body is not prose.
+- **`chalk:voice`**
+  The Diataxis framing, the universal principles, and the concrete-over-abstract examples.
+- **`chalk:mindmap`**
+  The shape of the body. A commit body is not prose.
 
 **A commit body is a lead-in line, then a mindmap** — the rules are under "Commit bodies" in `chalk:mindmap`.
 What's specific to this skill is *why* it has no palette to apply: unlike a PR, a commit covers one atomic change, so it's a single explanation rather than a sectioned document.
@@ -69,9 +71,12 @@ When the work relates to a GitHub issue:
 When chalk is active (tracking a GitHub issue), the commit is part of a larger story:
 
 - **Reference the issue** in the commit body footer (e.g., `Refs #123`) so the commit links back to the issue context.
-- **Draw on the session context**: the chalk issue and comments capture the broader intent — use that to write a richer commit body.
+
+- **Draw on the session context.**
+  The chalk issue and comments capture the broader intent — use that to write a richer commit body.
   You have the full conversation history; the chalk comment captures what was planned and why.
   The commit body should stand alone but benefit from that context.
+
 - **After committing**, update the chalk comment with the outcome directly — don't ask first.
   Chalk updates are part of the work, not an optional extra step requiring permission.
   A one-line nudge to the user after the update is fine; a question isn't.

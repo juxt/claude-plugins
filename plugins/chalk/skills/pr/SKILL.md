@@ -19,8 +19,10 @@ A PR description is an **explanation** artefact, and it MUST be drafted against 
 `chalk:pr` loads on its own and pulls in neither of the shared skills.
 Before drafting the description, load both (via the Skill tool):
 
-- **`chalk:voice`** — the Diataxis framing, the universal principles, and the issue/PR section palette.
-- **`chalk:mindmap`** — the shape of the content inside each section.
+- **`chalk:voice`**
+  The Diataxis framing, the universal principles, and the issue/PR section palette.
+- **`chalk:mindmap`**
+  The shape of the content inside each section.
 
 Then **structure the description into sections drawn from that palette**, choosing the ones this change needs, and **write each section as a mindmap** — a short tl;dr opening it, then the tree.
 A wall of undifferentiated prose is the wrong shape; if you've written one, you skipped this step.

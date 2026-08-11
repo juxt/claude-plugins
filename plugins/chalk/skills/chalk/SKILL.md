@@ -17,16 +17,21 @@ Every chalk comment, progress section, issue description, and PR description you
 `chalk` carries the issue-tracking mechanics, not the writing voice.
 Before drafting any such prose, load these (via the Skill tool):
 
-- **`chalk:voice`** — the Diataxis framing, the universal principles, and the issue/PR section palette. Structure the body into sections drawn from that palette, choosing the ones the artefact needs.
-- **`chalk:mindmap`** — the shape of the content inside each section, and of each `<details>` block, which behaves like a bullet.
-- **`chalk:goal-tree`** — when the artefact carries the direction of the work rather than its history.
+- **`chalk:voice`**
+  The Diataxis framing, the universal principles, and the issue/PR section palette. Structure the body into sections drawn from that palette, choosing the ones the artefact needs.
+
+- **`chalk:mindmap`**
+  The shape of the content inside each section, and of each `<details>` block, which behaves like a bullet.
+- **`chalk:goal-tree`**
+  When the artefact carries the direction of the work rather than its history.
 
 **Your audience is the next session on this issue** — a teammate, or you, or an agent starting cold with only the issue in front of it.
 That's the most literal case of the rule in "Name your audience" (`chalk:voice`): a comment written for whoever already sat through this session is a comment that helps nobody, because by definition they've gone.
 
 Two artefacts have their own skill carrying rules beyond the voice — load it instead of drafting from here:
 
-- **The issue description** — `chalk:issue`. Covers creating an issue and keeping its description accurate.
+- **The issue description**
+  `chalk:issue`. Covers creating an issue and keeping its description accurate.
 - **The PR description** — `chalk:pr`.
 
 **Line format: paragraph-per-line.**
@@ -53,8 +58,11 @@ Chalk is active from the moment you pick the issue up, so it's the one skill pos
 Parent/child and blocked-by carry structure the description can't — use them liberally.
 `chalk:issue` covers what each is for and when to reach for it; two things are chalk's job specifically:
 
-- **Read the neighbourhood on activation** — a parent epic or a recently-unblocked predecessor often explains why *this* is the card to pick up today. That's the *why now* an isolated issue view misses.
-- **Wire relationships in the same session they emerge** — a dependency discovered mid-implementation ("this is blocked by #45") gets linked as soon as you find it. Deferring it usually means the link never gets made.
+- **Read the neighbourhood on activation**
+  A parent epic or a recently-unblocked predecessor often explains why *this* is the card to pick up today. That's the *why now* an isolated issue view misses.
+
+- **Wire relationships in the same session they emerge**
+  A dependency discovered mid-implementation ("this is blocked by #45") gets linked as soon as you find it. Deferring it usually means the link never gets made.
 
 The github agent has GraphQL recipes for reading and mutating these relationships (`addSubIssue`, `addBlockedBy`, and the neighbourhood query).
 

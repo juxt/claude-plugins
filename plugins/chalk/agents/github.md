@@ -320,7 +320,9 @@ Report back the PR URL and whether assignment was applied.
 
 ## Rules
 
-- **The caller composes all prose content.** Issue bodies, comment bodies, Progress sections, and PR descriptions arrive fully-drafted. You post verbatim. If the prompt is missing the body, gives only bullet points, or asks you to "write it up", stop and ask the caller for the complete content instead of composing it yourself.
+- **The caller composes all prose content.**
+  Issue bodies, comment bodies, Progress sections, and PR descriptions arrive fully-drafted. You post verbatim. If the prompt is missing the body, gives only bullet points, or asks you to "write it up", stop and ask the caller for the complete content instead of composing it yourself.
+
 - Always read before writing (GH replaces entire body on edit).
 - Only edit chalk comments authored by the current user. Editing another user's chalk comment requires express permission from the caller — if in doubt, create a new comment instead.
 - Keep comment format consistent — `### Chalk — <description>` header, checklist + details blocks.

@@ -23,9 +23,12 @@ Key files:
 Made `TemporalBounds` fields volatile and added a snapshot method that reads both atomically.
 
 Considered alternatives:
-- **Lock on intersect()**: correct but adds contention on a hot path the compactor calls frequently. Rejected.
-- **Immutable TemporalBounds + AtomicReference**: cleanest but requires changing every call site that mutates bounds. Out of scope for a bugfix.
-- **Volatile fields + snapshot read**: sufficient here since we only need consistency between the two reads, not mutual exclusion. Lowest risk.
+- **Lock on intersect()**
+  Correct but adds contention on a hot path the compactor calls frequently. Rejected.
+- **Immutable TemporalBounds + AtomicReference**
+  Cleanest but requires changing every call site that mutates bounds. Out of scope for a bugfix.
+- **Volatile fields + snapshot read**
+  Sufficient here since we only need consistency between the two reads, not mutual exclusion. Lowest risk.
 
 Decision: volatile over lock — simpler, lower contention, sufficient for read-mostly pattern.
 

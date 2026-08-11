@@ -26,10 +26,15 @@ A goal tree's children are work, and a goal states what its children have to add
 
 Not "do these look related to the parent?" but "do these, **plus what we already know about this system**, get us there?"
 
-- **The domain knowledge is part of the test.** Half the children in a real tree are only sufficient because of something existing behaviour already guarantees — say that out loud rather than leaning on it silently, because it's exactly the assumption that stops holding.
-- **Read bottom-up it's induction.** If each child achieves its part and the children are sufficient, the parent holds, and the root goal is sound.
-- **Reason about it explicitly at each node** rather than assuming. `check:` any node where you're unsure the children cover it.
-- **This is why goal trees don't need the decomposition note** an argument tree needs (see `chalk:mindmap`). There the split rule is the only thing standing in for completeness; here the parent *is* the yardstick.
+- **The domain knowledge is part of the test.**
+  Half the children in a real tree are only sufficient because of something existing behaviour already guarantees — say that out loud rather than leaning on it silently, because it's exactly the assumption that stops holding.
+
+- **Read bottom-up it's induction.**
+  If each child achieves its part and the children are sufficient, the parent holds, and the root goal is sound.
+- **Reason about it explicitly at each node** rather than assuming.
+  `check:` any node where you're unsure the children cover it.
+- **This is why goal trees don't need the decomposition note** an argument tree needs (see `chalk:mindmap`).
+  There the split rule is the only thing standing in for completeness; here the parent *is* the yardstick.
 
 **To find a missing child, ask what would stop the parent** rather than what would achieve it.
 Enumerating the obstacles to a goal surfaces children that "how do we achieve this?" doesn't.
@@ -37,7 +42,8 @@ Enumerating the obstacles to a goal surfaces children that "how do we achieve th
 ## Every leaf is one of three things — say which
 
 - **Something we do.** The ordinary case.
-- **Something expected of someone or something else** — the user, CI, another team, an upstream library, existing behaviour.
+- **Something expected of someone or something else**
+  The user, CI, another team, an upstream library, existing behaviour.
 - **A plain fact about the world** we're relying on.
 
 **The middle one is where plans quietly fail**, because an expectation written like a task is a dependency nobody owns.
@@ -72,11 +78,20 @@ Scope that silently evaporated reads as an oversight, and a reader can't tell th
 The issue answers what has to be true for this to be done; a plan answers which files to touch in what order.
 Granular execution — which sub-task is next, what was tried — stays in the chalk comment, per the line the palette already draws.
 
-- **A child may be a link to another issue that owns that part.** This is how the tree stays high-level: `- [ ] Secondaries serve stale reads without blocking the primary — #412`.
-- **If a child is doing real work, it probably wants to be a sub-issue.** Then the tree is a readable map *of* the sub-issue graph rather than a second copy of it that drifts. Wire the relationship, don't just write the link — see `chalk:issue`.
-- **Palette placement**: **Implementation** for the direction, **Future state** for the target end state — and anywhere else a section has a goal structure to express.
-- **A goal tree of the proposed solution is earned, not default.** The rule in `chalk:issue` applies unchanged: include it when the session genuinely worked the direction, and leave it out when the session was about noticing the problem. A speculative tree reads as a decision the next person can't distinguish from a settled one.
-- **The `## Progress` checklist is not a goal tree.** It's chalk's flat record of work items and their status. Don't merge them, and don't restructure one into the other.
+- **A child may be a link to another issue that owns that part.**
+  This is how the tree stays high-level: `- [ ] Secondaries serve stale reads without blocking the primary — #412`.
+
+- **If a child is doing real work, it probably wants to be a sub-issue.**
+  Then the tree is a readable map *of* the sub-issue graph rather than a second copy of it that drifts. Wire the relationship, don't just write the link — see `chalk:issue`.
+
+- **Palette placement**
+  **Implementation** for the direction, **Future state** for the target end state — and anywhere else a section has a goal structure to express.
+
+- **A goal tree of the proposed solution is earned, not default.**
+  The rule in `chalk:issue` applies unchanged: include it when the session genuinely worked the direction, and leave it out when the session was about noticing the problem. A speculative tree reads as a decision the next person can't distinguish from a settled one.
+
+- **The `## Progress` checklist is not a goal tree.**
+  It's chalk's flat record of work items and their status. Don't merge them, and don't restructure one into the other.
 
 ## Constraints
 

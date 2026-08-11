@@ -16,8 +16,11 @@ Whatever you're writing, the reader is trying to do one of four things: acquire 
 
 **Load two companion skills alongside this one:**
 
-- **`chalk:mindmap`** — the shape of followable content: nested bullets, subject lines, tags, cross-reference IDs, tl;dr placement. It's the default for anything the reader has to follow, and it applies in every quadrant.
-- **`chalk:goal-tree`** — where a node's children *accomplish* it rather than argue for it. Load it when writing the direction of a piece of work.
+- **`chalk:mindmap`**
+  The shape of followable content: nested bullets, subject lines, tags, cross-reference IDs, tl;dr placement. It's the default for anything the reader has to follow, and it applies in every quadrant.
+
+- **`chalk:goal-tree`**
+  Where a node's children *accomplish* it rather than argue for it. Load it when writing the direction of a piece of work.
 
 **Line-break style** — sentence-per-line vs paragraph-per-line — is in neither.
 That depends on the artefact's destination — whether it's read as a `git diff` or rendered — so the skill you came from (`chalk:commit`, `chalk:issue`, `chalk:pr`, `chalk`, `chalk:tend-docs`) states its own rule.
@@ -30,8 +33,10 @@ These apply to all writing in this plugin's voice.
 
 A prerequisite, not a style rule: you cannot write the *why* if you never found it out, and the diff won't carry it for you.
 
-- **Why this** — what problem it solves, what it unblocks, what constraint drove it.
-- **Why now** — what prompted it today. A deadline, a dependent piece of work, a recent incident, someone else blocked on it?
+- **Why this**
+  What problem it solves, what it unblocks, what constraint drove it.
+- **Why now**
+  What prompted it today. A deadline, a dependent piece of work, a recent incident, someone else blocked on it?
 
 **Ask rather than guess.**
 If either isn't clear from the conversation, the issue and its neighbours, or the code you've read, ask the user — ideally before starting the work, and at the latest before drafting.
@@ -53,9 +58,14 @@ Everything else does, and one answer serves every artefact: the issue descriptio
 
 Both read the artefact without the conversation that produced it, so:
 
-- **Lead with what they need, not with what you did.** The two diverge most sharply in summaries: a summary of the *work* reads as a session changelog, where a summary for the *reader* states what's true now and what it means for them.
-- **Assume none of your session's shared context.** A sentence that only parses if you know which files were touched, which commit came before, or what was said in chat is a sentence the audience can't use.
-- **Name the audience explicitly whenever it isn't the default** — a docs page for end users, an issue aimed at another team, a comment for whoever next debugs this function. `chalk:tend-docs` requires this before a page is written; the same test is worth applying to any artefact.
+- **Lead with what they need, not with what you did.**
+  The two diverge most sharply in summaries: a summary of the *work* reads as a session changelog, where a summary for the *reader* states what's true now and what it means for them.
+
+- **Assume none of your session's shared context.**
+  A sentence that only parses if you know which files were touched, which commit came before, or what was said in chat is a sentence the audience can't use.
+
+- **Name the audience explicitly whenever it isn't the default**
+  A docs page for end users, an issue aimed at another team, a comment for whoever next debugs this function. `chalk:tend-docs` requires this before a page is written; the same test is worth applying to any artefact.
 
 ### Concrete over abstract
 
@@ -106,12 +116,20 @@ Drop the motive and most of the specific tics go with it.
 Same rule turned on the text rather than the author: no sentence exists to convey that another one is worth reading.
 The reader takes it as read that everything present earns its place, so **ranking your own material** ("the single highest-leverage rule here"), **justifying its presence** ("this is the one reason this needs saying"), **narrating the document's shape** ("what follows is") and **advertising your diligence** ("checked carefully") each cost a read before they arrive at the thing being advertised.
 
-- **An importance claim that's backed by a reason is an argument, and it stays.** "Blocked-by pays back most: a filter for open, un-blocked becomes the queue of workable cards" earns its ranking in the same breath. The unbacked assertion is the one to cut.
-- **State priority operationally, not evaluatively** — ordering, RFC 2119 strength, a Constraints entry, or "where this conflicts with X, this wins". Those survive repetition; a superlative doesn't, because if three rules each claim to matter most, none of them does.
-- **No filler in headings or lead-ins.** "Caveat:" not "One honest caveat"; "Agreed:" not "Agreed — and here's why that's the stronger design".
-- **Personality is fine exactly where removing it would change how the reader acts on the sentence.** Otherwise it's decoration they have to read past to reach the claim.
-- **Depth isn't the problem.** Expand a section as far as it needs; every sentence in it earns its place on the same test.
-- **The tells**: an opening reaction line, a sign-off offer, an aside carrying attitude rather than a fact, a frame wrapped around a claim instead of the claim.
+- **An importance claim that's backed by a reason is an argument, and it stays.**
+  "Blocked-by pays back most: a filter for open, un-blocked becomes the queue of workable cards" earns its ranking in the same breath. The unbacked assertion is the one to cut.
+
+- **State priority operationally, not evaluatively**
+  Ordering, RFC 2119 strength, a Constraints entry, or "where this conflicts with X, this wins". Those survive repetition; a superlative doesn't, because if three rules each claim to matter most, none of them does.
+
+- **No filler in headings or lead-ins.**
+  "Caveat:" not "One honest caveat"; "Agreed:" not "Agreed — and here's why that's the stronger design".
+- **Personality is fine exactly where removing it would change how the reader acts on the sentence.**
+  Otherwise it's decoration they have to read past to reach the claim.
+- **Depth isn't the problem.**
+  Expand a section as far as it needs; every sentence in it earns its place on the same test.
+- **The tells**
+  An opening reaction line, a sign-off offer, an aside carrying attitude rather than a fact, a frame wrapped around a claim instead of the claim.
 
 ### One word, one meaning
 
@@ -127,8 +145,11 @@ Synonym variation reads as elegant and costs the reader a re-check every time th
 
 Every *why* belongs in one of two homes, and the artefact's job decides which.
 
-- **Change-log artefacts** — commit bodies, PR descriptions, changelog entries — carry the *transition*: why it changed from X to Y, and how to migrate. Read once, around the change.
-- **Durable artefacts** — code comments, docs bodies, reference — carry the *current contract*, written as if it had always been this way. Read long after, by someone who doesn't care what it used to be.
+- **Change-log artefacts**
+  Commit bodies, PR descriptions, changelog entries — carry the *transition*: why it changed from X to Y, and how to migrate. Read once, around the change.
+
+- **Durable artefacts**
+  Code comments, docs bodies, reference — carry the *current contract*, written as if it had always been this way. Read long after, by someone who doesn't care what it used to be.
 
 So a "this used to…" comment in the source, or a "previously we…" line in a docs body, is misfiled — the transition it describes belongs in the commit or the changelog, and it rots where it sits. Conversely a commit body that only restates current behaviour, not what changed and why, has thrown away the one thing it was for.
 
@@ -165,14 +186,20 @@ Mental models, why-this-way, decisions, tradeoffs, dead ends, invariants.
   Don't assume the reader has the model you built up while implementing.
 
 **What to capture:**
-- **The problem first**: why this matters, before what you did.
-- **Decisions and tradeoffs**: why X over Y, what constraints drove the choice.
-- **Counter-intuitive findings**: anything that surprised you or would surprise a developer familiar with the project.
-- **Dead ends**: what didn't work and why — this prevents re-investigation.
+- **The problem first**
+  Why this matters, before what you did.
+- **Decisions and tradeoffs**
+  Why X over Y, what constraints drove the choice.
+- **Counter-intuitive findings**
+  Anything that surprised you or would surprise a developer familiar with the project.
+- **Dead ends**
+  What didn't work and why — this prevents re-investigation.
   Include *why* the wrong approach seemed right, not just that it was wrong.
-- **Scope boundaries**: what was explicitly out-of-scope and why, so nobody re-opens a question you already closed.
+- **Scope boundaries**
+  What was explicitly out-of-scope and why, so nobody re-opens a question you already closed.
   If there's a natural "next up", say so.
-- **The mental model**: when the change introduces or reshapes a concept, explain the model — what the abstractions are, how they relate, why they're shaped this way.
+- **The mental model**
+  When the change introduces or reshapes a concept, explain the model — what the abstractions are, how they relate, why they're shaped this way.
 
 **What to omit:**
 - Obvious details self-evident from the diff, the code, or the issue description.
@@ -237,7 +264,8 @@ A CLI flag, an API signature, a config key, a SQL clause.
 - No narrative, no "we"/"you".
 - Alphabetised or structurally ordered (not narratively ordered).
 - Complete — every flag, every field, every case.
-- **Keep rationale out of the body.** This is the one quadrant where chalk's usual "always capture the why" does not apply inline. 
+- **Keep rationale out of the body.**
+  This is the one quadrant where chalk's usual "always capture the why" does not apply inline.
   The *why* — tradeoffs, motivation, upgrade story — belongs in an adjacent explanation section or changelog block, not next to the definition. 
   A reader looking up a flag wants the semantics, not the story behind it.
 
@@ -300,18 +328,32 @@ The reader needs to understand *why* this matters and *why* the approach is shap
 
 Common sections — all explanation, with reference-shaped evidence embedded where useful:
 
-- **Summary** — one or two sentences on what's happening.
-- **Context / Motivation** — how was this observed, or why does this matter? Environment, deployment, test configuration, links to CI runs, logs, dashboards, prior PRs, the broader initiative. Often the most valuable section — without it, a reader can't assess whether the issue applies to them or where a PR fits.
+- **Summary**
+  One or two sentences on what's happening.
+- **Context / Motivation**
+  How was this observed, or why does this matter? Environment, deployment, test configuration, links to CI runs, logs, dashboards, prior PRs, the broader initiative. Often the most valuable section — without it, a reader can't assess whether the issue applies to them or where a PR fits.
+
 - **Symptoms** (bugs / incidents) — observable behaviour, error messages, affected conditions (e.g. "multi-writer only", "under chaos monkey testing"). Evidence-shaped.
 - **Root cause / Analysis** (bugs / incidents) — why it's happening, grounded in evidence (log excerpts, stack traces, block file analysis, annotated offset tables).
-- **Evidence** (bugs / incidents) — concrete artefacts: replica log dumps, application log excerpts with timestamps, block file contents, message type distributions. Annotate them — raw dumps without explanation are noise.
-- **Current state** (refactors / features) — a concrete sketch of what exists today, in enough detail that the gap to the future state is visible. Reference-shaped: name the specific types, functions, flags, or files that the change touches.
-- **Future state** (refactors / features) — the target end state. What the new world looks like once the change is shipped. Concrete and structural — the reader should be able to picture the resulting code or system shape from this section alone. This section and Implementation both want a **goal tree** rather than a plain list — see `chalk:goal-tree`.
-- **Invariants / Constraints** — non-obvious things the solution must preserve.
-- **Out of scope** — what's explicitly not in this change, with reasons. Reference related issues/PRs that pick those pieces up.
-- **Alternatives considered** — other designs or approaches at the same level of abstraction as the chosen one, with a sketch of each and the trade-offs that ruled it in or out. Dated rejections ("Rejected on 2026-05-23 because …") help the next reader who's tempted to reopen the question. Implementation-strategy choices (refactor-in-place vs. parallel impl, big-bang vs. incremental) aren't alternatives at this level — they belong in Implementation.
-- **Decision rationale** — compare the chosen approach against each alternative on the points that differentiate them. Reads as a side-by-side, not a re-summary of the chosen approach.
-- **Implementation** — direction and high-level plan for an issue; what landed for a PR. Step-by-step granular execution (which sub-task next, what files to touch) belongs in the chalk comment, not here. Shape it as a **goal tree** (`chalk:goal-tree`), and name whose each item is: **an expectation of someone else, written like a task, is a dependency nobody owns**.
+- **Evidence** (bugs / incidents) — concrete artefacts: replica log dumps, application log excerpts with timestamps, block file contents, message type distributions.
+  Annotate them — raw dumps without explanation are noise.
+- **Current state** (refactors / features) — a concrete sketch of what exists today, in enough detail that the gap to the future state is visible.
+  Reference-shaped: name the specific types, functions, flags, or files that the change touches.
+- **Future state** (refactors / features) — the target end state.
+  What the new world looks like once the change is shipped. Concrete and structural — the reader should be able to picture the resulting code or system shape from this section alone. This section and Implementation both want a **goal tree** rather than a plain list — see `chalk:goal-tree`.
+
+- **Invariants / Constraints**
+  Non-obvious things the solution must preserve.
+- **Out of scope**
+  What's explicitly not in this change, with reasons. Reference related issues/PRs that pick those pieces up.
+- **Alternatives considered**
+  Other designs or approaches at the same level of abstraction as the chosen one, with a sketch of each and the trade-offs that ruled it in or out. Dated rejections ("Rejected on 2026-05-23 because …") help the next reader who's tempted to reopen the question. Implementation-strategy choices (refactor-in-place vs. parallel impl, big-bang vs. incremental) aren't alternatives at this level — they belong in Implementation.
+
+- **Decision rationale**
+  Compare the chosen approach against each alternative on the points that differentiate them. Reads as a side-by-side, not a re-summary of the chosen approach.
+
+- **Implementation**
+  Direction and high-level plan for an issue; what landed for a PR. Step-by-step granular execution (which sub-task next, what files to touch) belongs in the chalk comment, not here. Shape it as a **goal tree** (`chalk:goal-tree`), and name whose each item is: **an expectation of someone else, written like a task, is a dependency nobody owns**.
 
 PRs additionally draw from:
 
@@ -319,10 +361,14 @@ PRs additionally draw from:
   Show what the feature looks like.
   This is also where any **manual steps to adopt the change** belong — a PR is how the team learns the change exists, so if using it requires a teammate to run a migration, set a config value or env var, enable a flag, regenerate something, or observe a deploy-order constraint, spell those steps out.
   If a reader can't act on the change without a step that isn't in the diff, the step goes here.
-- **Rollout / compatibility** — when the change is only safe under conditions the diff can't express: a deploy order, a mixed-version window, an "upgrade the whole fleet to X before enabling Y" constraint. State which versions interoperate and the safe sequence. Distinct from Usage — Usage is how to *use* the feature; this is how to *land* it without breaking a running system.
+- **Rollout / compatibility**
+  When the change is only safe under conditions the diff can't express: a deploy order, a mixed-version window, an "upgrade the whole fleet to X before enabling Y" constraint. State which versions interoperate and the safe sequence. Distinct from Usage — Usage is how to *use* the feature; this is how to *land* it without breaking a running system.
+
 - **Changes** (multi-commit) — a numbered list of commits with a sentence each, so the reviewer knows the intended reading order.
-- **Implementation notes** — grouped by sub-concern, not a flat list. Non-obvious design choices, key invariants, counter-intuitive bits.
-- **Dead ends** — "tried X, didn't work because Y" prevents the reviewer from suggesting X.
+- **Implementation notes**
+  Grouped by sub-concern, not a flat list. Non-obvious design choices, key invariants, counter-intuitive bits.
+- **Dead ends**
+  "tried X, didn't work because Y" prevents the reviewer from suggesting X.
 - **Test plan** — what was tested and how.
 
 Not every description needs all of these.
@@ -359,10 +405,16 @@ FAILURE — follower A applies it:   notifyMsg(0) while watermark=4   →   0 < 
 
 Sections roughly flow: **setup → state → decision → plan**.
 
-- **Setup**: Summary, Context / Motivation. The why-we're-here.
-- **State**: Current state and Future state (refactors / features); Symptoms, Root cause, Evidence (bugs / incidents). The what-it-looks-like, today and at completion.
-- **Decision**: Out of scope, Alternatives considered, Decision rationale, Invariants / Constraints. The why-this-path-and-not-others.
-- **Plan**: Implementation, and (for PRs) Test plan. At the end.
+- **Setup**
+  Summary, Context / Motivation. The why-we're-here.
+- **State**
+  Current state and Future state (refactors / features); Symptoms, Root cause, Evidence (bugs / incidents). The what-it-looks-like, today and at completion.
+
+- **Decision**
+  Out of scope, Alternatives considered, Decision rationale, Invariants / Constraints. The why-this-path-and-not-others.
+
+- **Plan**
+  Implementation, and (for PRs) Test plan. At the end.
 
 The explanation-quadrant material (why this, why this way) sits above the reference-shaped step list.
 A reader who only scans the top of the issue should still understand the *what* and *why*; the *how* lives at the bottom.

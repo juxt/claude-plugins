@@ -18,9 +18,12 @@ If no title is provided, draft one from the conversation.
 This skill owns the **issue description** — drafting it, creating the issue, and keeping the description accurate later.
 It does not track a session against the issue.
 
-- **Filing and walking away** — "open an issue for this so we don't lose it" — is this skill on its own. Most issues are filed this way and never need the tracking machinery.
+- **Filing and walking away**
+  "open an issue for this so we don't lose it" — is this skill on its own. Most issues are filed this way and never need the tracking machinery.
+
 - **Filing and picking it up** is `chalk new`: the `chalk` skill runs this one to produce the issue, then starts tracking against it.
-- **The comment and Progress layers belong to `chalk`**, not here. Never write a `## Progress` section from this skill — not on create, not on update. See "Chalk integration" below.
+- **The comment and Progress layers belong to `chalk`**, not here.
+  Never write a `## Progress` section from this skill — not on create, not on update. See "Chalk integration" below.
 
 ## Before you draft
 
@@ -29,9 +32,12 @@ An issue description is an **explanation** artefact, and it MUST be drafted agai
 `chalk:issue` loads on its own and pulls in none of the shared skills.
 Before drafting the body, load these (via the Skill tool):
 
-- **`chalk:voice`** — the Diataxis framing, the universal principles, and the issue/PR section palette.
-- **`chalk:mindmap`** — the shape of the content inside each section.
-- **`chalk:goal-tree`** — wherever a section has a goal structure to express, and its children accomplish their parent rather than argue for it.
+- **`chalk:voice`**
+  The Diataxis framing, the universal principles, and the issue/PR section palette.
+- **`chalk:mindmap`**
+  The shape of the content inside each section.
+- **`chalk:goal-tree`**
+  Wherever a section has a goal structure to express, and its children accomplish their parent rather than argue for it.
 
 Then **structure the body into sections drawn from that palette**, choosing the ones this issue needs, and **write each section as a mindmap** — a short tl;dr opening it, then the tree.
 A wall of undifferentiated prose is the wrong shape; if you've written one, you skipped this step.
@@ -75,9 +81,13 @@ GitHub renders single newlines as `<br>`, so sentence-per-line fragments into st
    An issue that arrives pre-committed to a solution closes off the design discussion before anyone else has seen the problem — and it dates badly, because the solution is the part most likely to change.
    So the solution-shaped sections — Implementation, Alternatives considered, Decision rationale, Future state — are **earned, not default**:
 
-   - **Include them** when the session genuinely worked the implementation: you traced the code, weighed approaches, or the user talked through a design. Then the reasoning is real and losing it is the expensive outcome.
-   - **Leave them out** when the session was about *noticing* the problem. A guess at the fix, written up as though it were a decision, is worse than no section at all — the next reader can't tell your speculation from a conclusion.
-   - **When a fix is obvious but unconsidered**, one line under the problem ("probably wants X") is enough. Don't inflate it into an Implementation section.
+   - **Include them** when the session genuinely worked the implementation: you traced the code, weighed approaches, or the user talked through a design.
+     Then the reasoning is real and losing it is the expensive outcome.
+   - **Leave them out** when the session was about *noticing* the problem.
+     A guess at the fix, written up as though it were a decision, is worse than no section at all — the next reader can't tell your speculation from a conclusion.
+
+   - **When a fix is obvious but unconsidered**, one line under the problem ("probably wants X") is enough.
+     Don't inflate it into an Implementation section.
 
    **Where you do include them, they take a goal tree** (`chalk:goal-tree`) rather than a flat list of tasks.
    An issue's goal tree sits higher than a plan's — it answers what has to be true for this to be done, not which files to touch — and a child may be a link to the issue that owns that part, which is what keeps it high-level.
@@ -94,8 +104,11 @@ GitHub renders single newlines as `<br>`, so sentence-per-line fragments into st
 
    Parent/child and blocked-by carry structure the description can't, and they answer cheaply what prose answers expensively.
 
-   - **Parent / sub-issues** — when work nests. A sub-issue inherits its parent's motivation, so its own description stays focused on the specific slice.
-   - **Blocked-by** — for order-dependent work. This is the one that pays back most: a filter for "open, un-blocked" becomes the queue of workable cards, and nobody has to triage to find out what they can pick up today.
+   - **Parent / sub-issues**
+     When work nests. A sub-issue inherits its parent's motivation, so its own description stays focused on the specific slice.
+
+   - **Blocked-by**
+     For order-dependent work. This is the one that pays back most: a filter for "open, un-blocked" becomes the queue of workable cards, and nobody has to triage to find out what they can pick up today.
 
    Wire them **in the same session the issue is created**.
    A link deferred is usually a link never made.
@@ -111,16 +124,26 @@ GitHub renders single newlines as `<br>`, so sentence-per-line fragments into st
 
 The description is the source of truth, so it MUST be kept accurate as facts change — a new failure mode, updated analysis, revised scope, a root cause that turned out to be something else.
 
-- **Update facts; preserve framing.** Don't rewrite someone else's narrative or reorder their sections to your taste — keep their intent and correct what's now wrong.
-- **Read before writing.** GitHub replaces the entire body on edit, so the agent needs the full new body.
-- **Leave `## Progress` alone.** It's chalk's section and its checklist is read as the issue's current truth; route changes to it through the `chalk` skill.
-- **Transitions don't belong here.** A description states the problem as it is now; "we originally thought X" belongs in a comment, which is timestamped and append-only. See "Transitions vs. current state" in `chalk:voice`.
+- **Update facts; preserve framing.**
+  Don't rewrite someone else's narrative or reorder their sections to your taste — keep their intent and correct what's now wrong.
+
+- **Read before writing.**
+  GitHub replaces the entire body on edit, so the agent needs the full new body.
+- **Leave `## Progress` alone.**
+  It's chalk's section and its checklist is read as the issue's current truth; route changes to it through the `chalk` skill.
+
+- **Transitions don't belong here.**
+  A description states the problem as it is now; "we originally thought X" belongs in a comment, which is timestamped and append-only. See "Transitions vs. current state" in `chalk:voice`.
 
 ## Chalk integration
 
-- **`chalk new`** loads this skill to produce the issue, then starts tracking against the number it returns. The drafting rules above are the same either way — including no `## Progress` section; chalk adds it as part of picking the issue up.
-- **When chalk is tracking this issue**, the `## Progress` section and the session comment are chalk's. Route changes to either through the `chalk` skill rather than editing them here.
-- **Implementation detail belongs in the chalk comment**, not the description — which sub-task is next, what files to touch, what was tried. That's the same line the section palette draws in `chalk:voice`.
+- **`chalk new`** loads this skill to produce the issue, then starts tracking against the number it returns.
+  The drafting rules above are the same either way — including no `## Progress` section; chalk adds it as part of picking the issue up.
+
+- **When chalk is tracking this issue**, the `## Progress` section and the session comment are chalk's.
+  Route changes to either through the `chalk` skill rather than editing them here.
+- **Implementation detail belongs in the chalk comment**, not the description — which sub-task is next, what files to touch, what was tried.
+  That's the same line the section palette draws in `chalk:voice`.
 
 ## Constraints
 

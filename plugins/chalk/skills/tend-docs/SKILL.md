@@ -24,12 +24,15 @@ If the user asks for those, decline politely and suggest a different approach.
    - **Newcomer** — has never used this product.
      Needs just enough context to evaluate or get started.
      Will re-read.
-   - **Returning power-user** — has used it before, coming back for a specific detail.
+   - **Returning power-user**
+     Has used it before, coming back for a specific detail.
      Skims, looks up, leaves.
      Values terseness.
-   - **Operator mid-task** — is running this thing in production and needs to make it do a thing now.
+   - **Operator mid-task**
+     Is running this thing in production and needs to make it do a thing now.
      Values step-order and concrete identifiers.
-   - **Developer integrating** — is wiring this into their own code.
+   - **Developer integrating**
+     Is wiring this into their own code.
      Values signatures, examples, failure modes.
 
    Different audiences change everything — pacing, depth, what's assumed, what's spelled out.
@@ -63,16 +66,20 @@ If the user asks for those, decline politely and suggest a different approach.
 
    Project-specific conventions you're looking for:
    - **Frontmatter** shape (title, description, sidebar fields, etc.).
-   - **Version markers** — is there an inline marker convention like `(v2.1+)`?
+   - **Version markers**
+     Is there an inline marker convention like `(v2.1+)`?
      Does it go on headings, in code comments, both?
-   - **Changelog blocks** — does each page carry a `<details>` changelog?
+   - **Changelog blocks**
+     Does each page carry a `<details>` changelog?
      What's the format?
      What counts as a transition vs. an additive feature?
-   - **Callout style** — Starlight `:::note` / `:::caution`, MDX admonitions, plain blockquotes?
+   - **Callout style**
+     Starlight `:::note` / `:::caution`, MDX admonitions, plain blockquotes?
    - **Cross-link style** — site-relative paths?
      Anchors?
      What's the house convention?
-   - **Diagrams** — inline D2, Mermaid, PNG assets?
+   - **Diagrams**
+     Inline D2, Mermaid, PNG assets?
 
    Where the project has a convention, match it.
    Where it doesn't, make a call and be consistent within the page.
@@ -85,7 +92,8 @@ If the user asks for those, decline politely and suggest a different approach.
    Read:
 
    - The **tracked chalk issue** and its comments — the primary source.
-   - **Related issues** — parent, sub-issues, blocked-by, blocks.
+   - **Related issues**
+     Parent, sub-issues, blocked-by, blocks.
      See the "Issue Relationships" section of the main chalk skill; the one-hop graph surfaces operational context, rejected alternatives, and why-now that don't fit in any single issue.
      The github agent's neighbourhood query is the cheapest way to pull this.
    - The **landing PR(s)** — description *and* review discussion.

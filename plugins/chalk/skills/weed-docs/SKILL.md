@@ -27,15 +27,22 @@ This skill reports drift; resolving it is a separate step (often via `chalk:tend
 
    Walk the diff and extract the things a docs page could mention:
 
-   - **Renames** — classes, functions, modules, config keys, CLI flags, environment variables.
-   - **Signature changes** — added/removed/renamed parameters, changed return types, changed error types.
-   - **Behavioural changes** — changed defaults, new required fields, relaxed/tightened constraints.
-   - **New public surfaces** — new commands, endpoints, config keys, public APIs.
+   - **Renames**
+     Classes, functions, modules, config keys, CLI flags, environment variables.
+   - **Signature changes**
+     Added/removed/renamed parameters, changed return types, changed error types.
+   - **Behavioural changes**
+     Changed defaults, new required fields, relaxed/tightened constraints.
+   - **New public surfaces**
+     New commands, endpoints, config keys, public APIs.
      These have *no* existing docs; the audit must flag them as coverage gaps.
-   - **Removed surfaces** — deleted commands, endpoints, config keys.
+   - **Removed surfaces**
+     Deleted commands, endpoints, config keys.
      Docs that still reference them are stale.
-   - **Error messages and log lines** — if a docs page quotes them, they need updating.
-   - **Examples in the code** — if docstrings or README snippets changed, paired docs examples may need syncing.
+   - **Error messages and log lines**
+     If a docs page quotes them, they need updating.
+   - **Examples in the code**
+     If docstrings or README snippets changed, paired docs examples may need syncing.
 
    Internal refactors that don't change observable behaviour don't need docs updates.
    Don't flag them.
@@ -46,15 +53,19 @@ This skill reports drift; resolving it is a separate step (often via `chalk:tend
    If chalk is active (or if the diff references an issue/PR), cast one hop out:
 
    - The **tracked chalk issue** and its comments.
-   - **Related issues** — parent, sub-issues, blocked-by, blocks.
+   - **Related issues**
+     Parent, sub-issues, blocked-by, blocks.
      See the "Issue Relationships" section of the main chalk skill.
    - The **PR description and review discussion**.
 
    What to harvest:
 
-   - **Stated intent for new public surfaces** — turns a bare coverage-gap item ("no docs for `--foo` flag") into a rationaled one ("no docs for `--foo`; issue #123 names it as the way operators opt into Y").
+   - **Stated intent for new public surfaces**
+     Turns a bare coverage-gap item ("no docs for `--foo` flag") into a rationaled one ("no docs for `--foo`; issue #123 names it as the way operators opt into Y").
+
    - **Operational invariants and failure modes** named in review discussion — often absent from the diff but load-bearing for the docs page that covers the feature.
-   - **Paired behaviour** — a sub-issue that names a knock-on behaviour change in another module points at docs pages for that module too.
+   - **Paired behaviour**
+     A sub-issue that names a knock-on behaviour change in another module points at docs pages for that module too.
 
    This section is about improving the *quality* of the punch-list items, not expanding their scope.
    The diff still drives what's flagged; the issue graph sharpens why.
@@ -81,10 +92,14 @@ This skill reports drift; resolving it is a separate step (often via `chalk:tend
 
 5. **Classify each hit by confidence.**
 
-   - **High confidence** — the page names something that was renamed or removed, and the current text is demonstrably wrong.
-   - **Medium confidence** — the page describes behaviour that changed, and the description probably needs updating.
-   - **Low confidence** — the page mentions something adjacent to the change; a human should check.
-   - **Coverage gap** — a new public surface with no existing docs mention.
+   - **High confidence**
+     The page names something that was renamed or removed, and the current text is demonstrably wrong.
+   - **Medium confidence**
+     The page describes behaviour that changed, and the description probably needs updating.
+   - **Low confidence**
+     The page mentions something adjacent to the change; a human should check.
+   - **Coverage gap**
+     A new public surface with no existing docs mention.
 
    Don't pad the output with low-confidence hits unless the user asks for an exhaustive sweep.
    Default to high + medium + coverage gaps.
