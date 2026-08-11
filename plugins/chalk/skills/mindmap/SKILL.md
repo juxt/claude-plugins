@@ -41,10 +41,34 @@ Same contract as a git commit subject: **reading only the top line of each bulle
 A paragraph underneath is *elaboration* — always an optional read, never load-bearing.
 If the point only lands once the reader reaches the third sentence of the elaboration, the subject line has failed and the bullet needs rewriting, not expanding.
 
-- **One checkpoint per bullet.** Each bullet is a place the reader stops, confirms they've followed, and moves on.
-- **Bold the load-bearing words.** The tree should be graspable from the bolded phrases alone, before a word of the surrounding prose is read.
-- **Nest for sub-points, but stay shallow** — about two levels. A third level of indentation is usually its own wall, so promote it or flatten it.
-- **Cut hard.** Less text beats better-formatted text — a bullet the reader doesn't need is noise, and noise hides the ones that matter.
+- **One checkpoint per bullet.**
+  Each bullet is a place the reader stops, confirms they've followed, and moves on.
+- **Bold the load-bearing words.**
+  The tree should be graspable from the bolded phrases alone, before a word of the surrounding prose is read.
+- **Nest for sub-points, but stay shallow** — about two levels.
+  A third level of indentation is usually its own wall, so promote it or flatten it.
+- **Cut hard.**
+  Less text beats better-formatted text — a bullet the reader doesn't need is noise, and noise hides the ones that matter.
+
+## Give the subject its own line
+
+**Break after the subject, and indent the elaboration to line up with the subject's first character** — two spaces under a top-level bullet, four under a nested one.
+
+```markdown
+- **The subject sits alone on its line**
+  The elaboration goes here, aligned under the subject's first character.
+
+  - **A nested bullet works the same way**
+    Four spaces, so it lines up under its own subject.
+```
+
+- **One break, not sentence-per-line.**
+  The break after the subject is deliberate. The elaboration itself still follows the calling skill's line-break rule, so on a paragraph-per-line destination it stays on one line however long it runs.
+- **Where the elaboration runs long, leave a blank line before the next bullet.**
+  The negative space is doing work: without it a column of multi-line bullets reads as one block, which is the wall the tree exists to avoid.
+- **A blank line anywhere in a list makes the whole list loose** in CommonMark, so the extra spacing lands on every item rather than just the long one. That's the intent — don't fight it by padding the short ones to match.
+- **In a comment read raw, the alignment goes after the comment marker.**
+  `// ` or `;; `, then the same indentation under the subject.
 
 ## Say how you decomposed a node
 
@@ -128,14 +152,18 @@ A code comment never wants one: the first line is it, per the subject-line rule.
 **Whatever line-break rule the calling skill states, it applies inside a bullet too** — this is where it's most often forgotten.
 Like `chalk:voice`, this skill doesn't decide the rule: the skill you came from does, including any project override.
 
-- **Where it's paragraph-per-line**, a bullet's elaboration stays on **one line**. Breaking it sentence-per-line fragments into `<br>` staccato exactly as it would in a paragraph — same trap, new shape.
+- **Where it's paragraph-per-line**, a bullet's elaboration stays on **one line**.
+  Breaking it sentence-per-line fragments into `<br>` staccato exactly as it would in a paragraph — same trap, new shape. The single break after the subject is the deliberate exception, and the only one.
 - **Where it's sentence-per-line**, break inside the bullet as normal.
+  The subject already sits alone, so nothing extra is needed.
 
 ## Constraints
 
 - Followable content MUST default to a mindmap; prose MUST be a deliberate exception, not a fallback.
 - Every parent node MUST be a claim its children back up. A bullet list whose children are merely *related* to the parent MUST be restructured.
 - Subject lines MUST carry the argument on their own. Elaboration MUST NOT be load-bearing.
+- A subject MUST sit on its own line, with any elaboration broken beneath it and indented to the subject's first character.
+- A bullet whose elaboration runs long SHOULD be followed by a blank line before the next bullet.
 - A tag MUST be meant precisely — `assumption:` and `check:` are claims about verification status, not decoration.
 - Typed IDs MUST be stable once published. Renaming or renumbering a node breaks inbound references and MUST be avoided.
 - A tl;dr MUST go at the top of the artefact, never the bottom. It is optional in a commit body and MUST NOT appear in a code comment.
