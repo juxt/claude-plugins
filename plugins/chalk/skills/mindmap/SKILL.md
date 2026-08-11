@@ -83,10 +83,10 @@ Every chalk artefact is read top-to-bottom — putting it at the bottom is a cha
 
 **The tl;dr is a mindmap too**, optionally opening with a single summary sentence: one top-level bullet per takeaway, subject lines carrying the point.
 It's a summary of the argument, so it gets the same treatment as the argument.
-"tl;dr" conventionally means a paragraph, which is the one reason this needs saying out loud.
+"tl;dr" conventionally means a paragraph — here it's a tree.
 
 **Summarise the artefact for its audience, not the work for its author.**
-This is the most common way a tl;dr fails, and it fails invisibly: recapping what you did and what changed since some earlier state is accurate, and useless to a reader who never saw that state.
+This failure is invisible from the inside: recapping what you did and what changed since some earlier state is accurate, and useless to a reader who never saw that state.
 
 - **The tell**: the tl;dr only parses if you already know the history — a prior commit by SHA, a decision from the session, a "the missing half" that assumes the reader knows which half landed first.
 - **The fix**: make the first bullet tell a cold reader what this *is* and what it means for them, and push the provenance down into the body where someone who wants it will find it.

@@ -87,10 +87,10 @@ When the reasoning is complex but the change is simple, say so.
 ### Structure what the reader must follow
 
 Anything the reader has to *follow* — a sequence of events, a multi-step rationale, a set of conditions — **defaults to a mindmap: nested bullets whose parents are claims and whose children back them up**, not a prose paragraph.
-This is the single highest-leverage habit in this guide; reach for it first, and drop to prose only deliberately.
+Reach for it first, and drop to prose only deliberately.
 
 **The rules are in `chalk:mindmap` — load it rather than improvising the shape.**
-Getting the format roughly right and the *relation* wrong produces a tidy bullet list that carries no argument, which is the common failure and the one this guide can't catch for you.
+Getting the format roughly right and the *relation* wrong produces a tidy bullet list that carries no argument, which this guide can't catch for you.
 
 Reserve prose for a short causal argument where the connectives ("because", "so", "but only when") carry the meaning and the chain is only two or three links long.
 This is about the *followable* parts, not the tone — an explanation can still read discursively and lay its reasoning out as a tree.
@@ -104,6 +104,12 @@ None exists to convey that a person is delivering it.
 Your reader is a teammate trying to get something done, not an assessor — so there's nothing here to reward the motive that produces flourishes, alternatives nobody would take, and caveats that change nothing.
 Drop it and most of the rest of this section follows.
 
+**Don't tell the reader that a sentence matters.**
+Same rule turned on the text rather than the author: no sentence exists to convey that another one is worth reading.
+The reader takes it as read that everything present earns its place, so **ranking your own material** ("the single highest-leverage rule here"), **justifying its presence** ("this is the one reason this needs saying"), **narrating the document's shape** ("what follows is") and **advertising your diligence** ("checked carefully") each cost a read before they arrive at the thing being advertised.
+
+- **An importance claim that's backed by a reason is an argument, and it stays.** "Blocked-by pays back most: a filter for open, un-blocked becomes the queue of workable cards" earns its ranking in the same breath. The unbacked assertion is the one to cut.
+- **State priority operationally, not evaluatively** — ordering, RFC 2119 strength, a Constraints entry, or "where this conflicts with X, this wins". Those survive repetition; a superlative doesn't, because if three rules each claim to matter most, none of them does.
 - **No filler in headings or lead-ins.** "Caveat:" not "One honest caveat"; "Agreed:" not "Agreed — and here's why that's the stronger design".
 - **Personality is fine exactly where removing it would change how the reader acts on the sentence.** Otherwise it's decoration they have to read past to reach the claim.
 - **Depth isn't the problem.** Expand a section as far as it needs; every sentence in it earns its place on the same test.
@@ -307,7 +313,7 @@ Common sections — all explanation, with reference-shaped evidence embedded whe
 - **Out of scope** — what's explicitly not in this change, with reasons. Reference related issues/PRs that pick those pieces up.
 - **Alternatives considered** — other designs or approaches at the same level of abstraction as the chosen one, with a sketch of each and the trade-offs that ruled it in or out. Dated rejections ("Rejected on 2026-05-23 because …") help the next reader who's tempted to reopen the question. Implementation-strategy choices (refactor-in-place vs. parallel impl, big-bang vs. incremental) aren't alternatives at this level — they belong in Implementation.
 - **Decision rationale** — compare the chosen approach against each alternative on the points that differentiate them. Reads as a side-by-side, not a re-summary of the chosen approach.
-- **Implementation** — direction and high-level plan for an issue; what landed for a PR. Step-by-step granular execution (which sub-task next, what files to touch) belongs in the chalk comment, not here. Shape it as a **goal tree** (`chalk:goal-tree`), and name whose each item is: **an expectation of someone else, written like a task, is a dependency nobody owns** — the most common way a plan in an issue quietly fails.
+- **Implementation** — direction and high-level plan for an issue; what landed for a PR. Step-by-step granular execution (which sub-task next, what files to touch) belongs in the chalk comment, not here. Shape it as a **goal tree** (`chalk:goal-tree`), and name whose each item is: **an expectation of someone else, written like a task, is a dependency nobody owns**.
 
 PRs additionally draw from:
 
