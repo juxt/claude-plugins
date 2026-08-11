@@ -14,14 +14,12 @@ Optimise for the reader, not the writer.
 Whatever you're writing, the reader is trying to do one of four things: acquire cognition, acquire action, apply cognition, apply action.
 [Diataxis](https://diataxis.fr) names these quadrants (explanation, tutorial, reference, how-to) and they apply recursively at every level, from a whole docs site down to a paragraph inside a commit body.
 
-What follows: **universal principles** (apply everywhere), **the four quadrants** (what each is for), **artefacts as compositions** (which quadrants each chalk artefact occupies), and the **issue/PR section palette**.
+**Load two companion skills alongside this one:**
 
-Two things this skill deliberately leaves to a companion skill:
+- **`chalk:mindmap`** — the shape of followable content: nested bullets, subject lines, tags, cross-reference IDs, tl;dr placement. It's the default for anything the reader has to follow, and it applies in every quadrant.
+- **`chalk:goal-tree`** — where a node's children *accomplish* it rather than argue for it. Load it when writing the direction of a piece of work.
 
-- **The shape of followable content** — nested bullets, subject lines, tags, cross-reference IDs, tl;dr placement — is in `chalk:mindmap`. Load it too: it's the default for anything the reader has to follow, and it applies in every quadrant.
-- **Goal trees**, where a node's children *accomplish* it rather than argue for it, are in `chalk:goal-tree`. Load that when writing the direction of a piece of work.
-
-And one it doesn't cover at all: **line-break style** — sentence-per-line vs paragraph-per-line.
+**Line-break style** — sentence-per-line vs paragraph-per-line — is in neither.
 That depends on the artefact's destination — whether it's read as a `git diff` or rendered — so the skill you came from (`chalk:commit`, `chalk:issue`, `chalk:pr`, `chalk`, `chalk:tend-docs`) states its own rule.
 
 ## Universal principles
@@ -30,7 +28,7 @@ These apply to all writing in this plugin's voice.
 
 ### Establish the why and the why now
 
-This one comes first because it's a prerequisite, not a style rule: you cannot write the *why* if you never found it out, and the diff won't carry it for you.
+A prerequisite, not a style rule: you cannot write the *why* if you never found it out, and the diff won't carry it for you.
 
 - **Why this** — what problem it solves, what it unblocks, what constraint drove it.
 - **Why now** — what prompted it today. A deadline, a dependent piece of work, a recent incident, someone else blocked on it?
@@ -102,7 +100,7 @@ None exists to convey that a person is delivering it.
 
 **You're not writing to impress anyone.**
 Your reader is a teammate trying to get something done, not an assessor — so there's nothing here to reward the motive that produces flourishes, alternatives nobody would take, and caveats that change nothing.
-Drop it and most of the rest of this section follows.
+Drop the motive and most of the specific tics go with it.
 
 **Don't tell the reader that a sentence matters.**
 Same rule turned on the text rather than the author: no sentence exists to convey that another one is worth reading.
@@ -280,7 +278,7 @@ The evidence is illustrative material inside the explanation; it's not a separat
 Context, decisions, tradeoffs, dead ends, scope — all explanation.
 Usage examples, test-plan checklists, and commit lists have a reference *shape* but they're illustrations embedded in explanation, not standalone reference.
 
-**Code comments** are **explanation** artefacts too — the most-read one.
+**Code comments** are **explanation** artefacts too.
 The code is the *what*; the comment carries the *why* the code can't show: the rationale for a counter-intuitive choice, a non-obvious invariant, a gotcha or edge case, a link to the issue context, a warning about subtle behaviour.
 A comment that restates the code — echoing the function name, narrating the steps — is noise; delete it.
 Comments describe the *current contract* (see "Transitions vs. current state" above): the story of what the code used to do belongs in the commit that changed it, not in a comment that will rot.

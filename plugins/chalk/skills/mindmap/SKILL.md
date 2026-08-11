@@ -62,7 +62,7 @@ Goal trees don't need it — there the parent *is* the yardstick (see `chalk:goa
 
 - **The vocabulary is open.** These are the common ones; invent others where they carry meaning, and expect readers to do the same.
 - **Tag a bullet and you've made a claim** — mean it precisely, per RFC 2119. `assumption:` says you haven't verified it. `check:` says it needs verifying before anyone relies on it.
-- **The verification tags earn their place fastest in an issue.** An `assumption:` on a line in **Root cause** tells the reader it's unverified at a fraction of what prose would spend, and stops the next person building on it as though it were established.
+- **In an issue, `assumption:` on a line in Root cause** tells the reader it's unverified at a fraction of what prose would spend, and stops the next person building on it as though it were established.
 - **Don't tag for the sake of it.** An untagged bullet is the norm; a tag is a signal, and signals dilute.
 
 ## Cross-references
@@ -72,7 +72,7 @@ The letter comes from the tag — `G1` for a goal, `D1` for a decision, `I1` for
 Nest them to mirror the tree: `D2.1` is the first child of `D2`.
 
 - **Use them where reply-by-reference actually happens**: **Alternatives considered**, **Decision rationale**, **Open Questions**. Not every bullet everywhere — IDs on scaffolding are noise.
-- **The reason they're worth it on GitHub**: there's no way to deep-link a bullet, so without IDs a reviewer has to quote your text back to you to disagree with one branch. With them they can answer `D2`, accept the rest, and the thread stays legible.
+- **GitHub gives a bullet no anchor**, so without IDs a reviewer has to quote your text back to you to disagree with one branch. With them they can answer `D2`, accept the rest, and the thread stays legible.
 - **Where IDs already exist, cite them.** If an issue or PR numbers its nodes, refer back by ID rather than re-describing the node.
 - **IDs beat numbered lists.** Inserting a sibling renumbers an ordered list and silently breaks every reference into it; an ID stays pinned to its node.
 

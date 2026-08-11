@@ -10,14 +10,13 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 A goal tree is a mindmap whose relation is **serves**, not **supports**.
 Load `chalk:mindmap` first — subject lines, bolding, shallow nesting, tags and typed IDs all apply here unchanged.
-What this skill adds is the completeness test that only a goal tree can support.
 
 ## The shape
 
 **The root is the goal.**
 Each node's children are what it takes to achieve it, recursively, down to leaves that are directly actionable.
 
-The distinction from an argument tree is the whole reason this is a separate skill: **children don't argue for a parent goal, they accomplish it.**
+**Children don't argue for a parent goal, they accomplish it.**
 An argument tree's children are evidence, and you can only ever check whether they're *sound*.
 A goal tree's children are work, and a goal states what its children have to add up to — so completeness becomes a real question with a real answer.
 
@@ -76,7 +75,7 @@ Granular execution — which sub-task is next, what was tried — stays in the c
 - **A child may be a link to another issue that owns that part.** This is how the tree stays high-level: `- [ ] Secondaries serve stale reads without blocking the primary — #412`.
 - **If a child is doing real work, it probably wants to be a sub-issue.** Then the tree is a readable map *of* the sub-issue graph rather than a second copy of it that drifts. Wire the relationship, don't just write the link — see `chalk:issue`.
 - **Palette placement**: **Implementation** for the direction, **Future state** for the target end state — and anywhere else a section has a goal structure to express.
-- **A goal tree of the proposed solution is earned, not default.** The rule in `chalk:issue` applies unchanged: include it when the session genuinely worked the direction, and leave it out when the session was about noticing the problem. A speculative solution tree is the most authoritative-looking guess you can put on a card.
+- **A goal tree of the proposed solution is earned, not default.** The rule in `chalk:issue` applies unchanged: include it when the session genuinely worked the direction, and leave it out when the session was about noticing the problem. A speculative tree reads as a decision the next person can't distinguish from a settled one.
 - **The `## Progress` checklist is not a goal tree.** It's chalk's flat record of work items and their status. Don't merge them, and don't restructure one into the other.
 
 ## Constraints
