@@ -42,6 +42,10 @@ Before drafting the body, load these (via the Skill tool):
 Then **structure the body into sections drawn from that palette**, choosing the ones this issue needs, and **write each section as a mindmap** — a short tl;dr opening it, then the tree.
 A wall of undifferentiated prose is the wrong shape; if you've written one, you skipped this step.
 
+**The body itself opens with a tl;dr, at the top.**
+`chalk:mindmap` puts it there for every artefact read top-to-bottom, and an issue is the clearest case: whoever triages the card should get the whole argument before they open a single section.
+It makes a separate **Summary** section largely redundant — drop it, or hold it to the one or two sentences the palette asks for rather than letting it grow into the paragraphs the tl;dr already carries.
+
 **Your audience is whoever triages this card and whoever picks it up** — most often not you, and often months from now.
 They are deciding whether it applies to them and whether it's workable today, from the description alone.
 Write for someone who wasn't in the session that found the problem; see "Name your audience" in `chalk:voice`.
@@ -70,7 +74,21 @@ GitHub renders single newlines as `<br>`, so sentence-per-line fragments into st
    The palette's evidence-shaped sections are only as good as what you put in them — error messages, failing test names, log excerpts with timestamps, the specific types and files involved, links to CI runs.
    Collect these before drafting rather than reaching for placeholders mid-sentence.
 
-4. **Draft a title** — use the user's if given; otherwise a short one that names the problem, not the fix.
+4. **Draft a title in acceptance-test voice.**
+
+   Use the user's if given.
+   Otherwise state the behaviour you want to be true, with a lowercase `should` — "the replica log should elect its own leader", "a restarted node should not reset the leader term".
+
+   **A title MUST say whether it states the desired behaviour or the current defect.**
+   A bare statement of the current condition reads identically on a card that wants it fixed and one that wants it kept: "leader election borrows Kafka's consumer group" sits equally well above a plan to replace it and a plan to harden it.
+   `should` settles that in one word, and it holds whether the card turns out to be a bug, a feature or a refactor.
+
+   **Lowercase `should`, never `SHOULD`.**
+   An RFC 2119 keyword grades how strongly something is required, which is a body concern; a title names the behaviour, not its priority.
+
+   **Name the behaviour, not the mechanism that delivers it.**
+   "the replica log should elect its own leader" is the outcome; "add a RaftElector" is the implementation, and it dates the moment the design moves.
+   Same instinct as the problem-focused body sections in step 5 — the title points at the outcome, the body explains the problem.
 
 5. **Draft the body — problem-focused.**
 
@@ -155,6 +173,8 @@ The description is the source of truth, so it MUST be kept accurate as facts cha
 - An issue MUST NOT be filed without a *why* — if the motivation isn't recoverable, ask rather than guessing.
 - The body MUST NOT contain a `## Progress` section. That's chalk's tracking state, added when someone picks the issue up.
 - The solution-shaped sections (Implementation, Alternatives considered, Decision rationale, Future state) MUST NOT appear unless the session genuinely worked the implementation. Speculation presented as a decision is worse than an omission.
+- A title MUST make clear whether it states the desired behaviour or the current defect. Acceptance-test voice with a lowercase `should` is the default; a bare statement of the current condition MUST NOT be used, because it reads the same on a card that wants it fixed as on one that wants it kept.
+- The body MUST open with a tl;dr at the top, per `chalk:mindmap`.
 - Raw evidence MUST be annotated. A log dump or stack trace with no explanation of what the reader is looking at is noise.
 
 ## Workflow
