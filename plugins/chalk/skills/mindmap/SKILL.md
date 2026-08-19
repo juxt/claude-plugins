@@ -171,8 +171,8 @@ A code comment never wants one: the first line is it, per the subject-line rule.
 
 - **No tl;dr**
   The first line is it, per the subject-line rule.
-- **`chalk:voice` still decides *what* belongs in the comment**
-  The current contract, not the story of how the code got here. The mindmap only shapes it.
+- **`chalk:code-comments` still decides *whether* the comment belongs at all**
+  The mindmap only shapes one that has earned its place, and most haven't. Load it before writing the comment, not after.
 
 ### Docs pages
 

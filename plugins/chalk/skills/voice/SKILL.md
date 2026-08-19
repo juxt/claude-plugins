@@ -307,11 +307,11 @@ Context, decisions, tradeoffs, dead ends, scope — all explanation.
 Usage examples, test-plan checklists, and commit lists have a reference *shape* but they're illustrations embedded in explanation, not standalone reference.
 
 **Code comments** are **explanation** artefacts too.
-The code is the *what*; the comment carries the *why* the code can't show: the rationale for a counter-intuitive choice, a non-obvious invariant, a gotcha or edge case, a link to the issue context, a warning about subtle behaviour.
-A comment that restates the code — echoing the function name, narrating the steps — is noise; delete it.
-Comments describe the *current contract* (see "Transitions vs. current state" above): the story of what the code used to do belongs in the commit that changed it, not in a comment that will rot.
-The line-break rules the calling skill states don't apply — comments are read in-source, not rendered — but terse, why-first and concrete all do.
-A comment with real structure in it takes a mindmap like anything else, but the threshold is higher and the markup depends on whether the language's tooling renders it — see the code-comment rules in `chalk:mindmap`.
+The code is the *what*; the comment carries the *why* the code **can't** show — measured against a reasonable, competent developer who knows this language and this codebase, which makes "can't" a test rather than a licence.
+Comments describe the *current contract* (see "Transitions vs. current state" above), so the story of what the code used to do belongs in the commit that changed it.
+
+**`chalk:code-comments` owns the rest.**
+Load it early in any session that touches code, and again when reviewing a diff — it carries the reader model, the counter-intuition rule, the cover-and-name test, where the rejected material goes instead, and the review pass over a diff's comments.
 
 **Docs pages** play all four.
 Each page leans toward one quadrant at the top level; sections within it may hit other quadrants.

@@ -14,12 +14,14 @@ The user will provide the commit headline as an argument to this command (e.g., 
 ## Before you draft
 
 The commit body is an **explanation** artefact and MUST be drafted in the chalk voice, not your own default prose habits.
-`chalk:commit` loads on its own and pulls in neither, so before writing the body, load both (via the Skill tool):
+`chalk:commit` loads on its own and pulls in none of these, so before writing the body, load all three (via the Skill tool):
 
 - **`chalk:voice`**
   The Diataxis framing, the universal principles, and the concrete-over-abstract examples.
 - **`chalk:mindmap`**
   The shape of the body. A commit body is not prose.
+- **`chalk:code-comments`**
+  Because the body is where a comment's design rationale belongs, this is the moment the misfiled ones surface. Weed the diff's comments against it before drafting, and move what they were trying to say into the body.
 
 **A commit body is a lead-in line, then a mindmap** — the rules are under "Commit bodies" in `chalk:mindmap`.
 What's specific to this skill is *why* it has no palette to apply: unlike a PR, a commit covers one atomic change, so it's a single explanation rather than a sectioned document.

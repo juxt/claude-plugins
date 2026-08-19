@@ -60,9 +60,11 @@ Chalk also auto-activates when you mention a GitHub issue number (e.g. "#123").
 - **Skill** (`voice`): The shared writing voice — Diataxis quadrants, universal principles, the issue/PR section palette
 - **Skill** (`mindmap`): The shape of anything the reader has to follow — nested bullets whose parents are claims and whose children back them up
 - **Skill** (`goal-tree`): Goal trees, where children accomplish their parent rather than argue for it, and each node is tested for sufficiency
+- **Skill** (`code-comments`): What earns a code comment and what to delete — load it early in a session that touches code, and again when reviewing a diff
 - **Agent** (`github`): Handles all GitHub API interaction, keeping the main context clean
 
 The writing skills are loaded by the others rather than run directly, though you can read any of them yourself with `/chalk:voice`, `/chalk:mindmap` or `/chalk:goal-tree`.
+`code-comments` is the exception: nothing else can know you're about to write one, so load it yourself, early.
 
 ## Permissions
 
