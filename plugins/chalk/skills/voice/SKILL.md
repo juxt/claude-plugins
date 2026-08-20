@@ -1,49 +1,80 @@
 ---
 name: voice
-description: Shared chalk writing voice — Diataxis quadrants, universal principles, and the issue/PR section palette. The chalk, chalk:issue, chalk:commit, chalk:pr and chalk:tend-docs skills load this before drafting any GitHub-bound or docs prose; a human may run it to read the guide. Companion skills chalk:mindmap (the shape of followable content) and chalk:goal-tree (goal trees) carry the structure this one deliberately leaves out.
+description: Shared chalk writing voice — the universal principles, the explanation quadrant, and the line-format rule. The chalk, chalk:issue, chalk:commit, chalk:pr and chalk:tend-docs skills load this before drafting any GitHub-bound or docs prose; a human may run it to read the guide. Companion skills chalk:mindmap (the shape of followable content) and chalk:goal-tree (goal trees) carry the structure this one deliberately leaves out.
 user-invocable: true
 ---
 
 # Chalk Voice — Writing Principles
 
-You're reading this because you're about to write something in the chalk voice — a commit body, an issue, a PR description, a code comment, a docs page.
+Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
+
+You're reading this because you're about to write something in the chalk voice — a commit body, an issue, a PR description, a chalk comment, a code comment, a docs page.
 Draft against this guidance, not your own default prose habits: the defaults read wrong and lose the reasoning the reader actually needs.
 
-Optimise for the reader, not the writer.
+**Optimise for the reader, not the writer.**
 
-Whatever you're writing, the reader is trying to do one of four things: acquire cognition, acquire action, apply cognition, apply action.
-[Diataxis](https://diataxis.fr) names these quadrants (explanation, tutorial, reference, how-to) and they apply recursively at every level, from a whole docs site down to a paragraph inside a commit body.
+Whatever you're writing, the reader is trying to do one of four things, and [Diataxis](https://diataxis.fr) names them:
 
-**Load two companion skills alongside this one:**
+| | Acquire | Apply |
+| --- | --- | --- |
+| **Cognition** | Explanation | Reference |
+| **Action** | Tutorial | How-to |
 
-- **`chalk:mindmap`**
-  The shape of followable content: nested bullets, subject lines, tags, cross-reference IDs, tl;dr placement. It's the default for anything the reader has to follow, and it applies in every quadrant.
+They apply recursively, from a whole docs site down to a paragraph inside a commit body.
 
-- **`chalk:goal-tree`**
-  Where a node's children *accomplish* it rather than argue for it. Load it when writing the direction of a piece of work.
+**Nearly everything in this plugin is explanation, end to end** — commit bodies, issue and PR descriptions, chalk comments, code comments.
+Reference-shaped material inside them (log excerpts, usage examples, commit lists, test plans) is illustration embedded in the explanation, not a section of its own.
+A docs page is the only artefact that plays all four.
 
-**Line-break style** — sentence-per-line vs paragraph-per-line — is in neither.
-That depends on the artefact's destination — whether it's read as a `git diff` or rendered — so the skill you came from (`chalk:commit`, `chalk:issue`, `chalk:pr`, `chalk`, `chalk:tend-docs`) states its own rule.
+## Load alongside this
+
+- **`chalk:mindmap`** — always.
+  The shape of followable content: nested bullets, subject lines, tags, cross-reference IDs, tl;dr placement. It applies in every quadrant.
+
+- **`chalk:goal-tree`** — where a node's children *accomplish* it rather than argue for it.
+  The direction of a piece of work, a Future state or Implementation section.
+
+- **`references/palette.md`** — before drafting an issue, PR or chalk comment.
+  The section palette, their ordering, and the annotated-trace technique for sequencing bugs.
+
+- **`references/docs-quadrants.md`** — before writing a docs page.
+  How-to, reference and tutorial voice; the three quadrants nothing else here needs.
+
+- **`chalk:code-comments`** — before writing or editing any comment.
+  The reader model, the counter-intuition test, and where the rejected material goes instead.
+
+## Line format
+
+**The destination decides it: paragraph-per-line where the artefact is read rendered, sentence-per-line where it's reviewed as a diff.**
+
+- **Paragraph-per-line** — commit bodies, issue and PR descriptions, chalk comments.
+  These are read rendered on GitHub, and GitHub renders a single newline as `<br>`, so sentence-per-line fragments into staccato. Put each paragraph on one line, separate paragraphs with a blank line, and let the rendering wrap.
+
+- **Sentence-per-line** — docs pages.
+  A page lives in the repo and is reviewed as a diff, where a one-line paragraph makes a one-word fix an unreadable whole-paragraph change.
+
+- **No rule at all** — code comments, which are read in-source.
+- **Whichever applies, it applies inside a bullet too**, which is where it's most often forgotten.
+  On a paragraph-per-line destination a bullet's elaboration stays on one line however long it runs; the single break after the subject (`chalk:mindmap`) is the only exception.
+
+- **A project MAY override this** and ask for sentence-per-line in commit messages.
+  Follow the project's convention where it states one; see "Discover project conventions" below.
 
 ## Universal principles
-
-These apply to all writing in this plugin's voice.
 
 ### Establish the why and the why now
 
 A prerequisite, not a style rule: you cannot write the *why* if you never found it out, and the diff won't carry it for you.
 
-- **Why this**
-  What problem it solves, what it unblocks, what constraint drove it.
-- **Why now**
-  What prompted it today. A deadline, a dependent piece of work, a recent incident, someone else blocked on it?
+- **Why this** — what problem it solves, what it unblocks, what constraint drove it.
+- **Why now** — what prompted it today. A deadline, a dependent piece of work, a recent incident, someone else blocked on it?
 
 **Ask rather than guess.**
 If either isn't clear from the conversation, the issue and its neighbours, or the code you've read, ask the user — ideally before starting the work, and at the latest before drafting.
 A one-sentence answer now is cheaper than a reader reconstructing it later from the artefact, which is the only place they'll be able to look.
 
 Trivial changes — typo fixes, mechanical bumps, one-line config tweaks — don't need this step; the motivation is self-evident.
-Everything else does, and one answer serves every artefact: the issue description, the commit body, the PR description and the docs page all draw on the same *why*.
+Everything else does, and one answer serves every artefact.
 
 *Why now* is the half that goes missing, and its absence is what leaves an issue un-triageable in the backlog and a commit unexplainable six months on.
 
@@ -51,12 +82,7 @@ Everything else does, and one answer serves every artefact: the issue descriptio
 
 "Optimise for the reader" is only actionable once you've said who the reader is.
 
-**For everything in this plugin it's nearly always your teammates** — including the two who are easiest to forget and who between them are most of the readership:
-
-- **You in six months**, with none of the context you have while writing.
-- **A future agent session**, starting cold from the artefact and nothing else.
-
-Both read the artefact without the conversation that produced it, so:
+**For everything in this plugin it's nearly always your teammates** — including the two who are easiest to forget and who between them are most of the readership: **you in six months**, with none of the context you have while writing, and **a future agent session**, starting cold from the artefact and nothing else.
 
 - **Lead with what they need, not with what you did.**
   The two diverge most sharply in summaries: a summary of the *work* reads as a session changelog, where a summary for the *reader* states what's true now and what it means for them.
@@ -65,7 +91,7 @@ Both read the artefact without the conversation that produced it, so:
   A sentence that only parses if you know which files were touched, which commit came before, or what was said in chat is a sentence the audience can't use.
 
 - **Name the audience explicitly whenever it isn't the default**
-  A docs page for end users, an issue aimed at another team, a comment for whoever next debugs this function. `chalk:tend-docs` requires this before a page is written; the same test is worth applying to any artefact.
+  A docs page for end users, an issue aimed at another team, a comment for whoever next debugs this function.
 
 ### Concrete over abstract
 
@@ -80,28 +106,24 @@ This:
 > Previously, VectorType represented physical types — the compile-time type and run-time type could differ because many physical representations map to one logical type.
 > For physical representations, we now exclusively use Arrow's `Field` class.
 
+**Raw evidence MUST be annotated.**
+A log dump or stack trace with no explanation of what the reader is looking at is noise.
+
 ### Lead with the problem or context
 
 Set up *why this matters* before the solution.
 The reader needs the situation before the fix makes sense.
-This applies across quadrants — a how-to opens with the goal, an explanation opens with what needs explaining, a reference block sits under the concept it references.
+A how-to opens with the goal, an explanation opens with what needs explaining, a reference block sits under the concept it references.
 
 ### Be concise — but keep the reasoning
 
 A terse note with no *why* is just as unhelpful as a verbose one.
-When the reasoning is complex but the change is simple, say so.
-"Simple change in the end: ..." helps the reader calibrate.
+When the reasoning is complex but the change is simple, say so: "Simple change in the end: ..." helps the reader calibrate.
 
 ### Structure what the reader must follow
 
-Anything the reader has to *follow* — a sequence of events, a multi-step rationale, a set of conditions — **defaults to a mindmap: nested bullets whose parents are claims and whose children back them up**, not a prose paragraph.
-Reach for it first, and drop to prose only deliberately.
-
-**The rules are in `chalk:mindmap` — load it rather than improvising the shape.**
-Getting the format roughly right and the *relation* wrong produces a tidy bullet list that carries no argument, which this guide can't catch for you.
-
-Reserve prose for a short causal argument where the connectives ("because", "so", "but only when") carry the meaning and the chain is only two or three links long.
-This is about the *followable* parts, not the tone — an explanation can still read discursively and lay its reasoning out as a tree.
+**Followable content MUST default to a mindmap; prose MUST be a deliberate exception, not a fallback.**
+The rules are in `chalk:mindmap` — load it rather than improvising the shape, because getting the format roughly right and the *relation* wrong produces a tidy bullet list that carries no argument, and this guide can't catch that for you.
 
 ### Write in specification register
 
@@ -112,15 +134,14 @@ None exists to convey that a person is delivering it.
 Your reader is a teammate trying to get something done, not an assessor — so there's nothing here to reward the motive that produces flourishes, alternatives nobody would take, and caveats that change nothing.
 Drop the motive and most of the specific tics go with it.
 
-**Don't tell the reader that a sentence matters.**
-Same rule turned on the text rather than the author: no sentence exists to convey that another one is worth reading.
-The reader takes it as read that everything present earns its place, so **ranking your own material** ("the single highest-leverage rule here"), **justifying its presence** ("this is the one reason this needs saying"), **narrating the document's shape** ("what follows is") and **advertising your diligence** ("checked carefully") each cost a read before they arrive at the thing being advertised.
+**A sentence MUST NOT exist to tell the reader that another one matters.**
+Same rule turned on the text rather than the author. The reader takes it as read that everything present earns its place, so **ranking your own material** ("the single highest-leverage rule here"), **justifying its presence** ("this is the one reason this needs saying"), **narrating the document's shape** ("what follows is") and **advertising your diligence** ("checked carefully") each cost a read before the reader arrives at the thing being advertised.
 
-- **An importance claim that's backed by a reason is an argument, and it stays.**
+- **An importance claim backed by a reason is an argument, and it stays.**
   "Blocked-by pays back most: a filter for open, un-blocked becomes the queue of workable cards" earns its ranking in the same breath. The unbacked assertion is the one to cut.
 
 - **State priority operationally, not evaluatively**
-  Ordering, RFC 2119 strength, a Constraints entry, or "where this conflicts with X, this wins". Those survive repetition; a superlative doesn't, because if three rules each claim to matter most, none of them does.
+  Ordering, RFC 2119 strength, a stated constraint, or "where this conflicts with X, this wins". Those survive repetition; a superlative doesn't, because if three rules each claim to matter most, none of them does.
 
 - **No filler in headings or lead-ins.**
   "Caveat:" not "One honest caveat"; "Agreed:" not "Agreed — and here's why that's the stronger design".
@@ -135,23 +156,23 @@ The reader takes it as read that everything present earns its place, so **rankin
 
 Aim for what [ASD-STE100](https://www.asd-ste100.org) aims for — the reader gets the meaning with minimum effort and no ambiguity — but get there by **technical precision rather than a restricted vocabulary**.
 
-`sufficient` and `necessary` each carry an exact meaning that a paraphrase spends a clause on and still blurs.
-So **precision beats simplicity where the two conflict**: what gets cut is the decorative metaphor, not the exact term.
+`sufficient` and `necessary` each carry an exact meaning that a paraphrase spends a clause on and still blurs, so **precision beats simplicity where the two conflict**: what gets cut is the decorative metaphor, not the exact term.
 
-Use one word for one concept throughout an artefact.
+**Use one word for one concept throughout an artefact.**
 Synonym variation reads as elegant and costs the reader a re-check every time they have to ask whether you meant something different.
 
 ### Transitions vs. current state
 
 Every *why* belongs in one of two homes, and the artefact's job decides which.
 
-- **Change-log artefacts**
-  Commit bodies, PR descriptions, changelog entries — carry the *transition*: why it changed from X to Y, and how to migrate. Read once, around the change.
+- **Change-log artefacts carry the *transition*.**
+  Commit bodies, PR descriptions, changelog entries: why it changed from X to Y, and how to migrate. Read once, around the change.
 
-- **Durable artefacts**
-  Code comments, docs bodies, reference — carry the *current contract*, written as if it had always been this way. Read long after, by someone who doesn't care what it used to be.
+- **Durable artefacts carry the *current contract*.**
+  Code comments, docs bodies, reference: written as if it had always been this way, for someone who doesn't care what it used to be.
 
-So a "this used to…" comment in the source, or a "previously we…" line in a docs body, is misfiled — the transition it describes belongs in the commit or the changelog, and it rots where it sits. Conversely a commit body that only restates current behaviour, not what changed and why, has thrown away the one thing it was for.
+So a "this used to…" comment in the source, or a "previously we…" line in a docs body, is misfiled — the transition it describes belongs in the commit or the changelog, and it rots where it sits.
+Conversely a commit body that only restates current behaviour, not what changed and why, has thrown away the one thing it was for.
 
 ### No marketing fluff
 
@@ -160,60 +181,27 @@ State the capability; let the reader draw the conclusion.
 
 ### Discover project conventions, don't impose them
 
-Version markers, changelog shapes, file layout, cross-link style — these vary between projects.
+Version markers, changelog shapes, file layout, cross-link style, commit line format — these vary between projects.
 Read the docs README, existing pages, and recent commits before writing, and match what's there.
 
-## The four quadrants
+## Explanation — the quadrant everything here lands in
 
-Diataxis's axes: **acquisition vs application** × **cognition vs action**.
+The reader wants to *understand*: mental models, why-this-way, decisions, tradeoffs, dead ends, invariants.
 
-| | Acquire | Apply |
-| --- | --- | --- |
-| **Cognition** | Explanation | Reference |
-| **Action** | Tutorial | How-to |
-
-### Explanation — acquire cognition
-
-The reader wants to *understand*.
-Mental models, why-this-way, decisions, tradeoffs, dead ends, invariants.
-
-**Voice:**
-- Discursive.
-  Grounded in concrete examples that ground abstractions.
-- Lead with the problem or the concept you're explaining.
-- Capture the *why*, not the *what* — the reader can see the what elsewhere (the diff, the config, the code).
-- Teach the mental model when the change introduces or reshapes a concept.
-  Don't assume the reader has the model you built up while implementing.
+**Voice:** discursive, grounded in concrete examples, leading with the problem or the concept being explained.
+Capture the *why*, not the *what* — the reader can see the what in the diff, the config, the code.
+Teach the mental model when the change introduces or reshapes a concept; don't assume the reader has the one you built up while implementing.
 
 **What to capture:**
-- **The problem first**
-  Why this matters, before what you did.
-- **Decisions and tradeoffs**
-  Why X over Y, what constraints drove the choice.
-- **Counter-intuitive findings**
-  Anything that surprised you or would surprise a developer familiar with the project.
-- **Dead ends**
-  What didn't work and why — this prevents re-investigation.
-  Include *why* the wrong approach seemed right, not just that it was wrong.
-- **Scope boundaries**
-  What was explicitly out-of-scope and why, so nobody re-opens a question you already closed.
-  If there's a natural "next up", say so.
-- **The mental model**
-  When the change introduces or reshapes a concept, explain the model — what the abstractions are, how they relate, why they're shaped this way.
 
-**What to omit:**
-- Obvious details self-evident from the diff, the code, or the issue description.
-- Play-by-play of mechanical steps ("then I ran the tests", "then I edited the file").
-- The journey of how you got there — optimise for the reader, not the writer.
+- **The problem first** — why this matters, before what you did.
+- **Decisions and tradeoffs** — why X over Y, what constraints drove the choice.
+- **Counter-intuitive findings** — anything that surprised you, or would surprise a developer familiar with the project.
+- **Dead ends** — what didn't work and why, including *why* the wrong approach seemed right. This is what prevents re-investigation.
+- **Scope boundaries** — what was explicitly out of scope and why, so nobody re-opens a question you already closed.
+- **The mental model** — what the abstractions are, how they relate, why they're shaped this way.
 
-**Examples.**
-
-Not this (restates the diff):
-> Made TemporalBounds fields volatile and added a snapshot method that reads both atomically.
-
-This (captures the decision):
-> Volatile over lock — simpler, lower contention, sufficient for read-mostly pattern.
-> Immutable TemporalBounds + AtomicReference would be cleanest but requires changing every call site that mutates bounds — out of scope for a bugfix.
+**What to omit:** details self-evident from the diff, the code or the issue description; play-by-play of mechanical steps ("then I ran the tests"); the journey of how you got there.
 
 Not this (mechanical play-by-play):
 > Investigated the flaky test. Found it only failed in the full suite. Added logging to narrow it down. Discovered a race condition in TemporalBounds.intersect().
@@ -222,13 +210,6 @@ This (what matters to the next person):
 > Initially suspected a test ordering issue since it only failed in the full suite — red herring.
 > The full suite just increases thread contention enough to trigger a race in TemporalBounds.intersect(), which reads validFrom and validTo non-atomically.
 
-Not this (obvious from the diff):
-> Added a new `resolveTimeout` parameter to the `QueryConfig` class and threaded it through to the executor.
-
-This (why it exists):
-> Queries against the Kafka log can stall indefinitely when a partition leader is mid-election.
-> A per-query timeout lets callers fail fast rather than blocking on a cluster event they can't control.
-
 Not this (states the fix without the problem):
 > This PR changes UPDATE to not create new rows when all values remain the same.
 
@@ -236,185 +217,3 @@ This (problem first, with a concrete example and explicit scope):
 > UPDATE was creating duplicate rows even when no values actually changed.
 > Uses type-strict equality — `UPDATE docs SET a = 1.0 WHERE _id = 1` on a doc with `{:a 1}` *will* create a new record because `1 ≠ 1.0`.
 > PATCH is out of scope of this PR (see #5030).
-
-### How-to — apply action
-
-The reader has a goal and wants to *achieve it*.
-Deployment, configuration, integration, a specific operational task.
-
-**Voice:**
-- Goal stated up top: "To do X, ...".
-- Numbered, imperative steps.
-- Terse — no narrative padding.
-- Concrete identifiers, not placeholders (`my-kafka`, not `cluster-name`).
-- Prerequisites and assumptions stated before the steps, not mid-flow.
-- A closing "you should now see …" check, so the reader knows whether it worked.
-
-How-tos don't teach — they assume the reader already has enough cognition to recognise the steps.
-If the reader needs to *understand* something first, that's an explanation, and it belongs in a different section (or a different page).
-
-### Reference — apply cognition
-
-The reader is working and needs to *look something up*.
-A CLI flag, an API signature, a config key, a SQL clause.
-
-**Voice:**
-- Neutral, exhaustive, structured.
-- Tables, definition lists, grammar productions.
-- No narrative, no "we"/"you".
-- Alphabetised or structurally ordered (not narratively ordered).
-- Complete — every flag, every field, every case.
-- **Keep rationale out of the body.**
-  This is the one quadrant where chalk's usual "always capture the why" does not apply inline.
-  The *why* — tradeoffs, motivation, upgrade story — belongs in an adjacent explanation section or changelog block, not next to the definition. 
-  A reader looking up a flag wants the semantics, not the story behind it.
-
-Reference is unforgiving: if it's incomplete, the reader gets burned.
-Better to generate it from the source of truth (schema, CLI help, spec) than to hand-write and drift.
-
-Watch for rationale that drifts in unnoticed — phrases like *"This exists for compatibility with..."*, *"These functions are provided so that..."*, *"This was added because..."* are explanation quadrant sentences wearing reference clothing.
-Strip them, or relocate them to the adjacent changelog or explainer.
-
-### Tutorial — acquire action
-
-The reader is new and wants to *learn by doing*.
-A guided first experience.
-
-**Voice:**
-- Gentle pacing, small wins, hand-holding.
-- "You should see X" after each step, so the reader can confirm progress.
-- Friendly and reassuring — confidence-building.
-- Single working path — no branching ("or you could do Y"), no optionality.
-- Ends with a clear next step ("now that you've done X, try Y").
-
-Tutorials are the hardest quadrant to get right.
-Explanation can be shortened; reference can be incomplete; a bad tutorial *strands the reader* and they don't come back.
-
-## Artefacts as compositions
-
-Most things you write aren't one quadrant — they're a composition.
-Each paragraph, section, or code block does one quadrant's job; don't blur them.
-
-**Commit bodies** are **explanation** artefacts, end-to-end.
-The diff is the code change, not a reference section inside the commit.
-Open with the problem (explanation framing), deliver the reasoning (explanation payload).
-
-**Issue descriptions** are **explanation** artefacts, with reference-shaped evidence embedded (log excerpts, stack traces, block dumps).
-The evidence is illustrative material inside the explanation; it's not a separate reference section.
-
-**PR descriptions** are **explanation** artefacts.
-Context, decisions, tradeoffs, dead ends, scope — all explanation.
-Usage examples, test-plan checklists, and commit lists have a reference *shape* but they're illustrations embedded in explanation, not standalone reference.
-
-**Code comments** are **explanation** artefacts too.
-The code is the *what*; the comment carries the *why* the code **can't** show — measured against a reasonable, competent developer who knows this language and this codebase, which makes "can't" a test rather than a licence.
-Comments describe the *current contract* (see "Transitions vs. current state" above), so the story of what the code used to do belongs in the commit that changed it.
-
-**`chalk:code-comments` owns the rest.**
-Load it early in any session that touches code, and again when reviewing a diff — it carries the reader model, the counter-intuition rule, the cover-and-name test, where the rejected material goes instead, and the review pass over a diff's comments.
-
-**Docs pages** play all four.
-Each page leans toward one quadrant at the top level; sections within it may hit other quadrants.
-A how-to page often has a short explanation intro (what this setup is for), numbered steps (how-to), a commented config block (reference), and a closing section on failure modes (explanation).
-Each section does one quadrant's job; they don't blur together.
-
-The test isn't "where does this page live?"
-It's "what is *this paragraph/section* for?"
-
-## Writing issue and PR descriptions
-
-Issue and PR descriptions are **explanation** artefacts (see the quadrants above).
-The reader needs to understand *why* this matters and *why* the approach is shaped this way.
-
-Common sections — all explanation, with reference-shaped evidence embedded where useful:
-
-- **Summary**
-  One or two sentences on what's happening.
-- **Context / Motivation**
-  How was this observed, or why does this matter? Environment, deployment, test configuration, links to CI runs, logs, dashboards, prior PRs, the broader initiative. Often the most valuable section — without it, a reader can't assess whether the issue applies to them or where a PR fits.
-
-- **Symptoms** (bugs / incidents) — observable behaviour, error messages, affected conditions (e.g. "multi-writer only", "under chaos monkey testing"). Evidence-shaped.
-- **Root cause / Analysis** (bugs / incidents) — why it's happening, grounded in evidence (log excerpts, stack traces, block file analysis, annotated offset tables).
-- **Evidence** (bugs / incidents) — concrete artefacts: replica log dumps, application log excerpts with timestamps, block file contents, message type distributions.
-  Annotate them — raw dumps without explanation are noise.
-- **Current state** (refactors / features) — a concrete sketch of what exists today, in enough detail that the gap to the future state is visible.
-  Reference-shaped: name the specific types, functions, flags, or files that the change touches.
-- **Future state** (refactors / features) — the target end state.
-  What the new world looks like once the change is shipped. Concrete and structural — the reader should be able to picture the resulting code or system shape from this section alone. This section and Implementation both want a **goal tree** rather than a plain list — see `chalk:goal-tree`.
-
-- **Invariants / Constraints**
-  Non-obvious things the solution must preserve.
-- **Out of scope**
-  What's explicitly not in this change, with reasons. Reference related issues/PRs that pick those pieces up.
-- **Alternatives considered**
-  Other designs or approaches at the same level of abstraction as the chosen one, with a sketch of each and the trade-offs that ruled it in or out. Dated rejections ("Rejected on 2026-05-23 because …") help the next reader who's tempted to reopen the question. Implementation-strategy choices (refactor-in-place vs. parallel impl, big-bang vs. incremental) aren't alternatives at this level — they belong in Implementation.
-
-- **Decision rationale**
-  Compare the chosen approach against each alternative on the points that differentiate them. Reads as a side-by-side, not a re-summary of the chosen approach.
-
-- **Implementation**
-  Direction and high-level plan for an issue; what landed for a PR. Step-by-step granular execution (which sub-task next, what files to touch) belongs in the chalk comment, not here. Shape it as a **goal tree** (`chalk:goal-tree`), and name whose each item is: **an expectation of someone else, written like a task, is a dependency nobody owns**.
-
-PRs additionally draw from:
-
-- **Usage** (user-visible features) — concrete examples (SQL queries with realistic output, CLI invocations, config snippets).
-  Show what the feature looks like.
-  This is also where any **manual steps to adopt the change** belong — a PR is how the team learns the change exists, so if using it requires a teammate to run a migration, set a config value or env var, enable a flag, regenerate something, or observe a deploy-order constraint, spell those steps out.
-  If a reader can't act on the change without a step that isn't in the diff, the step goes here.
-- **Rollout / compatibility**
-  When the change is only safe under conditions the diff can't express: a deploy order, a mixed-version window, an "upgrade the whole fleet to X before enabling Y" constraint. State which versions interoperate and the safe sequence. Distinct from Usage — Usage is how to *use* the feature; this is how to *land* it without breaking a running system.
-
-- **Changes** (multi-commit) — a numbered list of commits with a sentence each, so the reviewer knows the intended reading order.
-- **Implementation notes**
-  Grouped by sub-concern, not a flat list. Non-obvious design choices, key invariants, counter-intuitive bits.
-- **Dead ends**
-  "tried X, didn't work because Y" prevents the reviewer from suggesting X.
-- **Test plan** — what was tested and how.
-
-Not every description needs all of these.
-A flaky test issue might just need the failure mode, stack trace, and conditions.
-A small bugfix PR might just need summary and test plan.
-A large feature PR might need context, usage examples, implementation notes, and scope.
-A refactor PR should call out that behaviour is intentionally preserved.
-Use judgement.
-
-### Annotated traces for sequencing bugs
-
-When the bug *is* an ordering — a race, a leadership transition, a distributed-log divergence — the explanation **is** the sequence of events.
-Prose describing that sequence is much harder to follow than the sequence itself; a raw log dump is the opposite failure — all the data, none of the causality, so it reads as noise.
-
-Reconstruct a chronological trace and annotate it.
-Name the actors (`[A]`/`[B]`, leader/follower) rather than "the node" — the reader is tracking several at once.
-Show the load-bearing state inline as it changes, mark the point where things diverge, and end at the failure.
-Distil from a real trace (a captured log, a debugger session) down to the events that carry the causality; drop everything else.
-
-A multi-actor race told this way lands in a way a paragraph can't:
-
-```
-TERM 1 — node A is leader:
-  leader ← source 0..4             [A] watermark → 4   (local, NOT replicated)
-  leader → replica: ResolvedTx     [B] follower stays at -1   ← B never sees A's progress
-
-FLIP: A → follower (keeps src=4),  B → leader
-  B resumes from -1 (its own stale watermark) → re-reads source 0 → emits BlockBoundary(src=0)
-
-FAILURE — follower A applies it:   notifyMsg(0) while watermark=4   →   0 < 4, throws
-```
-
-### Ordering
-
-Sections roughly flow: **setup → state → decision → plan**.
-
-- **Setup**
-  Summary, Context / Motivation. The why-we're-here.
-- **State**
-  Current state and Future state (refactors / features); Symptoms, Root cause, Evidence (bugs / incidents). The what-it-looks-like, today and at completion.
-
-- **Decision**
-  Out of scope, Alternatives considered, Decision rationale, Invariants / Constraints. The why-this-path-and-not-others.
-
-- **Plan**
-  Implementation, and (for PRs) Test plan. At the end.
-
-The explanation-quadrant material (why this, why this way) sits above the reference-shaped step list.
-A reader who only scans the top of the issue should still understand the *what* and *why*; the *how* lives at the bottom.

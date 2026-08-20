@@ -11,14 +11,16 @@ disable-model-invocation: false
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 Write or update a docs page for a **technical audience** — developers, operators, integrators.
-This skill is not for marketing copy, end-user help aimed at non-technical readers, or general-audience prose.
-If the user asks for those, decline politely and suggest a different approach.
+**This skill MUST decline, politely, if asked to write for a non-technical audience** — marketing copy, end-user help aimed at non-technical readers, general-audience prose.
+Suggest a different approach instead.
 
 ## Your Responsibilities
 
 1. **Name the audience.**
 
-   Before writing, know who you're writing for.
+   **The audience MUST be named** — to the user, or in a code comment on the draft — before the page is written.
+   This is the general rule in `chalk:voice` ("Name your audience"), made explicit here because a docs page is the one artefact whose audience is *not* the team by default.
+
    Technical is not specific enough — pick one:
 
    - **Newcomer** — has never used this product.
@@ -40,17 +42,14 @@ If the user asks for those, decline politely and suggest a different approach.
 
 2. **Identify the Diataxis quadrant(s).**
 
-   Diataxis names four quadrants: **tutorial**, **how-to**, **reference**, **explanation** (see the `chalk:voice` skill).
-   Each page leans toward one at the top level; each sub-section within it may hit a different quadrant.
+   Diataxis names four: **tutorial**, **how-to**, **reference**, **explanation**.
+   A docs page is the only chalk artefact that plays all four, so **load `chalk:voice`'s `references/docs-quadrants.md`** — it carries the voice for the three that nothing else here needs.
 
-   The test isn't "where does this page live?" — it's "what is *this paragraph/section* for?".
-
-   Before writing, decide:
-   - What quadrant is this page as a whole?
-   - What quadrant is each section?
-
-   Don't blur them.
+   **Each section MUST commit to one quadrant, and sections MUST NOT blur.**
    A how-to section that drifts into explanation loses the reader mid-task; an explanation section that drifts into reference buries the mental model.
+
+   The test isn't "where does this page live?" — it's "what is *this paragraph or section* for?".
+   Decide the quadrant of the page as a whole, and of each section, before writing.
 
 3. **Discover project conventions.**
 
@@ -81,8 +80,8 @@ If the user asks for those, decline politely and suggest a different approach.
    - **Diagrams**
      Inline D2, Mermaid, PNG assets?
 
-   Where the project has a convention, match it.
-   Where it doesn't, make a call and be consistent within the page.
+   **Conventions MUST be discovered from the repo, not invented.**
+   Where the project has one, match it; where it doesn't, make a call and be consistent within the page.
 
 4. **Pull the "why" from the issue-graph neighbourhood.**
 
@@ -111,7 +110,7 @@ If the user asks for those, decline politely and suggest a different approach.
 
 5. **Apply the chalk voice.**
 
-   **Load the `chalk:voice` skill** (via the Skill tool) for the Diataxis framing and universal principles, then apply the quadrant-specific voice to each section.
+   **Load the `chalk:voice` skill** (via the Skill tool) for the universal principles, then apply the per-quadrant voice from its `references/docs-quadrants.md` to each section.
    **Load `chalk:mindmap`** too, for the shape of anything the reader has to follow — a how-to's steps, an explainer's reasoning, a failure-mode section. Note its line-format rule: on a docs page the bullets are sentence-per-line like the rest of the file.
    Don't restate those rules inline — they live in those skills.
 
@@ -120,7 +119,8 @@ If the user asks for those, decline politely and suggest a different approach.
 
 6. **Ask clarifying questions** — don't invent.
 
-   `chalk:voice`'s "Establish the why and the why now" applies here: if the *why* isn't obvious from the issue graph, the PR, or the conversation, ask.
+   **A rationale MUST NOT be fabricated** when the issue graph, PR or commits don't carry one; ask the user instead.
+   `chalk:voice`'s "Establish the why and the why now" applies here.
    A one-sentence answer from the user beats a fabricated rationale every time, and fabricated rationales in docs are particularly corrosive — they look authoritative and they rot silently.
 
    Ask when:
@@ -130,32 +130,6 @@ If the user asks for those, decline politely and suggest a different approach.
    - The **why** isn't clear from the issue graph / PR / commits, and the section needs one.
      Don't make it up.
    - A **project convention** is missing and the call has material effect on the output (e.g. no changelog-format precedent and the change is a transition worth recording).
-
-## Constraints
-
-- The audience MUST be named (to the user or in a code comment on the draft) before the page is written. This is the general rule in `chalk:voice` ("Name your audience"), made explicit here because a docs page is the one artefact whose audience is *not* the team by default.
-- Each section MUST commit to one Diataxis quadrant.
-  Sections MUST NOT blur quadrants.
-- The page MUST follow the `chalk:voice` skill — universal principles plus the quadrant-specific voice — and be written sentence-per-line (a docs page is reviewed as a diff).
-- Project-specific conventions (version markers, changelog shape, frontmatter fields, callout style) MUST be discovered from the repo, not invented.
-- The skill MUST decline (politely) if asked to write for a non-technical audience — that's not what this skill is for.
-- If chalk is active, the skill SHOULD read the tracked issue, its one-hop issue-graph neighbourhood, and the landing PR(s) before writing a non-trivial section — the *why* lives across them, not in any single artefact.
-- The skill MUST NOT fabricate a rationale for a section when the issue graph / PR / commits don't carry one.
-  Ask the user instead (see "Establish the why and the why now" in `chalk:voice`).
-
-## Workflow
-
-1. Parse the user's directive (update page X, write a page about Y, add a section to Z).
-2. Locate the docs tree.
-   Read the docs README if present; otherwise scan sibling pages for conventions.
-3. Name the audience.
-   If ambiguous, ask.
-4. Identify the quadrant of the page (and each section).
-5. Pull the *why* from chalk context — tracked issue, one-hop neighbourhood (parent/sub/blocked-by), landing PR(s) including review discussion, and landing commit body(ies).
-6. Draft.
-   Apply the `chalk:voice` and `chalk:mindmap` skills — universal principles, per-quadrant voice, and the tree for anything followable; write sentence-per-line.
-7. Match discovered project conventions (frontmatter, version markers, changelog, callouts, cross-links).
-8. Ask clarifying questions if the audience, quadrant, or a material project convention is unclear.
 
 ## Chalk Integration
 

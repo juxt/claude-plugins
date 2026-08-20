@@ -10,53 +10,36 @@ disable-model-invocation: false
 
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
+Track work against a GitHub Issue.
+**The issue description is the source of truth** — a developer should be able to understand the current state of the issue by reading the description alone, without trawling the comments — and it MUST be kept accurate as facts change.
+**Comments are the append-only session log**: what was tried, decided and learned.
+
 ## Before you draft anything GitHub-bound
 
-Every chalk comment, progress section, issue description, and PR description you touch in this session MUST be drafted in the chalk voice — not your own default prose habits, which read wrong and lose the reasoning the reader needs.
+**Every chalk comment and Progress section MUST be drafted in the chalk voice** and shaped per `chalk:mindmap` — not your own default prose habits.
+`chalk` carries the tracking mechanics, not the writing voice, so load these first (via the Skill tool):
 
-`chalk` carries the issue-tracking mechanics, not the writing voice.
-Before drafting any such prose, load these (via the Skill tool):
-
-- **`chalk:voice`**
-  The Diataxis framing, the universal principles, and the issue/PR section palette. Structure the body into sections drawn from that palette, choosing the ones the artefact needs.
-
-- **`chalk:mindmap`**
-  The shape of the content inside each section, and of each `<details>` block, which behaves like a bullet.
-- **`chalk:goal-tree`**
-  When the artefact carries the direction of the work rather than its history.
-
-**Your audience is the next session on this issue** — a teammate, or you, or an agent starting cold with only the issue in front of it.
-That's the most literal case of the rule in "Name your audience" (`chalk:voice`): a comment written for whoever already sat through this session is a comment that helps nobody, because by definition they've gone.
+- **`chalk:voice`**, and its **`references/palette.md`** — the principles, the section palette, the line-format rule.
+- **`chalk:mindmap`** — the shape of the content inside each section, and of each `<details>` block, which behaves like a bullet.
+- **`chalk:goal-tree`** — when the artefact carries the direction of the work rather than its history.
 
 Two artefacts have their own skill carrying rules beyond the voice — load it instead of drafting from here:
+**the issue description** is `chalk:issue`'s, and **the PR description** is `chalk:pr`'s.
 
-- **The issue description**
-  `chalk:issue`. Covers creating an issue and keeping its description accurate.
-- **The PR description** — `chalk:pr`.
+**Your audience is the next session on this issue** — a teammate, or you, or an agent starting cold with only the issue in front of it.
+That's the most literal case of the rule in "Name your audience" (`chalk:voice`): a comment written for whoever already sat through this session helps nobody, because by definition they've gone.
 
-**Line format: paragraph-per-line.**
-Comments and progress sections are read rendered on GitHub, never as a `git diff`, so put each paragraph on a single line and separate paragraphs with a blank line — GitHub renders single newlines as `<br>`, which would fragment sentence-per-line prose into staccato.
+## Understanding why
 
-## What chalk does
-
-Track work against a GitHub Issue.
-The issue description is the source of truth — a developer should be able to understand the current state of the issue by reading the description alone, without trawling through comments.
-Keep the description accurate as facts change (new failure modes, updated analysis, revised scope).
-Comments are the append-only session log — what was tried, decided, and learned.
-
-## Understanding Why
-
-Chalk's job is to capture the *why*, not just the *what*.
-The rule — establish **why this** and **why now**, and ask rather than guess — is a universal principle in the `chalk:voice` skill, because every chalk artefact depends on it.
-See "Establish the why and the why now" there.
+Chalk's job is to capture the *why*, not just the *what* — establish **why this** and **why now**, and ask rather than guess. The rule is a universal principle in `chalk:voice`.
 
 What's chalk's specifically is the **timing**: establish it at the *start* of the work, not when you sit down to write.
 Chalk is active from the moment you pick the issue up, so it's the one skill positioned to catch a missing *why now* before the work is done rather than after — by which point the cheap answer ("someone's blocked on it") has to be reconstructed instead of asked for.
 
-## Issue Relationships
+## Issue relationships
 
 Parent/child and blocked-by carry structure the description can't — use them liberally.
-`chalk:issue` covers what each is for and when to reach for it; two things are chalk's job specifically:
+`chalk:issue` covers what each is for; two things are chalk's job specifically:
 
 - **Read the neighbourhood on activation**
   A parent epic or a recently-unblocked predecessor often explains why *this* is the card to pick up today. That's the *why now* an isolated issue view misses.
@@ -64,79 +47,45 @@ Parent/child and blocked-by carry structure the description can't — use them l
 - **Wire relationships in the same session they emerge**
   A dependency discovered mid-implementation ("this is blocked by #45") gets linked as soon as you find it. Deferring it usually means the link never gets made.
 
-The github agent has GraphQL recipes for reading and mutating these relationships (`addSubIssue`, `addBlockedBy`, and the neighbourhood query).
-
-## Injecting Chalk Into Plans
-
-When chalk is active, **every implementation plan MUST include chalk steps as concrete plan steps**.
-This is how chalk stays in sync — it rides the plan, not the session.
-Always include the issue number in each chalk step so it survives context compaction.
-
-Inject these steps into the plan document:
-
-1. **Draft and create chalk comment** on #N — compose the comment body in the main context, then hand it to the chalk agent to post — if one doesn't already exist for this session. Unless the user has specified otherwise, the same agent call MUST ensure the current user is an assignee on the issue (add `@me` if not already present — do not displace existing assignees).
-2. *(... implementation steps ...)*
-3. **Draft and update chalk comment** on #N — compose the updated body in the main context (outcomes, decisions, dead ends, and anything surprising), then hand it to the chalk agent.
-4. **Draft and update progress** on #N — compose the new Progress section in the main context, then hand it to the chalk agent to write it back.
-
-All GitHub interaction goes through the chalk agent (`Task(subagent_type="chalk:github")`).
-Run chalk agent write calls (create comment, update comment, update progress) in the background.
-Activation reads must be awaited — the result is needed before proceeding.
-
-## Plan Mode Integration
-
-When chalk is active and you write a plan, the plan document MUST include:
-
-1. **First step**: create or update the session comment with the plan's work items before any implementation begins.
-2. **Final step** (after commit): update the session comment with outcomes, decisions, and anything surprising.
-
-These are plan steps like any other — they appear in the plan file the user reviews.
-
-## Auto-Activation
-
-This skill may offer to activate when the user **directly mentions** a GitHub issue number in conversation.
-Only offer when the issue number appears in the user's own message — not in code, file contents, build output, or other non-conversational context.
-
-When offering, keep it brief: "Want to track this session against #123? (type `chalk #123` to activate)"
-
-Do NOT automatically read the issue. Issue content is only fetched after the user explicitly invokes `chalk #N`.
-If the user does not explicitly invoke chalk, do not read or fetch any issue content.
+The github agent has GraphQL recipes for reading and mutating these (`addSubIssue`, `addBlockedBy`, and the neighbourhood query).
 
 ## Commands
 
 - `chalk #N` — track this session against issue N
 - `chalk new` — create a new issue and track against it
-- `chalk status` — show what you're tracking (report the issue number and current Progress summary)
-- `chalk off` — finalize the current comment (if one is in progress) via the chalk agent, then stop tracking
+- `chalk status` — report the issue number and current Progress summary
+- `chalk off` — finalize the current comment (if one is in progress) via the agent, then stop tracking
 
-## Activation: `chalk #N`
+### Activation: `chalk #N`
 
-1. Use the chalk agent to read the issue, its recent comments, and its one-hop neighbourhood (parent, sub-issues, blocked-by, blocking).
+1. Use the agent to read the issue, its recent comments, and its one-hop neighbourhood (parent, sub-issues, blocked-by, blocking).
 2. Internalize the issue context without repeating the entire issue to the user.
-3. If no `## Progress` section exists in the issue description, ask the chalk agent to add one.
-4. If the change is non-trivial and the *why* or *why now* isn't obvious from the issue or its neighbours, ask the user before starting (see "Understanding Why" above).
+3. If no `## Progress` section exists in the description, ask the agent to add one.
+4. If the change is non-trivial and the *why* or *why now* isn't obvious from the issue or its neighbours, ask the user before starting.
 5. Tell the user you're tracking against #N.
 
-## Activation: `chalk new`
+### Activation: `chalk new`
 
 `chalk new` is *file an issue, then track against it* — the filing half is `chalk:issue`, not a second copy of it here.
 
-1. **Load the `chalk:issue` skill** (via the Skill tool) and follow it to draft and create the issue. It carries the why/why-now step, the duplicate check, and the problem-focused section palette.
-2. Take the issue number from the result and start tracking against it, as for `chalk #N`.
+1. **Load the `chalk:issue` skill** and follow it to draft and create the issue. It carries the why/why-now step, the duplicate check, and the problem-focused section palette.
+2. Take the issue number from the result and start tracking, as for `chalk #N`.
 3. Add the `## Progress` section — a freshly-filed issue doesn't have one, because filing an issue isn't picking it up. Tracking is what creates it.
 4. Tell the user you're tracking against the new issue.
 
-## Two Layers of State
+### Auto-activation
 
-### Issue Description — The Progress Checklist
+Offer to activate when the user **directly mentions** a GitHub issue number in their own message — not in code, file contents, build output, or other non-conversational context.
+Keep the offer brief: "Want to track this session against #123? (type `chalk #123` to activate)"
 
-Chalk owns a `## Progress` section within the issue description.
-Leave everything else untouched.
+**Do NOT read the issue until the user explicitly invokes `chalk #N`.**
 
-The `## Progress` section contains:
-- A checklist of all known work items (checked/unchecked).
-- A **Status** line (`in-progress`, `completed`, `blocked`).
-- An **Open Questions** checklist if there are unresolved items.
+## Two layers of state
+
+### The `## Progress` checklist, in the issue description
+
+Chalk owns a `## Progress` section within the description and leaves everything else untouched.
+**It MUST be the canonical state of the issue checklist**, and it contains a checklist of all known work items, a **Status** line (`in-progress`, `completed`, `blocked`), and an **Open Questions** checklist if there are unresolved items.
 
 ```markdown
 ## Progress
@@ -152,57 +101,21 @@ The `## Progress` section contains:
 - [ ] Should we also make TemporalBounds immutable? (see comment)
 ```
 
-Update the progress section (via the chalk agent) whenever the checklist changes — items added, completed, or deferred.
+Update it via the agent whenever the checklist changes — items added, completed or deferred.
 
-**Updating the issue description** (beyond the Progress section) is `chalk:issue`'s job — load it rather than editing the body from here.
-The rule it applies: keep the facts current as they change, but preserve the author's framing and intent.
+**An item MUST be checked, and `Status` advanced, only when the work is genuinely done** — verified, not merely attempted. The Progress section is read as the issue's current truth.
 
-### Comments — One Per Session
+**Updating the description beyond `## Progress` is `chalk:issue`'s job** — load it rather than editing the body from here.
 
-Each session gets one comment.
-The comment is created when work begins and updated as the session progresses.
+### The comment — one per session
 
-Across sessions, this gives you an append-only log: scroll down = chronological history of implementation.
+**There MUST be one comment per session**, created when work begins and updated as the session progresses.
+Across sessions this gives an append-only log: scroll down, get the chronological history of implementation.
 
-## Delegating to the Chalk Agent
+**Chalk MUST NOT edit a chalk comment authored by a different user** without the user's express permission for that specific update.
+If another developer's chalk comment is the most recent, create a new comment instead of editing theirs.
 
-**All GitHub interaction goes through the chalk agent.**
-The main conversation MUST NOT call `gh issue` or `gh api` directly for chalk updates.
-This keeps the main context clean and avoids filling it with API output.
-
-**You compose; the agent executes.**
-The agent is a small-model mechanics layer — it runs `gh` and reports results.
-It does not have your conversation history, the chalk comments you've read, the diff, or the voice guidance in full.
-Draft comment bodies and Progress sections **in the main context** before calling the agent, following the section palette and voice in the `chalk:voice` skill.
-The agent's prompt MUST include the full content ready to post verbatim.
-Passing "here are some bullet points, write this up" is not acceptable — that pushes an explanation-quadrant job onto a model that can't do it well and loses the reasoning the reader actually needs.
-
-To create or update a chalk comment, launch the chalk agent via the Task tool:
-
-```
-Task(subagent_type="chalk:github", prompt="...")
-```
-
-The prompt MUST contain:
-- The issue number
-- What action to take (create comment, update comment, update progress, create issue, create PR)
-- The **fully-drafted content** to write, ready to paste verbatim into GitHub
-- Any project-specific GitHub conventions that apply to this operation (see below)
-
-Run chalk agent write calls in the background.
-Await read calls (activation) — the result is needed to proceed.
-
-### Passing project-specific conventions
-
-The chalk agent is deliberately generic — it doesn't know which project board new issues should land on, what the default labels are, or who reviews PRs.
-Those conventions live in the calling project (typically the project's `CLAUDE.md`, or explicit user instructions during the session).
-
-Before calling the agent, scan your current context for project-specific GitHub conventions relevant to the operation — project boards, default labels, milestones, assignees, reviewers, base branches — and include them verbatim in the agent's prompt.
-Do not try to paraphrase or pre-interpret them; pass them through and let the agent apply them alongside its defaults.
-
-If a convention is session-specific or has been overridden by the user for this operation (e.g. "don't add this one to the board"), reflect that in the prompt rather than the project default.
-
-## Comment Format
+## Comment format
 
 ```markdown
 ### Chalk — Short description of this task
@@ -225,53 +138,54 @@ Details...
 
 No date in the header — GitHub timestamps the comment itself.
 
-**Rules:**
-- The checklist is the scannable overview.
-  Each item mirrors a `<details>` block below.
-- Check items off as you complete them.
-- Add new items as work emerges.
-- Keep details blocks focused — one per theme or work item.
-
-**Writing style**: each `<details>` block is an **explanation** chunk — what was explored, decided, tried. The checklist above is navigation, not a separate quadrant. Follow the explanation-quadrant voice in the `chalk:voice` skill, and shape the contents as a mindmap per `chalk:mindmap` — the summary line is the block's subject line and carries the same contract, so a reader who only reads the summaries still follows the session.
-Details blocks should read like knowledge-sharing, not a changelog.
-
-## Lifecycle of a Comment
-
-**Create** when starting work — when you have a plan and are about to implement.
-If there's no formal plan (e.g. a quick bugfix), still create a comment before starting work.
-Creating the chalk comment is the signal that you're picking the issue up: unless the user has specified otherwise, the same agent call ensures the current user is an assignee (adding `@me` if not already present — chalk only adds, never displaces).
-
-**Update** as the session progresses — frequently, and without asking.
-Chalk updates are part of the work, not a separate task that needs the user's permission each time.
-Treat them like staging a file before committing: just do it, then move on.
-
-- Check off completed items as they land.
-- Fill in details blocks with decisions, findings, dead ends.
-- Add any items that emerged during implementation.
-
-The user MUST NOT have to prompt each update.
-If there's something new to record (a decision, a dead end, a completed item, a surprising finding), update the comment — don't ask "should I update chalk?" first.
-
-**Before stopping or ending the session**: finalize the comment via the chalk agent.
-Update the Progress section if the overall picture changed.
-
-**Before context compaction**: ensure the comment captures all progress so far.
-Include the issue number in your compaction summary so you can resume tracking afterward.
-
-**After context compaction (resuming)**: if your compaction summary mentions a chalk issue number, re-activate by reading the issue and the session comment.
-Continue updating the existing comment — do not create a new one.
-
-## Example Comment
+- **The checklist is the scannable overview**, one item per `<details>` block below. Check items off as you complete them, and add new items as work emerges.
+- **Each `<details>` block is an explanation chunk** — what was explored, decided, tried. Shape its contents as a mindmap; the summary line is the block's subject line and carries the same contract, so a reader who only reads the summaries still follows the session.
+- **A `<details>` block MUST contain enough context that a future session can pick up where you left off.**
+  Details blocks read like knowledge-sharing, not a changelog.
 
 See `examples/implementation-comment.md` for a realistic filled-in example.
 
-## Constraints
+## Lifecycle of a comment
 
-- There MUST be one comment per session.
-- Chalk MUST NOT edit a chalk comment authored by a different user without the user's express permission for that specific update. If another developer's chalk comment is the most recent, create a new comment instead of editing theirs.
-- The `## Progress` section MUST be the canonical state of the issue checklist.
-- An item MUST be checked, and `Status` advanced, only when the work is genuinely done — verified, not merely attempted. The Progress section is read as the issue's current truth.
-- All GitHub interaction MUST go through the chalk agent. The main context MUST NOT call `gh` directly for chalk updates.
-- The issue description MUST be kept accurate — update facts when they change, but preserve the user's framing and intent.
-- `<details>` blocks MUST contain enough context that a future session can pick up where you left off.
-- All writing MUST follow the voice in the `chalk:voice` skill — issues, PRs, and chalk comments are explanation artefacts — and MUST be shaped per `chalk:mindmap`.
+**Create** when starting work — when you have a plan and are about to implement.
+If there's no formal plan (e.g. a quick bugfix), still create a comment before starting.
+Creating the comment is the signal that you're picking the issue up: unless the user has specified otherwise, the same agent call ensures the current user is an assignee, adding `@me` if not already present. Chalk only adds, never displaces.
+
+**Update** as the session progresses — frequently, and without asking.
+Chalk updates are part of the work, not a separate task needing permission each time. Treat them like staging a file before committing: just do it, then move on.
+Check off completed items, fill in details blocks with decisions, findings and dead ends, add items that emerged during implementation.
+
+**The user MUST NOT have to prompt each update.**
+If there's something new to record — a decision, a dead end, a completed item, a surprising finding — update the comment; don't ask "should I update chalk?" first.
+
+**Before stopping, ending the session, or context compaction**: finalize the comment via the agent, and update Progress if the overall picture changed.
+Include the issue number in your compaction summary so you can resume afterwards — and on resuming, continue updating the existing comment rather than creating a new one.
+
+## Injecting chalk into plans
+
+When chalk is active, **every implementation plan MUST include chalk steps as concrete plan steps** — this is how chalk stays in sync, riding the plan rather than the session.
+They appear in the plan document the user reviews, like any other step.
+**Always include the issue number in each step** so it survives context compaction.
+
+1. **Draft and create the chalk comment** on #N, with the plan's work items, before any implementation begins — if one doesn't already exist for this session.
+2. *(... implementation steps ...)*
+3. **Draft and update the chalk comment** on #N with outcomes, decisions, dead ends, and anything surprising.
+4. **Draft and update Progress** on #N.
+
+## Delegating to the chalk agent
+
+**All GitHub interaction MUST go through the agent** (`Task(subagent_type="chalk:github")`).
+The main conversation MUST NOT call `gh issue` or `gh api` directly for chalk updates — that keeps the main context clean and avoids filling it with API output.
+
+**You compose; the agent executes.**
+It's a small-model mechanics layer that runs `gh` and reports results. It does not have your conversation history, the chalk comments you've read, the diff, or the voice guidance.
+
+The agent's prompt MUST contain:
+
+- The issue number.
+- What action to take (create comment, update comment, update progress, create issue, create PR).
+- **The fully-drafted content, ready to paste verbatim.**
+  Passing "here are some bullet points, write this up" is not acceptable — it pushes an explanation-quadrant job onto a model that can't do it well and loses the reasoning the reader actually needs.
+- **Any project-specific GitHub conventions** relevant to the operation — project boards, default labels, milestones, assignees, reviewers, base branches. The agent is deliberately generic and doesn't know them; they live in the calling project, typically its `CLAUDE.md` or explicit user instructions. Pass them through verbatim rather than paraphrasing, and reflect any session-specific override ("don't add this one to the board") in the prompt rather than the project default.
+
+**Run write calls in the background. Await read calls** — activation needs the result before proceeding.

@@ -13,129 +13,93 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 The user MAY provide a title as an argument (e.g. `/chalk:issue flaky expression_test under load`).
 If no title is provided, draft one from the conversation.
 
-## Filing is not tracking
-
-This skill owns the **issue description** — drafting it, creating the issue, and keeping the description accurate later.
-It does not track a session against the issue.
-
-- **Filing and walking away**
-  "open an issue for this so we don't lose it" — is this skill on its own. Most issues are filed this way and never need the tracking machinery.
-
-- **Filing and picking it up** is `chalk new`: the `chalk` skill runs this one to produce the issue, then starts tracking against it.
-- **The comment and Progress layers belong to `chalk`**, not here.
-  Never write a `## Progress` section from this skill — not on create, not on update. See "Chalk integration" below.
+**This skill owns the issue description** — drafting it, creating the issue, and keeping the description accurate later.
+It does not track a session against the issue: "open an issue for this so we don't lose it" is this skill on its own, and most issues are filed that way and never need the tracking machinery.
+Filing *and picking it up* is `chalk new`, which runs this skill to produce the issue and then starts tracking.
 
 ## Before you draft
 
-An issue description is an **explanation** artefact, and it MUST be drafted against the chalk voice — not your own default prose habits, which read wrong and lose the reasoning the reader needs.
+An issue description is an **explanation** artefact, and it MUST be drafted against the chalk voice.
+`chalk:issue` pulls in nothing on its own, so load these first (via the Skill tool):
 
-`chalk:issue` loads on its own and pulls in none of the shared skills.
-Before drafting the body, load these (via the Skill tool):
+- **`chalk:voice`**, and its **`references/palette.md`** — the principles, the section palette, the line-format rule.
+- **`chalk:mindmap`** — the shape of the content inside each section.
+- **`chalk:goal-tree`** — wherever a section's children *accomplish* their parent rather than argue for it.
 
-- **`chalk:voice`**
-  The Diataxis framing, the universal principles, and the issue/PR section palette.
-- **`chalk:mindmap`**
-  The shape of the content inside each section.
-- **`chalk:goal-tree`**
-  Wherever a section has a goal structure to express, and its children accomplish their parent rather than argue for it.
-
-Then **structure the body into sections drawn from that palette**, choosing the ones this issue needs, and **write each section as a mindmap** — a short tl;dr opening it, then the tree.
+**Structure the body into sections drawn from the palette**, choosing the ones this issue needs, and **write each section as a mindmap** — a short tl;dr opening it, then the tree.
 A wall of undifferentiated prose is the wrong shape; if you've written one, you skipped this step.
 
-**The body itself opens with a tl;dr, at the top.**
-`chalk:mindmap` puts it there for every artefact read top-to-bottom, and an issue is the clearest case: whoever triages the card should get the whole argument before they open a single section.
-It makes a separate **Summary** section largely redundant — drop it, or hold it to the one or two sentences the palette asks for rather than letting it grow into the paragraphs the tl;dr already carries.
+**The body MUST open with a tl;dr at the top**, per `chalk:mindmap`.
+An issue is the clearest case for it: whoever triages the card should get the whole argument before they open a single section.
+That makes a separate **Summary** section largely redundant — drop it, or hold it to the one or two sentences the palette asks for.
 
 **Your audience is whoever triages this card and whoever picks it up** — most often not you, and often months from now.
 They are deciding whether it applies to them and whether it's workable today, from the description alone.
-Write for someone who wasn't in the session that found the problem; see "Name your audience" in `chalk:voice`.
 
-**Line format: paragraph-per-line.**
-An issue body is read rendered on GitHub, never as a `git diff`.
-GitHub renders single newlines as `<br>`, so sentence-per-line fragments into staccato — put each paragraph on a single line, separate paragraphs with a blank line, and let the rendering wrap.
-
-## Your Responsibilities
+## Your responsibilities
 
 1. **Establish the *why* and the *why now*.**
 
-   The rule is a universal principle in `chalk:voice` — see "Establish the why and the why now" there, and **ask rather than guess**.
+   **An issue MUST NOT be filed without a *why*** — if the motivation isn't recoverable, ask rather than guessing. The rule is a universal principle in `chalk:voice`.
 
-   What's specific to an issue: *why now* is the line most often missing from a filed card, and its absence is what makes it un-triageable.
-   A reader deciding whether to pick this up needs to know what made it worth writing down today, and there's no diff for them to fall back on.
+   What's specific to an issue: *why now* is the line most often missing from a filed card, and its absence is what makes it un-triageable. A reader deciding whether to pick this up needs to know what made it worth writing down today, and there's no diff to fall back on.
 
 2. **Check whether the issue already exists.**
 
-   Ask the github agent to search open (and recently-closed) issues before filing.
-   A duplicate splits the discussion across two cards and neither ends up with the full picture.
-   If a close match exists, propose updating that issue's description or commenting on it instead, and let the user choose.
+   Ask the github agent to search open and recently-closed issues before filing.
+   A duplicate splits the discussion across two cards and neither ends up with the full picture. If a close match exists, propose updating that issue's description or commenting on it instead, and let the user choose.
 
 3. **Gather the concrete material.**
 
-   The palette's evidence-shaped sections are only as good as what you put in them — error messages, failing test names, log excerpts with timestamps, the specific types and files involved, links to CI runs.
-   Collect these before drafting rather than reaching for placeholders mid-sentence.
+   Error messages, failing test names, log excerpts with timestamps, the specific types and files involved, links to CI runs.
+   Collect these before drafting rather than reaching for placeholders mid-sentence. **Raw evidence MUST be annotated** — a log dump or stack trace with no explanation of what the reader is looking at is noise.
 
 4. **Draft a title in acceptance-test voice.**
 
-   Use the user's if given.
-   Otherwise state the behaviour you want to be true, with a lowercase `should` — "the replica log should elect its own leader", "a restarted node should not reset the leader term".
+   Use the user's if given. Otherwise state the behaviour you want to be true, with a lowercase `should` — "the replica log should elect its own leader", "a restarted node should not reset the leader term".
 
-   **A title MUST say whether it states the desired behaviour or the current defect.**
-   A bare statement of the current condition reads identically on a card that wants it fixed and one that wants it kept: "leader election borrows Kafka's consumer group" sits equally well above a plan to replace it and a plan to harden it.
-   `should` settles that in one word, and it holds whether the card turns out to be a bug, a feature or a refactor.
+   - **A title MUST say whether it states the desired behaviour or the current defect.**
+     A bare statement of the current condition reads identically on a card that wants it fixed and one that wants it kept: "leader election borrows Kafka's consumer group" sits equally well above a plan to replace it and a plan to harden it. `should` settles that in one word, and it holds whether the card turns out to be a bug, a feature or a refactor.
 
-   **Lowercase `should`, never `SHOULD`.**
-   An RFC 2119 keyword grades how strongly something is required, which is a body concern; a title names the behaviour, not its priority.
+   - **Lowercase `should`, never `SHOULD`.**
+     An RFC 2119 keyword grades how strongly something is required, which is a body concern; a title names the behaviour, not its priority.
 
-   **Name the behaviour, not the mechanism that delivers it.**
-   "the replica log should elect its own leader" is the outcome; "add a RaftElector" is the implementation, and it dates the moment the design moves.
-   Same instinct as the problem-focused body sections in step 5 — the title points at the outcome, the body explains the problem.
+   - **Name the behaviour, not the mechanism that delivers it.**
+     "The replica log should elect its own leader" is the outcome; "add a RaftElector" is the implementation, and it dates the moment the design moves.
 
 5. **Draft the body — problem-focused.**
 
-   An issue description is an **explanation** artefact with reference-shaped evidence embedded (log excerpts, stack traces, trace dumps).
-   Draw the sections from the palette in the `chalk:voice` skill you loaded above, and default to the ones that describe **the problem**: summary, context/motivation, symptoms, evidence, root cause, invariants, out of scope.
+   **The description MUST be understandable on its own**, without trawling the comments. It is the source of truth for the issue's current state.
 
-   **Stay on the problem unless the conversation was actually about implementation.**
-   An issue that arrives pre-committed to a solution closes off the design discussion before anyone else has seen the problem — and it dates badly, because the solution is the part most likely to change.
-   So the solution-shaped sections — Implementation, Alternatives considered, Decision rationale, Future state — are **earned, not default**:
+   Default to the palette sections that describe **the problem**: context/motivation, symptoms, evidence, root cause, invariants, out of scope.
 
-   - **Include them** when the session genuinely worked the implementation: you traced the code, weighed approaches, or the user talked through a design.
-     Then the reasoning is real and losing it is the expensive outcome.
-   - **Leave them out** when the session was about *noticing* the problem.
-     A guess at the fix, written up as though it were a decision, is worse than no section at all — the next reader can't tell your speculation from a conclusion.
+   **The solution-shaped sections — Implementation, Alternatives considered, Decision rationale, Future state — MUST NOT appear unless the session genuinely worked the implementation.**
+   An issue that arrives pre-committed to a solution closes off the design discussion before anyone else has seen the problem, and it dates badly, because the solution is the part most likely to change.
 
-   - **When a fix is obvious but unconsidered**, one line under the problem ("probably wants X") is enough.
-     Don't inflate it into an Implementation section.
+   - **Include them** when you traced the code, weighed approaches, or the user talked through a design. Then the reasoning is real and losing it is the expensive outcome.
+   - **Leave them out** when the session was about *noticing* the problem. A guess at the fix, written up as though it were a decision, is worse than no section at all — the next reader can't tell speculation from a conclusion.
+   - **When a fix is obvious but unconsidered**, one line under the problem ("probably wants X") is enough. Don't inflate it into an Implementation section.
 
-   **Where you do include them, they take a goal tree** (`chalk:goal-tree`) rather than a flat list of tasks.
-   An issue's goal tree sits higher than a plan's — it answers what has to be true for this to be done, not which files to touch — and a child may be a link to the issue that owns that part, which is what keeps it high-level.
-   Wire that link as a sub-issue relationship too (step 6), so the tree maps the issue graph rather than duplicating it.
-
-   **The description is the source of truth.**
-   A developer MUST be able to understand the current state of the issue by reading the description alone, without trawling the comments.
-
-   **Don't write a `## Progress` section.**
-   Progress is chalk's tracking state, not part of the problem statement, and it's added by `chalk #N` when someone actually picks the issue up.
-   A checklist on an untouched issue asserts work is underway when it isn't.
+   **Where you do include them, they MUST be shaped as a goal tree** (`chalk:goal-tree`) rather than a flat list of tasks — Implementation and Future state, where earned, always are.
+   An issue's goal tree sits higher than a plan's — it answers what has to be true for this to be done, not which files to touch — and a child may be a link to the issue that owns that part, which is what keeps it high-level. Wire that link as a sub-issue relationship too, so the tree maps the issue graph rather than duplicating it.
 
 6. **Wire up relationships.**
 
    Parent/child and blocked-by carry structure the description can't, and they answer cheaply what prose answers expensively.
 
-   - **Parent / sub-issues**
-     When work nests. A sub-issue inherits its parent's motivation, so its own description stays focused on the specific slice.
+   - **Parent / sub-issues** — when work nests. A sub-issue inherits its parent's motivation, so its own description stays focused on the specific slice.
+   - **Blocked-by** — for order-dependent work. This pays back most: a filter for "open, un-blocked" becomes the queue of workable cards, and nobody has to triage to find out what they can pick up today.
 
-   - **Blocked-by**
-     For order-dependent work. This is the one that pays back most: a filter for "open, un-blocked" becomes the queue of workable cards, and nobody has to triage to find out what they can pick up today.
-
-   Wire them **in the same session the issue is created**.
-   A link deferred is usually a link never made.
+   Wire them **in the same session the issue is created** — a link deferred is usually a link never made.
    The github agent has the GraphQL recipes (`addSubIssue`, `addBlockedBy`).
 
 7. **Delegate to the chalk github agent** to create the issue.
 
-   - Pass the title and the fully-drafted body, ready to post verbatim.
-   - Pass any project-specific conventions relevant to this operation — project boards, default labels, milestones, assignees — that you can see in your current context (typically the project's `CLAUDE.md`, or explicit user instructions for this session). Include them verbatim; let the agent apply them alongside its defaults.
+   **All GitHub interaction MUST go through the agent; the main context MUST NOT call `gh issue` directly.**
+
+   - **Pass the fully-drafted body, ready to post verbatim.**
+     Passing bullet points and asking the agent to "write this up" is not acceptable — it pushes an explanation-quadrant job onto a model that can't do it well.
+   - Pass any project-specific conventions you can see in your current context — project boards, default labels, milestones, assignees — verbatim, and let the agent apply them alongside its defaults.
    - Note the issue number from the agent's response and report it to the user.
 
 ## Updating an existing description
@@ -147,43 +111,15 @@ The description is the source of truth, so it MUST be kept accurate as facts cha
 
 - **Read before writing.**
   GitHub replaces the entire body on edit, so the agent needs the full new body.
-- **Leave `## Progress` alone.**
-  It's chalk's section and its checklist is read as the issue's current truth; route changes to it through the `chalk` skill.
-
 - **Transitions don't belong here.**
   A description states the problem as it is now; "we originally thought X" belongs in a comment, which is timestamped and append-only. See "Transitions vs. current state" in `chalk:voice`.
 
-## Chalk integration
+## The `## Progress` section is chalk's, not this skill's
 
-- **`chalk new`** loads this skill to produce the issue, then starts tracking against the number it returns.
-  The drafting rules above are the same either way — including no `## Progress` section; chalk adds it as part of picking the issue up.
+**An issue body written here MUST NOT contain a `## Progress` section** — not on create, not on update, not under `chalk new`.
 
-- **When chalk is tracking this issue**, the `## Progress` section and the session comment are chalk's.
-  Route changes to either through the `chalk` skill rather than editing them here.
-- **Implementation detail belongs in the chalk comment**, not the description — which sub-task is next, what files to touch, what was tried.
-  That's the same line the section palette draws in `chalk:voice`.
+Progress is chalk's tracking state, not part of the problem statement.
+It's added by `chalk #N` when someone actually picks the issue up, and a checklist on an untouched issue asserts work is underway when it isn't.
+Where one already exists, leave it alone and route changes through the `chalk` skill; its checklist is read as the issue's current truth.
 
-## Constraints
-
-- The issue body MUST follow the explanation-quadrant voice in the `chalk:voice` skill, and each section MUST be shaped per `chalk:mindmap`.
-- A section whose items accomplish their parent rather than argue for it MUST be shaped as a goal tree per `chalk:goal-tree` — Implementation and Future state, where earned, always are.
-- The body MUST be drafted in the main context and handed to the github agent ready to post verbatim. Passing bullet points and asking the agent to "write this up" is not acceptable — it pushes an explanation-quadrant job onto a model that can't do it well.
-- All GitHub interaction MUST go through the github agent. The main context MUST NOT call `gh issue` directly.
-- The description MUST be understandable on its own, without reading the comments.
-- An issue MUST NOT be filed without a *why* — if the motivation isn't recoverable, ask rather than guessing.
-- The body MUST NOT contain a `## Progress` section. That's chalk's tracking state, added when someone picks the issue up.
-- The solution-shaped sections (Implementation, Alternatives considered, Decision rationale, Future state) MUST NOT appear unless the session genuinely worked the implementation. Speculation presented as a decision is worse than an omission.
-- A title MUST make clear whether it states the desired behaviour or the current defect. Acceptance-test voice with a lowercase `should` is the default; a bare statement of the current condition MUST NOT be used, because it reads the same on a card that wants it fixed as on one that wants it kept.
-- The body MUST open with a tl;dr at the top, per `chalk:mindmap`.
-- Raw evidence MUST be annotated. A log dump or stack trace with no explanation of what the reader is looking at is noise.
-
-## Workflow
-
-1. Parse the title from the command arguments (if provided)
-2. Establish the *why* and *why now*; ask if either is unclear
-3. Search for an existing issue covering this
-4. Gather the concrete evidence
-5. Load `chalk:voice` and `chalk:mindmap` (and `chalk:goal-tree` if any section has a goal structure), then draft the title and body against the problem-focused sections of the palette
-6. Ask any clarifying questions if needed
-7. Delegate to the github agent to create the issue, and wire up any parent / blocked-by relationships
-8. Report the issue number back to the user
+The same line applies to implementation detail — which sub-task is next, what files to touch, what was tried. That belongs in the chalk comment, not the description.

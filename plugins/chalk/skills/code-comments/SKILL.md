@@ -28,10 +28,13 @@ Not a novice, not a stranger to the project — and not you, five minutes after 
 
 ## Don't answer questions the reader won't ask
 
-**Comments are for the *counter*-intuitive**: what that reader wouldn't have thought of, and why you couldn't do it the way that's obvious to them.
+**A comment MUST carry something that reader could not derive from the code in front of them.**
+Comments are for the *counter*-intuitive: what they wouldn't have thought of, and why you couldn't do it the way that's obvious to them.
 
-- **If they'd have written the same code for the same reasons, it needs no justification.**
-  A choice they'd make unprompted is not a choice that needs defending.
+- **A comment MUST NOT justify the code's existence, or defend a choice that reader would have made unprompted.**
+  A choice they'd make anyway is not a choice that needs defending.
+- **A comment MUST NOT restate the code, echo the function name, narrate the steps, or list a function's callers.**
+  The contract is stable; the call graph isn't, so a caller list becomes a lie or a chore.
 - **Justifying a choice is right where the question is one they'd genuinely ask.**
   "Why support X as well as Y?" earns a comment where nothing in the code suggests Y is needed; it doesn't where the question only occurs to someone who just finished deciding it.
 - **"Counter-intuitive" is the word that leaks**, because the author decides what counts — and having just thought hard about something is what makes it feel counter-intuitive to them and obvious to everyone else.
@@ -40,7 +43,7 @@ Not a novice, not a stranger to the project — and not you, five minutes after 
 
 **Cover the comment, read the code, and name what the reader would get wrong. Nothing → delete it.**
 
-A comment that fails wants deleting, not shortening.
+**A comment that fails MUST be deleted, not shortened.**
 Reaching for a length budget instead is how justification survives a pass and comes back trimmed — so if you're rewriting a comment for the second time, apply the test rather than the budget.
 
 ## What survives, and only where the code can't show it
@@ -59,14 +62,16 @@ A comment matching one of these shapes still has to pass the test.
 
 Most of it isn't waste, it's misfiled.
 
-- **Design rationale → the commit body.**
+- **Design rationale MUST go in the commit body**, not the source.
   Why the code is allowed to exist, why a surface is shaped as it is, why one option beat another. **An answer to a question raised in review is the case to watch**: it's neither repetition, step-narration nor history, so it passes every other rule here while being precisely what the reader never asks.
-- **What the code used to do → the commit that changed it.**
-  Comments carry the *current contract*, written as if it had always been so (see "Transitions vs. current state" in `chalk:voice`). A comment that only lands as a contrast with the previous code rots at the next refactor.
+
+- **A comment MUST describe the current contract; "used to be" narration MUST NOT appear in source.**
+  What the code used to do belongs in the commit that changed it (see "Transitions vs. current state" in `chalk:voice`). A comment that only lands as a contrast with the previous code rots at the next refactor.
+
 - **A pattern's rationale → the pattern's canonical place**, once.
   Not re-narrated at every site. A `close()` that closes things needs no comment, nor a "phase 2 of teardown" label.
 - **A specific call site's oddity → that call site.**
-  Not a caller list on the function. Document the function's own contract; the contract is stable, the call graph isn't, so a caller list becomes a lie or a chore.
+  Not a caller list on the function; document the function's own contract.
 
 ## You're not writing to impress anyone
 
@@ -76,7 +81,8 @@ A respected colleague states the constraint and moves on.
 
 ## Reviewing the comments in a diff
 
-**Weeding is part of the review, not a tidy-up afterwards**: deleting a comment costs nothing at review time and never happens later.
+**A code review MUST cover the diff's comments as well as its code.**
+Weeding is part of the review, not a tidy-up afterwards: deleting a comment costs nothing at review time and never happens later.
 
 Per comment in the diff:
 
@@ -90,14 +96,4 @@ Per comment in the diff:
 - **Most comments are one line and stay one line.**
   `// volatile — reads race with the flush thread` doesn't want a bullet.
 - **A comment with real structure takes a mindmap**, at a higher threshold than prose, with markup depending on whether the language's tooling renders it — see the code-comment rules in `chalk:mindmap`.
-- **The calling skill's line-break rule doesn't apply** — comments are read in-source. Terse, why-first and concrete still do.
-
-## Constraints
-
-- A comment MUST carry something that reader could not derive from the code in front of them.
-- A comment MUST NOT justify the code's existence, or defend a choice that reader would have made unprompted.
-- A comment failing the test MUST be deleted, not shortened.
-- Design rationale, and any answer to a question raised in review, MUST go in the commit body rather than the source.
-- A comment MUST describe the current contract; "used to be" narration MUST NOT appear in source.
-- A comment MUST NOT restate the code, echo the function name, narrate the steps, or list a function's callers.
-- A code review MUST cover the diff's comments, and MUST report a failing one as a deletion.
+- **No line-break rule applies** — comments are read in-source, so `chalk:voice`'s paragraph-per-line rule is off. Terse, why-first and concrete still hold.

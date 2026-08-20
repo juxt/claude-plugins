@@ -9,97 +9,68 @@ disable-model-invocation: false
 
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
-The user will provide the commit headline as an argument to this command (e.g., `/commit fix: boolean logic error in expression.clj`).
+The user will provide the commit headline as an argument (e.g. `/chalk:commit fix: boolean logic error in expression.clj`).
 
 ## Before you draft
 
-The commit body is an **explanation** artefact and MUST be drafted in the chalk voice, not your own default prose habits.
-`chalk:commit` loads on its own and pulls in none of these, so before writing the body, load all three (via the Skill tool):
+A commit body is an **explanation** artefact and MUST be drafted in the chalk voice, not your own default prose habits.
+`chalk:commit` pulls in nothing on its own, so load these first (via the Skill tool):
 
-- **`chalk:voice`**
-  The Diataxis framing, the universal principles, and the concrete-over-abstract examples.
-- **`chalk:mindmap`**
-  The shape of the body. A commit body is not prose.
-- **`chalk:code-comments`**
-  Because the body is where a comment's design rationale belongs, this is the moment the misfiled ones surface. Weed the diff's comments against it before drafting, and move what they were trying to say into the body.
+- **`chalk:voice`** — the principles, the explanation quadrant, the line-format rule.
+- **`chalk:mindmap`** — a commit body is a lead-in line then a tree, not prose. See "Commit bodies" there.
+- **`chalk:code-comments`** — the body is where a comment's design rationale belongs, so this is the moment the misfiled ones surface.
+  Weed the diff's comments against it before drafting, and move what they were trying to say into the body.
 
-**A commit body is a lead-in line, then a mindmap** — the rules are under "Commit bodies" in `chalk:mindmap`.
-What's specific to this skill is *why* it has no palette to apply: unlike a PR, a commit covers one atomic change, so it's a single explanation rather than a sectioned document.
-Needing sections is a signal the commit is too big, or that you're writing the PR description in the wrong place.
+**A commit has no section palette**, unlike a PR: it covers one atomic change, so it's a single explanation rather than a sectioned document.
+**The body MUST NOT contain headings** — needing them is a signal the commit is too big, or that you're writing the PR description in the wrong place.
+A tl;dr is optional; the subject line normally serves as one.
 
-**Line format: paragraph-per-line** by default.
-A commit body is read rendered (`git log`, GitHub, a PR commit list), never as a `git diff`, so put each paragraph on a single line and separate paragraphs with a blank line — sentence-per-line would fragment into `<br>` staccato when rendered.
-Some projects override this and ask for sentence-per-line in commit messages; follow the project's convention where it states one (see "Discover project conventions" in `chalk:voice`).
+## Your responsibilities
 
-## Your Responsibilities
+1. **Stage relevant changes.**
 
-1. **Stage relevant changes**:
-   - Review unstaged changes and stage files related to this commit
-   - Only stage changes that belong together logically — don't bundle unrelated work
-   - Each commit is an atomic unit of change: a transition from one valid state to another
-   - If two changes don't make sense independently, they're one commit; if they're distinct, they're two commits
-   - Keep unrelated bugfixes separate so they can be merged independently
-   - Where reasonable, separate behaviour-preserving changes (refactorings) from behaviour-advancing changes — it's much easier to review a change knowing it's supposed to behave exactly the same as before
+   **Each commit MUST be an atomic, cohesive unit of change** — a transition from one valid state to another — and **unrelated changes MUST NOT be staged together**.
+
+   - If two changes don't make sense independently, they're one commit; if they're distinct, they're two.
+   - Keep unrelated bugfixes separate so they can be merged independently.
+   - Where reasonable, separate behaviour-preserving changes (refactorings) from behaviour-advancing ones — it's much easier to review a change knowing it's supposed to behave exactly the same as before.
 
 2. **Review the conversation history** to extract the reasoning behind the change.
-   Optimise for later reading — a future developer looking at this commit won't care about the journey, they need to understand *why* this change exists and *why* it was done this way.
-   Consider what you'd explain to that developer and organise the commit accordingly.
 
-3. **Draft a commit body.**
+   Optimise for later reading: a future developer looking at this commit won't care about the journey, they need to understand *why* this change exists and *why* it was done this way.
 
-   A commit body is an **explanation** artefact (see the `chalk:voice` skill).
-   The diff is the code change; the body explains *why* it exists — decisions, alternatives rejected, constraints, dead ends, counter-intuitive findings, scope boundaries.
-   Embed concrete examples (code snippets, call sites, specific scenarios) as illustrative material.
+3. **Draft the body.**
+
+   **It MUST NOT describe what changed — the diff shows that.**
+   The body explains *why* it exists: decisions, alternatives rejected, constraints, dead ends, counter-intuitive findings, scope boundaries.
+   Embed concrete examples — code snippets, call sites, specific scenarios — as illustrative material.
 
    Open with the lead-in line, then shape the reasoning per "Commit bodies" in `chalk:mindmap`.
 
-4. **Ask clarifying questions** if you can't reconstruct the *why* from the conversation history — particularly around whether something was a deliberate choice vs. a constraint, or intentionally out-of-scope vs. overlooked.
+4. **Ask clarifying questions** if you can't reconstruct the *why* from the conversation history.
 
-5. **Make the commit** directly with the commit body you've drafted:
-   - Use the user's provided headline as the first line
-   - Add a blank line
-   - Add your drafted commit body
-   - The user will review the commit message in the Bash tool request before approving
+   Particularly around whether something was a deliberate choice or a constraint, and whether something was intentionally out of scope or overlooked.
 
-## Issue References in the Subject Line
+5. **Make the commit.**
 
-When the work relates to a GitHub issue:
+   Headline, blank line, body. The user reviews the message in the Bash tool request before approving.
 
-- If the commit **resolves** the issue, suffix the subject line with `(resolves #N)`.
-- If the commit is an **iteration towards** resolving the issue (partial progress), suffix the subject line with `(#N)`.
+   A co-author header SHOULD be included, replacing the model as appropriate:
+   ```
+   Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
+   ```
 
-## Chalk Integration
+## Issue references in the subject line
 
-When chalk is active (tracking a GitHub issue), the commit is part of a larger story:
+- **Resolves the issue** — suffix the subject with `(resolves #N)`.
+- **An iteration towards it** — suffix with `(#N)`.
 
-- **Reference the issue** in the commit body footer (e.g., `Refs #123`) so the commit links back to the issue context.
+## Chalk integration
 
+When chalk is active, the commit is part of a larger story:
+
+- **Reference the issue** in the body footer (`Refs #123`) so the commit links back to the issue context.
 - **Draw on the session context.**
-  The chalk issue and comments capture the broader intent — use that to write a richer commit body.
-  You have the full conversation history; the chalk comment captures what was planned and why.
-  The commit body should stand alone but benefit from that context.
-
-- **After committing**, update the chalk comment with the outcome directly — don't ask first.
-  Chalk updates are part of the work, not an optional extra step requiring permission.
-  A one-line nudge to the user after the update is fine; a question isn't.
-
-## Constraints
-
-- The commit body MUST follow the explanation-quadrant voice in the `chalk:voice` skill, and MUST be shaped as a mindmap per `chalk:mindmap` — a lead-in line, then the tree.
-- The commit body MUST NOT contain headings. A tl;dr is optional — the subject line normally serves as one.
-- Each commit MUST be an atomic, cohesive unit of change.
-- Unrelated changes MUST NOT be staged together.
-- The commit body MUST NOT describe what changed — the diff shows that.
-- A co-author header SHOULD be included (replacing the model as appropriate):
-  ```
-  Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
-  ```
-
-## Workflow
-
-1. Parse the commit headline from the command arguments
-2. Review changes and stage relevant files (only those related to this commit)
-3. Review the session to extract salient context
-4. Draft the commit body
-5. Ask any clarifying questions if needed
-6. Make the commit with git commit (the user will review the commit message in the Bash tool request)
+  The chalk issue and comments capture the broader intent. The commit body should stand alone but benefit from that context.
+- **After committing, update the chalk comment with the outcome directly** — don't ask first.
+  Chalk updates are part of the work, not an optional extra requiring permission. A one-line nudge to the user after the update is fine; a question isn't.
