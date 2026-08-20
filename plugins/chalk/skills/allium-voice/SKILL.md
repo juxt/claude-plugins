@@ -73,8 +73,11 @@ RFC 2119 keywords grade individual clauses within one, so the two compose.
 - **Uppercase MUST, MUST NOT, SHOULD, SHOULD NOT, MAY are graded keywords; lowercase `must` and `should` are ordinary English.**
   Allium's own language reference uses the lowercase forms freely, so the distinction MUST be carried by case or it is invisible.
 
-- **SHOULD, SHOULD NOT and MAY MUST NOT appear inside an `@invariant` or `@guarantee`.**
-  An invariant holds or it does not; it is a MUST by construction, and a graded clause inside one is a contradiction the checker cannot see. That material belongs in `@guidance`.
+- **The obligation itself MUST NOT be graded.**
+  An `@invariant` or `@guarantee` holds or it does not, so it is a MUST by construction; a SHOULD or MAY applied to the obligation is a contradiction the checker cannot see, and that material belongs in `@guidance`.
+
+- **A graded keyword describing what an actor is *permitted* to do is not the obligation being graded**, and belongs where it is.
+  An invariant can hold absolutely while noting the latitude it leaves an external actor — "ordinarily this bounds the confirmed position by the last durable block's token; a source MAY confirm beyond it over a range that holds nothing of ours". The MAY is the source's latitude; the invariant is what constrains it.
 
 - **`@guidance` is where SHOULD and MAY live**, which is what it's for.
 
