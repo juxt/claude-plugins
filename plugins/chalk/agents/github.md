@@ -25,7 +25,7 @@ description: >
   re-read the skill and draft through it before calling this agent.
 model: haiku
 color: white
-tools: Bash(gh issue *), Bash(gh pr create *), Bash(gh pr edit *), Bash(gh project *), Bash(gh api /repos/*/issues/*), Bash(gh api /repos/*/issues/comments/*), Bash(gh api --method PATCH /repos/*/issues/comments/*), Bash(gh api graphql *), Bash(gh repo view *)
+tools: Bash(gh issue *), Bash(gh pr create *), Bash(gh pr edit *), Bash(gh project *), Bash(gh api /repos/*/issues/*), Bash(gh api /repos/*/issues/comments/*), Bash(gh api --method PATCH /repos/*/issues/comments/*), Bash(gh api graphql *), Bash(gh repo view *), Bash(jq *), Bash(wc *), Write
 ---
 
 # Chalk Agent
@@ -48,6 +48,46 @@ If the caller's prompt is missing the body, gives only a sketch or bullet list, 
 When you push back, remind the caller which skill the body comes from — issue bodies and descriptions from `chalk:issue`, chalk comments and Progress sections from `chalk`, PR descriptions from `chalk:pr`.
 Those skills carry the voice guidance the body needs.
 The one exception is the `(to be filled after implementation)` placeholder inside a brand-new chalk comment's `<details>` blocks — that literal placeholder is part of the template and stays until the caller fills it later.
+
+## Every body goes through a file, and every write is checked afterwards
+
+Chalk bodies routinely run to tens of kilobytes, and the two ways of losing one both return success.
+So this is not a style preference: pass the body from a file, and verify the write landed.
+
+Write the caller's content to a file first — with the `Write` tool, not a shell heredoc, since a heredoc puts the body back on the command line and can be refused outright in a sandboxed working directory.
+
+**Issue bodies, PR bodies and comments each have a `--body-file` flag. Use it.**
+
+```bash
+gh issue create --title "..." --body-file body.md
+gh issue edit N --body-file body.md
+gh issue comment N --body-file body.md
+gh issue comment N --edit-last --body-file body.md
+gh pr create --title "..." --body-file body.md
+```
+
+**Editing a comment by ID has no such flag, so build the JSON payload:**
+
+```bash
+jq -Rs '{body: .}' < body.md | gh api --method PATCH /repos/$REPO/issues/comments/$COMMENT_ID --input -
+```
+
+- **`-f body="$(cat body.md)"` is the failure this section exists for.**
+  A long body passed as a shell argument has been truncated to its first few hundred characters, with a 200 response and no indication anything was lost.
+
+- **`-f body=@body.md` looks like the fix and is not.**
+  `gh` expands a leading `@` into file contents for `--input` but **not** for `-f`, so this succeeds and replaces the comment with the literal string `@body.md`.
+
+**Then read the body back and compare its length to the file:**
+
+```bash
+wc -c body.md
+gh api /repos/$REPO/issues/comments/$COMMENT_ID --jq '.body' | wc -c
+```
+
+A one-byte difference is the trailing newline `gh` adds and is expected.
+Anything larger means the write was mangled: report it to the caller as a failure and do not describe the update as done.
+Report the two lengths in your result either way, so the caller can see the write was checked rather than assumed.
 
 ## Project-specific conventions
 
@@ -123,7 +163,7 @@ If nothing matches, say so explicitly rather than returning an empty list.
 Create a GitHub issue:
 
 ```
-gh issue create --title "..." --body "..."
+gh issue create --title "..." --body-file body.md
 ```
 
 The caller provides the fully-drafted title and body — do not rewrite or summarise them.
@@ -135,7 +175,7 @@ Report back the issue number from the output.
 
 Create a new comment on the issue using the body the caller has drafted.
 The caller supplies the task description, the checklist, and any `<details>` bodies (or the literal placeholder `(to be filled after implementation)` for items not yet done).
-Use `gh issue comment N --body "..."` to post it verbatim.
+Use `gh issue comment N --body-file body.md` to post it verbatim.
 
 The expected shape — for your own validation, not for you to author:
 
@@ -198,7 +238,7 @@ gh issue view N --json comments --jq '.comments[-1].body' | head -1
 If it starts with `### Chalk —` and is yours, edit with:
 
 ```
-gh issue comment N --edit-last --body "..."
+gh issue comment N --edit-last --body-file body.md
 ```
 
 If not (someone commented since), edit by comment ID:
@@ -206,7 +246,7 @@ If not (someone commented since), edit by comment ID:
 ```bash
 REPO=$(gh repo view --json nameWithOwner --jq .nameWithOwner)
 COMMENT_ID=$(gh issue view N --json comments --jq --arg me "$ME" '[.comments[] | select(.body | startswith("### Chalk —")) | select(.author.login == $me)] | last | .url | split("-") | last')
-gh api --method PATCH /repos/$REPO/issues/comments/$COMMENT_ID -f body="..."
+jq -Rs '{body: .}' < body.md | gh api --method PATCH /repos/$REPO/issues/comments/$COMMENT_ID --input -
 ```
 
 The caller provides the fully-drafted new body — including any filled-in `<details>` blocks.
@@ -220,7 +260,7 @@ Read the current issue body, splice in the new `## Progress` section the caller 
 ```bash
 BODY=$(gh issue view N --json body --jq .body)
 # Replace ## Progress section if it exists, otherwise append
-gh issue edit N --body "$NEW_BODY"
+gh issue edit N --body-file new-body.md
 ```
 
 The caller provides the new `## Progress` section contents verbatim.
@@ -307,7 +347,7 @@ Only run these mutations on issues in the current repo.
 Create a PR with the provided title and description:
 
 ```
-gh pr create --title "..." --body "..." --assignee @me
+gh pr create --title "..." --body-file body.md --assignee @me
 ```
 
 The caller provides the title and fully-drafted description — do not rewrite or summarise it.
