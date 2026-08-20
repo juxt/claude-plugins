@@ -61,10 +61,11 @@ Chalk also auto-activates when you mention a GitHub issue number (e.g. "#123").
 - **Skill** (`mindmap`): The shape of anything the reader has to follow — nested bullets whose parents are claims and whose children back them up
 - **Skill** (`goal-tree`): Goal trees, where children accomplish their parent rather than argue for it, and each node is tested for sufficiency
 - **Skill** (`code-comments`): What earns a code comment and what to delete — load it early in a session that touches code, and again when reviewing a diff
+- **Skill** (`allium-voice`): The voice applied to Allium specs — a spec states the aim, and what it does not state, it excludes
 - **Agent** (`github`): Handles all GitHub API interaction, keeping the main context clean
 
 The writing skills are loaded by the others rather than run directly, though you can read any of them yourself with `/chalk:voice`, `/chalk:mindmap` or `/chalk:goal-tree`.
-`code-comments` is the exception: nothing else can know you're about to write one, so load it yourself, early.
+`code-comments` and `allium-voice` are the exceptions: nothing else can know you're about to write a comment or edit a `.allium` file, so load them yourself. `allium:tend` does not load `allium-voice` — the caller must.
 
 ## Permissions
 
