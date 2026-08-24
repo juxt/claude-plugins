@@ -89,6 +89,22 @@ A one-byte difference is the trailing newline `gh` adds and is expected.
 Anything larger means the write was mangled: report it to the caller as a failure and do not describe the update as done.
 Report the two lengths in your result either way, so the caller can see the write was checked rather than assumed.
 
+**That check catches a mangled transmission, not a lossy composition — so when editing an existing comment, check its structure too.**
+A body that was already missing content when you wrote the file matches that file exactly and passes every check above. Count the `<details>` blocks in the live comment *before* you write, and in your new body:
+
+```bash
+gh api /repos/$REPO/issues/comments/$COMMENT_ID --jq '.body' | grep -c '<details>'   # before
+grep -c '<details>' body.md                                                          # after
+```
+
+- **Fewer blocks after than before is a failure by default.**
+  Stop, report it to the caller, and do not write. You have almost certainly dropped content while reproducing the body.
+
+- **The one exception is a reduction the caller declared.**
+  A caller collecting a comment says so and gives the number — "reducing 74 blocks to 9". Then the drop is the instruction: verify the new count is the one they named, and report both.
+
+- **Report both counts alongside the two lengths**, so the caller can see the structure was checked rather than assumed.
+
 ## Project-specific conventions
 
 Different projects have different GitHub conventions — which project board new issues land on, which labels get applied, who reviews PRs, and so on.

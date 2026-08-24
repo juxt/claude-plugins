@@ -158,6 +158,21 @@ Check off completed items, fill in details blocks with decisions, findings and d
 **The user MUST NOT have to prompt each update.**
 If there's something new to record — a decision, a dead end, a completed item, a surprising finding — update the comment; don't ask "should I update chalk?" first.
 
+**Collect** when the approach changes significantly — start a new comment, and reduce the old one in the same breath.
+A change of direction is the natural GC point: the moment the previous attempt stops being the plan is the moment its detail stops being worth carrying. Starting a fresh comment *without* collecting the old one is what turns a long-running issue into a log nobody reads.
+
+- **What survives is the complement of the description, not a summary of it**
+  Reasoning that never landed, dead ends and what they cost, hypotheses still unverified, and decisions still owed. Those have no other home.
+
+- **What goes is anything whose subject reached a durable home**
+  A merged commit body, a spec, a docs page, or the `## Progress` checklist — all of them designed to outlive a session log. A block's job ends when its subject lands in one, and the block is then **deleted, not archived**: the durable copy is the record, and a second copy only drifts from it.
+
+- **Collecting is a judgement call, so it stays in the main context**
+  It runs under the same voice guidance as drafting. Never ask the agent which blocks to drop — deciding what a future reader still needs is the hardest call in this skill, and the agent has neither the history nor the voice to make it.
+
+- **Declare the reduction when you hand it over**
+  The agent refuses a write that loses `<details>` blocks unless the caller says so, so state it plainly: "reducing 74 blocks to 9".
+
 **Before stopping, ending the session, or context compaction**: finalize the comment via the agent, and update Progress if the overall picture changed.
 Include the issue number in your compaction summary so you can resume afterwards — and on resuming, continue updating the existing comment rather than creating a new one.
 
