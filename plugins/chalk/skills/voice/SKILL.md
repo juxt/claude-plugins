@@ -45,8 +45,7 @@ A docs page is the only artefact that plays all four.
 - **Paragraph-per-line** — commit bodies, issue and PR descriptions, chalk comments.
   These are read rendered on GitHub, and GitHub renders a single newline as `<br>`, so sentence-per-line fragments into staccato. Put each paragraph on one line, separate paragraphs with a blank line, and let the rendering wrap.
 
-- **Sentence-per-line** — docs pages and code comments.
-  Both live in the repo and are reviewed as a diff, where a one-line paragraph makes a one-word fix an unreadable whole-paragraph change.
+- **Sentence-per-line** — docs pages and code comments, per [Semantic Line Breaks](https://sembr.org): break at sentence and clause boundaries.
 - **Whichever applies, it applies inside a bullet too**, which is where it's most often forgotten.
   On a paragraph-per-line destination a bullet's elaboration stays on one line however long it runs; the single break after the subject (`chalk:mindmap`) is the only exception.
 
