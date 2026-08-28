@@ -61,11 +61,17 @@ A tl;dr is optional; the subject line normally serves as one.
 
    - **You MUST NOT give it the session.** It holds the diff and, where the body carries a `Refs #N`, that issue — the same reach as the reader it stands for.
    - **Its cuts apply.** It deletes only; a sentence it kept is unchanged.
-   - **Its Gaps are questions for you, not for it.** It reports a missing *why* or *why now* and MUST NOT invent one. Answer from the session, or ask the user per step 6, then redraft.
+   - **Its Gaps are questions for you, not for it.** It reports a missing *why* or *why now* and MUST NOT invent one.
 
-6. **Ask clarifying questions** if you can't reconstruct the *why* from the conversation history or from `weed-prose`'s gaps.
+6. **Put `weed-prose`'s gaps to the user.**
 
-   Particularly around whether something was a deliberate choice or a constraint, and whether something was intentionally out of scope or overlooked.
+   Not "ask if you're unsure" — that is a judgement made by the context that just spent the session building the *why*, and it always comes back confident. `weed-prose` has already decided, from the draft alone, which questions the artefact fails to answer.
+
+   - **A gap MUST be closed by adding a sentence that answers it**, then re-running `weed-prose` on the redraft. **You MUST NOT close a gap by deciding it doesn't apply.**
+   - **Relay each question as written.** Composing your own is where the ask gets dropped.
+   - **A `blocking` gap — a missing *why now* — MUST be resolved before you commit.** Why-this can be recovered from the diff and the issue in six months; why-now exists only in the user's head and is gone tomorrow.
+   - **Answer from the session where the session genuinely has it**, and say which part of it you're drawing on so the user can correct you. Where it doesn't, ask.
+   - Ask about the same things you would have anyway: whether something was a deliberate choice or a constraint, and whether something was intentionally out of scope or overlooked.
 
 7. **Make the commit.**
 

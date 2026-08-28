@@ -42,6 +42,7 @@ Write for that decision: a summary of the session's work doesn't serve it.
    **An issue MUST NOT be filed without a *why*** — if the motivation isn't recoverable, ask rather than guessing. The rule is a universal principle in `chalk:voice`.
 
    What's specific to an issue: *why now* is the line most often missing from a filed card, and its absence is what makes it un-triageable.
+   **It MUST be traceable to something the user said, a commit or a file you can name.** There is no diff here to fall back on, and a motivation you assembled yourself reads exactly like one you were told.
 
 2. **Check whether the issue already exists.**
 

@@ -62,9 +62,16 @@ Write the summary for them — see "Name your audience" in `chalk:voice`, and th
    - **You MUST NOT give it the session, the chalk comments, or the branch's commit bodies.** It holds the branch diff and the linked issue — what the reviewer can reach, and nothing the reviewer can't.
    - **Passing the issue is what lets it cut duplication.** Without the issue, repeated problem context reads as necessary; with it, the cut is obvious and the link does the work.
    - **Where there is no linked issue, say so.** It will otherwise strip the problem context this PR is required to carry, and it checks the first line for what, why and why now instead.
-   - **Its cuts apply; its Gaps are questions for you.** Answer them from the branch or per step 5, then redraft.
+   - **Its cuts apply; its Gaps are questions for you**, and it MUST NOT invent an answer to one.
 
-5. **Ask clarifying questions** if you can't reconstruct the reasoning from the commits, the conversation history, or `weed-prose`'s gaps.
+5. **Put `weed-prose`'s gaps to the user.**
+
+   Not "ask if you're unsure" — that is a judgement made by the context that just spent the session building the reasoning, and it always comes back confident. `weed-prose` has already decided, from the draft alone, which questions the description fails to answer.
+
+   - **A gap MUST be closed by adding a sentence that answers it**, then re-running `weed-prose` on the redraft. **You MUST NOT close a gap by deciding it doesn't apply.**
+   - **Relay each question as written.** Composing your own is where the ask gets dropped.
+   - **A `blocking` gap — a missing *why now*, or a first line that doesn't state what, why and why now on an issue-less PR — MUST be resolved before you open the PR.**
+   - **Answer from the branch where the branch genuinely has it**, and say which commit you're drawing on so the user can correct you. Where it doesn't, ask.
 
 6. **Delegate to the chalk github agent** to create the PR.
 

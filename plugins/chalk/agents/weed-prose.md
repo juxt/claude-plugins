@@ -63,10 +63,22 @@ After cutting, answer these from the trimmed draft alone, and **report each one 
 You MUST NOT invent answers or write new sentences to fill a gap.
 Name the gap and let the caller, who has the session, fill it.
 
+**Write each gap as the question to put to the user, worded so it can be relayed verbatim** — "What prompted this now rather than next month?", "What made the lock approach unworkable?".
+A caller who has to compose the question will decide the answer was obvious after all.
+
+**A missing *why now* is blocking; the others are not.**
+Why-this survives in the diff and the issue and can be recovered next month. Why-now exists only in the author's head and is gone by tomorrow, which is why it is the half that goes missing.
+
+## Re-checking a redraft
+
+The caller may send you a redraft that answers a gap you reported.
+Check whether the added sentence answers **the question you asked**, not whether the draft now mentions the topic.
+A gap stays open until it is answered; the caller cannot close it by asserting that it is closed.
+
 ## Report back
 
 Return, as your final text:
 
 1. **Cut** — the sentence's opening words and which category it fell under.
-2. **Gaps** — each unanswered question above, as a question the caller must answer.
+2. **Gaps** — each as a verbatim question for the user, marked `blocking` or `non-blocking`.
 3. **Counts** — sentences in the draft, sentences cut.

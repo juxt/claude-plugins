@@ -59,8 +59,10 @@ A docs page is the only artefact that plays all four.
 - **Why this** — what problem it solves, what it unblocks, what constraint drove it.
 - **Why now** — what prompted it today. A deadline, a dependent piece of work, a recent incident, someone else blocked on it?
 
-**Ask rather than guess.**
-If either isn't clear from the conversation, the issue and its neighbours, or the code you've read, ask the user — ideally before starting the work, and at the latest before drafting.
+**Ask rather than guess**, and treat "I can reconstruct it" as the answer that needs checking.
+That judgement is made by the context that just built the *why*, so it always comes back confident — which is why this step is skipped rather than failed. **Where a *why now* isn't traceable to something the user said, a commit or a file you can name, you don't have it.**
+
+Ask ideally before starting the work, and at the latest before drafting.
 
 Trivial changes — typo fixes, mechanical bumps, one-line config tweaks — don't need this step; the motivation is self-evident.
 Everything else does, and one answer serves every artefact.
