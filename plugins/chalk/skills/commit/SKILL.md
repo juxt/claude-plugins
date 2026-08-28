@@ -21,7 +21,6 @@ A commit body is an **explanation** artefact and MUST be drafted in the chalk vo
 - **`chalk:code-comments`** — the body is where a comment's design rationale belongs, so this is the moment the misfiled ones surface.
   Weed the diff's comments against it before drafting, and move what they were trying to say into the body.
 
-**A commit has no section palette**, unlike a PR: it covers one atomic change, so it's a single explanation rather than a sectioned document.
 **The body MUST NOT contain headings** — needing them is a signal the commit is too big, or that you're writing the PR description in the wrong place.
 A tl;dr is optional; the subject line normally serves as one.
 
@@ -32,12 +31,12 @@ A tl;dr is optional; the subject line normally serves as one.
    **Each commit MUST be an atomic, cohesive unit of change** — a transition from one valid state to another — and **unrelated changes MUST NOT be staged together**.
 
    - If two changes don't make sense independently, they're one commit; if they're distinct, they're two.
-   - Keep unrelated bugfixes separate so they can be merged independently.
-   - Where reasonable, separate behaviour-preserving changes (refactorings) from behaviour-advancing ones — it's much easier to review a change knowing it's supposed to behave exactly the same as before.
+   - Keep unrelated bugfixes separate.
+   - Where reasonable, separate behaviour-preserving changes (refactorings) from behaviour-advancing ones.
 
 2. **Review the conversation history** to extract the reasoning behind the change.
 
-   Optimise for later reading: a future developer looking at this commit won't care about the journey, they need to understand *why* this change exists and *why* it was done this way.
+   Optimise for later reading: your reader is whoever runs `git blame` on one of these lines while debugging something else, months on. They won't care about the journey — they need *why* this change exists and *why* it was done this way.
 
 3. **Draft the body.**
 
@@ -67,10 +66,10 @@ A tl;dr is optional; the subject line normally serves as one.
 
 ## Chalk integration
 
-When chalk is active, the commit is part of a larger story:
+When chalk is active:
 
-- **Reference the issue** in the body footer (`Refs #123`) so the commit links back to the issue context.
+- **Reference the issue** in the body footer (`Refs #123`).
 - **Draw on the session context.**
   The chalk issue and comments capture the broader intent. The commit body should stand alone but benefit from that context.
 - **After committing, update the chalk comment with the outcome directly** — don't ask first.
-  Chalk updates are part of the work, not an optional extra requiring permission. A one-line nudge to the user after the update is fine; a question isn't.
+  A one-line nudge to the user after the update is fine; a question isn't.

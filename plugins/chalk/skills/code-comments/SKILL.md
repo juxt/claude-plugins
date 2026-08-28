@@ -1,6 +1,6 @@
 ---
 name: code-comments
-description: What earns a code comment, and what to delete — the reader model, the counter-intuition test, and where rejected material goes instead. Load early in any session that touches code, before writing or editing any comment, docstring or kdoc, and again when reviewing a diff, where weeding the comments is part of the review.
+description: What earns a code comment, and what to delete — the pinned reader, the usefulness test, and where rejected material goes instead. Load early in any session that touches code, before writing or editing any comment, docstring or kdoc, and again when reviewing a diff, where weeding the comments is part of the review.
 user-invocable: true
 ---
 
@@ -8,36 +8,31 @@ user-invocable: true
 
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
-## When to load this
-
-**The comment that needs stopping never feels tricky — it feels like diligence**, so this is not a skill to reach for once you've decided a comment is hard.
-The failure is writing one without consulting anything, not failing to find the rules.
-Load it, unprompted, at four moments:
-
-- **Early in any session that will write or change code.**
-  Not at the moment you type `//` — by then you've decided.
-- **Before writing or editing any comment**, docstring, kdoc, javadoc or doc attribute.
-  Editing counts: a comment you're shortening is one you've decided to keep.
-- **When reviewing a diff**, over its comments as well as its code.
-- **Before writing a commit body**, which is where most of what this rejects belongs. `chalk:commit` loads it for you.
-
 ## The reader
 
-**A reasonable, competent senior developer who knows this language and this codebase, reading the code in front of them.**
-Not a novice, not a stranger to the project — and not you, five minutes after deciding something.
+**A competent developer on this project, arriving at this line in a year, mid-investigation of a different bug.**
+They did not read the commit that added it, do not know a change happened here, and will read this line and the twenty around it — nothing else.
+
+**Simulate that reader before there's a comment on the screen**, not after.
+
+What each clause rules out:
+
+- **"in a year", "did not read the commit"** — they have no referent for the change.
+  "Now we…", "instead of…", "this handles the case we hit" say nothing to them.
+- **"a different bug"** — they want one fact and they're leaving.
+  Orientation, summary and section-label comments cost them and give nothing.
+- **"this line and the twenty around it"** — nothing that depends on reading elsewhere.
+  No caller lists, no "phase 2 of teardown", no re-narrating a pattern's rationale at each site.
 
 ## Don't answer questions the reader won't ask
 
-**A comment MUST carry something that reader could not derive from the code in front of them.**
-Comments are for the *counter*-intuitive: what they wouldn't have thought of, and why you couldn't do it the way that's obvious to them.
+**A comment MUST carry a concept that does not manifest in the code constructs around it, and that the reader could not easily derive by reading them.**
+**No clause of that is yours to adjudicate** — the reader's derivation decides, not your sense of what's subtle.
 
 - **A comment MUST NOT justify the code's existence, or defend a choice that reader would have made unprompted.**
-  A choice they'd make anyway is not a choice that needs defending.
-- **A comment MUST NOT restate the code, echo the function name, narrate the steps, or list a function's callers.**
-  The contract is stable; the call graph isn't, so a caller list becomes a lie or a chore.
+- **A comment MUST NOT restate the code, echo the function name or narrate the steps.**
 - **Justifying a choice is right where the question is one they'd genuinely ask.**
   "Why support X as well as Y?" earns a comment where nothing in the code suggests Y is needed; it doesn't where the question only occurs to someone who just finished deciding it.
-- **"Counter-intuitive" is the word that leaks**, because the author decides what counts — and having just thought hard about something is what makes it feel counter-intuitive to them and obvious to everyone else.
 
 ## The test
 
@@ -46,6 +41,8 @@ Comments are for the *counter*-intuitive: what they wouldn't have thought of, an
 **A comment that fails MUST be deleted, not shortened.**
 Reaching for a length budget instead is how justification survives a pass and comes back trimmed — so if you're rewriting a comment for the second time, apply the test rather than the budget.
 
+**Apply it to existing comments too** — docstrings, kdoc, javadoc and doc attributes included.
+
 ## What survives, and only where the code can't show it
 
 - A non-obvious constraint or invariant — "may be mutated by…", "the obvious solution is X, but that fails because Y".
@@ -53,47 +50,40 @@ Reaching for a length budget instead is how justification survives a pass and co
 - A stated precondition, or a threading and locking discipline.
 - A link to issue or external context — "see #1234", "per RFC 7231 §6.5.1".
 - A warning about subtle behaviour that would trip up *that* reader.
-- Rationale for a genuinely counter-intuitive choice — the one needing the test applied hardest.
+- Rationale for a choice the reader would otherwise undo — the one needing the test applied hardest.
 
 **These are instances of what the code can't show, not licences.**
 A comment matching one of these shapes still has to pass the test.
 
 ## Where the rejected material goes
 
-Most of it isn't waste, it's misfiled.
-
 - **Design rationale MUST go in the commit body**, not the source.
   Why the code is allowed to exist, why a surface is shaped as it is, why one option beat another. **An answer to a question raised in review is the case to watch**: it's neither repetition, step-narration nor history, so it passes every other rule here while being precisely what the reader never asks.
 
-- **A comment MUST describe the current contract; "used to be" narration MUST NOT appear in source.**
-  What the code used to do belongs in the commit that changed it (see "Transitions vs. current state" in `chalk:voice`). A comment that only lands as a contrast with the previous code rots at the next refactor.
+- **A comment about the change goes in the commit body** — the reader has no referent for it.
+  There it's read once, by someone who wants it. See "Transitions vs. current state" in `chalk:voice`.
 
-- **A pattern's rationale → the pattern's canonical place**, once.
-  Not re-narrated at every site. A `close()` that closes things needs no comment, nor a "phase 2 of teardown" label.
-- **A specific call site's oddity → that call site.**
-  Not a caller list on the function; document the function's own contract.
+- **Anything true beyond these twenty lines → the one place that owns it.**
+  A pattern's rationale goes at the pattern, once, not re-narrated at every site; a call site's oddity goes at that call site, not as a caller list on the function.
 
 ## You're not writing to impress anyone
 
-This is specification register turned on the code rather than the prose.
 A comment defending a choice **advertises diligence** — the same move as ranking your own material — and it reads as care, which is exactly why it survives review.
-A respected colleague states the constraint and moves on.
 
 ## Reviewing the comments in a diff
 
 **A code review MUST cover the diff's comments as well as its code.**
-Weeding is part of the review, not a tidy-up afterwards: deleting a comment costs nothing at review time and never happens later.
 
 Per comment in the diff:
 
 1. **Apply the test.**
 2. **If nothing, report a deletion** — not a rewrite, and not "make it shorter".
 3. **If it's misfiled rather than wrong, say where it goes** — commit body, canonical place, call site.
-4. **Scrutinise the confident ones hardest.** A comment restating a decision in assured prose is the shape this skill exists to stop, and the one a reviewer waves through.
+4. **Scrutinise the confident ones hardest.** A comment restating a decision in assured prose is the one a reviewer waves through.
 
 ## Markup
 
 - **Most comments are one line and stay one line.**
   `// volatile — reads race with the flush thread` doesn't want a bullet.
 - **A comment with real structure takes a mindmap**, at a higher threshold than prose, with markup depending on whether the language's tooling renders it — see the code-comment rules in `chalk:mindmap`.
-- **No line-break rule applies** — comments are read in-source, so `chalk:voice`'s paragraph-per-line rule is off. Terse, why-first and concrete still hold.
+- **Sentence-per-line**, per `chalk:voice`.

@@ -19,7 +19,6 @@ Suggest a different approach instead.
 1. **Name the audience.**
 
    **The audience MUST be named** — to the user, or in a code comment on the draft — before the page is written.
-   This is the general rule in `chalk:voice` ("Name your audience"), made explicit here because a docs page is the one artefact whose audience is *not* the team by default.
 
    Technical is not specific enough — pick one:
 
@@ -37,13 +36,12 @@ Suggest a different approach instead.
      Is wiring this into their own code.
      Values signatures, examples, failure modes.
 
-   Different audiences change everything — pacing, depth, what's assumed, what's spelled out.
    If you can't tell from the page's location and surrounding pages, **ask**.
 
 2. **Identify the Diataxis quadrant(s).**
 
    Diataxis names four: **tutorial**, **how-to**, **reference**, **explanation**.
-   A docs page is the only chalk artefact that plays all four, so **load `chalk:voice`'s `references/docs-quadrants.md`** — it carries the voice for the three that nothing else here needs.
+   **Load `chalk:voice`'s `references/docs-quadrants.md`** — it carries the voice for the three that nothing else here needs.
 
    **Each section MUST commit to one quadrant, and sections MUST NOT blur.**
    A how-to section that drifts into explanation loses the reader mid-task; an explanation section that drifts into reference buries the mental model.
@@ -53,7 +51,6 @@ Suggest a different approach instead.
 
 3. **Discover project conventions.**
 
-   Conventions differ between projects and this skill does not prescribe them.
    Read the repo before writing.
 
    In order of priority:
@@ -85,59 +82,50 @@ Suggest a different approach instead.
 
 4. **Pull the "why" from the issue-graph neighbourhood.**
 
-   Like `chalk:commit`, this skill draws *motivation* from upstream context.
-   Cast the net at least one hop beyond the immediately-tracked issue — a single issue rarely carries all the reasoning that ends up mattering on a docs page.
+   Cast the net at least one hop beyond the immediately-tracked issue.
 
    Read:
 
    - The **tracked chalk issue** and its comments — the primary source.
    - **Related issues**
      Parent, sub-issues, blocked-by, blocks.
-     See the "Issue Relationships" section of the main chalk skill; the one-hop graph surfaces operational context, rejected alternatives, and why-now that don't fit in any single issue.
+     See the "Issue Relationships" section of the main chalk skill.
      The github agent's neighbourhood query is the cheapest way to pull this.
    - The **landing PR(s)** — description *and* review discussion.
-     Review discussion in particular catches edge cases and invariants that only got clarified during review.
-   - The **landing commit body(ies)** — multi-commit PRs often have per-commit rationales the PR description glosses over.
+   - The **landing commit body(ies)**.
 
    For a feature that's touched multiple issues and PRs, read across them — contradictions between old and new thinking usually mark where the docs need the clearest framing.
 
    These carry the *why* that isn't visible in the code — root causes, operational guarantees, invariants, rejected alternatives, real-world failure modes.
-   They noticeably improve the resulting docs.
 
    Distil, don't copy.
-   A chalk comment is author-to-maintainer; a docs page is author-to-user.
-   The audience is different; the phrasing has to be too.
 
 5. **Apply the chalk voice.**
 
    **Load the `chalk:voice` skill** (via the Skill tool) for the universal principles, then apply the per-quadrant voice from its `references/docs-quadrants.md` to each section.
-   **Load `chalk:mindmap`** too, for the shape of anything the reader has to follow — a how-to's steps, an explainer's reasoning, a failure-mode section. Note its line-format rule: on a docs page the bullets are sentence-per-line like the rest of the file.
+   **Load `chalk:mindmap`** too, for the shape of anything the reader has to follow — a how-to's steps, an explainer's reasoning, a failure-mode section.
    Don't restate those rules inline — they live in those skills.
 
    **Line format: sentence-per-line.**
-   A docs page is checked into the repo and reviewed as a `git diff`, so put each sentence on its own line — it keeps diffs minimal (a one-sentence edit touches one line) and the structure scannable in source.
 
 6. **Ask clarifying questions** — don't invent.
 
    **A rationale MUST NOT be fabricated** when the issue graph, PR or commits don't carry one; ask the user instead.
    `chalk:voice`'s "Establish the why and the why now" applies here.
-   A one-sentence answer from the user beats a fabricated rationale every time, and fabricated rationales in docs are particularly corrosive — they look authoritative and they rot silently.
 
    Ask when:
 
    - The **audience** isn't clear from the page context.
    - The **quadrant** isn't clear from the request ("document X" is ambiguous — tutorial, how-to, reference, or explainer?).
    - The **why** isn't clear from the issue graph / PR / commits, and the section needs one.
-     Don't make it up.
    - A **project convention** is missing and the call has material effect on the output (e.g. no changelog-format precedent and the change is a transition worth recording).
 
 ## Chalk Integration
 
 When chalk is active (tracking a GitHub issue):
 
-- **Read the issue and its comments** before writing a non-trivial section — the chalk comments are the richest source of reasoning.
+- **Read the issue and its comments** before writing a non-trivial section.
 - **After updating the page**, update the chalk comment directly — don't ask first.
-  Chalk updates are part of the work, same as with `chalk:commit`.
 - A docs change is often a natural checklist item on the chalk progress section ("document X behaviour"). Check it off when the page lands.
 
 ## What this skill is not

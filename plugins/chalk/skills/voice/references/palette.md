@@ -1,12 +1,11 @@
 # The issue and PR section palette
 
 Load this before drafting an issue, a PR description or a chalk comment.
-Issue and PR descriptions are **explanation** artefacts with reference-shaped evidence embedded where useful — the reader needs to understand *why* this matters and *why* the approach is shaped this way.
+Issue and PR descriptions are **explanation** artefacts with reference-shaped evidence embedded where useful.
 
 Not every description needs every section.
 A flaky test issue might need only the failure mode, stack trace and conditions; a small bugfix PR only a summary and test plan; a large feature PR context, usage examples, implementation notes and scope.
 A refactor PR SHOULD call out that behaviour is intentionally preserved.
-Use judgement.
 
 ## The sections
 
@@ -14,7 +13,7 @@ Use judgement.
   One or two sentences on what's happening. Largely redundant where the body opens with a tl;dr — drop it, or hold it to those one or two sentences rather than letting it grow into what the tl;dr already carries.
 
 - **Context / Motivation**
-  How was this observed, or why does this matter? Environment, deployment, test configuration, links to CI runs, logs, dashboards, prior PRs, the broader initiative. Often the most valuable section — without it, a reader can't assess whether the issue applies to them or where a PR fits.
+  How was this observed, or why does this matter? Environment, deployment, test configuration, links to CI runs, logs, dashboards, prior PRs, the broader initiative.
 
 - **Symptoms** (bugs / incidents)
   Observable behaviour, error messages, affected conditions ("multi-writer only", "under chaos monkey testing"). Evidence-shaped.
@@ -38,7 +37,7 @@ Use judgement.
   What's explicitly not in this change, with reasons. Reference the issues or PRs that pick those pieces up.
 
 - **Alternatives considered**
-  Other designs at the same level of abstraction as the chosen one, with a sketch of each and the trade-offs that ruled it in or out. Dated rejections ("Rejected on 2026-05-23 because …") help the next reader who's tempted to reopen the question. Implementation-strategy choices (refactor-in-place vs. parallel impl, big-bang vs. incremental) aren't alternatives at this level — they belong in Implementation.
+  Other designs at the same level of abstraction as the chosen one, with a sketch of each and the trade-offs that ruled it in or out. Dated rejections ("Rejected on 2026-05-23 because …") help the next reader. Implementation-strategy choices (refactor-in-place vs. parallel impl, big-bang vs. incremental) aren't alternatives at this level — they belong in Implementation.
 
 - **Decision rationale**
   Compare the chosen approach against each alternative on the points that differentiate them. Reads as a side-by-side, not a re-summary of the chosen approach.
@@ -49,7 +48,7 @@ Use judgement.
 ## PRs additionally draw from
 
 - **Usage** (user-visible features)
-  Concrete examples — SQL queries with realistic output, CLI invocations, config snippets. This is also where any **manual steps to adopt the change** belong: a PR is how the team learns the change exists, so if using it requires a teammate to run a migration, set a config value or env var, enable a flag, regenerate something, or observe a deploy-order constraint, spell those steps out. **If a reader can't act on the change without a step that isn't in the diff, the step MUST go here.**
+  Concrete examples — SQL queries with realistic output, CLI invocations, config snippets. This is also where any **manual steps to adopt the change** belong: if using it requires a teammate to run a migration, set a config value or env var, enable a flag, regenerate something, or observe a deploy-order constraint, spell those steps out. **If a reader can't act on the change without a step that isn't in the diff, the step MUST go here.**
 
 - **Rollout / compatibility**
   When the change is only safe under conditions the diff can't express: a deploy order, a mixed-version window, an "upgrade the whole fleet to X before enabling Y" constraint. State which versions interoperate and the safe sequence. Distinct from Usage — Usage is how to *use* the feature; this is how to *land* it without breaking a running system.
@@ -76,7 +75,6 @@ Sections roughly flow **setup → state → decision → plan**.
 - **Plan** — Implementation, and for PRs Test plan. At the end.
 
 The explanation-quadrant material (why this, why this way) sits above the reference-shaped step list.
-A reader who only scans the top should still understand the *what* and *why*; the *how* lives at the bottom.
 
 ## Annotated traces for sequencing bugs
 
@@ -84,11 +82,9 @@ When the bug *is* an ordering — a race, a leadership transition, a distributed
 Prose describing that sequence is much harder to follow than the sequence itself; a raw log dump is the opposite failure — all the data, none of the causality, so it reads as noise.
 
 Reconstruct a chronological trace and annotate it.
-Name the actors (`[A]`/`[B]`, leader/follower) rather than "the node" — the reader is tracking several at once.
+Name the actors (`[A]`/`[B]`, leader/follower) rather than "the node".
 Show the load-bearing state inline as it changes, mark the point where things diverge, and end at the failure.
 Distil from a real trace (a captured log, a debugger session) down to the events that carry the causality; drop everything else.
-
-A multi-actor race told this way lands in a way a paragraph can't:
 
 ```
 TERM 1 — node A is leader:

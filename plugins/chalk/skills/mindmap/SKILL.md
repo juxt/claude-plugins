@@ -8,21 +8,14 @@ user-invocable: true
 
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
-You're reading this because you're about to write something with structure the reader has to follow.
-This skill covers the *shape*; `chalk:voice` covers the register and the line-format rule.
-Load both.
+`chalk:voice` covers the register and the line-format rule. Load both.
 
 ## The default
 
 **Anything the reader has to *follow* MUST default to a mindmap: nested bullets forming a tree.**
 A sequence of events, a multi-step rationale, a set of conditions, a decision and its grounds.
 
-Focus is the reader's scarce resource.
-A tree lets them checkpoint their understanding as they go and jump straight to the branch they care about.
-A dense paragraph makes them hold the whole chain in their head and trust they reassembled it the way you meant.
-
 **Prose MUST be a deliberate exception, never a fallback** — reserve it for a short causal argument where the connectives ("because", "so", "but only when") carry the meaning and the chain is only two or three links long.
-This is about the *followable* parts, not the tone: an explanation can still read discursively and lay its reasoning out as a tree.
 
 ## The tree is a support structure
 
@@ -40,7 +33,7 @@ If they're merely *related* to it, you've written a flat list with indentation, 
 
 ## Subject lines carry the reasoning
 
-Same contract as a git commit subject: **reading only the top line of each bullet MUST be enough to follow the whole argument.**
+**Reading only the top line of each bullet MUST be enough to follow the whole argument.**
 A paragraph underneath is *elaboration* — always an optional read, and it MUST NOT be load-bearing.
 If the point only lands once the reader reaches the third sentence of the elaboration, the subject line has failed and the bullet needs rewriting, not expanding.
 
@@ -51,7 +44,6 @@ If the point only lands once the reader reaches the third sentence of the elabor
 - **Nest for sub-points, but stay shallow** — about two levels.
   A third level of indentation is usually its own wall, so promote it or flatten it.
 - **Cut hard.**
-  Less text beats better-formatted text — a bullet the reader doesn't need is noise, and noise hides the ones that matter.
 
 ## Give the subject its own line
 
@@ -65,11 +57,10 @@ If the point only lands once the reader reaches the third sentence of the elabor
     Four spaces, so it lines up under its own subject.
 ```
 
-- **One break, not sentence-per-line.**
-  The break after the subject is the single exception to the paragraph-per-line rule in `chalk:voice`; the elaboration itself stays on one line however long it runs. Breaking it fragments into `<br>` staccato exactly as it would in a paragraph — same trap, new shape.
+- **One break, not sentence-per-line — on a paragraph-per-line destination.**
+  The break after the subject is the single exception to the paragraph-per-line rule in `chalk:voice`; the elaboration itself stays on one line however long it runs. Breaking it fragments into `<br>` staccato exactly as it would in a paragraph.
 
 - **A bullet whose elaboration runs long SHOULD be followed by a blank line** before the next bullet.
-  The negative space is doing work: without it a column of multi-line bullets reads as one block, which is the wall the tree exists to avoid.
 
 - **A blank line anywhere in a list makes the whole list loose** in CommonMark, so the extra spacing lands on every item rather than just the long one.
   That's the intent — don't fight it by padding the short ones to match.
@@ -81,7 +72,6 @@ If the point only lands once the reader reaches the third sentence of the elabor
 
 Where a node's children aren't obviously exhaustive, **name the rule you split on** — "one per subsystem", "one per failure mode", "one per call site".
 
-An argument tree can demonstrate soundness but not completeness.
 With nothing to test the child set against, **a missing sibling looks exactly like no sibling** — naming the rule at least makes the gap visible to the reader.
 
 This pays off most where a reader's next question is "is that all of them?": **Alternatives considered**, **Out of scope**, **Symptoms**.
@@ -96,7 +86,7 @@ Goal trees don't need it — there the parent *is* the yardstick (see `chalk:goa
 - **A tag MUST be meant precisely**, per RFC 2119 — it is a claim, not decoration.
   `assumption:` says you haven't verified it. `check:` says it needs verifying before anyone relies on it.
 
-- **In an issue, `assumption:` on a line in Root cause** tells the reader it's unverified at a fraction of what prose would spend, and stops the next person building on it as though it were established.
+- **In an issue, `assumption:` on a line in Root cause** tells the reader it's unverified and stops the next person building on it as though it were established.
 - **Don't tag for the sake of it.**
   An untagged bullet is the norm; a tag is a signal, and signals dilute.
 
@@ -109,8 +99,6 @@ Nest them to mirror the tree: `D2.1` is the first child of `D2`.
 - **Use them where reply-by-reference actually happens**
   **Alternatives considered**, **Decision rationale**, **Open Questions**. Not every bullet everywhere — IDs on scaffolding are noise.
 
-- **GitHub gives a bullet no anchor**, so without IDs a reviewer has to quote your text back to you to disagree with one branch.
-  With them they can answer `D2`, accept the rest, and the thread stays legible.
 - **A published ID MUST be stable.**
   Renaming or renumbering a node breaks every inbound reference. Where IDs already exist, cite them rather than re-describing the node.
 
@@ -120,10 +108,8 @@ Nest them to mirror the tree: `D2.1` is the first child of `D2`.
 ## tl;dr
 
 **A tl;dr MUST go at the top of the artefact, never the bottom.**
-Every chalk artefact is read top-to-bottom — putting it at the bottom is a chat convention, where the reader scrolls upward.
 
 **The tl;dr is a mindmap too**, optionally opening with a single summary sentence: one top-level bullet per takeaway, subject lines carrying the point.
-"tl;dr" conventionally means a paragraph — here it's a tree, because it's a summary of the argument and gets the same treatment.
 
 **It MUST summarise the artefact for its audience, not the work for its author**, and MUST be readable by someone who did not see the session, the branch or the prior state.
 This failure is invisible from the inside: recapping what you did and what changed since some earlier state is accurate, and useless to a reader who never saw that state.
@@ -134,7 +120,7 @@ This failure is invisible from the inside: recapping what you did and what chang
 - **The fix**
   Make the first bullet tell a cold reader what this *is* and what it means for them, and push the provenance down into the body where someone who wants it will find it.
 
-- **Who that reader is** is settled in "Name your audience" in `chalk:voice` — nearly always a teammate, which includes you in six months and a future agent session with no context.
+- **Who that reader is** is pinned per artefact in "Name your audience" in `chalk:voice` — by the task they're in the middle of, not by their seniority.
 
 **It's optional in a commit body and MUST NOT appear in a code comment.**
 The commit subject line usually does the job, so most bodies don't want one; a long body whose argument needs summarising MAY open with one. A code comment's first line is its own tl;dr, per the subject-line rule.
@@ -149,7 +135,7 @@ The commit subject line usually does the job, so most bodies don't want one; a l
 - **A `<details>` block behaves like a bullet**
   Its summary line is the subject line, and it carries the same contract.
 - **Not every section wants a tree.**
-  Two sentences of causal argument shouldn't be forced into one; the default is strong, not absolute.
+  Two sentences of causal argument shouldn't be forced into one.
 
 ### Commit bodies
 
@@ -169,7 +155,7 @@ The commit subject line usually does the job, so most bodies don't want one; a l
 - **Match the markup to what the language's tooling renders.**
   KDoc, Javadoc and docstrings are rendered, so bullets and emphasis land as intended.
 - **Bold emphasis MUST NOT be used in comment markup that is read raw.**
-  A bare `//` or `;;` comment gets plain `-` and indentation, because `**like this**` is just noise in a source buffer.
+  A bare `//` or `;;` comment gets plain `-` and indentation.
 
 - **`chalk:code-comments` still decides *whether* the comment belongs at all**
   The mindmap only shapes one that has earned its place, and most haven't. Load it before writing the comment, not after.

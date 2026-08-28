@@ -39,11 +39,10 @@ Internal READMEs, code comments and developer notes are out of scope unless the 
    - **Error messages and log lines** — if a docs page quotes them, they need updating.
    - **Examples in the code** — if docstrings or README snippets changed, paired docs examples may need syncing.
 
-   Internal refactors that don't change observable behaviour don't need docs updates. Don't flag them.
+   Internal refactors that don't change observable behaviour don't need docs updates.
 
 3. **Cross-reference the issue-graph neighbourhood.**
 
-   Code surfaces are the left-hand column of the audit; intent is the right-hand column.
    If chalk is active (or the diff references an issue or PR), cast one hop out — the tracked chalk issue and its comments, related issues (parent, sub-issues, blocked-by, blocks), and the PR description and review discussion.
 
    What to harvest:
@@ -55,7 +54,6 @@ Internal READMEs, code comments and developer notes are out of scope unless the 
    - **Paired behaviour**
      A sub-issue naming a knock-on behaviour change in another module points at docs pages for that module too.
 
-   This improves the *quality* of the punch-list items, not their scope.
    The diff still drives what's flagged; the issue graph sharpens why.
 
 4. **Locate the docs tree.**
@@ -64,14 +62,13 @@ Internal READMEs, code comments and developer notes are out of scope unless the 
    If there's a docs README, read it — it names the site structure and any quadrant layout.
 
    **If there's no identifiable docs tree, say so and stop.**
-   Drift-auditing against nothing is nothing.
 
 5. **Scan for references.**
 
    For each changed code surface, search the docs tree for literal mentions of the name (fully-qualified and short forms), mentions of the concept or behaviour even where the name differs, code snippets and config blocks and CLI examples and SQL and YAML (these drift silently), and cross-links pointing at removed or renamed pages.
 
    **A hit isn't always drift.**
-   A page mentioning a class name might still be accurate. The job is to flag *candidates* for human review, with enough context that the reviewer can judge in seconds.
+   A page mentioning a class name might still be accurate.
 
 6. **Classify each hit by confidence.**
 
@@ -93,11 +90,10 @@ Internal READMEs, code comments and developer notes are out of scope unless the 
    **A rationale MUST NOT be fabricated** — if the issue graph and PRs don't carry the intent, say so on the item ("rationale unclear — ask the author"). See "Establish the why and the why now" in `chalk:voice`.
 
    Group by page — multiple hits in one page are one item with sub-bullets, not repeated items.
-   Order by confidence, high first, with coverage gaps at the top: a feature with no docs is usually the most important thing to fix.
+   Order by confidence, high first, with coverage gaps at the top.
 
 8. **If chalk is active, offer to land the punch list.**
 
-   The drift list is a natural checklist for the tracked issue's progress.
    Offer — don't assume — to add unchecked items under a "Docs drift" heading.
    The user acts on each item individually, usually via `chalk:tend-docs`.
 
