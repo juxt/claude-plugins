@@ -11,10 +11,8 @@ disable-model-invocation: false
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 Load **`chalk:voice`** for the universal principles and **`chalk:mindmap`** for the shape of anything the reader has to follow.
-This skill carries only what's specific to a spec.
 
 `allium:tend` governs what belongs in a spec and `allium check` validates its syntax.
-Neither governs how it is said, which is the gap this fills.
 
 ## A spec states the aim. What it does not state, it excludes.
 
@@ -23,15 +21,12 @@ A spec that never names a follower has already said there isn't one.
 Naming a thing in order to deny it creates the thing the denial was avoiding — and it dates the spec to the moment someone was arguing about it.
 
 **So a spec MUST NOT be defined by contrast with a design it does not contain.**
-The alternative isn't here. Nothing needs to be said about it.
-
-Three things follow, and they're the same rule seen from three angles:
 
 - **An obligation MUST NOT be named after what it is not.**
   `XNotY` names two things and obliges one. Name the one: what the system does.
 
 - **An obligation whose subject the spec does not otherwise name MUST be deleted, not renamed.**
-  It exists to deny something absent, and the denial is what put the subject on the page. Removing the name leaves the obligation with nothing to say.
+  Removing the name leaves the obligation with nothing to say.
 
 - **A spec MUST NOT argue for its own design over another.**
   Why this arrangement and not the one you rejected is a commit body's job and a PR's job. Both are read once, around the change; a spec is read long after by someone who doesn't care what it used to be, or might have been. See "Transitions vs. current state" in `chalk:voice`.
@@ -56,13 +51,12 @@ An obligation's identifier is a **look-up surface** — someone cites `SingleWri
   A claim split across two names reads as two obligations, and a reader checking coverage counts it twice. Collapse them.
 
 - **Rationale MUST stay out of a name.**
-  Reference is unforgiving about this — the reader looking up an obligation wants what it obliges, not why it was chosen.
+  The reader looking up an obligation wants what it obliges, not why it was chosen.
 
 ## Register
 
-`chalk:voice`'s specification register is the whole point here, and its tells are the ones that showed up: **ranking your own material** ("the distinction is the whole of the design"), **justifying a clause's presence** ("worth stating because…"), and **narrating the document's own shape** ("stated as prose because it is a property of a sequence of states").
+`chalk:voice`'s specification register: **ranking your own material** ("the distinction is the whole of the design"), **justifying a clause's presence** ("worth stating because…"), and **narrating the document's own shape** ("stated as prose because it is a property of a sequence of states").
 
-Each is commentary on what is *not* being said, which is the same failure as arguing with an absent alternative.
 The exception `chalk:voice` already grants holds: **naming how a decomposition was split is a checkable fact about completeness**, not a claim about worth.
 
 ### Requirement keywords
@@ -79,7 +73,7 @@ RFC 2119 keywords grade individual clauses within one, so the two compose.
 - **A graded keyword describing what an actor is *permitted* to do is not the obligation being graded**, and belongs where it is.
   An invariant can hold absolutely while noting the latitude it leaves an external actor — "ordinarily this bounds the confirmed position by the last durable block's token; a source MAY confirm beyond it over a range that holds nothing of ours". The MAY is the source's latitude; the invariant is what constrains it.
 
-- **`@guidance` is where SHOULD and MAY live**, which is what it's for.
+- **`@guidance` is where SHOULD and MAY live.**
 
 ## Comments
 

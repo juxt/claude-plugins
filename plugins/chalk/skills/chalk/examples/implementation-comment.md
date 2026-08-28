@@ -21,6 +21,7 @@ Key files:
 <details><summary>Fix root cause: race condition in temporal bounds</summary>
 
 Made `TemporalBounds` fields volatile and added a snapshot method that reads both atomically.
+**Decision: volatile over lock** — lower contention, sufficient for a read-mostly pattern.
 
 Considered alternatives:
 - **Lock on intersect()**
@@ -29,8 +30,6 @@ Considered alternatives:
   Cleanest but requires changing every call site that mutates bounds. Out of scope for a bugfix.
 - **Volatile fields + snapshot read**
   Sufficient here since we only need consistency between the two reads, not mutual exclusion. Lowest risk.
-
-Decision: volatile over lock — simpler, lower contention, sufficient for read-mostly pattern.
 
 </details>
 
