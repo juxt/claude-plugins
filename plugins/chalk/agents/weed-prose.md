@@ -41,6 +41,7 @@ Read the diff before the draft. A sentence only looks surplus once you've seen w
 Delete a sentence when it:
 
 - **Restates the diff.** What changed, which files, which functions. The reader has it.
+  **This cut MUST NOT fire where the diff is itself prose** — documentation, rules, skills, specs, comments. There the hunks are sentences, so every explanation of the change matches something in the diff and this rule would delete the whole body. See "When the diff is prose" below.
 - **Repeats the linked issue.** Problem context, symptoms, motivation already in the issue body — the link does that work.
   **Only when a linked issue exists.** A commit or PR with no issue MUST carry the problem context itself; do not strip it.
 - **Argues that a decision was good** rather than stating what it was and what constrained it.
@@ -48,6 +49,17 @@ Delete a sentence when it:
 - **Ranks or justifies its own material** — "the key change here", "importantly", "it's worth noting".
 
 **Delete; never rewrite.** Either a sentence stays exactly as drafted or it goes, so the caller reviews your work by reading deletions.
+
+### When the diff is prose
+
+A code diff shows *what* and leaves the body owing the *why*.
+A prose diff — documentation, rules, a skill, a spec — ships the new wording itself, and usually its own stated rationale with it. The body owes the layer above that: **what was failing before, what this replaced, and what was rejected.**
+
+- **Cut a sentence only where the new text itself answers it.**
+  A rule that says why it exists makes a body sentence repeating that reason surplus.
+- **Keep a sentence that says what was happening before the rule existed**, even where it names the rule. The new text states what is now true; it does not record what went wrong without it.
+- **A near-verbatim match with an added line is not sufficient grounds to cut.**
+  Ask what a reader of the *new text alone* would still not know.
 
 ### Report where the why is missing
 
