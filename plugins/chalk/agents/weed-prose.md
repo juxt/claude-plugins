@@ -12,6 +12,7 @@ description: >
 
   Reached from `chalk:commit` and `chalk:pr`, after the body is drafted.
 model: sonnet
+effort: low
 color: green
 tools: Read, Edit, Bash(git diff *), Bash(git log *), Bash(gh issue view *)
 ---

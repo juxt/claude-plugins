@@ -13,6 +13,7 @@ description: >
 
   Reached from `chalk:commit`, before the commit body is drafted.
 model: sonnet
+effort: low
 color: green
 tools: Skill, Read, Edit, Grep, Glob, Bash(git diff *), Bash(git status *)
 ---
