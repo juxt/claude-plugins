@@ -19,7 +19,7 @@ A commit body is an **explanation** artefact and MUST be drafted in the chalk vo
 - **`chalk:voice`** — the principles, the explanation quadrant, the line-format rule.
 - **`chalk:mindmap`** — a commit body is a lead-in line then a tree, not prose. See "Commit bodies" there.
 - **`chalk:code-comments`** — the body is where a comment's design rationale belongs, so this is the moment the misfiled ones surface.
-  Weed the diff's comments against it before drafting, and move what they were trying to say into the body.
+  The `weed-comments` agent applies it to the diff (step 2 below); its **Misfiled** list is material for the body.
 
 **The body MUST NOT contain headings** — needing them is a signal the commit is too big, or that you're writing the PR description in the wrong place.
 A tl;dr is optional; the subject line normally serves as one.
@@ -34,11 +34,20 @@ A tl;dr is optional; the subject line normally serves as one.
    - Keep unrelated bugfixes separate.
    - Where reasonable, separate behaviour-preserving changes (refactorings) from behaviour-advancing ones.
 
-2. **Review the conversation history** to extract the reasoning behind the change.
+2. **Weed the staged comments.**
+
+   **Delegate to the `weed-comments` agent**, passing the paths of the staged files and nothing else.
+
+   - **You MUST NOT tell it what the change is for.** Not the issue, not the problem, not what you decided. It stands in for a reader who has none of that, and briefing it makes it a second opinion from your own context rather than a first opinion from the reader's.
+   - **Its deletions apply.** They land in the working tree and you stage them; you do not review them back into place. The user sees them in the commit diff, which is the human review point.
+   - **Its Misfiled list is input to step 4** — a comment deleted for being design rationale is rationale the body now has to carry.
+   - Where a comment survives, its **Kept** line names the misunderstanding it prevents; that belongs in neither the body nor the code.
+
+3. **Review the conversation history** to extract the reasoning behind the change.
 
    Optimise for later reading: your reader is whoever runs `git blame` on one of these lines while debugging something else, months on. They won't care about the journey — they need *why* this change exists and *why* it was done this way.
 
-3. **Draft the body.**
+4. **Draft the body.**
 
    **It MUST NOT describe what changed — the diff shows that.**
    The body explains *why* it exists: decisions, alternatives rejected, constraints, dead ends, counter-intuitive findings, scope boundaries.
@@ -46,11 +55,19 @@ A tl;dr is optional; the subject line normally serves as one.
 
    Open with the lead-in line, then shape the reasoning per "Commit bodies" in `chalk:mindmap`.
 
-4. **Ask clarifying questions** if you can't reconstruct the *why* from the conversation history.
+5. **Weed the draft.**
+
+   Write the drafted body to a file and **delegate to the `weed-prose` agent**, naming the artefact as a commit body and passing the path.
+
+   - **You MUST NOT give it the session.** It holds the diff and, where the body carries a `Refs #N`, that issue — the same reach as the reader it stands for.
+   - **Its cuts apply.** It deletes only; a sentence it kept is unchanged.
+   - **Its Gaps are questions for you, not for it.** It reports a missing *why* or *why now* and MUST NOT invent one. Answer from the session, or ask the user per step 6, then redraft.
+
+6. **Ask clarifying questions** if you can't reconstruct the *why* from the conversation history or from `weed-prose`'s gaps.
 
    Particularly around whether something was a deliberate choice or a constraint, and whether something was intentionally out of scope or overlooked.
 
-5. **Make the commit.**
+7. **Make the commit.**
 
    Headline, blank line, body. The user reviews the message in the Bash tool request before approving.
 

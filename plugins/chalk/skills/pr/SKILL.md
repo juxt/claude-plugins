@@ -48,15 +48,25 @@ Write the summary for them — see "Name your audience" in `chalk:voice`, and th
    **Issue references come first.**
    If there's a related issue, reference it at the top (`Resolves #123` or `Part of #123`). The issue description is where the problem context lives — don't duplicate it. The PR covers how the issue affected the implementation: approach, decisions, trade-offs, dead ends.
    If there is no related issue, the description MUST carry the problem context itself, acting as both issue and PR description.
+   **Then the first line MUST state what, why and why now** — there is no issue for the reader to open, so the line that would have been a reference has to do the issue's opening job instead.
 
    **Manual adoption steps MUST be documented here.**
    If *using* the new functionality requires a teammate to run a migration, set a config value or env var, enable a flag, regenerate something, or observe a deploy-order constraint, those steps go in the **Usage** section.
 
    **Behaviour-preserving changes SHOULD be called out explicitly.**
 
-4. **Ask clarifying questions** if you can't reconstruct the reasoning from the commits and conversation history.
+4. **Weed the draft.**
 
-5. **Delegate to the chalk github agent** to create the PR.
+   Write the drafted description to a file and **delegate to the `weed-prose` agent**, naming the artefact as a PR description and passing the path, the base branch, and the linked issue number if there is one.
+
+   - **You MUST NOT give it the session, the chalk comments, or the branch's commit bodies.** It holds the branch diff and the linked issue — what the reviewer can reach, and nothing the reviewer can't.
+   - **Passing the issue is what lets it cut duplication.** Without the issue, repeated problem context reads as necessary; with it, the cut is obvious and the link does the work.
+   - **Where there is no linked issue, say so.** It will otherwise strip the problem context this PR is required to carry, and it checks the first line for what, why and why now instead.
+   - **Its cuts apply; its Gaps are questions for you.** Answer them from the branch or per step 5, then redraft.
+
+5. **Ask clarifying questions** if you can't reconstruct the reasoning from the commits, the conversation history, or `weed-prose`'s gaps.
+
+6. **Delegate to the chalk github agent** to create the PR.
 
    - Push the branch if needed.
    - Pass the title and the fully-drafted description, ready to post verbatim.
