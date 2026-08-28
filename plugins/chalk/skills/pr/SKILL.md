@@ -25,7 +25,7 @@ Load these first (via the Skill tool):
 **Structure the description into sections drawn from the palette**, choosing the ones this change needs, and **write each section as a mindmap** — a short tl;dr opening it, then the tree.
 A wall of undifferentiated prose is the wrong shape; if you've written one, you skipped this step.
 
-**Your audience is a reviewer about to read the diff, who hasn't read the issue and didn't see the branch.**
+**Your audience is a reviewer about to read the diff, who didn't see the branch and hasn't yet opened the linked issue, but can.**
 A PR is the moment the rest of the team learns the change exists, and that reviewer is deciding two things: whether this affects them, and whether the approach holds.
 Write the summary for them — see "Name your audience" in `chalk:voice`, and the tl;dr rules in `chalk:mindmap`.
 

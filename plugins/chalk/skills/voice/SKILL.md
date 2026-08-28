@@ -76,7 +76,7 @@ Everything else does, and one answer serves every artefact.
   They didn't read the commit that added it, don't know a change happened here, and will read this line and the twenty around it — nothing else. See `chalk:code-comments`.
 - **Commit body** — whoever runs `git blame` on this line **while debugging something else**, months on.
 - **Issue description** — whoever is **scanning a backlog, deciding whether to pick this card up this sprint**, having never seen it before and with only the description in front of them.
-- **PR description** — a reviewer **about to read the diff, who hasn't read the issue** and didn't see the branch.
+- **PR description** — a reviewer **about to read the diff, who didn't see the branch** and hasn't yet opened the linked issue, but can.
 - **Chalk comment** — the next session on this issue, cold: a teammate, or you, or an agent with only the issue in front of it.
 
 - **The pin lives in the skill, not in the artefact.**
