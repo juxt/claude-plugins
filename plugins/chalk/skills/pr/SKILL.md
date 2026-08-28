@@ -68,7 +68,7 @@ Write the summary for them — see "Name your audience" in `chalk:voice`, and th
 
    Not "ask if you're unsure" — that is a judgement made by the context that just spent the session building the reasoning, and it always comes back confident. `weed-prose` has already decided, from the draft alone, which questions the description fails to answer.
 
-   - **A gap MUST be closed by adding a sentence that answers it**, then re-running `weed-prose` on the redraft. **You MUST NOT close a gap by deciding it doesn't apply.**
+   - **A gap MUST be closed by adding a sentence that answers it, and the redraft MUST go back to `weed-prose`.** **You MUST NOT close a gap by deciding it doesn't apply**, and you MUST NOT judge your own redraft — the agent that raised the gap is the one that closes it. Loop until it reports no blocking gaps.
    - **Relay each question as written.** Composing your own is where the ask gets dropped.
    - **A `blocking` gap — a missing *why now*, or a first line that doesn't state what, why and why now on an issue-less PR — MUST be resolved before you open the PR.**
    - **Answer from the branch where the branch genuinely has it**, and say which commit you're drawing on so the user can correct you. Where it doesn't, ask.

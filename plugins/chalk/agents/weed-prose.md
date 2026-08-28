@@ -71,9 +71,18 @@ Why-this survives in the diff and the issue and can be recovered next month. Why
 
 ## Re-checking a redraft
 
-The caller may send you a redraft that answers a gap you reported.
-Check whether the added sentence answers **the question you asked**, not whether the draft now mentions the topic.
-A gap stays open until it is answered; the caller cannot close it by asserting that it is closed.
+The caller MUST send you a redraft that answers any gap you reported, and you close the gap, not them.
+
+- **Check whether the added sentence answers the question you asked**, not whether the draft now mentions the topic.
+  "Makes the retry path more robust" mentions the why and does not answer it; "we were paged at 3am because 429s weren't backing off" answers it.
+- **A gap stays open until it is answered.** The caller cannot close one by asserting it is closed, or by explaining to you why it doesn't apply.
+- **Re-run the cuts as well**, since the redraft is new prose and the sentence added to close a gap is as likely to argue as any other.
+
+## Check the draft's own references
+
+Where the draft points at something — an issue number, a commit SHA, a file path, a named step or section — **check that the target exists and is the one the sentence implies.**
+A reference that no longer resolves is a deletion, and a reference that resolves to the wrong thing is a gap.
+Report both; do not repair them.
 
 ## Report back
 

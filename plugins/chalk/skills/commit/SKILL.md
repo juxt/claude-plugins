@@ -19,7 +19,7 @@ A commit body is an **explanation** artefact and MUST be drafted in the chalk vo
 - **`chalk:voice`** — the principles, the explanation quadrant, the line-format rule.
 - **`chalk:mindmap`** — a commit body is a lead-in line then a tree, not prose. See "Commit bodies" there.
 - **`chalk:code-comments`** — the body is where a comment's design rationale belongs, so this is the moment the misfiled ones surface.
-  The `weed-comments` agent applies it to the diff (step 2 below); its **Misfiled** list is material for the body.
+  The `weed-comments` agent applies it to the diff at **Weed the staged comments**; its **Misfiled** list is material for the body.
 
 **The body MUST NOT contain headings** — needing them is a signal the commit is too big, or that you're writing the PR description in the wrong place.
 A tl;dr is optional; the subject line normally serves as one.
@@ -40,7 +40,7 @@ A tl;dr is optional; the subject line normally serves as one.
 
    - **You MUST NOT tell it what the change is for.** Not the issue, not the problem, not what you decided. It stands in for a reader who has none of that, and briefing it makes it a second opinion from your own context rather than a first opinion from the reader's.
    - **Its deletions apply.** They land in the working tree and you stage them; you do not review them back into place. The user sees them in the commit diff, which is the human review point.
-   - **Its Misfiled list is input to step 4** — a comment deleted for being design rationale is rationale the body now has to carry.
+   - **Its Misfiled list is input to Draft the body** — a comment deleted for being design rationale is rationale the body now has to carry.
    - Where a comment survives, its **Kept** line names the misunderstanding it prevents; that belongs in neither the body nor the code.
 
 3. **Review the conversation history** to extract the reasoning behind the change.
@@ -67,7 +67,7 @@ A tl;dr is optional; the subject line normally serves as one.
 
    Not "ask if you're unsure" — that is a judgement made by the context that just spent the session building the *why*, and it always comes back confident. `weed-prose` has already decided, from the draft alone, which questions the artefact fails to answer.
 
-   - **A gap MUST be closed by adding a sentence that answers it**, then re-running `weed-prose` on the redraft. **You MUST NOT close a gap by deciding it doesn't apply.**
+   - **A gap MUST be closed by adding a sentence that answers it, and the redraft MUST go back to `weed-prose`.** **You MUST NOT close a gap by deciding it doesn't apply**, and you MUST NOT judge your own redraft — the agent that raised the gap is the one that closes it. Loop until it reports no blocking gaps.
    - **Relay each question as written.** Composing your own is where the ask gets dropped.
    - **A `blocking` gap — a missing *why now* — MUST be resolved before you commit.** Why-this can be recovered from the diff and the issue in six months; why-now exists only in the user's head and is gone tomorrow.
    - **Answer from the session where the session genuinely has it**, and say which part of it you're drawing on so the user can correct you. Where it doesn't, ask.
