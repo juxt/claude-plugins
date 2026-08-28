@@ -19,7 +19,6 @@ A commit body is an **explanation** artefact and MUST be drafted in the chalk vo
 - **`chalk:voice`** — the principles, the explanation quadrant, the line-format rule.
 - **`chalk:mindmap`** — a commit body is a lead-in line then a tree, not prose. See "Commit bodies" there.
 - **`chalk:code-comments`** — the body is where a comment's design rationale belongs, so this is the moment the misfiled ones surface.
-  The `weed-comments` agent applies it to the diff at **Weed the staged comments**; its **Misfiled** list is material for the body.
 
 **The body MUST NOT contain headings** — needing them is a signal the commit is too big, or that you're writing the PR description in the wrong place.
 A tl;dr is optional; the subject line normally serves as one.

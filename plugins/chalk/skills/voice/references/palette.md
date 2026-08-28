@@ -1,6 +1,5 @@
 # The issue and PR section palette
 
-Load this before drafting an issue, a PR description or a chalk comment.
 Issue and PR descriptions are **explanation** artefacts with reference-shaped evidence embedded where useful.
 
 Not every description needs every section.

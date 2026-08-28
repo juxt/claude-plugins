@@ -175,7 +175,6 @@ Create a GitHub issue:
 gh issue create --title "..." --body-file body.md
 ```
 
-Issue bodies come from the `chalk:issue` skill; if the caller hasn't been through it, say so.
 A new issue body has **no** `## Progress` section, and you MUST NOT add one — Progress is tracking state, and it arrives via "Update the Progress section" when someone picks the issue up.
 Report back the issue number from the output.
 
@@ -183,7 +182,7 @@ Report back the issue number from the output.
 
 Create a new comment on the issue using the body the caller has drafted.
 The caller supplies the task description, the checklist, and any `<details>` bodies (or the literal placeholder `(to be filled after implementation)` for items not yet done).
-Use `gh issue comment N --body-file body.md` to post it verbatim.
+Use `gh issue comment N --body-file body.md`.
 
 The expected shape — for your own validation, not for you to author:
 
@@ -206,7 +205,7 @@ The expected shape — for your own validation, not for you to author:
 </details>
 ```
 
-If the incoming body doesn't start with `### Chalk —`, or if checklist items don't line up with `<details>` blocks, stop and ask the caller to fix it — don't reshape the content yourself.
+If the incoming body doesn't start with `### Chalk —`, or if checklist items don't line up with `<details>` blocks, stop and ask the caller to fix it.
 No date in the header — GitHub timestamps the comment itself.
 
 **Assignment**: unless the caller explicitly says otherwise, also assign the current user to the issue in the same call:
@@ -232,8 +231,8 @@ ME=$(gh api user --jq .login)
 gh issue view N --json comments --jq --arg me "$ME" '[.comments[] | select(.body | startswith("### Chalk —")) | select(.author.login == $me)] | last'
 ```
 
-If no such comment exists, create one instead — do not fall back to editing someone else's.
-If the caller asks you to update a chalk comment that belongs to a different user, stop and report this back; do not proceed without express permission.
+If no such comment exists, create one instead.
+If the caller asks you to update a chalk comment that belongs to a different user, stop and report this back.
 
 Once you've identified your own chalk comment, check whether it's still the last comment on the issue:
 
@@ -269,7 +268,7 @@ gh issue edit N --body-file new-body.md
 ```
 
 The caller provides the new `## Progress` section contents verbatim.
-Don't reshape the caller's wording, reorder the checklist, or decide which items are done — all of that is the caller's call.
+Don't reorder the checklist or decide which items are done — all of that is the caller's call.
 
 Expected section format (for your validation, not for you to author):
 

@@ -1,7 +1,5 @@
 # The other three quadrants
 
-Load this before writing a docs page.
-
 **Each page leans toward one quadrant at the top level; sections within it may hit others.**
 A how-to page often has a short explanation intro (what this setup is for), numbered steps (how-to), a commented config block (reference), and a closing section on failure modes (explanation).
 Each section does one quadrant's job; they MUST NOT blur together.

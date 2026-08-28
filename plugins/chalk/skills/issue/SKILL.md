@@ -56,7 +56,7 @@ Write for that decision: a summary of the session's work doesn't serve it.
 
 4. **Draft a title in acceptance-test voice.**
 
-   Use the user's if given. Otherwise state the behaviour you want to be true, with a lowercase `should` — "the replica log should elect its own leader", "a restarted node should not reset the leader term".
+   Use the user's if given. Otherwise state the behaviour you want to be true — "the replica log should elect its own leader", "a restarted node should not reset the leader term".
 
    - **A title MUST say whether it states the desired behaviour or the current defect.**
      A bare statement of the current condition reads identically on a card that wants it fixed and one that wants it kept: "leader election borrows Kafka's consumer group" sits equally well above a plan to replace it and a plan to harden it. `should` settles that in one word.
@@ -80,7 +80,7 @@ Write for that decision: a summary of the session's work doesn't serve it.
    - **When a fix is obvious but unconsidered**, one line under the problem ("probably wants X") is enough. Don't inflate it into an Implementation section.
 
    **Where you do include them, they MUST be shaped as a goal tree** (`chalk:goal-tree`) rather than a flat list of tasks — Implementation and Future state, where earned, always are.
-   An issue's goal tree sits higher than a plan's — it answers what has to be true for this to be done, not which files to touch — and a child may be a link to the issue that owns that part. Wire that link as a sub-issue relationship too.
+   An issue's goal tree sits higher than a plan's — it answers what has to be true for this to be done, not which files to touch — and a child may be a link to the issue that owns that part.
 
 6. **Wire up relationships.**
 
