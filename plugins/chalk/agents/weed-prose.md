@@ -92,6 +92,17 @@ Where the draft points at something — an issue number, a commit SHA, a file pa
 A reference that no longer resolves is a deletion, and a reference that resolves to the wrong thing is a gap.
 Report both; do not repair them.
 
+**Collect every reference first, then test existence in a single command.**
+Whether a target exists is mechanical, and one lookup per reference is the slowest thing you do — a `gh issue view` is a network round-trip on its own. Build the list from the draft, then run one `Bash` call:
+
+```bash
+git cat-file -e <sha>^{commit} && echo "sha ok"
+test -e <path> && echo "path ok"
+gh issue view <n> --json number,title
+```
+
+**Spend judgement only on what that command says exists**, on the half it cannot answer: is this the target the sentence implies?
+
 ## Report back
 
 Return, as your final text:
