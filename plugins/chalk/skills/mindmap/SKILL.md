@@ -87,17 +87,12 @@ Goal trees don't need it — there the parent *is* the yardstick (see `chalk:goa
   `assumption:` says you haven't verified it. `check:` says it needs verifying before anyone relies on it.
 
 - **In an issue, `assumption:` on a line in Root cause** tells the reader it's unverified and stops the next person building on it as though it were established.
-- **Don't tag for the sake of it.**
-  An untagged bullet is the norm; a tag is a signal, and signals dilute.
 
 ## Cross-references
 
 **Give a node a typed ID where a reader might want to point at it in reply.**
 The letter comes from the tag — `G1` for a goal, `D1` for a decision, `I1` for an idea — so the scheme extends itself as new tags appear.
 Nest them to mirror the tree: `D2.1` is the first child of `D2`.
-
-- **Use them where reply-by-reference actually happens**
-  **Alternatives considered**, **Decision rationale**, **Open Questions**. Not every bullet everywhere — IDs on scaffolding are noise.
 
 - **A published ID MUST be stable.**
   Renaming or renumbering a node breaks every inbound reference. Where IDs already exist, cite them rather than re-describing the node.
@@ -134,8 +129,6 @@ The commit subject line usually does the job, so most bodies don't want one; a l
 
 - **A `<details>` block behaves like a bullet**
   Its summary line is the subject line, and it carries the same contract.
-- **Not every section wants a tree.**
-  Two sentences of causal argument shouldn't be forced into one.
 
 ### Commit bodies
 

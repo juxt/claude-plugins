@@ -112,25 +112,20 @@ Suggest a different approach instead.
 
    **A rationale MUST NOT be fabricated** when the issue graph, PR or commits don't carry one; ask the user instead.
    `chalk:voice`'s "Establish the why and the why now" applies here.
+   **Ask only where the section wants a rationale at all.** A Reference section keeps rationale out of the body entirely (`references/docs-quadrants.md`), so a missing *why* there is not a gap to fill — it goes in an adjacent explanation section, or nowhere.
 
    Ask when:
 
-   - The **audience** isn't clear from the page context.
    - The **quadrant** isn't clear from the request ("document X" is ambiguous — tutorial, how-to, reference, or explainer?).
-   - The **why** isn't clear from the issue graph / PR / commits, and the section needs one.
    - A **project convention** is missing and the call has material effect on the output (e.g. no changelog-format precedent and the change is a transition worth recording).
 
 ## Chalk Integration
 
 When chalk is active (tracking a GitHub issue):
 
-- **Read the issue and its comments** before writing a non-trivial section.
 - **After updating the page**, update the chalk comment directly — don't ask first.
 - A docs change is often a natural checklist item on the chalk progress section ("document X behaviour"). Check it off when the page lands.
 
 ## What this skill is not
 
-- Not a marketing-copy writer.
-- Not a spec for non-technical end-user help.
-- Not an opinion on how *any specific project* should organise its docs — conventions come from the repo.
 - Not a drift-detector — for "which pages does this diff affect?", use `chalk:weed-docs`.

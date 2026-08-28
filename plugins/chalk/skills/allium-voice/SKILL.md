@@ -73,8 +73,6 @@ RFC 2119 keywords grade individual clauses within one, so the two compose.
 - **A graded keyword describing what an actor is *permitted* to do is not the obligation being graded**, and belongs where it is.
   An invariant can hold absolutely while noting the latitude it leaves an external actor — "ordinarily this bounds the confirmed position by the last durable block's token; a source MAY confirm beyond it over a range that holds nothing of ours". The MAY is the source's latitude; the invariant is what constrains it.
 
-- **`@guidance` is where SHOULD and MAY live.**
-
 ## Comments
 
 A `--` body is the spec's explanation payload, not incidental annotation.

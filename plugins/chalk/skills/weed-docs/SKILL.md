@@ -99,7 +99,6 @@ Internal READMEs, code comments and developer notes are out of scope unless the 
 
 ## What this skill is not
 
-- **Not an auto-editor** — it audits; `chalk:tend-docs` edits.
 - **Not a spec-to-code drift detector** — that's `allium:weed`.
 - **Not a full docs health check** — it's scoped to drift caused by a specific code change.
 - **Not a substitute for human review of the PR** — it's a first-pass punch list.

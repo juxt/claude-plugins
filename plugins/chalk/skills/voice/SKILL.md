@@ -179,7 +179,7 @@ Read the docs README, existing pages, and recent commits before writing, and mat
 
 The reader wants to *understand*: mental models, why-this-way, decisions, tradeoffs, dead ends, invariants.
 
-**Voice:** discursive, grounded in concrete examples, leading with the problem or the concept being explained.
+**Voice:** discursive.
 Capture the *why*, not the *what* — the reader can see the what in the diff, the config, the code.
 Teach the mental model when the change introduces or reshapes a concept; don't assume the reader has the one you built up while implementing.
 

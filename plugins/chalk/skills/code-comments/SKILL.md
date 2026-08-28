@@ -31,7 +31,7 @@ What each clause rules out:
 - **"a different bug"** — they want one fact and they're leaving.
   Orientation, summary and section-label comments cost them and give nothing.
 - **"this line and the twenty around it"** — nothing that depends on reading elsewhere.
-  No caller lists, no "phase 2 of teardown", no re-narrating a pattern's rationale at each site.
+  No "phase 2 of teardown".
 
 **An interface comment's reader is deciding whether to call this**, from the signature and the doc alone, and will not read the body.
 
@@ -62,6 +62,8 @@ One per way the code under-determines what the reader does next.
 
 ## The test
 
+**These are implementation-comment tests.** An interface comment is judged on completeness for a caller who will not read the body, so a test asking what a reader of the surrounding *code* would get wrong does not apply to it.
+
 **Cover the comment, read the code, and name what the reader would get wrong. Nothing → delete it.**
 
 **No clause of either test is yours to adjudicate** — the reader's derivation decides, not your sense of what's subtle.
@@ -72,7 +74,7 @@ Same level as the code is restatement, and **the red flag is a comment built fro
 **A comment that fails MUST be deleted, not shortened.**
 Reaching for a length budget instead is how justification survives a pass and comes back trimmed — so if you're rewriting a comment for the second time, apply the test rather than the budget.
 
-**Apply both to existing comments too**, interface and implementation alike.
+**Apply them to existing implementation comments too**, and check an existing interface comment for completeness the same way you would a new one.
 
 ## Where the rejected material goes
 
@@ -95,10 +97,12 @@ A comment defending a choice **advertises diligence** — the same move as ranki
 
 Per comment in the diff:
 
-1. **Apply the triggers, then the test.**
-2. **If nothing, report a deletion** — not a rewrite, and not "make it shorter".
-3. **If it's misfiled rather than wrong, say where it goes** — commit body, canonical place, call site.
-4. **Scrutinise the confident ones hardest.** A comment restating a decision in assured prose is the one a reviewer waves through.
+1. **Decide which kind it is first**, from the surface's reach.
+2. **Interface comment → check completeness**, and never report a deletion for failing a trigger it was never subject to.
+3. **Implementation comment → apply the triggers, then the test.**
+4. **If nothing, report a deletion.**
+5. **If it's misfiled rather than wrong, say where it goes** — commit body, canonical place, call site.
+6. **Scrutinise the confident ones hardest.** A comment restating a decision in assured prose is the one a reviewer waves through.
 
 ## Markup
 

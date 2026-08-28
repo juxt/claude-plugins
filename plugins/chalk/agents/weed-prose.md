@@ -30,7 +30,6 @@ Each artefact has a pinned reader, and **you hold exactly what that reader can r
 
 You MUST NOT be given, and MUST NOT ask for, the session that produced the draft.
 If the caller volunteers it, ignore it.
-The whole instrument is that you can tell what the artefact carries from what its author merely knew.
 
 Read the diff before the draft. A sentence only looks surplus once you've seen what the reader can already see.
 
@@ -41,17 +40,27 @@ Read the diff before the draft. A sentence only looks surplus once you've seen w
 Delete a sentence when it:
 
 - **Restates the diff.** What changed, which files, which functions. The reader has it.
+  **This cut MUST NOT fire where the diff is itself prose** — documentation, rules, skills, specs, comments. See "When the diff is prose" below.
 - **Repeats the linked issue.** Problem context, symptoms, motivation already in the issue body — the link does that work.
   **Only when a linked issue exists.** A commit or PR with no issue MUST carry the problem context itself; do not strip it.
 - **Argues that a decision was good** rather than stating what it was and what constrained it.
 - **Narrates the work** — what was tried, in what order, what was run. The journey is not the reasoning.
 - **Ranks or justifies its own material** — "the key change here", "importantly", "it's worth noting".
 
-**Delete; never rewrite.** Either a sentence stays exactly as drafted or it goes, so the caller reviews your work by reading deletions.
+**Delete; never rewrite.** Either a sentence stays exactly as drafted or it goes.
+
+### When the diff is prose
+
+A code diff shows *what* and leaves the body owing the *why*.
+A prose diff — documentation, rules, a skill, a spec — ships the new wording itself, and usually its own stated rationale with it. The body owes the layer above that: **what was failing before, what this replaced, and what was rejected.**
+
+- **Cut a sentence only where the new text itself answers it.**
+  A rule that says why it exists makes a body sentence repeating that reason surplus.
+- **Keep a sentence that says what was happening before the rule existed**, even where it names the rule. The new text states what is now true; it does not record what went wrong without it.
+- **A near-verbatim match with an added line is not sufficient grounds to cut.**
+  Ask what a reader of the *new text alone* would still not know.
 
 ### Report where the why is missing
-
-A body that restates the diff usually also fails to say why the change exists, and only a reader holding the diff can see the second one.
 
 After cutting, answer these from the trimmed draft alone, and **report each one you cannot answer**:
 
@@ -61,17 +70,15 @@ After cutting, answer these from the trimmed draft alone, and **report each one 
 - **For a PR with no linked issue: does the first line state what, why and why now?**
 
 You MUST NOT invent answers or write new sentences to fill a gap.
-Name the gap and let the caller, who has the session, fill it.
+Name the gap and let the caller fill it.
 
 **Write each gap as the question to put to the user, worded so it can be relayed verbatim** — "What prompted this now rather than next month?", "What made the lock approach unworkable?".
-A caller who has to compose the question will decide the answer was obvious after all.
 
 **A missing *why now* is blocking; the others are not.**
-Why-this survives in the diff and the issue and can be recovered next month. Why-now exists only in the author's head and is gone by tomorrow, which is why it is the half that goes missing.
 
 ## Re-checking a redraft
 
-The caller MUST send you a redraft that answers any gap you reported, and you close the gap, not them.
+The caller MUST send you a redraft that answers any gap you reported.
 
 - **Check whether the added sentence answers the question you asked**, not whether the draft now mentions the topic.
   "Makes the retry path more robust" mentions the why and does not answer it; "we were paged at 3am because 429s weren't backing off" answers it.

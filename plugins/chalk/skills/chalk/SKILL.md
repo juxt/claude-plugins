@@ -29,19 +29,10 @@ Two artefacts have their own skill — load it instead of drafting from here:
 **Your audience is the next session on this issue** — a teammate, or you, or an agent starting cold with only the issue in front of it.
 "Name your audience" (`chalk:voice`): a comment written for whoever already sat through this session helps nobody, because they've gone.
 
-## Understanding why
-
-Chalk's job is to capture the *why*, not just the *what* — establish **why this** and **why now**, and ask rather than guess.
-
-What's chalk's specifically is the **timing**: establish it at the *start* of the work, not when you sit down to write.
-
 ## Issue relationships
 
 Parent/child and blocked-by carry structure the description can't — use them liberally.
 `chalk:issue` covers what each is for.
-
-- **Read the neighbourhood on activation**
-  A parent epic or a recently-unblocked predecessor often explains why *this* is the card to pick up today.
 
 - **Wire relationships in the same session they emerge**
   A dependency discovered mid-implementation ("this is blocked by #45") gets linked as soon as you find it. Deferring it usually means the link never gets made.
@@ -61,6 +52,7 @@ The github agent has GraphQL recipes for reading and mutating these (`addSubIssu
 2. Internalize the issue context without repeating the entire issue to the user.
 3. If no `## Progress` section exists in the description, ask the agent to add one.
 4. If the change is non-trivial and the *why* or *why now* isn't obvious from the issue or its neighbours, ask the user before starting.
+   Per "Establish the why and the why now" (`chalk:voice`), a *why now* you can't trace to something the user said, a commit or a file you can name is one you don't have.
 5. Tell the user you're tracking against #N.
 
 ### Activation: `chalk new`
@@ -152,7 +144,6 @@ Unless the user has specified otherwise, the same agent call ensures the current
 **Update** as the session progresses — frequently, and without asking.
 Check off completed items, fill in details blocks with decisions, findings and dead ends, add items that emerged during implementation.
 
-**The user MUST NOT have to prompt each update.**
 If there's something new to record — a decision, a dead end, a completed item, a surprising finding — update the comment; don't ask "should I update chalk?" first.
 
 **Collect** when the approach changes significantly — start a new comment, and reduce the old one in the same breath.
