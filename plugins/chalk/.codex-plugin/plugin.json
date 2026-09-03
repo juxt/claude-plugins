@@ -1,0 +1,39 @@
+{
+  "name": "chalk",
+  "version": "0.23.2",
+  "description": "Capture intent across issues, commits, and PRs — why, not just what",
+  "author": {
+    "name": "JUXT",
+    "url": "https://juxt.pro"
+  },
+  "homepage": "https://github.com/juxt/claude-plugins/tree/master/plugins/chalk",
+  "repository": "https://github.com/juxt/claude-plugins",
+  "license": "MIT",
+  "keywords": [
+    "github",
+    "issues",
+    "commits",
+    "pull-requests",
+    "agent-memory"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Chalk",
+    "shortDescription": "Keep coding intent with the work",
+    "longDescription": "Track agent work in GitHub Issues and preserve decisions in issue descriptions, comments, commits, and pull requests.",
+    "developerName": "JUXT",
+    "category": "Coding",
+    "capabilities": [
+      "Read",
+      "Write",
+      "Interactive"
+    ],
+    "websiteURL": "https://github.com/juxt/claude-plugins/tree/master/plugins/chalk",
+    "defaultPrompt": [
+      "Track this session against a GitHub issue.",
+      "Create a commit that captures why this changed.",
+      "Open a pull request explaining this change."
+    ],
+    "screenshots": []
+  }
+}
