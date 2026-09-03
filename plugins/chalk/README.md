@@ -59,7 +59,7 @@ Chalk also auto-activates when you mention a GitHub issue number (e.g. "#123").
 - **Skill** (`commit`): Contextual commits that capture the why, with chalk integration
 - **Skill** (`pr`): Pull requests with intent-driven descriptions
 - **Skill** (`sitrep`): Where the session has got to — what landed, and what's still open as ID'd ideas, decisions and questions
-- **Skill** (`voice`): The shared writing voice — universal principles, the explanation quadrant, the line-format rule. `references/palette.md` carries the issue/PR section palette, `references/docs-quadrants.md` the other three quadrants.
+- **Skill** (`voice`): The shared writing voice — universal principles, what an explanation owes its reader, the line-format rule. `references/palette.md` carries the issue/PR section palette.
 - **Skill** (`mindmap`): The shape of anything the reader has to follow — nested bullets whose parents are claims and whose children back them up
 - **Skill** (`goal-tree`): Goal trees, where children accomplish their parent rather than argue for it, and each node is tested for sufficiency
 - **Skill** (`code-comments`): What earns a code comment and what to delete — load it early in a session that touches code, and again when reviewing a diff

@@ -16,7 +16,7 @@ The user will provide the commit headline as an argument (e.g. `/chalk:commit fi
 A commit body is an **explanation** artefact and MUST be drafted in the chalk voice, not your own default prose habits.
 `chalk:commit` pulls in nothing on its own, so load these first (via the Skill tool):
 
-- **`chalk:voice`** — the principles, the explanation quadrant, the line-format rule.
+- **`chalk:voice`** — the principles, what an explanation owes its reader, the line-format rule.
 - **`chalk:mindmap`** — a commit body is a lead-in line then a tree, not prose. See "Commit bodies" there.
 - **`chalk:code-comments`** — the body is where a comment's design rationale belongs, so this is the moment the misfiled ones surface.
 

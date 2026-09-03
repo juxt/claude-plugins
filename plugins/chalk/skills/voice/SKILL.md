@@ -1,39 +1,26 @@
 ---
 name: voice
-description: Shared chalk writing voice — the universal principles, the explanation quadrant, and the line-format rule. The chalk, chalk:issue, chalk:commit, chalk:pr and chalk:tend-docs skills load this before drafting any GitHub-bound or docs prose; a human may run it to read the guide. Companion skills chalk:mindmap (the shape of followable content) and chalk:goal-tree (goal trees) carry the structure this one deliberately leaves out.
-user-invocable: true
+description: Shared chalk writing voice — the universal principles, what an explanation owes its reader, and the line-format rule. The chalk, chalk:issue, chalk:commit and chalk:pr skills load this before drafting any GitHub-bound prose; a human may run it to read the guide. Companion skills chalk:mindmap (the shape of followable content) and chalk:goal-tree (goal trees) carry the structure this one deliberately leaves out.
 ---
 
 # Chalk Voice — Writing Principles
 
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
-**Optimise for the reader, not the writer.**
-
-Whatever you're writing, the reader is trying to do one of four things, and [Diataxis](https://diataxis.fr) names them:
-
-| | Acquire | Apply |
-| --- | --- | --- |
-| **Cognition** | Explanation | Reference |
-| **Action** | Tutorial | How-to |
-
-**Nearly everything in this plugin is explanation, end to end** — commit bodies, issue and PR descriptions, chalk comments, code comments.
+**Everything in this plugin is Diátaxis explanation, end to end**
+The reader is trying to *understand* something, not to follow steps or look a value up.
 Reference-shaped material inside them (log excerpts, usage examples, commit lists, test plans) is illustration embedded in the explanation, not a section of its own.
-A docs page is the only artefact that plays all four.
 
 ## Load alongside this
 
 - **`chalk:mindmap`** — always.
-  The shape of followable content: nested bullets, subject lines, tags, cross-reference IDs, tl;dr placement. It applies in every quadrant.
+  The shape of followable content: nested bullets, subject lines, tags, cross-reference IDs, tl;dr placement. It applies to everything here.
 
 - **`chalk:goal-tree`** — where a node's children *accomplish* it rather than argue for it.
   The direction of a piece of work, a Future state or Implementation section.
 
 - **`references/palette.md`** — before drafting an issue, PR or chalk comment.
   The section palette, their ordering, and the annotated-trace technique for sequencing bugs.
-
-- **`references/docs-quadrants.md`** — before writing a docs page.
-  How-to, reference and tutorial voice; the three quadrants nothing else here needs.
 
 - **`chalk:code-comments`** — before writing or editing any comment.
   The reader model, the counter-intuition test, and where the rejected material goes instead.
@@ -45,12 +32,9 @@ A docs page is the only artefact that plays all four.
 - **Paragraph-per-line** — commit bodies, issue and PR descriptions, chalk comments.
   These are read rendered on GitHub, and GitHub renders a single newline as `<br>`, so sentence-per-line fragments into staccato. Put each paragraph on one line, separate paragraphs with a blank line, and let the rendering wrap.
 
-- **Sentence-per-line** — docs pages and code comments, per [Semantic Line Breaks](https://sembr.org): break at sentence and clause boundaries.
+- **Sentence-per-line** — in-repo dev documentation, code comments, per [Semantic Line Breaks](https://sembr.org): break at sentence and clause boundaries.
 - **Whichever applies, it applies inside a bullet too**, which is where it's most often forgotten.
   On a paragraph-per-line destination a bullet's elaboration stays on one line however long it runs; the single break after the subject (`chalk:mindmap`) is the only exception.
-
-- **A project MAY override this** and ask for sentence-per-line in commit messages.
-  Follow the project's convention where it states one; see "Discover project conventions" below.
 
 ## Universal principles
 
@@ -81,7 +65,7 @@ Everything else does, and one answer serves every artefact.
 - **Chalk comment** — the next session on this issue, cold: a teammate, or you, or an agent with only the issue in front of it.
 
 - **The pin lives in the skill, not in the artefact.**
-  Don't write the audience into what you're shipping, and don't re-derive it per instance. State one explicitly only where it **departs** from the pin: a docs page for end users, an issue aimed at another team.
+  Don't write the audience into what you're shipping, and don't re-derive it per instance. State one explicitly only where it **departs** from the pin: an issue aimed at another team, a PR whose reviewer has never seen the subsystem.
 
 - **Lead with what they need, not with what you did.**
   The two diverge most sharply in summaries: a summary of the *work* reads as a session changelog, where a summary for the *reader* states what's true now and what it means for them.
@@ -107,7 +91,7 @@ A log dump or stack trace with no explanation of what the reader is looking at i
 ### Lead with the problem or context
 
 Set up *why this matters* before the solution.
-A how-to opens with the goal, an explanation opens with what needs explaining, a reference block sits under the concept it references.
+Open with what needs explaining — the problem, the constraint, the surprise — and put an evidence block under the claim it supports.
 
 ### Be concise — but keep the reasoning
 
@@ -173,9 +157,9 @@ State the capability; let the reader draw the conclusion.
 ### Discover project conventions, don't impose them
 
 Version markers, changelog shapes, file layout, cross-link style, commit line format — these vary between projects.
-Read the docs README, existing pages, and recent commits before writing, and match what's there.
+Read the project's README, its recent commits, and its existing issues and PRs before writing, and match what's there.
 
-## Explanation — the quadrant everything here lands in
+## Explanation — what every artefact here is
 
 The reader wants to *understand*: mental models, why-this-way, decisions, tradeoffs, dead ends, invariants.
 

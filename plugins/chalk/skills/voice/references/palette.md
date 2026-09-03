@@ -73,7 +73,7 @@ Sections roughly flow **setup → state → decision → plan**.
 - **Decision** — Out of scope, Alternatives considered, Decision rationale, Invariants / Constraints. The why-this-path-and-not-others.
 - **Plan** — Implementation, and for PRs Test plan. At the end.
 
-The explanation-quadrant material (why this, why this way) sits above the reference-shaped step list.
+The explanatory material (why this, why this way) sits above the reference-shaped step list.
 
 ## Annotated traces for sequencing bugs
 

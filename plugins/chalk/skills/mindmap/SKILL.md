@@ -1,6 +1,6 @@
 ---
 name: mindmap
-description: How to structure anything the reader has to follow — a mindmap of nested bullets whose parents are claims and whose children back them up. Load before drafting any commit body, issue, PR description, chalk comment, code comment or docs section with more than a couple of steps of reasoning in it; the chalk, chalk:issue, chalk:commit, chalk:pr and chalk:tend-docs skills load it alongside chalk:voice. Also covers tags, typed cross-reference IDs, tl;dr placement, and the per-artefact rules for commit bodies and code comments.
+description: How to structure anything the reader has to follow — a mindmap of nested bullets whose parents are claims and whose children back them up. Load before drafting any commit body, issue, PR description, chalk comment, code comment or docs section with more than a couple of steps of reasoning in it; the chalk, chalk:issue, chalk:commit and chalk:pr skills load it alongside chalk:voice. Also covers tags, typed cross-reference IDs, tl;dr placement, and the per-artefact rules for commit bodies and code comments.
 user-invocable: true
 ---
 
@@ -157,5 +157,5 @@ The commit subject line usually does the job, so most bodies don't want one; a l
 
 - **Same default, applied per section.**
   A section's steps, conditions or failure modes are followable content and take the tree.
-- **The tree doesn't let a section straddle quadrants.**
-  A how-to's numbered steps and an explainer's reasoning are both trees; they still belong in different sections.
+- **The tree doesn't let one section do two jobs.**
+  A procedure's numbered steps and the reasoning behind them are both trees; they still belong in different sections.
