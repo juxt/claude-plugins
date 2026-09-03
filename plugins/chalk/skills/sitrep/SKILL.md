@@ -79,15 +79,19 @@ This overrides `chalk:mindmap`'s top-of-artefact rule, and only here: a terminal
 - **Where there is an obvious next move, it is the last bullet.**
   Where there isn't, don't invent one.
 
-## When chalk is tracking an issue
+## When the work has an issue or an open PR
 
-**The issue is a grounding source, and it is where anything durable belongs.**
+**Those are grounding sources, and they are where anything durable belongs.**
 A sitrep is chat: it survives until the terminal is closed.
 
-- **Read the `## Progress` section and the session's chalk comment before writing.**
-  Progress is the canonical checklist, so a Done item missing from it is either unlanded or an unrecorded landing — both worth knowing which.
-- **Offer to write the Open items up via `chalk` where they'd outlive the session.**
-  An unresolved `Q` belongs in Progress's Open Questions; a decision and its reasoning belong in the chalk comment. Offer, don't do it unasked — a sitrep is a read.
+- **Read them before writing.**
+  The issue description states the problem as it currently stands; the PR states what landed. A Done item that contradicts either is worth catching before you report it.
+
+- **Nothing in a sitrep should be material that isn't already in one of them, or on its way there.**
+  A sitrep is a view over durable artefacts, not a third place state lives. Where it turns out to be the only place something is written down, that's the finding — say so.
+
+- **Offer to write an Open item up where it would outlive the session.**
+  An unresolved `Q` goes to the **Open questions** section of whichever artefact owns it — the issue for the problem or the direction, the PR for the change that landed — via `chalk:issue` or `chalk:pr`. Offer, don't do it unasked: a sitrep is a read.
 
 ## Cut hard
 

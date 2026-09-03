@@ -81,17 +81,13 @@ A tl;dr is optional; the subject line normally serves as one.
    Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
    ```
 
-## Issue references in the subject line
+## Issue references
 
 - **Resolves the issue** — suffix the subject with `(resolves #N)`.
 - **An iteration towards it** — suffix with `(#N)`.
 
-## Chalk integration
+- **Either way, footer the body with `Refs #N`.**
+  That's what lets `weed-prose` reach the issue and cut the problem context the link already carries — without it, the agent judges the body as though there were no issue and leaves the duplication in.
 
-When chalk is active:
-
-- **Reference the issue** in the body footer (`Refs #123`).
-- **Draw on the session context.**
-  The chalk issue and comments capture the broader intent. The commit body should stand alone but benefit from that context.
-- **After committing, update the chalk comment with the outcome directly** — don't ask first.
-  A one-line nudge to the user after the update is fine; a question isn't.
+- **The body still has to stand alone.**
+  Draw on the issue for the broader intent, but the reader running `git blame` may not follow the link.

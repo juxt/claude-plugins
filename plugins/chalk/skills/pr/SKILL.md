@@ -35,7 +35,7 @@ Write the summary for them — see "Name your audience" in `chalk:voice`, and th
 
    - Review the commits on this branch — all of them, not just the latest.
    - Review the conversation history for context that isn't in the commits.
-   - If chalk is active, read all chalk comments on the tracked issue via the github agent.
+   - Where there's a linked issue, read its description and comments via the github agent.
    - Identify the base branch.
 
 2. **Draft a title** — the user's if given, otherwise a short one that captures the intent.
@@ -55,11 +55,14 @@ Write the summary for them — see "Name your audience" in `chalk:voice`, and th
 
    **Behaviour-preserving changes SHOULD be called out explicitly.**
 
+   **What the change left unanswered goes in Open questions**, tagged `Q<n>`.
+   A decision the branch deferred, a measurement not taken, a hypothesis the tests don't settle. Distinct from **Out of scope**, which records a decision that something is excluded; this records the absence of one.
+
 4. **Weed the draft.**
 
    Write the drafted description to a file and **delegate to the `weed-prose` agent**, naming the artefact as a PR description and passing the path, the base branch, and the linked issue number if there is one.
 
-   - **You MUST NOT give it the session, the chalk comments, or the branch's commit bodies.** It holds the branch diff and the linked issue — what the reviewer can reach, and nothing the reviewer can't.
+   - **You MUST NOT give it the session or the branch's commit bodies.** It holds the branch diff and the linked issue — what the later reader can reach, and nothing they can't.
    - **Passing the issue is what lets it cut duplication.** Without the issue, repeated problem context reads as necessary; with it, the cut is obvious and the link does the work.
    - **Where there is no linked issue, say so.** It will otherwise strip the problem context this PR is required to carry, and it checks the first line for what, why and why now instead.
    - **Its cuts apply; its Gaps are questions for you**, and it MUST NOT invent an answer to one.
@@ -79,11 +82,3 @@ Write the summary for them — see "Name your audience" in `chalk:voice`, and th
    - Pass the title and the fully-drafted description, ready to post verbatim.
    - Pass any project-specific PR conventions you can see in your current context — default reviewers, labels, base branch, draft status, project boards — verbatim, and let the agent apply them alongside its defaults. They typically live in the project's `CLAUDE.md` or explicit user instructions for this session.
    - The agent assigns the current user by default. Tell it to skip assignment only if the user has asked you to.
-
-## Chalk integration
-
-When chalk is tracking an issue, the chalk comments are the primary source material.
-Review all of them, not just the most recent.
-
-**Distil, don't copy.**
-Chalk comments are append-only session logs; the PR description synthesises the reasoning across sessions into a coherent narrative for a reviewer.

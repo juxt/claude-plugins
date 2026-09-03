@@ -35,6 +35,10 @@ A refactor PR SHOULD call out that behaviour is intentionally preserved.
 - **Out of scope**
   What's explicitly not in this change, with reasons. Reference the issues or PRs that pick those pieces up.
 
+- **Open questions**
+  What is still unanswered, and what would settle each — a decision owed, a hypothesis nobody verified, a measurement not taken. **Distinct from Out of scope**, which records a decision that something is excluded; this records the absence of a decision, and the two read very differently to whoever picks the work up. Tag each `Q<n>` (`chalk:mindmap`) so it can be answered by reference in a comment, and **delete an entry once it's answered**, putting the answer wherever it now belongs — Decision rationale, Root cause, or the commit that acted on it.
+  On an issue these are about the problem or the direction; on a PR, about the change that landed.
+
 - **Alternatives considered**
   Other designs at the same level of abstraction as the chosen one, with a sketch of each and the trade-offs that ruled it in or out. Dated rejections ("Rejected on 2026-05-23 because …") help the next reader. Implementation-strategy choices (refactor-in-place vs. parallel impl, big-bang vs. incremental) aren't alternatives at this level — they belong in Implementation.
 
@@ -42,7 +46,7 @@ A refactor PR SHOULD call out that behaviour is intentionally preserved.
   Compare the chosen approach against each alternative on the points that differentiate them. Reads as a side-by-side, not a re-summary of the chosen approach.
 
 - **Implementation**
-  Direction and high-level plan for an issue; what landed for a PR. Step-by-step granular execution — which sub-task next, what files to touch — belongs in the chalk comment, not here. Shape it as a **goal tree** (`chalk:goal-tree`), and name whose each item is: **an expectation of someone else, written like a task, is a dependency nobody owns**.
+  Direction and high-level plan for an issue; what landed for a PR. Step-by-step granular execution — which sub-task next, what files to touch — is session state and belongs in the plan, not here. Shape it as a **goal tree** (`chalk:goal-tree`), and name whose each item is: **an expectation of someone else, written like a task, is a dependency nobody owns**.
 
 ## PRs additionally draw from
 
@@ -71,7 +75,8 @@ Sections roughly flow **setup → state → decision → plan**.
 - **Setup** — Summary, Context / Motivation. The why-we're-here.
 - **State** — Current state and Future state (refactors / features); Symptoms, Root cause, Evidence (bugs / incidents). The what-it-looks-like, today and at completion.
 - **Decision** — Out of scope, Alternatives considered, Decision rationale, Invariants / Constraints. The why-this-path-and-not-others.
-- **Plan** — Implementation, and for PRs Test plan. At the end.
+- **Plan** — Implementation, and for PRs Test plan.
+- **Open** — Open questions. Last, after the plan: it's what the plan doesn't answer yet.
 
 The explanatory material (why this, why this way) sits above the reference-shaped step list.
 

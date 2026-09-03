@@ -1,6 +1,6 @@
 ---
 name: mindmap
-description: How to structure anything the reader has to follow — a mindmap of nested bullets whose parents are claims and whose children back them up. Load before drafting any commit body, issue, PR description, chalk comment, code comment or docs section with more than a couple of steps of reasoning in it; the chalk, chalk:issue, chalk:commit and chalk:pr skills load it alongside chalk:voice. Also covers tags, typed cross-reference IDs, tl;dr placement, and the per-artefact rules for commit bodies and code comments.
+description: How to structure anything the reader has to follow — a mindmap of nested bullets whose parents are claims and whose children back them up. Load before drafting any commit body, issue, PR description, code comment or docs section with more than a couple of steps of reasoning in it; the chalk:issue, chalk:commit and chalk:pr skills load it alongside chalk:voice. Also covers tags, typed cross-reference IDs, tl;dr placement, and the per-artefact rules for commit bodies and code comments.
 user-invocable: true
 ---
 
@@ -122,7 +122,7 @@ The commit subject line usually does the job, so most bodies don't want one; a l
 
 ## Per artefact
 
-### Issues, PRs and chalk comments
+### Issues and PRs
 
 - **The palette decides which sections exist; the mindmap shapes what's inside them.**
   Draw sections from `chalk:voice`'s `references/palette.md`; then per section it's the heading, a short tl;dr as its opening, then the tree.

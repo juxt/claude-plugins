@@ -14,8 +14,6 @@ The user MAY provide a title as an argument (e.g. `/chalk:issue flaky expression
 If no title is provided, draft one from the conversation.
 
 **This skill owns the issue description** — drafting it, creating the issue, and keeping the description accurate later.
-It does not track a session against the issue: "open an issue for this so we don't lose it" is this skill on its own.
-Filing *and picking it up* is `chalk new`, which runs this skill to produce the issue and then starts tracking.
 
 ## Before you draft
 
@@ -71,13 +69,16 @@ Write for that decision: a summary of the session's work doesn't serve it.
 
    **The description MUST be understandable on its own**, without trawling the comments.
 
-   Default to the palette sections that describe **the problem**: context/motivation, symptoms, evidence, root cause, invariants, out of scope.
+   Default to the palette sections that describe **the problem**: context/motivation, symptoms, evidence, root cause, invariants, out of scope, open questions.
 
    **The solution-shaped sections — Implementation, Alternatives considered, Decision rationale, Future state — MUST NOT appear unless the session genuinely worked the implementation.**
 
    - **Include them** when you traced the code, weighed approaches, or the user talked through a design.
    - **Leave them out** when the session was about *noticing* the problem. A guess at the fix, written up as though it were a decision, is worse than no section at all — the next reader can't tell speculation from a conclusion.
    - **When a fix is obvious but unconsidered**, one line under the problem ("probably wants X") is enough. Don't inflate it into an Implementation section.
+
+   - **What the session left unanswered goes in Open questions**, one entry each, tagged `Q<n>` per `chalk:mindmap` so it can be answered by reference.
+     A decision still owed or a hypothesis nobody verified has no other home in the plugin — a commit body explains a change that exists and a PR explains a branch that exists, so an open question left out here is one the next person rediscovers from scratch. Say what would settle each. Delete an entry once it's answered, and put the answer wherever it now belongs.
 
    **Where you do include them, they MUST be shaped as a goal tree** (`chalk:goal-tree`) rather than a flat list of tasks — Implementation and Future state, where earned, always are.
    An issue's goal tree sits higher than a plan's — it answers what has to be true for this to be done, not which files to touch — and a child may be a link to the issue that owns that part.
@@ -111,11 +112,21 @@ The description is the source of truth, so it MUST be kept accurate as facts cha
 - **Transitions don't belong here.**
   A description states the problem as it is now; "we originally thought X" belongs in a comment, which is timestamped and append-only. See "Transitions vs. current state" in `chalk:voice`.
 
-## The `## Progress` section is chalk's, not this skill's
+## An issue either lands in one piece, or it has children
 
-**An issue body written here MUST NOT contain a `## Progress` section** — not on create, not on update, not under `chalk new`.
+**Every issue MUST be small enough to land as a single commit or PR, or MUST have sub-issues or PRs carrying its parts.**
+There is no third shape. An issue that is neither asserts a body of work with no visible unit of delivery, so whoever picks it up has to redo the decomposition from the description alone — with less context than you have while filing it.
 
-It's added by `chalk #N` when someone actually picks the issue up, and a checklist on an untouched issue asserts work is underway when it isn't.
-Where one already exists, leave it alone and route changes through the `chalk` skill; its checklist is read as the issue's current truth.
+- **Where the work plainly exceeds one landing, file the children in the same session.**
+  Same rule as the relationships above, for the same reason: a decomposition deferred is one that never happens.
 
-The same line applies to implementation detail — which sub-task is next, what files to touch, what was tried. That belongs in the chalk comment, not the description.
+- **This is what a progress checklist was for, and it does the job better.**
+  The sub-issue graph and the linked PRs already say which parts are done, and GitHub renders both with nobody maintaining them. A checklist inside the description drifts down to items like "raise PR" — self-evident, which is what "What to omit" in `chalk:voice` rules out.
+
+- **An issue body MUST NOT contain a `## Progress` section or a status line.**
+  Whether the issue is open, what's blocking it, and what's landed are GitHub's own state: issue state, blocked-by, and linked PRs. A second copy inside the description is read as the truth and is wrong the moment anything moves.
+
+## Implementation detail doesn't go here either
+
+Which sub-task is next, what files to touch, what was tried — that's session state, not the problem.
+It belongs in the plan you're working from, and once it lands, in the commit body or the PR description.

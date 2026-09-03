@@ -1,6 +1,6 @@
 ---
 name: voice
-description: Shared chalk writing voice — the universal principles, what an explanation owes its reader, and the line-format rule. The chalk, chalk:issue, chalk:commit and chalk:pr skills load this before drafting any GitHub-bound prose; a human may run it to read the guide. Companion skills chalk:mindmap (the shape of followable content) and chalk:goal-tree (goal trees) carry the structure this one deliberately leaves out.
+description: Shared chalk writing voice — the universal principles, what an explanation owes its reader, and the line-format rule. The chalk:issue, chalk:commit and chalk:pr skills load this before drafting any GitHub-bound prose; a human may run it to read the guide. Companion skills chalk:mindmap (the shape of followable content) and chalk:goal-tree (goal trees) carry the structure this one deliberately leaves out.
 ---
 
 # Chalk Voice — Writing Principles
@@ -19,7 +19,7 @@ Reference-shaped material inside them (log excerpts, usage examples, commit list
 - **`chalk:goal-tree`** — where a node's children *accomplish* it rather than argue for it.
   The direction of a piece of work, a Future state or Implementation section.
 
-- **`references/palette.md`** — before drafting an issue, PR or chalk comment.
+- **`references/palette.md`** — before drafting an issue or PR description.
   The section palette, their ordering, and the annotated-trace technique for sequencing bugs.
 
 - **`chalk:code-comments`** — before writing or editing any comment.
@@ -29,7 +29,7 @@ Reference-shaped material inside them (log excerpts, usage examples, commit list
 
 **The destination decides it: paragraph-per-line where the artefact is read rendered, sentence-per-line where it's reviewed as a diff.**
 
-- **Paragraph-per-line** — commit bodies, issue and PR descriptions, chalk comments.
+- **Paragraph-per-line** — commit bodies, issue and PR descriptions.
   These are read rendered on GitHub, and GitHub renders a single newline as `<br>`, so sentence-per-line fragments into staccato. Put each paragraph on one line, separate paragraphs with a blank line, and let the rendering wrap.
 
 - **Sentence-per-line** — in-repo dev documentation, code comments, per [Semantic Line Breaks](https://sembr.org): break at sentence and clause boundaries.
@@ -62,7 +62,6 @@ Everything else does, and one answer serves every artefact.
 - **Commit body** — whoever runs `git blame` on this line **while debugging something else**, months on.
 - **Issue description** — whoever is **scanning a backlog, deciding whether to pick this card up this sprint**, having never seen it before and with only the description in front of them.
 - **PR description** — a reviewer **about to read the diff, who didn't see the branch** and hasn't yet opened the linked issue, but can.
-- **Chalk comment** — the next session on this issue, cold: a teammate, or you, or an agent with only the issue in front of it.
 
 - **The pin lives in the skill, not in the artefact.**
   Don't write the audience into what you're shipping, and don't re-derive it per instance. State one explicitly only where it **departs** from the pin: an issue aimed at another team, a PR whose reviewer has never seen the subsystem.

@@ -20,7 +20,7 @@
   "interface": {
     "displayName": "Chalk",
     "shortDescription": "Keep coding intent with the work",
-    "longDescription": "Track agent work in GitHub Issues and preserve decisions in issue descriptions, comments, commits, and pull requests.",
+    "longDescription": "Preserve the reasoning behind your work in issue descriptions, commits, and pull requests — written for whoever picks it up next.",
     "developerName": "JUXT",
     "category": "Coding",
     "capabilities": [
@@ -30,7 +30,7 @@
     ],
     "websiteURL": "https://github.com/juxt/claude-plugins/tree/master/plugins/chalk",
     "defaultPrompt": [
-      "Track this session against a GitHub issue.",
+      "File an issue capturing the problem and why it matters now.",
       "Create a commit that captures why this changed.",
       "Open a pull request explaining this change."
     ],

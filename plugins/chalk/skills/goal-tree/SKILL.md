@@ -1,6 +1,6 @@
 ---
 name: goal-tree
-description: Structure a goal as a tree whose children accomplish their parent rather than argue for it, and test each node for sufficiency. Load whenever writing something with a goal structure in it — the direction or target end state of a piece of work, an issue's Implementation or Future state section, the shape of a problem, or a plan. Covers the sufficiency test, the three kinds of leaf, and the named moves for closing a gap. The chalk, chalk:issue and chalk:pr skills load it alongside chalk:mindmap.
+description: Structure a goal as a tree whose children accomplish their parent rather than argue for it, and test each node for sufficiency. Load whenever writing something with a goal structure in it — the direction or target end state of a piece of work, an issue's Implementation or Future state section, the shape of a problem, or a plan. Covers the sufficiency test, the three kinds of leaf, and the named moves for closing a gap. The chalk:issue and chalk:pr skills load it alongside chalk:mindmap.
 user-invocable: true
 ---
 
@@ -70,7 +70,7 @@ Scope that was deliberately cut is a decision someone will want the reasoning fo
 
 **An issue's goal tree sits higher than a plan's.**
 The issue answers what has to be true for this to be done; a plan answers which files to touch in what order.
-Granular execution — which sub-task is next, what was tried — stays in the chalk comment.
+Granular execution — which sub-task is next, what was tried — is session state and stays in the plan you're working from.
 
 - **A child may be a link to another issue that owns that part.**
   `- [ ] Secondaries serve stale reads without blocking the primary — #412`
@@ -84,5 +84,5 @@ Granular execution — which sub-task is next, what was tried — stays in the c
 - **A goal tree proposing a solution MUST NOT be written into an issue the session didn't earn.**
   Include it when the session genuinely worked the direction; leave it out when the session was about noticing the problem. A speculative tree reads as a decision the next person can't distinguish from a settled one — the rule is `chalk:issue`'s.
 
-- **The `## Progress` checklist is not a goal tree**, and a goal tree MUST NOT be written into or merged with it.
-  It's chalk's flat record of work items and their status.
+- **Done-ness is not the tree's job.**
+  A node is tested for sufficiency — whether its children accomplish it — and that question is unchanged by whether anyone has started. Tracking state belongs to GitHub's own: issue state, blocked-by, and the linked PRs. See "An issue either lands in one piece, or it has children" in `chalk:issue`.
