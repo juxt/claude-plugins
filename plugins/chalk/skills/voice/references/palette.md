@@ -36,7 +36,7 @@ A refactor PR SHOULD call out that behaviour is intentionally preserved.
   What's explicitly not in this change, with reasons. Reference the issues or PRs that pick those pieces up.
 
 - **Open questions**
-  What is still unanswered, and what would settle each — a decision owed, a hypothesis nobody verified, a measurement not taken. **Distinct from Out of scope**, which records a decision that something is excluded; this records the absence of a decision, and the two read very differently to whoever picks the work up. Tag each `Q<n>` (`chalk:mindmap`) so it can be answered by reference in a comment, and **delete an entry once it's answered**, putting the answer wherever it now belongs — Decision rationale, Root cause, or the commit that acted on it.
+  What is still unanswered, and what would settle each — a decision owed, a hypothesis nobody verified, a measurement not taken. **Distinct from Out of scope**, which records a decision that something is excluded; this records the absence of a decision, and the two read very differently to whoever picks the work up. Tag each `Q<n>` (`chalk:voice`) so it can be answered by reference in a comment, and **delete an entry once it's answered**, putting the answer wherever it now belongs — Decision rationale, Root cause, or the commit that acted on it.
   On an issue these are about the problem or the direction; on a PR, about the change that landed.
 
 - **Alternatives considered**

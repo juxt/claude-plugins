@@ -1,6 +1,6 @@
 ---
 name: goal-tree
-description: Structure a goal as a tree whose children accomplish their parent rather than argue for it, and test each node for sufficiency. Load whenever writing something with a goal structure in it — the direction or target end state of a piece of work, an issue's Implementation or Future state section, the shape of a problem, or a plan. Covers the sufficiency test, the three kinds of leaf, and the named moves for closing a gap. The chalk:issue and chalk:pr skills load it alongside chalk:mindmap.
+description: Structure a goal as a tree whose children accomplish their parent rather than argue for it, and test each node for sufficiency. Load whenever writing something with a goal structure in it — the direction or target end state of a piece of work, an issue's Implementation or Future state section, the shape of a problem, or a plan. Covers the sufficiency test, the three kinds of leaf, and the named moves for closing a gap. The chalk:issue and chalk:pr skills load it alongside chalk:voice.
 user-invocable: true
 ---
 
@@ -9,7 +9,7 @@ user-invocable: true
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 A goal tree is a mindmap whose relation is **serves**, not **supports**.
-Load `chalk:mindmap` first — subject lines, bolding, shallow nesting, tags and typed IDs all apply here unchanged.
+Load `chalk:voice` first — subject lines, bolding, shallow nesting, tags and typed IDs all apply here unchanged.
 
 ## The shape
 
@@ -17,7 +17,7 @@ Load `chalk:mindmap` first — subject lines, bolding, shallow nesting, tags and
 Each node's children are what it takes to achieve it, recursively, down to leaves that are directly actionable.
 
 **Every node's children MUST be work that accomplishes it, not evidence that argues for it.**
-If they argue rather than accomplish, it's an argument tree; see `chalk:mindmap`.
+If they argue rather than accomplish, it's an argument tree; see `chalk:voice`.
 
 ## The test at each node is sufficiency
 
@@ -29,7 +29,7 @@ Not "do these look related to the parent?" but "do these, **plus what we already
   Say that out loud rather than leaning on it silently.
 
 - **Each node MUST be tested for sufficiency explicitly** rather than assumed, and any node whose children are not clearly sufficient MUST be marked `check:` rather than left to read as settled.
-- **This is why goal trees don't need the decomposition note** an argument tree needs (see `chalk:mindmap`).
+- **This is why goal trees don't need the decomposition note** an argument tree needs (see `chalk:voice`).
 
 **To find a missing child, ask what would stop the parent** rather than what would achieve it.
 

@@ -17,8 +17,7 @@ If no title is provided, draft one from the branch's commits.
 A PR description is an **explanation** artefact, and it MUST be drafted against the chalk voice.
 Load these first (via the Skill tool):
 
-- **`chalk:voice`**, and its **`references/palette.md`** — the principles, the section palette, the line-format rule.
-- **`chalk:mindmap`** — the shape of the content inside each section.
+- **`chalk:voice`**, and its **`references/palette.md`** — the audience, the specification register, the mindmap structure each section takes, the section palette, the line-format rule.
 - **`chalk:goal-tree`**, where a section states what the work has to *achieve* rather than what it did — a Future state section, or the remaining steps of a change landing in pieces.
   A PR's Implementation section is retrospective ("what landed") and doesn't want one.
 
@@ -27,7 +26,7 @@ A wall of undifferentiated prose is the wrong shape; if you've written one, you 
 
 **Your audience is a reviewer about to read the diff, who didn't see the branch and hasn't yet opened the linked issue, but can.**
 A PR is the moment the rest of the team learns the change exists, and that reviewer is deciding two things: whether this affects them, and whether the approach holds.
-Write the summary for them — see "Name your audience" in `chalk:voice`, and the tl;dr rules in `chalk:mindmap`.
+Write the summary for them — see the audience and tl;dr rules in `chalk:voice`.
 
 ## Your responsibilities
 
@@ -44,6 +43,17 @@ Write the summary for them — see "Name your audience" in `chalk:voice`, and th
 
    **It MUST NOT just list what changed — the diff shows that.**
    It's reasoning distilled across the branch: context, decisions, tradeoffs, dead ends, scope boundaries. Usage examples, test-plan checklists and commit lists have a reference *shape* but they're illustrations inside the explanation, not separate sections.
+
+   **Teach the mental model the change assumes, and lead with the problem.**
+   Your reader is updating their model of how the system works, so name what surprised you, or would surprise someone familiar with the subsystem — and don't assume they hold the model you built while implementing.
+
+   Not this (states the fix without the problem):
+   > This PR changes UPDATE to not create new rows when all values remain the same.
+
+   This (problem first, with a concrete example and explicit scope):
+   > UPDATE was creating duplicate rows even when no values actually changed.
+   > Uses type-strict equality — `UPDATE docs SET a = 1.0 WHERE _id = 1` on a doc with `{:a 1}` *will* create a new record because `1 ≠ 1.0`.
+   > PATCH is out of scope of this PR (see #5030).
 
    **Issue references come first.**
    If there's a related issue, reference it at the top (`Resolves #123` or `Part of #123`). The issue description is where the problem context lives — don't duplicate it. The PR covers how the issue affected the implementation: approach, decisions, trade-offs, dead ends.

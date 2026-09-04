@@ -10,11 +10,14 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 ## Two kinds of comment
 
-**An interface comment says what a caller needs in order to use the thing without reading its body. An implementation comment says what the code inside it doesn't already say.**
+**An interface comment says what a caller needs in order to use the thing without reading its body. 
+An implementation comment says what the code inside it doesn't already say.**
+
 Their defaults are opposite, and everything below is about implementation comments unless it says otherwise.
 
 - **An interface comment on a public surface exists by default**, and is judged on completeness.
-  Parameters, return, errors, preconditions, units, ownership, thread-safety. A caller who has to read the body to find one of those has been failed.
+  Parameters, return, errors, preconditions, units, ownership, thread-safety. 
+  A caller who has to read the body to find one of those has been failed.
 - **A non-public surface takes implementation rules whatever its markup** — a kdoc on a private function still faces the triggers.
 
 ## The readers
@@ -37,7 +40,8 @@ What each clause rules out:
 
 ## The triggers
 
-**An implementation comment MUST answer *yes* to one of these, asked of the code rather than of the comment. None applies → no comment.**
+**An implementation comment MUST answer *yes* to one of these, asked of the code rather than of the comment.** 
+None applies → no comment.
 One per way the code under-determines what the reader does next.
 
 - **Can a value here be absent or invalid, with nothing in the types saying so?**
@@ -62,7 +66,8 @@ One per way the code under-determines what the reader does next.
 
 ## The test
 
-**These are implementation-comment tests.** An interface comment is judged on completeness for a caller who will not read the body, so a test asking what a reader of the surrounding *code* would get wrong does not apply to it.
+**These are implementation-comment tests.**
+An interface comment is judged on completeness for a caller who will not read the body, so a test asking what a reader of the surrounding *code* would get wrong does not apply to it.
 
 **Cover the comment, read the code, and name what the reader would get wrong. Nothing → delete it.**
 
@@ -79,17 +84,19 @@ Reaching for a length budget instead is how justification survives a pass and co
 ## Where the rejected material goes
 
 - **Design rationale MUST go in the commit body**, not the source.
-  Why the code is allowed to exist, why a surface is shaped as it is, why one option beat another. **An answer to a question raised in review is the case to watch**: it's neither repetition, step-narration nor history, so it passes every other rule here while being precisely what the reader never asks.
+  Why the code is allowed to exist, why a surface is shaped as it is, why one option beat another. 
+  **An answer to a question raised in review is the case to watch**: it's neither repetition, step-narration nor history, so it passes every other rule here while being precisely what the reader never asks.
 
 - **A comment about the change goes in the commit body** — the reader has no referent for it.
-  There it's read once, by someone who wants it. See "Transitions vs. current state" in `chalk:voice`.
+  There it's read once, by someone who wants it. 
+  **A comment is durable and carries the current contract**, written as if the code had always been this way; a transition left in the source rots where it sits.
+
+- **The journey belongs nowhere.**
+  "First tried X, then Y" is the play-by-play a commit body omits too, and the source is the worse place for it. 
+  A dead end that closes a road is different: that goes in the body, as rationale.
 
 - **Anything true beyond these twenty lines → the one place that owns it.**
   A pattern's rationale goes at the pattern, once, not re-narrated at every site; a call site's oddity goes at that call site, not as a caller list on the function.
-
-## You're not writing to impress anyone
-
-A comment defending a choice **advertises diligence** — the same move as ranking your own material — and it reads as care, which is exactly why it survives review.
 
 ## Reviewing the comments in a diff
 
@@ -108,5 +115,8 @@ Per comment in the diff:
 
 - **Most comments are one line and stay one line.**
   `// volatile — reads race with the flush thread` doesn't want a bullet.
-- **A comment with real structure takes a mindmap**, at a higher threshold than prose, with markup depending on whether the language's tooling renders it — see the code-comment rules in `chalk:mindmap`.
+- **A comment with real structure takes a mindmap** (`chalk:voice`), at a higher threshold than prose.
+  More than two or three sentences, or an enumeration the reader has to work through.
+- **Match the markup to what the language's tooling renders.**
+  KDoc, Javadoc and docstrings are rendered, so bullets and emphasis land as intended. **A comment read raw takes plain `-` and indentation after the comment marker, and MUST NOT use bold.**
 - **Sentence-per-line**, per `chalk:voice`.
