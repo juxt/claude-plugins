@@ -89,6 +89,17 @@ Prose MUST be a deliberate exception, never a fallback — reserve it for a caus
 - **A citation MUST carry the node's subject line, not the ID alone.**
   The ID is a handle for replying, not a substitute for the content. A reader who cannot see the original — a later artefact, a fresh session, a sitrep picked up after a compaction — gets nothing from "Q1 is still open", and the ID's stability is what makes restating it cheap rather than what excuses omitting it.
 
+## References
+
+**Anything the artefact points at — a commit, an issue number, a file path, a named section — MUST exist and MUST say what the sentence claims it says.**
+Verify before publishing rather than from memory: `git cat-file -e <sha>^{commit}`, and read the subject.
+
+- **A SHA is quotable only once it has landed on the target branch.**
+  A commit on the branch you are on can still be rebased, amended or squashed, and a PR that lands as a single squashed commit destroys every SHA in it — so a body citing one ages into a reference to nothing, in the artefact whose whole job is to still be readable in six months.
+
+- **Refer to an unlanded commit by a shortened form of its subject line instead.**
+  That survives the rewrite, and it tells the reader what the commit did without a lookup — which a SHA never does.
+
 ## tl;dr
 
 **A tl;dr is a mindmap at takeaway grain**: one top-level bullet per takeaway, children backing it up, optionally after a single summary sentence.
