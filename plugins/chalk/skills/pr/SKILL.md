@@ -97,7 +97,10 @@ This — problem first, with a concrete example and explicit scope:
 
 ## Weed the draft
 
-Write the drafted description to a file and **delegate to the `weed-prose` agent**, naming the artefact as a PR description and passing the path, the base branch, and the linked issue number if there is one.
+Write the drafted description to a file and **delegate to the `weed-prose` agent**, naming the artefact as a PR description and passing the path, the base branch, and the linked issue if there is one.
+
+**Pass the linked issue as a file, written verbatim** — you read it in *Gather the context*, so it costs the agent a network round-trip it doesn't need.
+It MUST be the body exactly as GitHub holds it (`gh issue view <n> --json body -q .body`), with no summary, no annotation and no comments. A body you have described rather than copied tells the agent what you think the issue says, which is the session leaking in through the one input that was meant to keep it out.
 
 - **You MUST NOT give it the session or the branch's commit bodies.**
   It holds the branch diff and the linked issue — what the later reader can reach, and nothing they can't.

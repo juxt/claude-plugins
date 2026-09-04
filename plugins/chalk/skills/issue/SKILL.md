@@ -58,7 +58,7 @@ You SHOULD NOT write a wall of undifferentiated prose.
 
 ## Establish the why, and the why now
 
-**An issue MAY NOT be filed without a clear and concise *why*.**
+**An issue MUST NOT be filed without a clear and concise *why*.**
 Where the motivation isn't recoverable, ask — and treat "I can reconstruct it" as the answer that needs checking.
 
 - **The *why now* is the line most often missing.**
@@ -168,7 +168,10 @@ The description is the source of truth, so it MUST be corrected as the facts cha
 
 ### Weed the draft
 
-Write the drafted body to a file and **delegate to the `weed-prose` agent**, naming the artefact as an issue body and passing the path, plus the parent issue number if there is one.
+Write the drafted body to a file and **delegate to the `weed-prose` agent**, naming the artefact as an issue body and passing the path, plus the parent issue if there is one.
+
+**Pass the parent as a file, written verbatim** (`gh issue view <n> --json body -q .body`) — body only, no comments, no summary and no annotation.
+A parent you have described rather than copied tells the agent what you think it says, which is the session leaking in through the one input that was meant to keep it out.
 
 - **You MUST NOT give it the session.**
   It holds the parent issue and nothing else — what the later reader can reach, and nothing they can't. Told what you were thinking, it can no longer tell which sentences the body is carrying and which the reader was going to supply anyway.

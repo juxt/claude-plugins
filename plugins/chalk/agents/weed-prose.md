@@ -32,6 +32,13 @@ The caller names the artefact and gives you the path to the drafted body.
 - **Issue body** — the parent issue if there is one, and nothing else. **There is no diff.**
   Readers and success metrics are in `chalk:issue`.
 
+**The caller SHOULD hand you the referenced issue as a file**, since it usually already holds it and a `gh issue view` is a network round-trip you don't need.
+
+- **Use it as given.** It MUST be the issue body verbatim — that is what makes it the same thing the reader would open.
+- **A summarised, annotated or truncated copy MUST be rejected**, and you fetch the issue yourself instead.
+  The tell is commentary: a body that explains itself, refers to what "we" decided, or reads shorter than a description would. Told what the author thinks the issue says, you can no longer tell which sentences the draft is carrying.
+- **Fetch it yourself where no file is passed**, or where the one passed doesn't resolve.
+
 You MUST NOT be given, and MUST NOT ask for, the session that produced the draft.
 If the caller volunteers it, ignore it.
 
