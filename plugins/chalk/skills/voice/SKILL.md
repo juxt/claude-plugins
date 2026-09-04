@@ -78,13 +78,16 @@ Prose MUST be a deliberate exception, never a fallback — reserve it for a caus
 - **Where a node's children aren't obviously exhaustive, name the rule you split on** — one per subsystem, one per failure mode, one per call site.
   A missing sibling otherwise looks exactly like no sibling.
 
-- **You SHOULD tag a bullet where the tag sharpens it** — 'goal:', 'pro:', 'con:', 'idea:', 'assumption:', 'check:'.
+- **You SHOULD tag a bullet where the tag sharpens it**, prefixing the subject line — 'goal:', 'pro:', 'con:', 'idea:', 'assumption:', 'check:'.
   A tag is a claim, not decoration: 'assumption:' says you have not verified it, which stops the next reader building on it as though you had.
 
-- **Nodes that a reader might want to reply to SHOULD have a typed ID**.
+- **Nodes that a reader might want to reply to SHOULD have a typed ID**, prefixing the subject line.
   e.g. 'D1' for a decision, 'Q1' for a question, 'I1' for an idea, 'D2.1' for its first child.
   IDs beat numbered lists, which renumber silently when a sibling is inserted. 
-  **A published ID MUST be stable**: cite an existing one rather than re-describing the node.
+  **A published ID MUST be stable** — reuse it rather than minting a second one for the same node.
+
+- **A citation MUST carry the node's subject line, not the ID alone.**
+  The ID is a handle for replying, not a substitute for the content. A reader who cannot see the original — a later artefact, a fresh session, a sitrep picked up after a compaction — gets nothing from "Q1 is still open", and the ID's stability is what makes restating it cheap rather than what excuses omitting it.
 
 ## tl;dr
 
