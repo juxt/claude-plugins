@@ -70,7 +70,7 @@ Where an item blocks something in flight, say which.
 ## Section 3: tl;dr
 
 **At the bottom, under a `tl;dr` heading, and not duplicated at the top.**
-This inverts the palette's top-of-body placement, and only here: a terminal scrolls upward, so in a chat reply the last thing written is the first thing read. Everything the palette says about what a tl;dr carries still holds.
+A terminal scrolls upward, so in a chat reply the last thing written is the first thing read.
 
 - **Still a mindmap** — one top-level bullet per takeaway, children backing it up. A flat row of one-liners is the failure mode, and the one that looks finished.
 - **Readable cold.**
