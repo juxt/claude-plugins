@@ -26,7 +26,7 @@ A wall of undifferentiated prose is the wrong shape; if you've written one, you 
 
 **Your audience is a reviewer about to read the diff, who didn't see the branch and hasn't yet opened the linked issue, but can.**
 A PR is the moment the rest of the team learns the change exists, and that reviewer is deciding two things: whether this affects them, and whether the approach holds.
-Write the summary for them — see the audience and tl;dr rules in `chalk:voice`.
+Write the tl;dr for them — the palette's first section, and the audience rules in `chalk:voice`.
 
 ## Your responsibilities
 

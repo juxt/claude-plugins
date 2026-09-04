@@ -8,8 +8,12 @@ A refactor PR SHOULD call out that behaviour is intentionally preserved.
 
 ## The sections
 
+- **tl;dr**
+  **Opens the body, above every other section**, under its own heading. A mindmap like any other section: one top-level bullet per takeaway, optionally after a single summary sentence.
+  It summarises **the artefact for its reader** — whoever is scanning the backlog, or the reviewer about to open the diff — not the session for its author. Provenance goes down into the body, where whoever wants it will find it.
+
 - **Summary**
-  One or two sentences on what's happening. Largely redundant where the body opens with a tl;dr — drop it, or hold it to those one or two sentences rather than letting it grow into what the tl;dr already carries.
+  One or two sentences on what's happening. Largely redundant against the tl;dr — drop it, or hold it to those one or two sentences rather than letting it grow into what the tl;dr already carries.
 
 - **Context / Motivation**
   How was this observed, or why does this matter? Environment, deployment, test configuration, links to CI runs, logs, dashboards, prior PRs, the broader initiative.
@@ -72,7 +76,7 @@ A refactor PR SHOULD call out that behaviour is intentionally preserved.
 
 Sections roughly flow **setup → state → decision → plan**.
 
-- **Setup** — Summary, Context / Motivation. The why-we're-here.
+- **Setup** — tl;dr, Summary, Context / Motivation. The why-we're-here.
 - **State** — Current state and Future state (refactors / features); Symptoms, Root cause, Evidence (bugs / incidents). The what-it-looks-like, today and at completion.
 - **Decision** — Out of scope, Alternatives considered, Decision rationale, Invariants / Constraints. The why-this-path-and-not-others.
 - **Plan** — Implementation, and for PRs Test plan.

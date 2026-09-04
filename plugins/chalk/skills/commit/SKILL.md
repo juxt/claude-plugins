@@ -80,6 +80,12 @@ You MUST load these skills first:
 
    Open with a lead-in line, then shape the reasoning as a mindmap, per `chalk:voice`.
 
+   - **No headings.**
+     The tree's top-level bullets already partition the body, and a body short enough to read in a `git log` doesn't want a second, coarser structure laid over the top of them.
+
+   - **Rarely a tl;dr.**
+     The subject line is the body's tl;dr, so most bodies would only repeat it. A body long enough that its argument needs summarising MAY open with one in place of the lead-in line, shaped as a mindmap like anything else.
+
 5. **Weed the draft.**
 
    Write the drafted body to a file and **delegate to the `weed-prose` agent**, naming the artefact as a commit body, passing the path and the bodies of any issues referenced in the commit.

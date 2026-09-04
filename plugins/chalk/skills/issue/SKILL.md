@@ -26,7 +26,7 @@ Load these first (via the Skill tool):
 **Structure the body into sections drawn from the palette**, choosing the ones this issue needs, and **write each section as a mindmap** — a short tl;dr opening it, then the tree.
 A wall of undifferentiated prose is the wrong shape; if you've written one, you skipped this step.
 
-**The body MUST open with a tl;dr at the top**, per `chalk:voice`.
+**The body MUST open with a tl;dr**, per the palette's first section.
 That makes a separate **Summary** section largely redundant — drop it, or hold it to the one or two sentences the palette asks for.
 
 **Your audience is whoever is scanning a backlog, deciding whether to pick this card up this sprint.**
