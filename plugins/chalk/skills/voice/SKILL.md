@@ -75,6 +75,15 @@ Prose MUST be a deliberate exception, never a fallback — reserve it for a caus
 - **You MUST give the subject its own line**, with any elaboration indented to line up under its first character — two spaces under a top-level bullet, four under a nested one.
   **You MUST bold the load-bearing words in the subject**, so the tree is graspable from the bold alone.
 
+- **You MUST separate sibling bullets with a blank line, and MUST NOT leave one after the subject.**
+  The elaboration starts on the line immediately below its subject, so the two read as a single block; the blank line falls between blocks.
+
+  - **Exception: a destination rendered as plain CommonMark needs a blank line after the subject too.**
+    A single newline is a *soft* break there — it collapses to a space, so the subject and its elaboration merge onto one line and the bold subject stops reading as a subject.
+    That is an `.md` file rendered on github.com or by a docs site.
+  - **A GitHub comment field is not that case.**
+    Issue bodies, PR descriptions and comments render a single newline as `<br>`, which is why the rule above holds there unchanged — and why the line-format rule below asks for paragraph-per-line on those destinations.
+
 - **Where a node's children aren't obviously exhaustive, name the rule you split on** — one per subsystem, one per failure mode, one per call site.
   A missing sibling otherwise looks exactly like no sibling.
 
@@ -122,3 +131,4 @@ Destinations MAY override the placement and whether one appears at all — `chal
 - **Sentence-per-line** — in-repo dev documentation, code comments, per [Semantic Line Breaks](https://sembr.org): break at sentence and clause boundaries.
 - **Whichever applies, it applies inside a bullet too**, which is where it's most often forgotten.
   On a paragraph-per-line destination a bullet's elaboration stays on one line however long it runs; the single break after the subject is the only exception.
+  The blank line between siblings is a separate rule and holds on every destination.
