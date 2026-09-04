@@ -51,6 +51,10 @@ You MUST load these skills first:
 
    **Ask rather than guess**, and treat "I can reconstruct it" as the answer that needs checking — that judgement is made by the context that just built the *why*, so it always comes back confident. **Where a *why now* isn't traceable to something the user said, a commit or a file you can name, you don't have it.**
 
+   **A missing *why now* MUST be resolved with the user before you commit**, and you MUST NOT close it by deciding it doesn't apply.
+   Why-this can be recovered from the diff and the issue in six months; why-now exists only in the user's head and is gone tomorrow.
+   Ask about the same things you would have anyway: whether something was a deliberate choice or a constraint, and whether something was intentionally out of scope or overlooked.
+
    Trivial changes — typo fixes, mechanical bumps, one-line config tweaks — don't need this step; the motivation is self-evident.
 
 4. **Draft the body.**
@@ -74,6 +78,9 @@ You MUST load these skills first:
      > Initially suspected a test ordering issue since it only failed in the full suite — red herring.
      > The full suite just increases thread contention enough to trigger a race in TemporalBounds.intersect(), which reads validFrom and validTo non-atomically.
 
+   **The tell, where the diff is itself prose** — a skill, a README, a spec: the sentence appears in substance in a line the diff *adds*.
+   Read the added lines against the body before you call the draft finished. "Self-evident from the diff" is a judgement you cannot make about your own text, but this is a comparison you can run, and here restating the diff is the default failure rather than an occasional one — both sides argue the same rules in the same words.
+
    **Be concise, but keep the reasoning.**
    A terse note with no *why* is as unhelpful as a verbose one. 
    Where the reasoning was complex and the change simple, say so: "Simple change in the end: …".
@@ -86,28 +93,7 @@ You MUST load these skills first:
    - **Rarely a tl;dr.**
      The subject line is the body's tl;dr, so most bodies would only repeat it. A body long enough that its argument needs summarising MAY open with one in place of the lead-in line, shaped as a mindmap like anything else.
 
-5. **Weed the draft.**
-
-   Write the drafted body to a file and **delegate to the `weed-prose` agent**, naming the artefact as a commit body, passing the path and the bodies of any issues referenced in the commit.
-
-   - **You MUST NOT give it the session.**
-     It holds the diff and, where the body references an issue, that issue — the same reach as the reader it stands for.
-   - **Its cuts apply.** It deletes only; a sentence it kept is unchanged.
-   - **Its Gaps are questions for you, not for it.** It reports a missing *why* or *why now* and MUST NOT invent one.
-
-6. **Put `weed-prose`'s gaps to the user.**
-
-   Not "ask if you're unsure" — that is a judgement made by the context that just spent the session building the *why*, and it always comes back confident. 
-   `weed-prose` has already decided, from the draft alone, which questions the artefact fails to answer.
-
-   - **A gap MUST be closed by adding a sentence that answers it, and the redraft MUST go back to `weed-prose`.** **You MUST NOT close a gap by deciding it doesn't apply**, and you MUST NOT judge your own redraft — the agent that raised the gap is the one that closes it. 
-     Loop until it reports no blocking gaps.
-   - **Relay each question as written.** Composing your own is where the ask gets dropped.
-   - **A `blocking` gap — a missing *why now* — MUST be resolved before you commit.** Why-this can be recovered from the diff and the issue in six months; why-now exists only in the user's head and is gone tomorrow.
-   - **Answer from the session where the session genuinely has it**, and say which part of it you're drawing on so the user can correct you. Where it doesn't, ask.
-   - Ask about the same things you would have anyway: whether something was a deliberate choice or a constraint, and whether something was intentionally out of scope or overlooked.
-
-7. **Make the commit.**
+5. **Make the commit.**
 
    Headline, blank line, body. The user reviews the message in the Bash tool request before approving.
 

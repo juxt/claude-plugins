@@ -1,7 +1,7 @@
 ---
 name: weed-prose
 description: >
-  Reviews a drafted commit body or PR description as the artefact's pinned reader would —
+  Reviews a drafted PR description as the artefact's pinned reader would —
   cutting sentences answerable from what that reader already holds, and reporting where
   the why is missing. Deletion-only; it never rewrites.
 
@@ -10,7 +10,7 @@ description: >
   and nothing else; told what the author was thinking, it can no longer tell which
   sentences the artefact is carrying and which the reader was going to supply anyway.
 
-  Reached from `chalk:commit` and `chalk:pr`, after the body is drafted.
+  Reached from `chalk:pr`, after the description is drafted.
 model: sonnet
 effort: low
 color: green
@@ -43,7 +43,7 @@ Delete a sentence when it:
 - **Restates the diff.** What changed, which files, which functions. The reader has it.
   **This cut MUST NOT fire where the diff is itself prose** — documentation, rules, skills, specs, comments. See "When the diff is prose" below.
 - **Repeats the linked issue.** Problem context, symptoms, motivation already in the issue body — the link does that work.
-  **Only when a linked issue exists.** A commit or PR with no issue MUST carry the problem context itself; do not strip it.
+  **Only when a linked issue exists.** A PR with no issue MUST carry the problem context itself; do not strip it.
 - **Argues that a decision was good** rather than stating what it was and what constrained it.
 - **Narrates the work** — what was tried, in what order, what was run. The journey is not the reasoning.
 - **Ranks or justifies its own material** — "the key change here", "importantly", "it's worth noting".
