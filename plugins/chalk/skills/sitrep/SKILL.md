@@ -69,11 +69,10 @@ Where an item blocks something in flight, say which.
 
 ## Section 3: tl;dr
 
-**At the bottom, under a `tl;dr` heading, and not duplicated at the top.**
-A terminal scrolls upward, so in a chat reply the last thing written is the first thing read.
+**Per `chalk:voice`, but at the bottom rather than the top, and not duplicated at the top.**
+A terminal scrolls upward, so in a chat reply the last thing written is the first thing read. The placement is the only thing this overrides.
 
-- **Still a mindmap** — one top-level bullet per takeaway, children backing it up. A flat row of one-liners is the failure mode, and the one that looks finished.
-- **Readable cold.**
+- **Readable cold still binds, and it's the one voice rule chat otherwise relaxes.**
   Someone who did not see the session should get where the work stands and what it is waiting on.
 - **Where there is an obvious next move, it is the last bullet.**
   Where there isn't, don't invent one.

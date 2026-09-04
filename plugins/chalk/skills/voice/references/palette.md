@@ -9,8 +9,7 @@ A refactor PR SHOULD call out that behaviour is intentionally preserved.
 ## The sections
 
 - **tl;dr**
-  **Opens the body, above every other section**, under its own heading. A mindmap like any other section: one top-level bullet per takeaway, optionally after a single summary sentence.
-  It summarises **the artefact for its reader** — whoever is scanning the backlog, or the reviewer about to open the diff — not the session for its author. Provenance goes down into the body, where whoever wants it will find it.
+  Per `chalk:voice`, and it takes the default placement: **first section, above every other**. Its reader is whoever is scanning the backlog, or the reviewer about to open the diff.
 
 - **Summary**
   One or two sentences on what's happening. Largely redundant against the tl;dr — drop it, or hold it to those one or two sentences rather than letting it grow into what the tl;dr already carries.

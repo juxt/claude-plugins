@@ -86,6 +86,17 @@ Prose MUST be a deliberate exception, never a fallback — reserve it for a caus
   IDs beat numbered lists, which renumber silently when a sibling is inserted. 
   **A published ID MUST be stable**: cite an existing one rather than re-describing the node.
 
+## tl;dr
+
+**A tl;dr is a mindmap at takeaway grain**: one top-level bullet per takeaway, children backing it up, optionally after a single summary sentence.
+A flat row of one-liners is the failure mode, and the one that looks finished.
+
+**It summarises the artefact for its reader, not the session for its author**, and MUST be readable by someone who did not see the session, the branch or the prior state.
+Provenance goes down into the body, where whoever wants it will find it.
+
+**It goes at the top by default**, under its own heading.
+Destinations MAY override the placement and whether one appears at all — `chalk:sitrep` puts it at the bottom, `chalk:commit` usually omits it — but not the two rules above.
+
 ## Line format
 
 **The destination decides it: paragraph-per-line where the artefact is read rendered, sentence-per-line where it's reviewed as a diff.**

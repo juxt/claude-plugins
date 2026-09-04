@@ -91,7 +91,7 @@ You MUST load these skills first:
      The tree's top-level bullets already partition the body, and a body short enough to read in a `git log` doesn't want a second, coarser structure laid over the top of them.
 
    - **Rarely a tl;dr.**
-     The subject line is the body's tl;dr, so most bodies would only repeat it. A body long enough that its argument needs summarising MAY open with one in place of the lead-in line, shaped as a mindmap like anything else.
+     The subject line is the body's tl;dr, so most bodies would only repeat it. A body long enough that its argument needs summarising MAY open with one, per `chalk:voice`, in place of the lead-in line.
 
 5. **Make the commit.**
 
