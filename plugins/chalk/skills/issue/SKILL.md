@@ -166,6 +166,24 @@ The description is the source of truth, so it MUST be corrected as the facts cha
 - **Where a PR is coming/open, the issue MUST be corrected before the PR closes.**
   If the work contradicted a constraint the issue asserted, or the prior art didn't transfer, the later reader otherwise finds a confident, wrong problem statement and a PR that silently disagrees with it.
 
+### Weed the draft
+
+Write the drafted body to a file and **delegate to the `weed-prose` agent**, naming the artefact as an issue body and passing the path, plus the parent issue number if there is one.
+
+- **You MUST NOT give it the session.**
+  It holds the parent issue and nothing else — what the later reader can reach, and nothing they can't. Told what you were thinking, it can no longer tell which sentences the body is carrying and which the reader was going to supply anyway.
+- **Passing the parent is what lets it cut duplication.**
+  A sub-issue inherits its parent's motivation, so restating it is surplus and the link does the work.
+- **Its cuts apply; its Gaps are questions for you**, and it MUST NOT invent an answer to one.
+
+**Put the gaps to the user.**
+Not "ask if you're unsure" — that judgement is made by the context that just built the *why*, and it always comes back confident.
+
+- **A gap MUST be closed by adding a sentence that answers it, and the redraft MUST go back to `weed-prose`.**
+  You MUST NOT close a gap by deciding it doesn't apply, and you MUST NOT judge your own redraft — the agent that raised the gap is the one that closes it. Loop until it reports no blocking gaps.
+- **Relay each question as written.** Composing your own is where the ask gets dropped.
+- **A missing *why now* is blocking** and MUST be resolved before the issue is filed. There is no diff here to recover it from in six months.
+
 ### Filing it
 
 **All GitHub interaction MUST go through the chalk github agent**; the main context MUST NOT call `gh issue` directly.
