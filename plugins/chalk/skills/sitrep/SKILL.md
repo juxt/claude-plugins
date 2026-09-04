@@ -1,10 +1,8 @@
 ---
 name: sitrep
 description: >
-  Report where the current session has got to as a mindmap — what has landed, what is still open
-  as ID'd ideas, decisions and questions, and a tl;dr.
-  Use when the user says "/sitrep", "where are we", "where were we", "recap the session",
-  "what's still open", or is picking a session back up after a break, a compaction or a handover.
+  Report where the current session has got to as a mindmap — what has landed, what is still open as ID'd ideas, decisions and questions, and a tl;dr.
+  Use when the user says "/sitrep", "where are we", "where were we", "recap the session", "what's still open", or is picking a session back up after a break, a compaction or a handover.
 user-invocable: true
 argument-hint: "[optional focus, e.g. a subsystem, or \"just the open questions\"]"
 ---
@@ -14,14 +12,15 @@ argument-hint: "[optional focus, e.g. a subsystem, or \"just the open questions\
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 A sitrep is written for whoever picks the session up next — the user after a break, a future agent after a compaction, or the user's colleague reading over their shoulder.
-It is not a log of the session. It is the state the session has reached, and what still needs a decision.
+It is not a log of the session. 
+It is the state the session has reached, and what still needs a decision.
 
 `$ARGUMENTS`, if given, narrows the scope; report only on that and say in one line what you left out.
 
 ## Before you write
 
-- **Load `chalk:mindmap`** — every parent a claim its children back up, and the typed-ID scheme the Open section runs on.
-- **`chalk:voice`'s register applies, its palette doesn't.**
+- **Load `chalk:voice`** — the register, every parent a claim its children back up, and the typed-ID scheme the Open section runs on.
+- **Its register applies; its palette doesn't.**
   A sitrep is a terminal reply, not a GitHub artefact: no sections drawn from the palette, and no self-ranking, no smoke, no mea culpas.
 
 ## Ground the report before writing it
@@ -61,7 +60,10 @@ Per item, children say **why it is still open and what would settle it** — the
 Where an item blocks something in flight, say which.
 
 - **An ID's scope is the session, not the sitrep.**
-  `chalk:mindmap` requires a published ID to be stable; here that means `Q2` stays `Q2` across every sitrep in the session, even once `Q1` is closed. Renumbering breaks every reference the user has already made, including in their own notes.
+  `chalk:voice` requires a published ID to be stable; here that means `Q2` stays `Q2` across every sitrep in the session, even once `Q1` is closed. Renumbering breaks every reference the user has already made, including in their own notes.
+
+- **A carried-over item is restated in full, never referenced by ID alone.**
+  A sitrep is most often read after a compaction or a break, which is exactly when the earlier reply that introduced `Q2` is no longer on screen. Every live item gets its subject line in every sitrep that carries it.
 - **Newly-raised items take the next free number**, never a recycled one.
 - **A closed item drops out silently.**
   Don't keep a struck-through graveyard; if resolving it changed the state, that shows up in Done.
@@ -70,11 +72,10 @@ Where an item blocks something in flight, say which.
 
 ## Section 3: tl;dr
 
-**At the bottom, under a `tl;dr` heading, and not duplicated at the top.**
-This overrides `chalk:mindmap`'s top-of-artefact rule, and only here: a terminal scrolls upward, so in a chat reply the last thing written is the first thing read. Everything else that skill says about a tl;dr still holds.
+**Per `chalk:voice`, but at the bottom rather than the top, and not duplicated at the top.**
+A terminal scrolls upward, so in a chat reply the last thing written is the first thing read. The placement is the only thing this overrides.
 
-- **Still a mindmap** — one top-level bullet per takeaway, children backing it up. A flat row of one-liners is the failure mode, and the one that looks finished.
-- **Readable cold.**
+- **Readable cold still binds, and it's the one voice rule chat otherwise relaxes.**
   Someone who did not see the session should get where the work stands and what it is waiting on.
 - **Where there is an obvious next move, it is the last bullet.**
   Where there isn't, don't invent one.

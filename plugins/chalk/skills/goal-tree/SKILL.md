@@ -1,6 +1,6 @@
 ---
 name: goal-tree
-description: Structure a goal as a tree whose children accomplish their parent rather than argue for it, and test each node for sufficiency. Load whenever writing something with a goal structure in it — the direction or target end state of a piece of work, an issue's Implementation or Future state section, the shape of a problem, or a plan. Covers the sufficiency test, the three kinds of leaf, and the named moves for closing a gap. The chalk:issue and chalk:pr skills load it alongside chalk:mindmap.
+description: Structure a goal as a tree whose children accomplish their parent rather than argue for it, and test each node for sufficiency. Load whenever writing something with a goal structure in it — the direction or target end state of a piece of work, an issue's Potential approach section, the shape of a problem, or a plan. Covers the sufficiency test, the three kinds of leaf, and the named moves for closing a gap. The chalk:issue skill loads it alongside chalk:voice.
 user-invocable: true
 ---
 
@@ -9,7 +9,7 @@ user-invocable: true
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 A goal tree is a mindmap whose relation is **serves**, not **supports**.
-Load `chalk:mindmap` first — subject lines, bolding, shallow nesting, tags and typed IDs all apply here unchanged.
+Load `chalk:voice` first — subject lines, bolding, shallow nesting, tags and typed IDs all apply here unchanged.
 
 ## The shape
 
@@ -17,7 +17,7 @@ Load `chalk:mindmap` first — subject lines, bolding, shallow nesting, tags and
 Each node's children are what it takes to achieve it, recursively, down to leaves that are directly actionable.
 
 **Every node's children MUST be work that accomplishes it, not evidence that argues for it.**
-If they argue rather than accomplish, it's an argument tree; see `chalk:mindmap`.
+If they argue rather than accomplish, it's an argument tree; see `chalk:voice`.
 
 ## The test at each node is sufficiency
 
@@ -29,7 +29,7 @@ Not "do these look related to the parent?" but "do these, **plus what we already
   Say that out loud rather than leaning on it silently.
 
 - **Each node MUST be tested for sufficiency explicitly** rather than assumed, and any node whose children are not clearly sufficient MUST be marked `check:` rather than left to read as settled.
-- **This is why goal trees don't need the decomposition note** an argument tree needs (see `chalk:mindmap`).
+- **This is why goal trees don't need the decomposition note** an argument tree needs (see `chalk:voice`).
 
 **To find a missing child, ask what would stop the parent** rather than what would achieve it.
 
@@ -63,7 +63,7 @@ A leaf can be both — a verified fact about an upstream library is still someon
 - **Weaken the goal** so the gap no longer matters.
 - **Accept the risk** and move on.
 
-**"Weaken the goal" and "accept the risk" are real answers, and both MUST be recorded** in **Out of scope** or **Decision rationale** — they are the two moves that leave no trace in the tree itself.
+**"Weaken the goal" and "accept the risk" are real answers, and both MUST be recorded** in **Out of scope** or **Alternative approaches** — they are the two moves that leave no trace in the tree itself.
 Scope that was deliberately cut is a decision someone will want the reasoning for later; scope that silently evaporated reads as an oversight, and a reader can't tell the two apart.
 
 ## In an issue description
@@ -79,7 +79,7 @@ Granular execution — which sub-task is next, what was tried — is session sta
   Then the tree is a readable map *of* the sub-issue graph rather than a second copy of it that drifts. Wire the relationship, don't just write the link — see `chalk:issue`.
 
 - **Palette placement**
-  **Implementation** for the direction, **Future state** for the target end state — and anywhere else a section has a goal structure to express.
+  **Potential approach** for the target end state and the direction to it — and anywhere else a section has a goal structure to express.
 
 - **A goal tree proposing a solution MUST NOT be written into an issue the session didn't earn.**
   Include it when the session genuinely worked the direction; leave it out when the session was about noticing the problem. A speculative tree reads as a decision the next person can't distinguish from a settled one — the rule is `chalk:issue`'s.
