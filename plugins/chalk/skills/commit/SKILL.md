@@ -104,7 +104,26 @@ You MUST load these skills first:
    Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
    ```
 
-## Issue references
+## The subject line
+
+**`<scope>: <claim>`, or `<type>(<scope>): <claim>` where the type carries information** — Conventional Commits with the type optional.
+
+- **The scope is the plugin or component** — `chalk`, `code-map`, `clojure-lsp`.
+  It is not optional: a repo of plugins is read one plugin at a time.
+
+- **Add a type only where it tells the reader something the claim doesn't** — `feat`, `fix`, `perf`, `refactor`.
+  Most commits here carry none, because a claim that states what is now true already says what kind of change it was.
+
+- **State a claim, not an imperative.**
+  "the blank line after a subject depends on the renderer", not "fix the blank line rule".
+  The subject is the body's tl;dr, and a claim can be checked against the diff for truth where an imperative can only be obeyed. It is also what makes a subject quotable in place of a SHA, per `chalk:voice`.
+
+- **Lowercase after the colon, and no full stop.**
+
+- **A breaking change MUST carry a `BREAKING CHANGE:` footer** naming what stops working and what to do instead.
+  `!` before the colon (`feat(chalk)!:`) is the short form and is not sufficient alone — the footer is where the reader learns what to change. Removing a skill or renaming a user-invocable command is a break even where nothing errors.
+
+### Issue references
 
 - **Resolves the issue** — suffix the subject with `(resolves #N)`.
 - **An iteration towards it** — suffix with `(#N)`.
