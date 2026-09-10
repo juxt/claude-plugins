@@ -54,12 +54,19 @@ Use `git diff` to find which comments this change **added or modified**. Those a
 3. **Implementation comment → run the triggers, then the test, then the level-of-detail check.**
    No trigger fires → delete. Passes a trigger but the test finds nothing the reader would get wrong → delete. Sits at the same level of detail as the code beneath it → delete.
 
-4. **Delete; do not rewrite.**
-   You MUST NOT reword, shorten or improve a comment. Either it stays exactly as it is, or it goes.
+4. **A comment that survives → cut it back to what its trigger asked for.**
+   The trigger scopes the comment, and the sentences past that scope go even where they are true and well written. Search the file for anything the comment contrasts itself with — "rather than", "instead of", "no longer", "used to", "now" — and where the alternative is not there, that clause is arguing with a design the reader cannot see: cut it, and report it as Misfiled to the commit body.
+
+5. **Cut; do not reword.**
+   You MUST NOT rewrite a comment in your own words or improve one. The only two moves are deleting the whole comment and deleting whole sentences from it, leaving everything that stays exactly as written. If what would survive needs rewording to read properly, delete the comment entire and say so.
 
 ## Naming what the reader would get wrong
 
-For every comment you **keep**, write one concrete sentence naming what a reader would conclude wrongly without it — "would assume `bounds` can't be mutated after construction", "would raise the timeout to fix the flake".
+For every comment you **keep**, write one concrete sentence naming **what the reader does differently without it** — the edit they make, and what it silently breaks. "Would raise the timeout to fix the flake." "Would read the field before the join, and finish the same block twice." "Would clear the flag only on the winning path, and the node never claims again."
+
+**A sentence about what the reader would not know is not one of these.**
+"Would wonder why this is here", "wouldn't know the lifecycle is specified elsewhere", "would have to go and read X" name a gap in their knowledge rather than a mistake in their work, and every comment ever written closes one of those. If that is the best sentence available, the comment goes.
+
 **Produce the sentence first and decide second** — a verdict reached first will find a sentence to fit it.
 
 **If you cannot write that sentence, the comment goes.**
@@ -69,7 +76,8 @@ For every comment you **keep**, write one concrete sentence naming what a reader
 Return, as your final text, in this order:
 
 1. **Deleted** — file:line, the comment's first few words, and which check it failed.
-2. **Kept** — file:line, and the one-sentence misunderstanding it prevents.
-3. **Misfiled** — comments you deleted whose content belongs somewhere else, and where: the commit body (design rationale, anything about the change itself), the pattern's canonical site, or a specific call site.
-4. **Out of scope** — untouched comments you believe the change has made stale, as observations only.
-5. **Counts** — comments in scope, deleted, kept.
+2. **Cut back** — file:line, and the sentences you removed from a comment that stays.
+3. **Kept** — file:line, and the one-sentence mistake the reader makes without it.
+4. **Misfiled** — comments and clauses you deleted whose content belongs somewhere else, and where: the commit body (design rationale, anything about the change itself), the pattern's canonical site, or a specific call site.
+5. **Out of scope** — untouched comments you believe the change has made stale, as observations only.
+6. **Counts** — comments in scope, deleted, cut back, kept, and the comment share: comment lines as a percentage of the lines the change adds, before and after your cuts. The caller is owed that number whether or not it looks good.

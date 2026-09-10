@@ -38,6 +38,9 @@ What each clause rules out:
 
 **An interface comment's reader is deciding whether to call this**, from the signature and the doc alone, and will not read the body.
 
+**Every comment you keep is spent out of the attention the next one needs.**
+That reader arrived mid-investigation of something else, so they read a few of the comments in front of them and skim the rest — and which few is settled by the density around them rather than by which ones you meant them to stop at. Where four in five are worth stopping for, the fifth gets read too; at one in five, the ordering constraint that would have saved them an afternoon reads like more of the same. So a comment that merely does no harm is not free: its cost is charged to the load-bearing one three lines down. A diff whose added lines run a third comment has already spent that budget, however each one reads on its own.
+
 ## The triggers
 
 **An implementation comment MUST answer *yes* to one of these, asked of the code rather than of the comment.** 
@@ -71,13 +74,19 @@ An interface comment is judged on completeness for a caller who will not read th
 
 **Cover the comment, read the code, and name what the reader would get wrong. Nothing → delete it.**
 
+**Getting it wrong is an edit they make, not a fact they lack.**
+Name the change the reader makes without the comment and what it silently breaks — the call they add, the line they move, the branch they delete, the parameter they inline, the constant they tune. "Would wonder why this is here", "wouldn't know that X is specified elsewhere", "would have to go and look" describe a gap in what they know rather than a mistake in what they do, and every comment ever written closes one of those. A test anything can pass sorts nothing.
+
 **No clause of either test is yours to adjudicate** — the reader's derivation decides, not your sense of what's subtle.
 
 **A comment MUST sit at a different level of detail from the code it describes** — higher, saying what the code accomplishes, or lower, giving precision the code omits: units, ranges, boundary conditions, what "empty" means here.
 Same level as the code is restatement, and **the red flag is a comment built from the identifiers beneath it**.
 
-**A comment that fails MUST be deleted, not shortened.**
-Reaching for a length budget instead is how justification survives a pass and comes back trimmed — so if you're rewriting a comment for the second time, apply the test rather than the budget.
+**A comment carries what its trigger asked for, and stops.**
+The trigger names its own scope: a constant with no derivation buys the derivation, not the case for that value over the one you rejected; "would a reader reorder these" buys the constraint, not an account of what goes wrong when they do. Everything past that is surplus however well it reads, and cutting it is the same judgement as deleting a comment no trigger fired for — most of the length in a reviewed diff is here, in comments that were right to exist and went on afterwards.
+
+**A comment no trigger fires for is deleted, not reduced until it looks proportionate.**
+That is how justification survives a pass and comes back shorter. The two cuts look alike, so name which one you are making: scoping a comment the code earned, or shrinking one it didn't.
 
 **Apply them to existing implementation comments too**, and check an existing interface comment for completeness the same way you would a new one.
 
@@ -90,6 +99,7 @@ Reaching for a length budget instead is how justification survives a pass and co
 - **A comment about the change goes in the commit body** — the reader has no referent for it.
   There it's read once, by someone who wants it. 
   **A comment is durable and carries the current contract**, written as if the code had always been this way; a transition left in the source rots where it sits.
+  **The tell is a comparative with nothing on the other side of it** — "rather than", "instead of", "no longer", "used to", a bare "now". Look for the thing being contrasted with: if it isn't in the file, the comment is arguing with a design the reader can't see, and the argument goes to the body. This is the shape that survives every other rule here, because it reads as rationale rather than as history.
 
 - **The journey belongs nowhere.**
   "First tried X, then Y" is the play-by-play a commit body omits too, and the source is the worse place for it. 
@@ -108,8 +118,9 @@ Per comment in the diff:
 2. **Interface comment → check completeness**, and never report a deletion for failing a trigger it was never subject to.
 3. **Implementation comment → apply the triggers, then the test.**
 4. **If nothing, report a deletion.**
-5. **If it's misfiled rather than wrong, say where it goes** — commit body, canonical place, call site.
-6. **Scrutinise the confident ones hardest.** A comment restating a decision in assured prose is the one a reviewer waves through.
+5. **If it passes but runs past what its trigger asked for, report the surplus as a cut**, naming the sentence that goes. A review that only ever reports whole comments leaves the long ones untouched, and those are the ones burying the rest.
+6. **If it's misfiled rather than wrong, say where it goes** — commit body, canonical place, call site.
+7. **Scrutinise the confident ones hardest.** A comment restating a decision in assured prose is the one a reviewer waves through.
 
 ## Markup
 
