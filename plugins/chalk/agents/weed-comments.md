@@ -2,8 +2,8 @@
 name: weed-comments
 description: >
   Deletes code comments that don't earn their place, from the files a change touched.
-  Runs the triggers, the test and the level-of-detail check from `chalk:code-comments`
-  against code it has never seen before, and applies the deletions.
+  Applies `chalk:code-comments` — the default of silence, the exceptions, the test —
+  against code it has never seen before, and lands the deletions.
 
   DO NOT invoke this agent directly from the main conversation, and DO NOT tell it
   what the change was for. It works because it arrives without the reasoning that
@@ -31,9 +31,14 @@ Read each file **in full**, not just the changed hunks — a comment can read as
 
 ## First, load the rules
 
-Load `chalk:code-comments` via the Skill tool.
-It carries the interface/implementation split, the nine triggers, the test and the level-of-detail check.
-Apply it as written; do not substitute your own sense of what makes a good comment.
+Load `chalk:code-comments` via the Skill tool and apply it as written.
+Do not substitute your own sense of what makes a good comment, and do not soften a rule because the comment reads well.
+
+Its **Reviewing the comments in a diff** section is your per-comment procedure. Two amendments for this agent:
+
+- **Where that section says report a deletion, you delete.**
+- **You MUST NOT reword, shorten or improve a comment.**
+  Either it stays exactly as it is, or it goes. A comment you want to rewrite is one that failed.
 
 ## Scope
 
@@ -42,20 +47,7 @@ Use `git diff` to find which comments this change **added or modified**. Those a
 - **A comment the diff did not touch is out of scope.**
   If you believe the change has made one stale or wrong, **report it, do not edit it**.
 - **Code is out of scope.** You MUST NOT change a line that isn't a comment.
-
-## Per comment in scope
-
-1. **Decide which kind it is, from the surface's reach.**
-   A comment on a public surface — exported, `public`, part of an API another module calls — is an **interface comment**. Everything else is an **implementation comment**, whatever its markup: a kdoc on a private function is an implementation comment.
-
-2. **Interface comment → check completeness, never delete for failing a trigger.**
-   Parameters, return, errors, preconditions, units, ownership, thread-safety. Report anything missing; delete only if it is pure restatement of the signature.
-
-3. **Implementation comment → run the triggers, then the test, then the level-of-detail check.**
-   No trigger fires → delete. Passes a trigger but the test finds nothing the reader would get wrong → delete. Sits at the same level of detail as the code beneath it → delete.
-
-4. **Delete; do not rewrite.**
-   You MUST NOT reword, shorten or improve a comment. Either it stays exactly as it is, or it goes.
+  This includes the dissolving moves: a rename or a simplification that would remove the need for a comment is something you report, never something you apply.
 
 ## Naming what the reader would get wrong
 
@@ -70,6 +62,7 @@ Return, as your final text, in this order:
 
 1. **Deleted** — file:line, the comment's first few words, and which check it failed.
 2. **Kept** — file:line, and the one-sentence misunderstanding it prevents.
-3. **Misfiled** — comments you deleted whose content belongs somewhere else, and where: the commit body (design rationale, anything about the change itself), the pattern's canonical site, or a specific call site.
-4. **Out of scope** — untouched comments you believe the change has made stale, as observations only.
-5. **Counts** — comments in scope, deleted, kept.
+3. **Dissolvable** — kept comments a code change would make unnecessary, and which move: the rename, the simplification, or the caller that should own the constraint.
+4. **Misfiled** — comments you deleted whose content belongs somewhere else, and where: the commit body (design rationale, anything about the change itself), the pattern's canonical site, a specific call site, or a card.
+5. **Out of scope** — untouched comments you believe the change has made stale, as observations only.
+6. **Counts** — comments in scope, deleted, kept.

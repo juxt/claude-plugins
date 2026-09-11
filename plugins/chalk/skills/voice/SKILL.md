@@ -33,6 +33,11 @@ This section carries what the rules mean; the `weed-prose` agent carries the phr
 - **You MUST NOT write to flatter the reader.**
   The reader knows an AI wrote it, so it decreases trust.
 
+- **You MUST NOT defend a decision the reader has not questioned.**
+  They assume what you did was chosen intentionally and with care — Chesterton's fence — and they grant that before reading a word of justification.
+  **What they can't supply for themselves is the constraint**, so naming what forced the choice is content and arguing that the choice was a good one is not.
+  **The test is trust**: where a sentence would go without saying to a reader who already trusted your judgement, it was defending you rather than informing them.
+
 - **A clause MUST NOT exist to tell the reader that another one matters.**
   Four ways to do it: ranking your own material, justifying its presence, narrating the document's shape, advertising your diligence.
   The tell they share: the clause answers "so what?" about the writing rather than about the system.
