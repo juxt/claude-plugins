@@ -40,6 +40,7 @@ You MUST load these skills first:
      The user sees them in the commit diff, which is the human review point.
    - **Its Misfiled list is input to Draft the body** — a comment deleted for being design rationale is rationale the body now has to carry.
    - Where a comment survives, its **Kept** line names the misunderstanding it prevents; that belongs in neither the body nor the code.
+   - **Its Dissolvable list goes to the user, not into the commit.** A rename or a simplification is a code change, and staging one here would break the atomicity the step above just established.
 
 3. **Review the conversation history** to extract the reasoning behind the change.
 

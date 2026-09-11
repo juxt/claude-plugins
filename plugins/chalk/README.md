@@ -54,7 +54,7 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 - **Skill** (`sitrep`): Where the session has got to — what landed, and what's still open as ID'd ideas, decisions and questions
 - **Skill** (`voice`): The shared writing voice — the audience, the specification register, the mindmap structure followable content takes, the line-format rule. `references/palette.md` carries the issue/PR section palette.
 - **Skill** (`goal-tree`): Goal trees, where children accomplish their parent rather than argue for it, and each node is tested for sufficiency
-- **Skill** (`code-comments`): What earns a code comment and what to delete — load it early in a session that touches code, and again when reviewing a diff
+- **Skill** (`code-comments`): The default is no comment — what earns an exception, what dissolves one, and what to delete. Load it early in a session that touches code, and again when reviewing a diff
 - **Agent** (`github`): Handles all GitHub API interaction, keeping the main context clean
 - **Agent** (`weed-comments`): Deletes code comments that don't earn their place, arriving without the context that wrote them
 - **Agent** (`weed-prose`): Reviews a drafted commit body or PR description as its pinned reader would, cutting what that reader already holds
