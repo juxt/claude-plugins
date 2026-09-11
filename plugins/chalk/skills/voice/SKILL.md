@@ -102,9 +102,18 @@ Where it does not, what stops it fitting is a branch or an enumeration, and eith
   Read downwards it is a summary that expands on demand; read upwards it is an argument.
   **A list whose items are merely *related* to their parent is not a mindmap** — the reader gets no argument out of it, and you MUST restructure it.
 
-- **Reading only the subject line of each bullet MUST be sufficient to follow the whole argument.**
-  The elaboration beneath it is an optional read and MUST NOT be load-bearing.
-  Where the point only lands three sentences in, rewrite the subject line rather than expanding it.
+- **A bullet's subject line MUST be sufficient for the reader to decide whether to read what is under it to achieve their goal.**
+  It is a routing label rather than a summary, and the reader's current goal is what decides whether they need the contents.
+
+  - **A subject stating a claim can be checked against a goal; one naming a topic cannot.**
+    "Background", "Notes", "Details" leave the reader nothing to decide on.
+
+  - **An elaboration MUST NOT carry a claim its subject does not reach.**
+    A reader who skips on the strength of the subject misses it silently.
+    What stays is the same claim in other terms, an example, a consequence, or the mechanism.
+    **The test is whether the sentence could carry a subject line of its own**: where it could, it is a child.
+
+  - **Where the point only lands three sentences in, rewrite the subject line** rather than expanding it.
 
 - **Where a node's children aren't obviously exhaustive, name the rule you split on** — one per subsystem, one per failure mode, one per call site.
   A missing sibling otherwise looks exactly like no sibling.
