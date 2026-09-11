@@ -73,7 +73,11 @@ Where an item blocks something in flight, say which.
 ## Section 3: tl;dr
 
 **Per `chalk:voice`, but at the bottom rather than the top, and not duplicated at the top.**
-A terminal scrolls upward, so in a chat reply the last thing written is the first thing read. The placement is the only thing this overrides.
+A terminal scrolls upward, so in a chat reply the last thing written is the first thing read.
+The placement is the only thing this overrides.
+
+- **It MUST carry a `tl;dr` heading**, which is the displaced case `chalk:voice` names rather than a second override.
+  Voice drops the heading where the tl;dr opens the artefact, because the position is what marks it; here Done and Open hold that position, so without a heading the summary reads as a third section of the report.
 
 - **Readable cold still binds, and it's the one voice rule chat otherwise relaxes.**
   Someone who did not see the session should get where the work stands and what it is waiting on.

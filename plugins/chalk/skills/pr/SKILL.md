@@ -56,6 +56,9 @@ Load, via the Skill tool:
 **Write each section as a mindmap** — a short tl;dr opening it, then the tree.
 A wall of undifferentiated prose means this step was skipped.
 
+**The body MUST open with a tl;dr**, per `chalk:voice` — the summary sentence, then the mindmap, with no heading over it.
+The first `##` in the body is the section after it.
+
 ## Gather the context
 
 - Review the commits on this branch — all of them, not just the latest.

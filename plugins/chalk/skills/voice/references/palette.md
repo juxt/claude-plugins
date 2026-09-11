@@ -46,6 +46,10 @@ It surfaces in three places, and MUST be carried in each.
 - **tl;dr** — **compulsory on every path.**
   It fills the two slots `chalk:voice` gives a tl;dr: the opening summary sentence, then the mindmap.
 
+  - **It is the one section with no heading**, per `chalk:voice`.
+    The body opens with the summary sentence and the mindmap, and the first `##` in the artefact is the section after it.
+    Its name here is its place in the ordering, not text that appears on the page.
+
   - **The abstract is that sentence, and it works like a bloom filter.**
     A reader scanning a list gets a definite *no* from it, or a *maybe*, without opening anything else.
     **False negatives are the failure that matters**: someone with this exact problem MUST NOT be able to rule it out from the abstract, where a false positive costs them one more section.

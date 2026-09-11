@@ -234,8 +234,15 @@ persisted b7:  termId               = 5   ← b4, B's term
 - **It summarises the artefact for its reader, not the session for its author**, and MUST be readable by someone who did not see the session, the branch or the prior state.
   Provenance goes down into the body, where whoever wants it will find it.
 
-- **It goes at the top by default**, under its own heading.
-  A destination MAY override the placement, and whether one appears at all, by saying so itself — but neither of the two rules above is overridable.
+- **It opens the artefact by default, and takes no heading there.**
+  Nothing else can be in that position, so a heading only labels what the reader has already worked out — the body starts with the summary sentence, then the mindmap, then the first real section.
+
+  - **Displaced from the opening, it MUST carry a `tl;dr` heading.**
+    The position was what marked it; once something else holds that position, only the heading tells the reader they are looking at the summary and not at more body.
+    Chat is the case: `chalk:sitrep` and the chalk output style put it at the bottom, because a terminal scrolls upward.
+
+- **A destination MAY override the placement, and whether one appears at all, by saying so itself.**
+  Neither the takeaway-grain rule nor the readable-cold rule is overridable.
 
 ## References
 

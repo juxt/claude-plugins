@@ -54,7 +54,8 @@ Load, via the Skill tool:
 **You MUST write each section as a mindmap** — a short tl;dr opening it, then the tree.
 You SHOULD NOT write a wall of undifferentiated prose.
 
-**The body MUST open with a tl;dr**, per `chalk:voice`.
+**The body MUST open with a tl;dr**, per `chalk:voice` — the summary sentence, then the mindmap, with no heading over it.
+The first `##` in the body is the section after it.
 
 ## Establish the why, and the why now
 
