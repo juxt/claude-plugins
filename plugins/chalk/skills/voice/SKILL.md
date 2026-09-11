@@ -42,7 +42,9 @@ This section carries what the rules mean; the `weed-prose` agent carries the phr
   Four ways to do it: ranking your own material, justifying its presence, narrating the document's shape, advertising your diligence.
   The tell they share: the clause answers "so what?" about the writing rather than about the system.
   **The unit is the clause, and the tail is where it hides** — appended to a sentence that has already made its point, so the sentence passes and the clause rides in.
-  "…, and that's the gap". "…, which is the point". "…, and that's what makes it work".
+  "…, and that's the gap".
+  "…, which is the point".
+  "…, and that's what makes it work".
 
   **The test is deletion**:
   cover the clause; if what remains says the same thing about the system, the clause was about the writing.
@@ -117,7 +119,8 @@ Where it does not, what stops it fitting is a branch or an enumeration, and eith
   IDs beat numbered lists, which renumber silently when a sibling is inserted, and **a published ID MUST be stable** — reuse it rather than minting a second one for the same node.
 
 - **A citation MUST carry the node's subject line, not the ID alone.**
-  The ID is a handle for replying, not a substitute for the content. A reader who cannot see the original — a later artefact, a fresh session, a sitrep picked up after a compaction — gets nothing from "Q1 is still open", and the ID's stability is what makes restating it cheap rather than what excuses omitting it.
+  The ID is a handle for replying, not a substitute for the content.
+  A reader who cannot see the original — a later artefact, a fresh session, a sitrep picked up after a compaction — gets nothing from "Q1 is still open", and the ID's stability is what makes restating it cheap rather than what excuses omitting it.
 
 ### The interleaving
 
@@ -174,7 +177,8 @@ persisted b7:  termId               = 5   ← b4, B's term
 **The destination decides the line format: paragraph-per-line where the artefact is read rendered, sentence-per-line where it's reviewed as a diff.**
 
 - **Paragraph-per-line** — commit bodies, issue and PR descriptions, chat.
-  A single newline renders as `<br>` on those destinations, so sentence-per-line fragments into staccato. Put each paragraph on one line, separate paragraphs with a blank line, and let the rendering wrap.
+  A single newline renders as `<br>` on those destinations, so sentence-per-line fragments into staccato.
+  Put each paragraph on one line, separate paragraphs with a blank line, and let the rendering wrap.
 
 - **Sentence-per-line** — in-repo dev documentation, code comments, per [Semantic Line Breaks](https://sembr.org): break at sentence and clause boundaries.
 
@@ -185,7 +189,8 @@ persisted b7:  termId               = 5   ← b4, B's term
   On a paragraph-per-line destination the break after the subject is the one exception to the line-format rule; the elaboration itself stays on one line however long it runs.
 
 - **You MUST separate sibling bullets with a blank line, and MUST NOT leave one after the subject.**
-  The elaboration starts on the line immediately below its subject, so the two read as a single block and the blank line falls between blocks. This holds on every destination.
+  The elaboration starts on the line immediately below its subject, so the two read as a single block and the blank line falls between blocks.
+  This holds on every destination.
 
   - **Exception: a destination rendered as plain CommonMark needs a blank line after the subject too.**
     A single newline is a *soft* break there — it collapses to a space, so the subject and its elaboration merge onto one line and the bold subject stops reading as a subject.

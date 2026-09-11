@@ -93,7 +93,8 @@ It surfaces in three places, and MUST be carried in each.
   Where the bug *is* an ordering, see *Interleavings for sequencing bugs* below.
 
 - **Properties of a good solution** — **contested changes only, and never on a bug**: a bug has a correct answer, not a design space.
-  The criteria any answer will be judged against. Unnecessary where the change is uncontroversial.
+  The criteria any answer will be judged against.
+  Unnecessary where the change is uncontroversial.
   It is an **input**: written before the choice, it constrains it, and it is what stops Invariants and Potential approach being argued in a vacuum.
 
   *Known failure mode, accepted:* written after choosing, it retrofits criteria the chosen approach happens to satisfy and reads as persuasion.
@@ -107,10 +108,12 @@ It surfaces in three places, and MUST be carried in each.
   **What writers drop is the *don't*** — an entry listing only the constraints we share has done half the work.
 
 - **Invariants**
-  The non-obvious things any solution must preserve. An **input** to the design.
+  The non-obvious things any solution must preserve.
+  An **input** to the design.
 
   **An invariant a test can pin SHOULD be a test, not a sentence here.**
-  Prose asks someone not to revert a constraint; a test refuses to let them, and only a test has a decay alarm. This section carries the ones no test can hold.
+  Prose asks someone not to revert a constraint; a test refuses to let them, and only a test has a decay alarm.
+  This section carries the ones no test can hold.
   Against Consequences: an invariant any solution **must preserve** is an input and lives here, where a constraint this change **created** is inherited and lives there.
 
 - **Potential approach**
@@ -126,10 +129,12 @@ It surfaces in three places, and MUST be carried in each.
   A drafter can *fail* that question, where "state the delta" is satisfiable vacuously.
 
   **It MUST name the fact that was true and is no longer**, stated objectively and never as a belief attributed to the reader: "the watermark wasn't being replicated", not "you believed the watermark was replicated".
-  **Compulsory rather than palette-optional, because it is invisible from the author's side** — the author holds the new model, so the delta reads as obvious. Palette-optional and reliably-dropped are the same outcome.
+  **Compulsory rather than palette-optional, because it is invisible from the author's side** — the author holds the new model, so the delta reads as obvious.
+  Palette-optional and reliably-dropped are the same outcome.
 
   - **For an equivalence change: "Behaviour is unchanged."**
-    Three words. Usage / migration is then omitted, and this section is an implementation-model delta — `chalk:pr`'s reader 1 holds a model of the code, not only of the behaviour.
+    Three words.
+    Usage / migration is then omitted, and this section is an implementation-model delta — `chalk:pr`'s reader 1 holds a model of the code, not only of the behaviour.
 
   Kept as one section deliberately: split into a delta and a compatibility note, the drafter writes it twice and the second copy decays into the first.
 
@@ -147,9 +152,11 @@ It surfaces in three places, and MUST be carried in each.
   - **Risks / constraints** — what we now need to be careful of.
   - **Breaking changes** — users with problem A will need to B.
   - **Operational** — what is different for whoever is on call: a new failure mode, a metric that now means something else, a thing that fails differently.
-  - **Gotchas** — Chesterton's fence: **we do it like X because Y**. "Be careful of Z" with no reason is an unlabelled fence.
+  - **Gotchas** — Chesterton's fence: **we do it like X because Y**.
+    "Be careful of Z" with no reason is an unlabelled fence.
   - **Measurements**, where one exists nowhere else — "p99 340ms → 40ms on the 10M-row fixture", "verified the rolling deploy by hand on staging".
-    **A test-plan checklist does not belong anywhere in the description** — CI renders it. The measurement is what survives.
+    **A test-plan checklist does not belong anywhere in the description** — CI renders it.
+    The measurement is what survives.
 
   **Why not Rust's "Drawbacks":** theirs prices a cost so a reviewer can weigh it before saying yes, and it disappears once the answer is yes.
   This is a handover section — the cost is already accepted, and the reader needs to know they inherited it.
@@ -167,7 +174,8 @@ It surfaces in three places, and MUST be carried in each.
   - Against the tl;dr's *what it unblocks*: something we chose not to do here is out of scope, where something that couldn't start until this landed is context.
 
 - **Alternative approaches**
-  The decision record. **One entry per road** — the design sketched, and what ruled it out.
+  The decision record.
+  **One entry per road** — the design sketched, and what ruled it out.
 
   **Alternatives considered, Decision rationale and Dead ends all land here**, because one entry per road covers both the reasoned-against and the tried-and-abandoned, and *State the confidence* above requires the entry to say which.
   **Name what ruled a road out; do not argue that the chosen one is good.**
@@ -185,7 +193,8 @@ It surfaces in three places, and MUST be carried in each.
   - **On an issue** — a to-do with a route to an answer.
     A closed issue still carrying live questions reads as unfinished work, and `chalk:issue`'s reader 3 can't tell that it isn't.
   - **On a PR** — what this change did not settle.
-    A PR freezes at merge, so it has no mechanism for resolving one: **anything actionable MUST become an issue the PR links**, and what stays is provenance. "Nobody measured this" stops the next reader assuming somebody did.
+    A PR freezes at merge, so it has no mechanism for resolving one: **anything actionable MUST become an issue the PR links**, and what stays is provenance.
+    "Nobody measured this" stops the next reader assuming somebody did.
 
 ## Interleavings for sequencing bugs
 
