@@ -52,6 +52,7 @@ Load, via the Skill tool:
 - **`chalk:goal-tree`** — wherever a section's children *accomplish* their parent rather than argue for it.
 
 **You MUST write each section as a mindmap** — a short tl;dr opening it, then the tree.
+Reader 1 arrives with a question and reader 2 with a symptom, so each of them is skipping most of what you write: every subject line MUST let them discard the bullet against that goal, or agree with it and move on without reading the body.
 You SHOULD NOT write a wall of undifferentiated prose.
 
 **The body MUST open with a tl;dr**, per `chalk:voice` — the summary sentence, then the mindmap, with no heading over it.

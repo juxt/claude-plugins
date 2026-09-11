@@ -29,7 +29,6 @@ Not "do these look related to the parent?" but "do these, **plus what we already
   Say that out loud rather than leaning on it silently.
 
 - **Each node MUST be tested for sufficiency explicitly** rather than assumed, and any node whose children are not clearly sufficient MUST be marked `check:` rather than left to read as settled.
-- **This is why goal trees don't need the decomposition note** an argument tree needs (see `chalk:voice`).
 
 **To find a missing child, ask what would stop the parent** rather than what would achieve it.
 

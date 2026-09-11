@@ -23,7 +23,7 @@ Everything below this section is the narrow set of cases where that cost is wort
   Explaining a constraint the reader can't see is a different act from justifying yourself, and only the first has an audience.
 
 - **A comment that does survive is a Chalk artefact.**
-  It MUST be written in the chalk voice — `chalk:voice` carries the register, the audience and the rule that followable content is a mindmap rather than prose.
+  It MUST be written in the chalk voice — `chalk:voice` carries the register, the audience and the rule that two propositions in a relation take a mindmap rather than prose.
 
 ## Interface comments are the standing exception
 
@@ -183,6 +183,7 @@ Per comment in the diff:
 - **Most comments are one line and stay one line.**
   `// volatile — reads race with the flush thread` doesn't want a bullet.
 - **A comment with real structure takes a mindmap** (`chalk:voice`), at a higher threshold than prose.
+  The threshold is higher because the reader is mid-investigation of something else: a comment they must page in wholesale to discover it was irrelevant has cost them more than it can repay.
   More than two or three sentences, or an enumeration the reader has to work through.
 - **Match the markup to what the language's tooling renders.**
   KDoc, Javadoc and docstrings are rendered, so bullets and emphasis land as intended. 

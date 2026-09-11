@@ -67,6 +67,9 @@ You MUST load these skills first:
    **A commit is a change-log artefact, so the body carries the *transition*** — why it changed from X to Y, and how to migrate.
    A body that only restates current behaviour has thrown away the one thing it was for; conversely, a "this used to…" comment in the source is this body's material, sitting where it rots.
 
+   **It MUST name the fact that was true and is no longer** — objectively, and never as a belief attributed to the reader: "the watermark wasn't being replicated", not "you believed the watermark was replicated".
+   This is the obligation that is invisible from the author's side, because by the time you write you hold the new model and the delta reads as too obvious to state. `chalk:voice`'s palette makes it compulsory in a PR's What changes for exactly that reason; a commit body has no palette, which is why it is stated here.
+
    **What to omit:** 
 
    - anything self-evident from the diff, the code or the linked issue;
@@ -87,6 +90,7 @@ You MUST load these skills first:
    Where the reasoning was complex and the change simple, say so: "Simple change in the end: …".
 
    Open with a lead-in line, then shape the reasoning as a mindmap, per `chalk:voice`.
+   Your reader arrived from `git blame` mid-investigation of something else, so they are the most impatient reader any chalk artefact has: they will read subject lines and leave. Each one MUST be discardable against that investigation, or agreeable without the body.
 
    - **No headings.**
      The tree's top-level bullets already partition the body, and a body short enough to read in a `git log` doesn't want a second, coarser structure laid over the top of them.

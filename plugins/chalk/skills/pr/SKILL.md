@@ -54,6 +54,7 @@ Load, via the Skill tool:
 - **`chalk:voice`'s `references/palette.md`** — the sections on your path. Not every change needs every section.
 
 **Write each section as a mindmap** — a short tl;dr opening it, then the tree.
+Reader 1 is scanning for what touches their work and reader 2 for one decision, so both skip most of the body: every subject line MUST let them discard the bullet against that goal, or take it unread.
 A wall of undifferentiated prose means this step was skipped.
 
 **The body MUST open with a tl;dr**, per `chalk:voice` — the summary sentence, then the mindmap, with no heading over it.

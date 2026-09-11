@@ -40,6 +40,7 @@ The transcript records what was attempted; the repo records what happened.
 ## Section 1: Done
 
 **One bullet per change that actually landed, children carrying the specifics.**
+The reader is reorienting, so they take subject lines and stop: each MUST be agreeable without its children, which for Done means it says what is now true rather than what was worked on.
 No IDs here — Done is not up for reply, and IDs on it are noise.
 
 - **Landed means verified**, not attempted: the file is written, the test passed, the commit exists.

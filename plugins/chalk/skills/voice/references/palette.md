@@ -4,6 +4,7 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 **These sections are a checklist against forgetting, not a taxonomy to file into.**
 Nothing reads the headings but a person, so a section's *existence* buys the reader somewhere to look and its *boundary* buys almost nothing.
+The headings are the artefact's top-level skip structure, per `chalk:voice`: a reader with a goal discards whole sections on the heading alone, which is the largest single saving the artefact offers them.
 Where two entries below overlap, put the material in one of them and don't split it.
 
 `chalk:voice` carries the register and the shape; `chalk:issue` and `chalk:pr` carry what each artefact is for, who reads it, and **which sections its path takes, in order**.

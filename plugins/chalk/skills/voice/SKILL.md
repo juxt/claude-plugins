@@ -1,6 +1,6 @@
 ---
 name: voice
-description: Shared Chalk writing voice — the audience for Chalk artefacts, the specification register, the mindmap structure that followable content MUST take, and the layout rules. The chalk:issue, chalk:commit, chalk:pr and chalk:sitrep skills load this before drafting any prose, and the weed-prose agent loads it to review one.
+description: Shared Chalk writing voice — the audience for Chalk artefacts, the specification register, the mindmap structure that two propositions in a relation MUST take, and the layout rules. The chalk:issue, chalk:commit, chalk:pr and chalk:sitrep skills load this before drafting any prose, and the weed-prose agent loads it to review one.
 ---
 
 # Chalk Voice — Writing Principles
@@ -13,7 +13,7 @@ Your audience for Chalk artefacts is a professional, competent, senior engineer 
 Each artefact skill names what its readers are doing and what success looks like for each; this file names who they are.
 
 You are writing to convey understanding — Diátaxis 'explanation'.
-Your success metric is whether that knowledge is accurately and succinctly transferred.
+Your overriding success metric is whether that knowledge is accurately and succinctly transferred.
 
 ## The register
 
@@ -61,7 +61,7 @@ This section carries what the rules mean; the `weed-prose` agent carries the phr
 - **You MUST prioritise what the reader needs over what you did.**
   The two diverge most sharply in summaries: a summary of the *work* reads as a session changelog, where a summary for the *reader* states what is true now and what it means for them.
 
-### Write to the reader's context — the artefact, plus what a senior engineer on this project knows
+### The reader's context is the artefact plus what a senior engineer on this project knows
 
 - **You SHOULD NOT include anything obvious to that reader.**
   Cut what any reasonable senior developer on the project would know, and any option none of them would consider.
@@ -81,9 +81,11 @@ This section carries what the rules mean; the `weed-prose` agent carries the phr
 - **You SHOULD use one term for one concept throughout an artefact.**
   Synonym variation costs the reader a re-check every time they have to ask whether you meant something different.
 
-## Followable content MUST take one of three forms
+## Two propositions in a relation MUST take one of two forms
 
-A sequence of events, a multi-step rationale, a set of conditions, a race between threads, a decision and its grounds.
+**One proposition, developed at whatever length that takes, is prose.
+Two standing in a relation are a structure**, and the relations are the ones below: grounds, narrowing, exception, conjunction, disjunction, consequence, succession.
+A sequence of events, a multi-step rationale, a set of conditions, a race between threads, a decision and its grounds are each this.
 
 **Route it by this chain, taking the first that applies:**
 
@@ -91,47 +93,140 @@ A sequence of events, a multi-step rationale, a set of conditions, a race betwee
   **An actor has independent control flow** — a thread, a process, a node, a human.
   Not an object, a module or a function, or every call chain would owe one.
 
-- **A single chain of cause → it MAY be `A → B → C`.**
-  One thread, one actor, no branch.
-  **`→` MUST mean *therefore* and nothing else**: sequence without causation is a list, and a state change is `:=`.
-
 - **Otherwise → it MUST be a nested bullet-tree**, a mindmap.
 
-**Followable content MUST NOT be written as prose.**
-Test a followable paragraph against the arrow form: where it fits, it is a chain and goes there.
-Where it does not, what stops it fitting is a branch or an enumeration, and either is a tree.
+**A relation between propositions MUST NOT be written as prose.**
+A single chain of cause is not a third form: it is a tree whose children are consequents, and `A → B → C` is its compressed spelling, licensed below.
 
-### The tree is a support structure
+### The tree
 
-- **Every parent MUST be a claim that its direct children back up.**
-  Read downwards it is a summary that expands on demand; read upwards it is an argument.
+**Your job is the reader's working memory.**
+Every node they read is context they hold while reading the next, their capacity is small, and it is already spoken for.
+*Paging in* a node costs them that capacity and evicts something else, so the tree exists to let them page in what their goal needs and nothing more.
 
-  - **A list whose items are merely *related* to their parent is not a mindmap.**
-    The reader gets no argument out of it, and you MUST restructure it.
+- **Every node is a conclusion stated in its subject line.**
 
-- **A bullet's subject line MUST be sufficient for the reader to decide whether to read what is under it to achieve their goal.**
-  It is a routing label rather than a summary, and the reader's current goal is what decides whether they need the contents.
+  - **It recurses.**
+    A child becomes a conclusion in its own right the moment it takes children, and every rule here applies to it unchanged.
+
+- **At each node the reader takes one of three decisions, and the subject line is what they take it from.**
+
+  1. **Irrelevant to my goal** — skip the node and its whole subtree, unread.
+  2. **Understood and agreed** — take the claim, skip the body, move on.
+  3. **Neither** — page in the body, and recurse into it.
+
+  - **Decision 3 is the expensive one**, and every rule below exists to let the reader reach 1 or 2 more often.
+
+  - **Disagreement routes to 3**, not to a fourth option.
+    A reader who doubts the subject descends to find out whether they are convinced, which is what the body is for.
+
+- **Decision 1 needs a subject the reader can place.**
+  Relevance is judged against the goal they arrived with, so the subject must give them something to hold that goal against.
 
   - **A subject stating a claim can be checked against a goal; one naming a topic cannot.**
     "Background", "Notes", "Details" leave the reader nothing to decide on.
 
-  - **An elaboration MUST NOT carry a claim its subject does not reach.**
-    A reader who skips on the strength of the subject misses it silently.
-    What stays is the same claim in other terms, an example, a consequence, or the mechanism.
-    **The test is whether the sentence could carry a subject line of its own**: where it could, it is a child.
+- **Decision 2 needs a subject that is safe to agree with.**
+  Safe means that agreeing without reading the body costs them nothing they needed.
+
+  - **The subject carries one claim and nothing else.**
+    A second claim, a qualification, or the reason the claim holds all go below: each is only useful to a reader who has already taken the first, and two claims leave them unable to agree with half.
+    **A contrast stays where the contrast is the claim** — "carry the subject line, not the ID alone" defines by exclusion, and loses its content if you cut the second half.
+    What must go is a second obligation riding in on an `and`, and a qualification appended to a claim that was finished without it.
+
+  - **An elaboration MUST NOT carry a proposition its subject does not reach.**
+    That is decision 2 turned into a trap: the reader takes the subject, skips the body as invited, and never learns what was under it.
+    Prose that is *not* a separate proposition may stay, and may run — the subject has already let them skip it, so length below a subject costs far less than a proposition they never saw.
+    **What sits there**: the mechanism, an example, a measurement, a contrast, the same claim in other terms, the context the subject assumes, and what is at stake in it.
+    **The stake is a consequence the reader bears, and is not a clause saying the subject matters** — that one is banned above, and survives its own deletion.
+
+    - **A deduction MUST NOT be prose, inside an elaboration or anywhere else.**
+      Two or more steps joined by *therefore* take the `A → B → C` form, or become consequent children.
+      The licence above is to develop one proposition at whatever length that takes; it never extends to carrying an argument in sentences.
+
+  - **A node the reader cannot simply agree with MUST say so** — `assumption:`, `idea:`, `check:`, below.
+    Decision 2 assumes every subject is **decidable** — the reader can understand it and judge whether to accept it — and a tag is what withdraws that assumption for one node instead of forcing decision 3 on the whole tree.
 
   - **Where the point only lands three sentences in, rewrite the subject line** rather than expanding it.
 
-- **Where a node's children aren't obviously exhaustive, name the rule you split on** — one per subsystem, one per failure mode, one per call site.
-  A missing sibling otherwise looks exactly like no sibling.
+- **Decision 3 needs children worth what they cost to page in.**
+
+  - **A child grounds its parent, narrows it, or excepts it.**
+    Grounds read upwards as an argument, and are what a bug report or a root-cause analysis is made of.
+    A narrowing is the same rule applied to a narrower case, which is how a specification reads downwards — most of what a rules document holds, this file included.
+
+    - **Narrowing is not inference, which is why the parent stays the conclusion.**
+      A child that *follows from* its parent would make the child the consequence and the parent a premise, and the subject rule would then be pointing at the wrong end of the tree.
+
+    - **A narrowing MUST be a case of its parent, not a neighbour of it.**
+      The test is whether the parent, applied to this situation, gives you the child.
+      Association readmits the related-items list below, wearing this vocabulary.
+
+    - **An exception is where the parent does not hold.**
+      It is the one relation that takes scope away instead of adding to it, so it MUST say what falls outside and what applies there instead.
+      A reader who meets the uncovered case with no replacement is worse off than before they read the parent.
+
+  - **A child MUST sit at a different level of detail from its parent** — Ousterhout's rule, from *A Philosophy of Software Design*.
+    A child at the parent's own level is restatement wearing a bullet, and the reader pays to page in something they already hold.
+
+  - **A list whose items are merely *related* to their parent is not a mindmap.**
+    The reader gets no argument out of it, and you MUST restructure it.
+
+  - **A node MUST be decidable from its ancestors alone.**
+    They hold the path they descended, not the tree, so a node leaning on a sibling they were invited to skip is one they cannot decide — and they will not know that is why.
+    The consequent is the declared exception below, and the extra context it demands is what it costs.
+
+  - **Depth needs no bound.**
+    A node goes deeper while it still has grounds to give or cases to narrow to, and stops when it runs out, so depth that is doing work is self-limiting.
+    Depth from nested topics has already failed the rules above.
+
+- **The relation among siblings is the reader's skip rights over the set, so the parent MUST make it clear.**
+  It is what tells them how many of the siblings their goal obliges them to page in, which is a larger saving than anything a single subject line buys.
+
+  - **An example, a clarification or a restatement is not one of these relations.**
+    Each develops a single proposition instead of standing beside it, so each is that proposition's elaboration.
+    Promoting one is how a tree acquires siblings that turn out not to be siblings.
+
+  - **A ground**, combining with its siblings to justify the parent, in one of three ways.
+    All three look identical on the page, and a reader who takes one for another misreads what the argument rests on.
+
+    - **Linked** — they reach the parent only together, so the reader must take all of them, and a gap is fatal.
+      The set MUST be complete or say that it is not.
+
+    - **Convergent** — each reaches the parent alone, so the reader may stop at the first they accept.
+      Each MUST therefore stand without its siblings, and they SHOULD run strongest first.
+
+    - **Cumulative** — the parent rests on the balance of them, none sufficient alone, and dropping one weakens the conclusion without destroying it.
+      The reader must weigh all of them, so this is the mode that buys them no skipping at all.
+      A decision rationale is usually this, and it MUST say so: a reader who takes it for convergent comes away believing a single ground carried the decision.
+
+  - **A disjunct** — one of a set of alternatives, of which the reader takes the one their circumstances select.
+    Each MUST name the condition that picks it, or the reader cannot tell which is theirs and has to read all of them.
+
+  - **A successor** — one stage of an ordered process, where the order is part of what the reader has to get right.
+    **Succession is not consequence**: a stage follows the one above it in time, not from it, which is why `→` is wrong here and a plain ordered list is right.
+    A short process MAY stay in a sentence where no stage needs anything of its own, and that licence lapses on the first stage carrying a precondition, a branch, or a way to get it wrong alone.
+
+  - **A consequent** — what follows from the siblings above it, where two or more combine into a step neither gives alone.
+    A derivation would nest it, with the siblings it follows from as its children. The reader arrives at it already carrying those, so nesting would send them down a level to collect a conclusion they had just earned.
+    It is the one relation that obliges the reader to hold its prior siblings, which is why it MUST come after them.
+
+    - **A run of consequents MAY be compressed inline to `A → B → C`.**
+      The licence is that no step needs children of its own — a short derivation, a state transition with its trigger.
+      Where any step acquires grounds, a tag or an ID, it wants a bullet, and the run expands with it.
+      **`→` MUST mean *therefore* and nothing else**: sequence without causation is a list, and a state change is `:=`.
+
+- **Siblings are read in order, and dependency fixes it.**
+  A proposition that depends on an earlier sibling MUST come after it; strength, frequency or severity only break ties among siblings that do not depend on each other.
 
 ### Nodes carry labels a reader can act on
 
 - **You SHOULD tag a bullet where the tag sharpens it**, prefixing the subject line — 'goal:', 'pro:', 'con:', 'idea:', 'assumption:', 'check:'.
   A tag is a claim, not decoration: 'assumption:' says you have not verified it, which stops the next reader building on it as though you had.
+  It is also what withdraws decision 2 from one node, per the tree above: a reader who cannot agree from the subject alone needs telling before they do it anyway.
 
-- **Nodes a reader might want to reply to SHOULD have a typed ID**, prefixing the subject line.
-  'D1' for a decision, 'Q1' for a question, 'I1' for an idea, 'D2.1' for its first child.
+- **Nodes a reader might want to refer to SHOULD have a typed ID**, prefixing the subject line.
+  **D1** for a decision, **Q1** for a question, **I1** for an idea, **D2.1** for its first child.
   IDs beat numbered lists, which renumber silently when a sibling is inserted.
 
   - **A published ID MUST be stable.**
@@ -198,19 +293,22 @@ persisted b7:  termId               = 5   ← b4, B's term
 
 ### Layout
 
-**The destination decides the line format: paragraph-per-line where the artefact is read rendered, sentence-per-line where it's reviewed as a diff.**
+- **The destination decides the line format**, according to whether the artefact is read rendered or reviewed as a diff.
 
-- **Paragraph-per-line** — commit bodies, issue and PR descriptions, chat.
-  A single newline renders as `<br>` on those destinations, so sentence-per-line fragments into staccato.
-  Put each paragraph on one line, separate paragraphs with a blank line, and let the rendering wrap.
+  - **Paragraph-per-line** — commit bodies, issue and PR descriptions, chat.
+    A single newline renders as `<br>` on those destinations, so sentence-per-line fragments into staccato.
+    Put each paragraph on one line, separate paragraphs with a blank line, and let the rendering wrap.
 
-- **Sentence-per-line** — in-repo dev documentation, code comments, per [Semantic Line Breaks](https://sembr.org): break at sentence and clause boundaries.
+  - **Sentence-per-line** — in-repo dev documentation, code comments, per [Semantic Line Breaks](https://sembr.org): break at sentence and clause boundaries.
 
-- **Whichever applies, it applies inside a bullet too**, which is where it is most often forgotten.
+  - **Whichever applies, it applies inside a bullet too**, which is where it is most often forgotten.
 
-- **You MUST give the subject its own line**, with any elaboration indented to line up under its first character — two spaces under a top-level bullet, four under a nested one.
+- **You MUST give the subject its own line**, with any elaboration indented to line up under its first character — two spaces under a top-level bullet, four under a nested one, etc.
 
-  - **You MUST bold the load-bearing words in the subject**, so the tree is graspable from the bold alone.
+  - **You MUST bold the subject's claim**, which on a subject that is nothing but its claim is the whole line.
+    The bold is what separates a subject from the elaboration directly below it, where no blank line falls between the two.
+    It is not a terser skim layer inside the subject: a claim chopped into load-bearing fragments stops reading as a claim, and the skim path is the subject lines themselves.
+    What stays unbolded is a trailing qualifier that is not part of the claim — ", prefixing the subject line", ", per `chalk:voice`".
 
   - **On a paragraph-per-line destination the break after the subject is the one exception to the line-format rule.**
     The elaboration itself stays on one line however long it runs.
@@ -219,17 +317,18 @@ persisted b7:  termId               = 5   ← b4, B's term
   The elaboration starts on the line immediately below its subject, so the two read as a single block and the blank line falls between blocks.
   This holds on every destination.
 
-  - **Exception: a destination rendered as plain CommonMark needs a blank line after the subject too.**
-    A single newline is a *soft* break there — it collapses to a space, so the subject and its elaboration merge onto one line and the bold subject stops reading as a subject.
-    That is an `.md` file rendered on github.com or by a docs site.
+  - **Exception: an `.md` file in the repo needs a blank line after the subject too.**
+    Rendered by github.com or a docs site, a single newline there is a *soft* break — it collapses to a space, so the subject and its elaboration merge onto one line and the bold subject stops reading as a subject.
 
-  - **A GitHub comment field is not that case.**
-    Issue bodies, PR descriptions and comments render a single newline as `<br>`, which is why the rule above holds there unchanged.
+  - **Decide which applies from the artefact you are writing, never from the renderer**, which you cannot inspect before publishing.
+    Blank line after the subject: an `.md` file committed to the repo.
+    No blank line: commit bodies, issue bodies, PR descriptions, GitHub comments, chat — all of which take a single newline as `<br>`.
 
 ## tl;dr
 
 - **A tl;dr is a mindmap at takeaway grain**: one top-level bullet per takeaway, children backing it up, optionally after a single summary sentence.
   A flat row of one-liners is the failure mode, and the one that looks finished.
+  It is the reader's first paging decision over the whole artefact, so its subjects carry the same obligations as any other: placeable against a goal, and safe to agree with unread.
 
 - **It summarises the artefact for its reader, not the session for its author**, and MUST be readable by someone who did not see the session, the branch or the prior state.
   Provenance goes down into the body, where whoever wants it will find it.
