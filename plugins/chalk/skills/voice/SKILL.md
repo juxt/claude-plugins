@@ -35,22 +35,24 @@ This section carries what the rules mean; the `weed-prose` agent carries the phr
 
 - **You MUST NOT defend a decision the reader has not questioned.**
   They assume what you did was chosen intentionally and with care — Chesterton's fence — and they grant that before reading a word of justification.
-  **What they can't supply for themselves is the constraint**, so naming what forced the choice is content and arguing that the choice was a good one is not.
   **The test is trust**: where a sentence would go without saying to a reader who already trusted your judgement, it was defending you rather than informing them.
+
+  - **What they can't supply for themselves is the constraint.**
+    Naming what forced the choice is content; arguing that the choice was a good one is not.
 
 - **A clause MUST NOT exist to tell the reader that another one matters.**
   Four ways to do it: ranking your own material, justifying its presence, narrating the document's shape, advertising your diligence.
   The tell they share: the clause answers "so what?" about the writing rather than about the system.
-  **The unit is the clause, and the tail is where it hides** — appended to a sentence that has already made its point, so the sentence passes and the clause rides in.
-  "…, and that's the gap".
-  "…, which is the point".
-  "…, and that's what makes it work".
 
-  **The test is deletion**:
-  cover the clause; if what remains says the same thing about the system, the clause was about the writing.
+  - **The unit is the clause, and the tail is where it hides.**
+    Appended to a sentence that has already made its point, so the sentence passes and the clause rides in.
+    "…, and that's the gap". "…, which is the point". "…, and that's what makes it work".
 
-  **What goes there instead is a consequence, or nothing.**
-  The pull is to supply connective tissue; there is usually nothing to connect.
+  - **The test is deletion.**
+    Cover the clause; if what remains says the same thing about the system, the clause was about the writing.
+
+  - **What goes there instead is a consequence, or nothing.**
+    The pull is to supply connective tissue; there is usually nothing to connect.
 
 - **You MUST NOT use filler in a heading or a lead-in.**
   Every sentence carries a fact, a constraint or a decision; none exists to convey that a person is delivering it.
@@ -71,7 +73,10 @@ This section carries what the rules mean; the `weed-prose` agent carries the phr
 ### Word choice costs the reader a re-read
 
 - **You SHOULD use technically precise terms rather than a restricted vocabulary.**
-  "Sufficient" and "necessary" each carry an exact meaning that a paraphrase spends a clause on and still blurs, so **precision beats simplicity where the two conflict**: what gets cut is the decorative metaphor, not the exact term.
+  "Sufficient" and "necessary" each carry an exact meaning that a paraphrase spends a clause on and still blurs.
+
+  - **Precision beats simplicity where the two conflict.**
+    What gets cut is the decorative metaphor, not the exact term.
 
 - **You SHOULD use one term for one concept throughout an artefact.**
   Synonym variation costs the reader a re-check every time they have to ask whether you meant something different.
@@ -100,7 +105,9 @@ Where it does not, what stops it fitting is a branch or an enumeration, and eith
 
 - **Every parent MUST be a claim that its direct children back up.**
   Read downwards it is a summary that expands on demand; read upwards it is an argument.
-  **A list whose items are merely *related* to their parent is not a mindmap** — the reader gets no argument out of it, and you MUST restructure it.
+
+  - **A list whose items are merely *related* to their parent is not a mindmap.**
+    The reader gets no argument out of it, and you MUST restructure it.
 
 - **A bullet's subject line MUST be sufficient for the reader to decide whether to read what is under it to achieve their goal.**
   It is a routing label rather than a summary, and the reader's current goal is what decides whether they need the contents.
@@ -125,11 +132,17 @@ Where it does not, what stops it fitting is a branch or an enumeration, and eith
 
 - **Nodes a reader might want to reply to SHOULD have a typed ID**, prefixing the subject line.
   'D1' for a decision, 'Q1' for a question, 'I1' for an idea, 'D2.1' for its first child.
-  IDs beat numbered lists, which renumber silently when a sibling is inserted, and **a published ID MUST be stable** — reuse it rather than minting a second one for the same node.
+  IDs beat numbered lists, which renumber silently when a sibling is inserted.
+
+  - **A published ID MUST be stable.**
+    Reuse it rather than minting a second one for the same node.
 
 - **A citation MUST carry the node's subject line, not the ID alone.**
   The ID is a handle for replying, not a substitute for the content.
-  A reader who cannot see the original — a later artefact, a fresh session, a sitrep picked up after a compaction — gets nothing from "Q1 is still open", and the ID's stability is what makes restating it cheap rather than what excuses omitting it.
+
+  - **A reader who cannot see the original gets nothing from "Q1 is still open"** — a later artefact, a fresh session, a sitrep picked up after a compaction.
+
+  - **The ID's stability is what makes restating it cheap**, not what excuses omitting it.
 
 ### The interleaving
 
@@ -137,8 +150,10 @@ Where it does not, what stops it fitting is a branch or an enumeration, and eith
 
 - **The shared state the actors contend for MUST take the leftmost column.**
   A row that changes it MUST carry the new state there, and a row that does not MUST leave it blank.
-  Append-only state accumulates, so the column reads downwards as the medium itself — `@20 BlockBoundary(4, b7)`, `@21 NoOp(5)`.
-  Mutable state replaces, so it reads downwards as a timeline — `held(A)`, `free`, `held(B)`.
+
+  - **Append-only state accumulates**, so the column reads downwards as the medium itself — `@20 BlockBoundary(4, b7)`, `@21 NoOp(5)`.
+
+  - **Mutable state replaces**, so it reads downwards as a timeline — `held(A)`, `free`, `held(B)`.
 
 - **Where the medium addresses its entries, the address MUST sit in that column beside them.**
   An LSN for anything log-backed, otherwise a sequence number or a lock acquisition.
@@ -194,8 +209,11 @@ persisted b7:  termId               = 5   ← b4, B's term
 - **Whichever applies, it applies inside a bullet too**, which is where it is most often forgotten.
 
 - **You MUST give the subject its own line**, with any elaboration indented to line up under its first character — two spaces under a top-level bullet, four under a nested one.
-  **You MUST bold the load-bearing words in the subject**, so the tree is graspable from the bold alone.
-  On a paragraph-per-line destination the break after the subject is the one exception to the line-format rule; the elaboration itself stays on one line however long it runs.
+
+  - **You MUST bold the load-bearing words in the subject**, so the tree is graspable from the bold alone.
+
+  - **On a paragraph-per-line destination the break after the subject is the one exception to the line-format rule.**
+    The elaboration itself stays on one line however long it runs.
 
 - **You MUST separate sibling bullets with a blank line, and MUST NOT leave one after the subject.**
   The elaboration starts on the line immediately below its subject, so the two read as a single block and the blank line falls between blocks.
@@ -204,19 +222,20 @@ persisted b7:  termId               = 5   ← b4, B's term
   - **Exception: a destination rendered as plain CommonMark needs a blank line after the subject too.**
     A single newline is a *soft* break there — it collapses to a space, so the subject and its elaboration merge onto one line and the bold subject stops reading as a subject.
     That is an `.md` file rendered on github.com or by a docs site.
+
   - **A GitHub comment field is not that case.**
     Issue bodies, PR descriptions and comments render a single newline as `<br>`, which is why the rule above holds there unchanged.
 
 ## tl;dr
 
-**A tl;dr is a mindmap at takeaway grain**: one top-level bullet per takeaway, children backing it up, optionally after a single summary sentence.
-A flat row of one-liners is the failure mode, and the one that looks finished.
+- **A tl;dr is a mindmap at takeaway grain**: one top-level bullet per takeaway, children backing it up, optionally after a single summary sentence.
+  A flat row of one-liners is the failure mode, and the one that looks finished.
 
-**It summarises the artefact for its reader, not the session for its author**, and MUST be readable by someone who did not see the session, the branch or the prior state.
-Provenance goes down into the body, where whoever wants it will find it.
+- **It summarises the artefact for its reader, not the session for its author**, and MUST be readable by someone who did not see the session, the branch or the prior state.
+  Provenance goes down into the body, where whoever wants it will find it.
 
-**It goes at the top by default**, under its own heading.
-A destination MAY override the placement, and whether one appears at all, by saying so itself — but neither of the two rules above is overridable.
+- **It goes at the top by default**, under its own heading.
+  A destination MAY override the placement, and whether one appears at all, by saying so itself — but neither of the two rules above is overridable.
 
 ## References
 

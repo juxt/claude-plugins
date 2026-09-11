@@ -46,51 +46,62 @@ It surfaces in three places, and MUST be carried in each.
 - **tl;dr** — **compulsory on every path.**
   It fills the two slots `chalk:voice` gives a tl;dr: the opening summary sentence, then the mindmap.
 
-  **The abstract is that sentence, and it works like a bloom filter.**
-  A reader scanning a list gets a definite *no* from it, or a *maybe*, without opening anything else.
-  **False negatives are the failure that matters**: someone with this exact problem MUST NOT be able to rule it out from the abstract, where a false positive costs them one more section.
-  So it names the problem in the terms the reader arrives with — "queries not performing" — not the mechanism they don't yet know about.
+  - **The abstract is that sentence, and it works like a bloom filter.**
+    A reader scanning a list gets a definite *no* from it, or a *maybe*, without opening anything else.
+    **False negatives are the failure that matters**: someone with this exact problem MUST NOT be able to rule it out from the abstract, where a false positive costs them one more section.
+    So it names the problem in the terms the reader arrives with — "queries not performing" — not the mechanism they don't yet know about.
 
-  **The mindmap carries context and motivation as one tree, not two labelled groups** 
-  The motivation is only legible against the context, and splitting them makes the reader hold one half while they go looking for the other.
-  **Context SHOULD come first in the tree**, because that is the order a reader processes them in.
+  - **The mindmap carries context and motivation as one tree, not two labelled groups.**
+    The motivation is only legible against the context, and splitting them makes the reader hold one half while they go looking for the other.
+    **Context SHOULD come first in the tree**, because that is the order a reader processes them in.
 
-  - **Context runs in both directions**: where this sits — the user-facing effect, the initiative it belongs to, the deployment it showed up under — and **what it unblocks**, the work that can't proceed until it lands.
-  - **A named downstream is the strongest form of *why now*, because it is checkable.**
-    "The replica log work can't start until this lands" can be confirmed or refuted; "this is important" can't.
-  - **It MUST be objective, not persuasive.**
-    The tell is a sentence that carries the same fact with its evaluative words deleted: if "seriously degrades" and "degrades" say the same thing, the adverb was doing persuasion.
-    **"Unblocks future work" fails that test by surviving deletion entirely** — name the work, or cut the claim.
-  - **Where the unblocking is a graph edge, wire the edge.**
-    GitHub renders blocked-by with nobody maintaining it, so name the downstream in a clause rather than re-listing what the graph already shows.
+    - **Context runs in both directions**: where this sits — the user-facing effect, the initiative it belongs to, the deployment it showed up under — and **what it unblocks**, the work that can't proceed until it lands.
 
-  On a PR resolving an issue the abstract is **what changes in the implementation**, and the context half compresses to the issue link.
-  Where the change adds a capability, name the capability — "you can now query across blocks without a full scan" — never its significance.
+    - **A named downstream is the strongest form of *why now*, because it is checkable.**
+      "The replica log work can't start until this lands" can be confirmed or refuted; "this is important" can't.
+
+    - **It MUST be objective, not persuasive.**
+      The tell is a sentence that carries the same fact with its evaluative words deleted: if "seriously degrades" and "degrades" say the same thing, the adverb was doing persuasion.
+      **"Unblocks future work" fails that test by surviving deletion entirely** — name the work, or cut the claim.
+
+    - **Where the unblocking is a graph edge, wire the edge.**
+      GitHub renders blocked-by with nobody maintaining it, so name the downstream in a clause rather than re-listing what the graph already shows.
+
+  - **On a PR resolving an issue the abstract is what changes in the implementation**, and the context half compresses to the issue link.
+    Where the change adds a capability, name the capability — "you can now query across blocks without a full scan" — never its significance.
 
 - **Problem**
   **What someone can't do today, and what it costs them.**
   Stated as the deficiency, not the implementation: "you can't filter by timestamp without reading every block", never "`BlockScanner` has no predicate pushdown".
 
   - **A problem stated in code dates the moment work starts**, because it describes the implementation the fix replaces — and it doesn't survive a change of approach, where the deficiency does.
+
   - **It also presupposes one.** Naming the types that need changing is Potential approach arriving early, in the section least equipped to mark itself speculative.
+
   - **Where implementation detail is what makes the gap legible it is evidence for the problem, not the problem** — one sentence, then back out.
     The code-level account belongs in What changes on the PR side, which is retrospective and so can't date.
 
-  **What writers drop is the gap itself.**
-  A description of today's behaviour with no statement of what it can't do leaves the reader to infer the problem from the absence of a feature.
+  - **What writers drop is the gap itself.**
+    A description of today's behaviour with no statement of what it can't do leaves the reader to infer the problem from the absence of a feature.
 
 - **Symptoms**
   Observable behaviour, error messages, affected conditions ("multi-writer only", "under chaos monkey testing"), and the repro.
 
-  **It MUST carry the literal strings** — the exact error text, the version, the condition that triggers it.
-  `chalk:issue`'s reader 2 is matching their failure against this section rather than reading it, so this is the one section written for search: `chalk:voice`'s cut-what's-obvious rule does not license paraphrasing an error message, and its mindmap default does not license turning a trace into prose.
+  - **It MUST carry the literal strings** — the exact error text, the version, the condition that triggers it.
+    `chalk:issue`'s reader 2 is matching their failure against this section rather than reading it, so this is the one section written for search.
+
+  - **Neither of `chalk:voice`'s defaults applies here.**
+    Cut-what's-obvious does not license paraphrasing an error message, and the mindmap default does not license turning a trace into prose.
 
 - **Root cause / Analysis**
   The mechanism, grounded in evidence, and **marked speculative until confirmed**.
 
-  **Evidence is annotated in place, never a section of its own**: log excerpts, block-file contents, offset tables and message-type distributions sit next to the claim they support.
-  **Raw material MUST be annotated wherever it appears** — a dump with no statement of what the reader is looking at is noise.
-  Where the bug *is* an ordering, see *Interleavings for sequencing bugs* below.
+  - **Evidence is annotated in place, never a section of its own.**
+    Log excerpts, block-file contents, offset tables and message-type distributions sit next to the claim they support.
+
+  - **Raw material MUST be annotated wherever it appears** — a dump with no statement of what the reader is looking at is noise.
+
+  - **Where the bug *is* an ordering, see *Interleavings for sequencing bugs* below.**
 
 - **Properties of a good solution** — **contested changes only, and never on a bug**: a bug has a correct answer, not a design space.
   The criteria any answer will be judged against.
@@ -150,27 +161,36 @@ It surfaces in three places, and MUST be carried in each.
   Nygard's ADR field: what is different as a result, and now inherited.
 
   - **Risks / constraints** — what we now need to be careful of.
+
   - **Breaking changes** — users with problem A will need to B.
+
   - **Operational** — what is different for whoever is on call: a new failure mode, a metric that now means something else, a thing that fails differently.
+
   - **Gotchas** — Chesterton's fence: **we do it like X because Y**.
     "Be careful of Z" with no reason is an unlabelled fence.
+
   - **Measurements**, where one exists nowhere else — "p99 340ms → 40ms on the 10M-row fixture", "verified the rolling deploy by hand on staging".
     **A test-plan checklist does not belong anywhere in the description** — CI renders it.
     The measurement is what survives.
 
-  **Why not Rust's "Drawbacks":** theirs prices a cost so a reviewer can weigh it before saying yes, and it disappears once the answer is yes.
-  This is a handover section — the cost is already accepted, and the reader needs to know they inherited it.
+  - **Why not Rust's "Drawbacks":** theirs prices a cost so a reviewer can weigh it before saying yes, and it disappears once the answer is yes.
+    This is a handover section — the cost is already accepted, and the reader needs to know they inherited it.
 
 - **Out of scope**
   **Only the counter-intuitive exclusions**: what would a reasonable reader think is in scope here, and isn't?
   A list of corrected expectations, not an inventory of everything adjacent.
 
   - **It carries as much weight as what the change does include**, because a wrong expectation is the one that gets acted on — someone builds on a behaviour that isn't there, or re-opens a decision that was never made.
+
   - **The test is `chalk:voice`'s cut-what's-obvious rule run in the other direction**: cut what a reasonable senior engineer already knows, and *keep* what they would reasonably get wrong.
     An exclusion nobody would have expected here isn't out of scope, it is just absent.
+
   - **Give each entry its reason**, and the issue or PR that picks it up where one exists.
+
   - **Name the rule you split on** (`chalk:voice`) — this is a section where the reader's next question is "is that all of them?", and a missing sibling otherwise looks exactly like no sibling.
+
   - **Rust's "Future possibilities" lands here**: an adjacent thing we deliberately didn't do is out of scope.
+
   - Against the tl;dr's *what it unblocks*: something we chose not to do here is out of scope, where something that couldn't start until this landed is context.
 
 - **Alternative approaches**
@@ -192,6 +212,7 @@ It surfaces in three places, and MUST be carried in each.
 
   - **On an issue** — a to-do with a route to an answer.
     A closed issue still carrying live questions reads as unfinished work, and `chalk:issue`'s reader 3 can't tell that it isn't.
+
   - **On a PR** — what this change did not settle.
     A PR freezes at merge, so it has no mechanism for resolving one: **anything actionable MUST become an issue the PR links**, and what stays is provenance.
     "Nobody measured this" stops the next reader assuming somebody did.
