@@ -69,11 +69,25 @@ This section carries what the rules mean; the `weed-prose` agent carries the phr
 - **You SHOULD use one term for one concept throughout an artefact.**
   Synonym variation costs the reader a re-check every time they have to ask whether you meant something different.
 
-## Followable content MUST be a mindmap: a nested bullet-tree
+## Followable content MUST take one of three forms
 
-A sequence of events, a multi-step rationale, a set of conditions, an interleaving of threads in a race condition, a decision and its grounds.
+A sequence of events, a multi-step rationale, a set of conditions, a race between threads, a decision and its grounds.
 
-Prose MUST be a deliberate exception, never a fallback — reserve it for a causal argument two or three links long, where "because", "so" and "but only when" carry the meaning.
+**Route it by this chain, taking the first that applies:**
+
+- **Concurrent, distributed or multi-actor → it MUST be an interleaving.**
+  **An actor has independent control flow** — a thread, a process, a node, a human.
+  Not an object, a module or a function, or every call chain would owe one.
+
+- **A single chain of cause → it MAY be `A → B → C`.**
+  One thread, one actor, no branch.
+  **`→` MUST mean *therefore* and nothing else**: sequence without causation is a list, and a state change is `:=`.
+
+- **Otherwise → it MUST be a nested bullet-tree**, a mindmap.
+
+**Followable content MUST NOT be written as prose.**
+Test a followable paragraph against the arrow form: where it fits, it is a chain and goes there.
+Where it does not, what stops it fitting is a branch or an enumeration, and either is a tree.
 
 ### The tree is a support structure
 
@@ -99,6 +113,56 @@ Prose MUST be a deliberate exception, never a fallback — reserve it for a caus
 
 - **A citation MUST carry the node's subject line, not the ID alone.**
   The ID is a handle for replying, not a substitute for the content. A reader who cannot see the original — a later artefact, a fresh session, a sitrep picked up after a compaction — gets nothing from "Q1 is still open", and the ID's stability is what makes restating it cheap rather than what excuses omitting it.
+
+### The interleaving
+
+**A trace of one interleaving, in columns: the shared state, then one per actor.**
+
+- **The shared state the actors contend for MUST take the leftmost column.**
+  A row that changes it MUST carry the new state there, and a row that does not MUST leave it blank.
+  Append-only state accumulates, so the column reads downwards as the medium itself — `@20 BlockBoundary(4, b7)`, `@21 NoOp(5)`.
+  Mutable state replaces, so it reads downwards as a timeline — `held(A)`, `free`, `held(B)`.
+
+- **Where the medium addresses its entries, the address MUST sit in that column beside them.**
+  An LSN for anything log-backed, otherwise a sequence number or a lock acquisition.
+  It MUST NOT be wall-clock.
+
+- **Each actor MUST take a column, headed with its identity and its initial state.**
+  `[A] leading at 4`, `[B] following, fence=4`.
+  Its cells carry the local reasoning behind each operation — `poll empty → w`, `5 > 4 → leads@5`.
+
+- **A row MUST hold one operation**, and vertical position carries happens-before.
+
+- **A read MUST cite what it observed** — `r(@20)` against a log, `r(free)` against a lock, `r(x=0)` against a field.
+  A read citing anything but the column's latest is a stale read.
+
+- **A row SHOULD carry a label** — `a1`, `b2`: one letter per actor, then a counter.
+  Prose MUST cite a row by its label rather than paraphrasing it.
+
+- **An outcome block below the trace SHOULD attribute each resulting field to the row that produced it**, with `←`.
+  `termId = 5 ← b4, B's term`, `boundaryReplicaMsgId = 20 ← a1, A's cut`.
+
+- **An actor leaving MUST be a row** — `a3  crash` — changing no shared state.
+
+- **`→` and `:=` MUST keep their meanings inside a cell.**
+  `5 > 4 → admitted` is *therefore*; `fence := 5` is a state change.
+
+A promotion finishing a block the previous leader left open:
+
+```
+      log                      A (leading@4)      B (following, fence=4)
+a1    @20 BlockBoundary(4,b7)  cutting b7 → w
+a2                             writes b7's files
+b1                                                r(@20) → holds b7's boundary
+b2    @21 NoOp(5)                                 poll empty → w
+b3                                                r(@21); 5>4 → leads@5
+b4    @22 BlockUploaded(b7,5)                     produces b7 → w
+a3                             crash
+b5                                                r(@22) → adopts b7
+
+persisted b7:  termId               = 5   ← b4, B's term
+               boundaryReplicaMsgId = 20  ← a1, A's cut
+```
 
 ### Layout
 
