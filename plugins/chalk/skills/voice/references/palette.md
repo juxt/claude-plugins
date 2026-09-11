@@ -90,7 +90,7 @@ It surfaces in three places, and MUST be carried in each.
 
   **Evidence is annotated in place, never a section of its own**: log excerpts, block-file contents, offset tables and message-type distributions sit next to the claim they support.
   **Raw material MUST be annotated wherever it appears** — a dump with no statement of what the reader is looking at is noise.
-  Where the bug *is* an ordering, see *Annotated traces* below.
+  Where the bug *is* an ordering, see *Interleavings for sequencing bugs* below.
 
 - **Properties of a good solution** — **contested changes only, and never on a bug**: a bug has a correct answer, not a design space.
   The criteria any answer will be judged against. Unnecessary where the change is uncontroversial.
@@ -187,23 +187,15 @@ It surfaces in three places, and MUST be carried in each.
   - **On a PR** — what this change did not settle.
     A PR freezes at merge, so it has no mechanism for resolving one: **anything actionable MUST become an issue the PR links**, and what stays is provenance. "Nobody measured this" stops the next reader assuming somebody did.
 
-## Annotated traces for sequencing bugs
+## Interleavings for sequencing bugs
 
-When the bug *is* an ordering — a race, a leadership transition, a distributed-log divergence — the explanation **is** the sequence of events.
-Prose describing that sequence is much harder to follow than the sequence itself; a raw log dump is the opposite failure — all the data, none of the causality, so it reads as noise.
+Where the bug *is* an ordering — a race, a leadership transition, a distributed-log divergence — the trace goes inside Root cause.
+**Its form is the interleaving in `chalk:voice`**, which the routing chain there already requires of anything multi-actor.
 
-Reconstruct a chronological trace and annotate it.
-Name the actors (`[A]`/`[B]`, leader/follower) rather than "the node".
-Show the load-bearing state inline as it changes, mark the point where things diverge, and end at the failure.
-Distil from a real trace (a captured log, a debugger session) down to the events that carry the causality; drop everything else.
+- **It MUST be distilled from a real trace** — a captured log, a debugger session — down to the rows that carry the causality.
+  A sequence reconstructed from reasoning asserts an ordering nobody observed.
 
-```
-TERM 1 — node A is leader:
-  leader ← source 0..4             [A] watermark → 4   (local, NOT replicated)
-  leader → replica: ResolvedTx     [B] follower stays at -1   ← B never sees A's progress
+- **Everything that does not carry the causality MUST be dropped.**
+  A raw dump holds all the data and none of the causality, which is the opposite failure to prose and reads as noise.
 
-FLIP: A → follower (keeps src=4),  B → leader
-  B resumes from -1 (its own stale watermark) → re-reads source 0 → emits BlockBoundary(src=0)
-
-FAILURE — follower A applies it:   notifyMsg(0) while watermark=4   →   0 < 4, throws
-```
+- **It MUST end at the failure**, or, where the bug is latent, at the state that makes the failure reachable.
