@@ -41,6 +41,8 @@ You MUST load these skills first:
    - **Its Misfiled list is input to Draft the body** — a comment deleted for being design rationale is rationale the body now has to carry.
    - Where a comment survives, its **Kept** line names the misunderstanding it prevents; that belongs in neither the body nor the code.
    - **Its Dissolvable list goes to the user, not into the commit.** A rename or a simplification is a code change, and staging one here would break the atomicity the step above just established.
+   - **Its References list is yours to settle before you commit**, because it is the half of the job its blindness costs it.
+     A quoted reference you check against the card — a comment citing an issue that says something else is worse than no comment. A comment it flags as wanting one you supply the number for, where the work behind it was carded; you are the only party who knows whether it was.
 
 3. **Review the conversation history** to extract the reasoning behind the change.
 

@@ -105,7 +105,7 @@ A yes is necessary, not sufficient: the comment MUST still pass the test below.
 **Where the code is as it is because of a bug or a performance problem that was carded, or a PR whose description set out the rationale, the comment MUST carry that number.**
 
 - **The reference is worth more than anything that fits on the line.**
-  It gives the reader the reproduction, the measurements, the discussion, the related cards and the history — and, crucially, whether any of it is still true.
+  It gives the reader the reproduction, the measurements, the discussion, the related cards and the history — and whether any of it is still true.
 
 - **It replaces the explanation rather than accompanying it.**
   One clause naming what breaks, then the reference: `// serialised — a concurrent flush corrupts the index (#4821)`.
