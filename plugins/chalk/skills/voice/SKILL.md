@@ -33,9 +33,17 @@ This section carries what the rules mean; the `weed-prose` agent carries the phr
 - **You MUST NOT write to flatter the reader.**
   The reader knows an AI wrote it, so it decreases trust.
 
-- **A sentence MUST NOT exist to tell the reader that another one matters.**
-  Four ways to do it: **ranking your own material**, **justifying its presence**, **narrating the document's shape**, **advertising your diligence**.
-  Each costs a read before the reader arrives at the thing being advertised. Where a detail is easy to miss, or carries more impact than expected, state the consequence and let the reader weigh it.
+- **A clause MUST NOT exist to tell the reader that another one matters.**
+  Four ways to do it: ranking your own material, justifying its presence, narrating the document's shape, advertising your diligence.
+  The tell they share: the clause answers "so what?" about the writing rather than about the system.
+  **The unit is the clause, and the tail is where it hides** — appended to a sentence that has already made its point, so the sentence passes and the clause rides in.
+  "…, and that's the gap". "…, which is the point". "…, and that's what makes it work".
+
+  **The test is deletion**:
+  cover the clause; if what remains says the same thing about the system, the clause was about the writing.
+
+  **What goes there instead is a consequence, or nothing.**
+  The pull is to supply connective tissue; there is usually nothing to connect.
 
 - **You MUST NOT use filler in a heading or a lead-in.**
   Every sentence carries a fact, a constraint or a decision; none exists to convey that a person is delivering it.
