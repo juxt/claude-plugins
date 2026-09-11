@@ -33,9 +33,26 @@ This section carries what the rules mean; the `weed-prose` agent carries the phr
 - **You MUST NOT write to flatter the reader.**
   The reader knows an AI wrote it, so it decreases trust.
 
-- **A sentence MUST NOT exist to tell the reader that another one matters.**
-  Four ways to do it: **ranking your own material**, **justifying its presence**, **narrating the document's shape**, **advertising your diligence**.
-  Each costs a read before the reader arrives at the thing being advertised. Where a detail is easy to miss, or carries more impact than expected, state the consequence and let the reader weigh it.
+- **You MUST NOT defend a decision the reader has not questioned.**
+  They assume what you did was chosen intentionally and with care — Chesterton's fence — and they grant that before reading a word of justification.
+  **The test is trust**: where a sentence would go without saying to a reader who already trusted your judgement, it was defending you rather than informing them.
+
+  - **What they can't supply for themselves is the constraint.**
+    Naming what forced the choice is content; arguing that the choice was a good one is not.
+
+- **A clause MUST NOT exist to tell the reader that another one matters.**
+  Four ways to do it: ranking your own material, justifying its presence, narrating the document's shape, advertising your diligence.
+  The tell they share: the clause answers "so what?" about the writing rather than about the system.
+
+  - **The unit is the clause, and the tail is where it hides.**
+    Appended to a sentence that has already made its point, so the sentence passes and the clause rides in.
+    "…, and that's the gap". "…, which is the point". "…, and that's what makes it work".
+
+  - **The test is deletion.**
+    Cover the clause; if what remains says the same thing about the system, the clause was about the writing.
+
+  - **What goes there instead is a consequence, or nothing.**
+    The pull is to supply connective tissue; there is usually nothing to connect.
 
 - **You MUST NOT use filler in a heading or a lead-in.**
   Every sentence carries a fact, a constraint or a decision; none exists to convey that a person is delivering it.
@@ -56,26 +73,54 @@ This section carries what the rules mean; the `weed-prose` agent carries the phr
 ### Word choice costs the reader a re-read
 
 - **You SHOULD use technically precise terms rather than a restricted vocabulary.**
-  "Sufficient" and "necessary" each carry an exact meaning that a paraphrase spends a clause on and still blurs, so **precision beats simplicity where the two conflict**: what gets cut is the decorative metaphor, not the exact term.
+  "Sufficient" and "necessary" each carry an exact meaning that a paraphrase spends a clause on and still blurs.
+
+  - **Precision beats simplicity where the two conflict.**
+    What gets cut is the decorative metaphor, not the exact term.
 
 - **You SHOULD use one term for one concept throughout an artefact.**
   Synonym variation costs the reader a re-check every time they have to ask whether you meant something different.
 
-## Followable content MUST be a mindmap: a nested bullet-tree
+## Followable content MUST take one of three forms
 
-A sequence of events, a multi-step rationale, a set of conditions, an interleaving of threads in a race condition, a decision and its grounds.
+A sequence of events, a multi-step rationale, a set of conditions, a race between threads, a decision and its grounds.
 
-Prose MUST be a deliberate exception, never a fallback — reserve it for a causal argument two or three links long, where "because", "so" and "but only when" carry the meaning.
+**Route it by this chain, taking the first that applies:**
+
+- **Concurrent, distributed or multi-actor → it MUST be an interleaving.**
+  **An actor has independent control flow** — a thread, a process, a node, a human.
+  Not an object, a module or a function, or every call chain would owe one.
+
+- **A single chain of cause → it MAY be `A → B → C`.**
+  One thread, one actor, no branch.
+  **`→` MUST mean *therefore* and nothing else**: sequence without causation is a list, and a state change is `:=`.
+
+- **Otherwise → it MUST be a nested bullet-tree**, a mindmap.
+
+**Followable content MUST NOT be written as prose.**
+Test a followable paragraph against the arrow form: where it fits, it is a chain and goes there.
+Where it does not, what stops it fitting is a branch or an enumeration, and either is a tree.
 
 ### The tree is a support structure
 
 - **Every parent MUST be a claim that its direct children back up.**
   Read downwards it is a summary that expands on demand; read upwards it is an argument.
-  **A list whose items are merely *related* to their parent is not a mindmap** — the reader gets no argument out of it, and you MUST restructure it.
 
-- **Reading only the subject line of each bullet MUST be sufficient to follow the whole argument.**
-  The elaboration beneath it is an optional read and MUST NOT be load-bearing.
-  Where the point only lands three sentences in, rewrite the subject line rather than expanding it.
+  - **A list whose items are merely *related* to their parent is not a mindmap.**
+    The reader gets no argument out of it, and you MUST restructure it.
+
+- **A bullet's subject line MUST be sufficient for the reader to decide whether to read what is under it to achieve their goal.**
+  It is a routing label rather than a summary, and the reader's current goal is what decides whether they need the contents.
+
+  - **A subject stating a claim can be checked against a goal; one naming a topic cannot.**
+    "Background", "Notes", "Details" leave the reader nothing to decide on.
+
+  - **An elaboration MUST NOT carry a claim its subject does not reach.**
+    A reader who skips on the strength of the subject misses it silently.
+    What stays is the same claim in other terms, an example, a consequence, or the mechanism.
+    **The test is whether the sentence could carry a subject line of its own**: where it could, it is a child.
+
+  - **Where the point only lands three sentences in, rewrite the subject line** rather than expanding it.
 
 - **Where a node's children aren't obviously exhaustive, name the rule you split on** — one per subsystem, one per failure mode, one per call site.
   A missing sibling otherwise looks exactly like no sibling.
@@ -87,45 +132,110 @@ Prose MUST be a deliberate exception, never a fallback — reserve it for a caus
 
 - **Nodes a reader might want to reply to SHOULD have a typed ID**, prefixing the subject line.
   'D1' for a decision, 'Q1' for a question, 'I1' for an idea, 'D2.1' for its first child.
-  IDs beat numbered lists, which renumber silently when a sibling is inserted, and **a published ID MUST be stable** — reuse it rather than minting a second one for the same node.
+  IDs beat numbered lists, which renumber silently when a sibling is inserted.
+
+  - **A published ID MUST be stable.**
+    Reuse it rather than minting a second one for the same node.
 
 - **A citation MUST carry the node's subject line, not the ID alone.**
-  The ID is a handle for replying, not a substitute for the content. A reader who cannot see the original — a later artefact, a fresh session, a sitrep picked up after a compaction — gets nothing from "Q1 is still open", and the ID's stability is what makes restating it cheap rather than what excuses omitting it.
+  The ID is a handle for replying, not a substitute for the content.
+
+  - **A reader who cannot see the original gets nothing from "Q1 is still open"** — a later artefact, a fresh session, a sitrep picked up after a compaction.
+
+  - **The ID's stability is what makes restating it cheap**, not what excuses omitting it.
+
+### The interleaving
+
+**A trace of one interleaving, in columns: the shared state, then one per actor.**
+
+- **The shared state the actors contend for MUST take the leftmost column.**
+  A row that changes it MUST carry the new state there, and a row that does not MUST leave it blank.
+
+  - **Append-only state accumulates**, so the column reads downwards as the medium itself — `@20 BlockBoundary(4, b7)`, `@21 NoOp(5)`.
+
+  - **Mutable state replaces**, so it reads downwards as a timeline — `held(A)`, `free`, `held(B)`.
+
+- **Where the medium addresses its entries, the address MUST sit in that column beside them.**
+  An LSN for anything log-backed, otherwise a sequence number or a lock acquisition.
+  It MUST NOT be wall-clock.
+
+- **Each actor MUST take a column, headed with its identity and its initial state.**
+  `[A] leading at 4`, `[B] following, fence=4`.
+  Its cells carry the local reasoning behind each operation — `poll empty → w`, `5 > 4 → leads@5`.
+
+- **A row MUST hold one operation**, and vertical position carries happens-before.
+
+- **A read MUST cite what it observed** — `r(@20)` against a log, `r(free)` against a lock, `r(x=0)` against a field.
+  A read citing anything but the column's latest is a stale read.
+
+- **A row SHOULD carry a label** — `a1`, `b2`: one letter per actor, then a counter.
+  Prose MUST cite a row by its label rather than paraphrasing it.
+
+- **An outcome block below the trace SHOULD attribute each resulting field to the row that produced it**, with `←`.
+  `termId = 5 ← b4, B's term`, `boundaryReplicaMsgId = 20 ← a1, A's cut`.
+
+- **An actor leaving MUST be a row** — `a3  crash` — changing no shared state.
+
+- **`→` and `:=` MUST keep their meanings inside a cell.**
+  `5 > 4 → admitted` is *therefore*; `fence := 5` is a state change.
+
+A promotion finishing a block the previous leader left open:
+
+```
+      log                      A (leading@4)      B (following, fence=4)
+a1    @20 BlockBoundary(4,b7)  cutting b7 → w
+a2                             writes b7's files
+b1                                                r(@20) → holds b7's boundary
+b2    @21 NoOp(5)                                 poll empty → w
+b3                                                r(@21); 5>4 → leads@5
+b4    @22 BlockUploaded(b7,5)                     produces b7 → w
+a3                             crash
+b5                                                r(@22) → adopts b7
+
+persisted b7:  termId               = 5   ← b4, B's term
+               boundaryReplicaMsgId = 20  ← a1, A's cut
+```
 
 ### Layout
 
 **The destination decides the line format: paragraph-per-line where the artefact is read rendered, sentence-per-line where it's reviewed as a diff.**
 
 - **Paragraph-per-line** — commit bodies, issue and PR descriptions, chat.
-  A single newline renders as `<br>` on those destinations, so sentence-per-line fragments into staccato. Put each paragraph on one line, separate paragraphs with a blank line, and let the rendering wrap.
+  A single newline renders as `<br>` on those destinations, so sentence-per-line fragments into staccato.
+  Put each paragraph on one line, separate paragraphs with a blank line, and let the rendering wrap.
 
 - **Sentence-per-line** — in-repo dev documentation, code comments, per [Semantic Line Breaks](https://sembr.org): break at sentence and clause boundaries.
 
 - **Whichever applies, it applies inside a bullet too**, which is where it is most often forgotten.
 
 - **You MUST give the subject its own line**, with any elaboration indented to line up under its first character — two spaces under a top-level bullet, four under a nested one.
-  **You MUST bold the load-bearing words in the subject**, so the tree is graspable from the bold alone.
-  On a paragraph-per-line destination the break after the subject is the one exception to the line-format rule; the elaboration itself stays on one line however long it runs.
+
+  - **You MUST bold the load-bearing words in the subject**, so the tree is graspable from the bold alone.
+
+  - **On a paragraph-per-line destination the break after the subject is the one exception to the line-format rule.**
+    The elaboration itself stays on one line however long it runs.
 
 - **You MUST separate sibling bullets with a blank line, and MUST NOT leave one after the subject.**
-  The elaboration starts on the line immediately below its subject, so the two read as a single block and the blank line falls between blocks. This holds on every destination.
+  The elaboration starts on the line immediately below its subject, so the two read as a single block and the blank line falls between blocks.
+  This holds on every destination.
 
   - **Exception: a destination rendered as plain CommonMark needs a blank line after the subject too.**
     A single newline is a *soft* break there — it collapses to a space, so the subject and its elaboration merge onto one line and the bold subject stops reading as a subject.
     That is an `.md` file rendered on github.com or by a docs site.
+
   - **A GitHub comment field is not that case.**
     Issue bodies, PR descriptions and comments render a single newline as `<br>`, which is why the rule above holds there unchanged.
 
 ## tl;dr
 
-**A tl;dr is a mindmap at takeaway grain**: one top-level bullet per takeaway, children backing it up, optionally after a single summary sentence.
-A flat row of one-liners is the failure mode, and the one that looks finished.
+- **A tl;dr is a mindmap at takeaway grain**: one top-level bullet per takeaway, children backing it up, optionally after a single summary sentence.
+  A flat row of one-liners is the failure mode, and the one that looks finished.
 
-**It summarises the artefact for its reader, not the session for its author**, and MUST be readable by someone who did not see the session, the branch or the prior state.
-Provenance goes down into the body, where whoever wants it will find it.
+- **It summarises the artefact for its reader, not the session for its author**, and MUST be readable by someone who did not see the session, the branch or the prior state.
+  Provenance goes down into the body, where whoever wants it will find it.
 
-**It goes at the top by default**, under its own heading.
-A destination MAY override the placement, and whether one appears at all, by saying so itself — but neither of the two rules above is overridable.
+- **It goes at the top by default**, under its own heading.
+  A destination MAY override the placement, and whether one appears at all, by saying so itself — but neither of the two rules above is overridable.
 
 ## References
 
