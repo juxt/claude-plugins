@@ -146,9 +146,11 @@ What each clause rules out:
 - **"in a year", "did not read the commit"** — they have no referent for the change.
 
   "Now we…", "instead of…", "this handles the case we hit" say nothing to them.
+
 - **"a different bug"** — they want one fact and they're leaving.
 
   Orientation, summary and section-label comments cost them and give nothing.
+
 - **"this line and the twenty around it"** — nothing that depends on reading elsewhere.
 
   No "phase 2 of teardown".
@@ -210,12 +212,15 @@ Per comment in the diff:
 - **Most comments are one line and stay one line.**
 
   `// volatile — reads race with the flush thread` doesn't want a bullet.
+
 - **A comment with real structure takes a mindmap** (`chalk:voice`), at a higher threshold than prose.
 
   The threshold is higher because the reader is mid-investigation of something else: a comment they must page in wholesale to discover it was irrelevant has cost them more than it can repay.
   More than two or three sentences, or an enumeration the reader has to work through.
+
 - **Match the markup to what the language's tooling renders.**
 
   KDoc, Javadoc and docstrings are rendered, so bullets and emphasis land as intended. 
   **A comment read raw takes plain `-` and indentation after the comment marker, and MUST NOT use bold.**
+
 - **Sentence-per-line**, per `chalk:voice`, perhaps contrary to column limits - diffs containing the comment will then be shorter and easier to read.

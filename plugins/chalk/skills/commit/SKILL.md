@@ -18,6 +18,7 @@ A commit body is an **explanation** artefact and MUST be drafted in the chalk vo
 You MUST load these skills first:
 
 - **`chalk:voice`** — the audience, the specification register, the mindmap structure, the line-format rule.
+
 - **`chalk:code-comments`** — the body is where a comment's design rationale belongs, so this is the moment the misfiled ones surface.
 
 ## Your responsibilities
@@ -27,7 +28,9 @@ You MUST load these skills first:
    **Each commit MUST be an atomic, cohesive unit of change** — a transition from one valid state to another — and **unrelated changes MUST NOT be staged together**.
 
    - If two changes don't make sense independently, they're one commit; if they're distinct, they're two.
+
    - Keep unrelated bugfixes separate.
+
    - Where reasonable, separate behaviour-preserving changes (refactorings) from behaviour-advancing ones.
 
 2. **Weed the staged comments.**
@@ -37,11 +40,15 @@ You MUST load these skills first:
    - **You MUST NOT tell it what the change is for.** Not the issue, not the problem, not what you decided. 
 
      It stands in for a reader who has none of that, and briefing it makes it a second opinion from your own context rather than a first opinion from the reader's.
+
    - **Its deletions apply.** They land in the working tree and you stage them; you do not review them back into place. 
 
      The user sees them in the commit diff, which is the human review point.
+
    - **Its Misfiled list is input to Draft the body** — a comment deleted for being design rationale is rationale the body now has to carry.
+
    - Where a comment survives, its **Kept** line names the misunderstanding it prevents; that belongs in neither the body nor the code.
+
    - **Its Dissolvable list goes to the user, not into the commit.** A rename or a simplification is a code change, and staging one here would break the atomicity the step above just established.
 
 3. **Review the conversation history** to extract the reasoning behind the change.
@@ -50,6 +57,7 @@ You MUST load these skills first:
    They won't care about the journey — they need *why* this change exists and *why* it was done this way.
 
    - **Why this** — what problem it solves, what it unblocks, what constraint drove it.
+
    - **Why now** — what prompted it today: a deadline, a dependent piece of work, a recent incident, someone else blocked on it.
 
    **Ask rather than guess**, and treat "I can reconstruct it" as the answer that needs checking — that judgement is made by the context that just built the *why*, so it always comes back confident. **Where a *why now* isn't traceable to something the user said, a commit or a file you can name, you don't have it.**
@@ -75,6 +83,7 @@ You MUST load these skills first:
    **What to omit:** 
 
    - anything self-evident from the diff, the code or the linked issue;
+
    - play-by-play of mechanical steps ("then I ran the tests"); the journey of how you got there.
 
      Not this (mechanical play-by-play):
@@ -139,4 +148,5 @@ You MUST load these skills first:
 ### Issue references
 
 - **Resolves the issue** — suffix the subject with `(resolves #N)`.
+
 - **An iteration towards it** — suffix with `(#N)`.

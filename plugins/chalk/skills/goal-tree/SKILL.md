@@ -38,9 +38,11 @@ Not "do these look related to the parent?" but "do these, **plus what we already
 **A leaf MUST declare which kind it is wherever that isn't obvious.**
 
 - **Something we do.**
+
 - **Something expected of someone or something else**
 
   The user, CI, another team, an upstream library, existing behaviour.
+
 - **A plain fact about the world** we're relying on.
 
 **An expectation of someone else MUST NOT be written as though it were our own task**.
@@ -56,12 +58,19 @@ A leaf can be both — a verified fact about an upstream library is still someon
 **Closing a gap MUST be a deliberate choice from these named moves**, rather than reflexively adding a task:
 
 - **Achieve the parent a different way.**
+
 - **Reassign it** to someone or something that won't fail like that.
+
 - **Add a step that prevents it.**
+
 - **Make it less likely** without eliminating it.
+
 - **Let it happen and recover afterwards.**
+
 - **Let it happen and limit the damage.**
+
 - **Weaken the goal** so the gap no longer matters.
+
 - **Accept the risk** and move on.
 
 **"Weaken the goal" and "accept the risk" are real answers, and both MUST be recorded** in **Out of scope** or **Alternative approaches** — they are the two moves that leave no trace in the tree itself.

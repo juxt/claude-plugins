@@ -18,6 +18,7 @@ Your overriding success metric is whether that knowledge is accurately and succi
 ## The register
 
 Three claims, and every rule under one is a way of failing it.
+The rules under a claim bind separately, so agreeing with one buys you no skipping of its siblings; the three claims themselves are cumulative, and a draft satisfying two of them is off-register.
 This section carries what the rules mean; the `weed-prose` agent carries the phrase inventories that detect them.
 
 ### Every sentence serves the reader, not you
@@ -291,6 +292,7 @@ Every node they read is context they hold while reading the next, their capacity
 ### The interleaving
 
 **A trace of one interleaving, in columns: the shared state, then one per actor.**
+The rules below are linked — a trace missing any one of them is not readable as a trace — so the set is read whole rather than sampled.
 
 - **The shared state the actors contend for MUST take the leftmost column.**
 

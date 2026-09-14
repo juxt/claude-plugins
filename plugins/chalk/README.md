@@ -14,13 +14,17 @@ Chalk puts it in the artefacts you already have, each carrying the part it's the
 ## The Intent Stack
 
 - **Issues** (`/chalk:issue`): file an issue whose description captures the problem, the evidence, and *why now* — enough that a reader can assess it without asking you. Also keeps an existing description accurate as the facts change.
+
 - **Commits** (`/chalk:commit`): create commits with contextual bodies that explain the *why*, referencing the issue where there is one.
+
 - **Pull requests** (`/chalk:pr`): create PRs with descriptions that capture the problem, the approach, key decisions, and scope boundaries. Delegates to the github agent for the actual creation.
 
 Each is written for a different reader, and that's what keeps them from duplicating each other:
 
 - The **issue** is what you read to decide whether to pick the work up.
+
 - The **PR** is what you read to understand why the change was made the way it was, taken across the whole branch.
+
 - The **commit** is what you read when `git blame` drops you on one specific line.
 
 ## Installation
@@ -42,21 +46,33 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 ## Usage
 
 - `/chalk:issue [title]` — file an issue, or update an existing issue's description
+
 - `/chalk:commit <headline>` — create a contextual commit
+
 - `/chalk:pr [title]` — create a PR with an intent-driven description
+
 - `/chalk:sitrep [focus]` — report where the session has got to, and what's still open
 
 ## Components
 
 - **Skill** (`issue`): Problem-focused issue descriptions, and keeping them accurate
+
 - **Skill** (`commit`): Contextual commits that capture the why
+
 - **Skill** (`pr`): Pull requests with intent-driven descriptions
+
 - **Skill** (`sitrep`): Where the session has got to — what landed, and what's still open as ID'd ideas, decisions and questions
+
 - **Skill** (`voice`): The shared writing voice — the audience, the specification register, the mindmap structure two propositions in a relation take, the line-format rule. `references/palette.md` carries the issue/PR section palette.
+
 - **Skill** (`goal-tree`): Goal trees, where children accomplish their parent rather than argue for it, and each node is tested for sufficiency
+
 - **Skill** (`code-comments`): The default is no comment — what earns an exception, what dissolves one, and what to delete. Load it early in a session that touches code, and again when reviewing a diff
+
 - **Agent** (`github`): Handles all GitHub API interaction, keeping the main context clean
+
 - **Agent** (`weed-comments`): Deletes code comments that don't earn their place, arriving without the context that wrote them
+
 - **Agent** (`weed-prose`): Reviews a drafted commit body or PR description as its pinned reader would, cutting what that reader already holds
 
 The writing skills are loaded by the others rather than run directly.

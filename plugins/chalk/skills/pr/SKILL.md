@@ -18,6 +18,7 @@ Unlike an issue, it has no mechanism for resolving what it doesn't yet know, so 
 ## Your readers
 
 `chalk:voice` says who they are; here they are doing one of two things, and **neither of them is a gate**.
+Any one reader is doing one of the two; you are writing for both at once, so the description MUST serve each and satisfying one is not a licence to drop the other.
 A PR does get approved, but the approver is not who you write for: they hold the diff, so argument where they could just look reads as something you couldn't show.
 
 - **Reader 1 is a peer updating their mental model**, now.
@@ -45,6 +46,7 @@ A PR does get approved, but the approver is not who you write for: they hold the
   It inserts the problem sections, and only those: the rest of the issue side is design-space or forward-looking material, and a PR is retrospective.
 
   - **fixing a bug** — **tl;dr → Symptoms → Root cause → What changes → Usage / migration → Consequences → Alternative approaches (optional) → Open questions**
+
   - **adding a feature** — **tl;dr → Problem → What changes → Usage / migration → Consequences → Out of scope → Alternative approaches → Open questions**
 
 Each section's content is in the palette, and not every change needs every section — but where a section appears, this is its position.
@@ -55,6 +57,7 @@ A PR description is an **explanation** artefact, and it MUST be drafted against 
 Load, via the Skill tool:
 
 - **`chalk:voice`** — the register, the audience, the mindmap shape, the line-format rule.
+
 - **`chalk:voice`'s `references/palette.md`** — the sections on your path. Not every change needs every section.
 
 **Write each section as a mindmap** — a short tl;dr opening it, then the tree.
@@ -67,8 +70,11 @@ The first `##` in the body is the section after it.
 ## Gather the context
 
 - Review the commits on this branch — all of them, not just the latest.
+
 - Review the conversation history for context that isn't in the commits.
+
 - Where there is a linked issue, read its description and comments via the github agent.
+
 - Identify the base branch.
 
 **Correct the issue before opening the PR** where the work contradicted something it asserted.
@@ -114,12 +120,15 @@ It MUST be the body exactly as GitHub holds it (`gh issue view <n> --json body -
 - **You MUST NOT give it the session or the branch's commit bodies.**
 
   It holds the branch diff and the linked issue — what the later reader can reach, and nothing they can't.
+
 - **Passing the issue is what lets it cut duplication.**
 
   Without the issue, repeated problem context reads as necessary; with it, the cut is obvious and the link does the work.
+
 - **Where there is no linked issue, say so.**
 
   It will otherwise strip the problem context a standalone PR is required to carry, and it checks the first line for what, why and why now instead.
+
 - **Its cuts apply; its Gaps are questions for you**, and it MUST NOT invent an answer to one.
 
 **Put the gaps to the user.**
@@ -134,8 +143,11 @@ Not "ask if you're unsure" — that judgement is made by the context that just s
 
   You MUST NOT judge your own redraft — the agent that raised the gap is the one that closes it.
   Loop until it reports no blocking gaps.
+
 - **Relay each question as written.** Composing your own is where the ask gets dropped.
+
 - **A `blocking` gap — a missing *why now*, or a standalone PR whose first line doesn't state what, why and why now — MUST be resolved before you open the PR.**
+
 - **Answer from the branch where the branch genuinely has it**, naming the commit you are drawing on so the user can correct you. Where it doesn't, ask.
 
 ## Opening it
@@ -143,8 +155,11 @@ Not "ask if you're unsure" — that judgement is made by the context that just s
 **Delegate to the chalk github agent.**
 
 - Push the branch if needed.
+
 - Pass the title and the fully-drafted description, ready to post verbatim.
+
 - Pass any project-specific PR conventions in your context verbatim — default reviewers, labels, base branch, draft status, project boards — and let the agent apply them alongside its own defaults.
 
   They typically live in the project's `CLAUDE.md` or in explicit user instructions for this session.
+
 - The agent assigns the current user by default. Tell it to skip assignment only if the user has asked you to.

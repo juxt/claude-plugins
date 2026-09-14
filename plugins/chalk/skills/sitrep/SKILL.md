@@ -20,6 +20,7 @@ It is the state the session has reached, and what still needs a decision.
 ## Before you write
 
 - **Load `chalk:voice`** — the register, every parent a claim its children back up, and the typed-ID scheme the Open section runs on.
+
 - **Its register applies; its palette doesn't.**
 
   A sitrep is a terminal reply, not a GitHub artefact: no sections drawn from the palette, and no self-ranking, no smoke, no mea culpas.
@@ -48,9 +49,11 @@ The reader is reorienting, so they take subject lines and stop: each MUST be agr
 No IDs here — Done is not up for reply, and IDs on it are noise.
 
 - **Landed means verified**, not attempted: the file is written, the test passed, the commit exists.
+
 - **Tag anything claimed but unchecked with `unverified:`** rather than promoting or dropping it.
 
   A test that was written but never run is a real result and a real caveat; both belong on the line.
+
 - **Something discussed but not built is not Done** — it is an idea, and belongs in Open.
 
 ## Section 2: Open
@@ -59,7 +62,9 @@ No IDs here — Done is not up for reply, and IDs on it are noise.
 This is the section that earns the sitrep — answering by reference is how the user will reply.
 
 - **`I<n>` — idea**: raised, not adopted. Nobody is committed to it.
+
 - **`D<n>` — decision**: a fork the work is standing at. Say what the options are and which way you lean, per the voting scale.
+
 - **`Q<n>` — question**: needs the user's answer, and the work is blocked or guessing without it.
 
 Per item, children say **why it is still open and what would settle it** — the missing fact, the answer needed, the experiment to run.
@@ -72,10 +77,13 @@ Where an item blocks something in flight, say which.
 - **A carried-over item is restated in full, never referenced by ID alone.**
 
   A sitrep is most often read after a compaction or a break, which is exactly when the earlier reply that introduced `Q2` is no longer on screen. Every live item gets its subject line in every sitrep that carries it.
+
 - **Newly-raised items take the next free number**, never a recycled one.
+
 - **A closed item drops out silently.**
 
   Don't keep a struck-through graveyard; if resolving it changed the state, that shows up in Done.
+
 - **Nothing open is a legitimate result.**
 
   Say so in one line and stop. Manufacturing open questions to fill the section is the main way this skill goes wrong — it hands the user work that does not exist and buries the items that are real.
@@ -93,6 +101,7 @@ The placement is the only thing this overrides.
 - **Readable cold still binds, and it's the one voice rule chat otherwise relaxes.**
 
   Someone who did not see the session should get where the work stands and what it is waiting on.
+
 - **Where there is an obvious next move, it is the last bullet.**
 
   Where there isn't, don't invent one.
@@ -121,5 +130,7 @@ A sitrep is chat: it survives until the terminal is closed.
 - **Summarise at the altitude of the work, not the tool calls.**
 
   "Reworked the retry path to back off on 429s" — not the six edits that got there.
+
 - **Drop dead ends** unless the reason they failed constrains what comes next, in which case that constraint is the point and the attempt is the elaboration.
+
 - **Don't recap the user's own instructions back to them.**
