@@ -21,6 +21,7 @@ It is the state the session has reached, and what still needs a decision.
 
 - **Load `chalk:voice`** — the register, every parent a claim its children back up, and the typed-ID scheme the Open section runs on.
 - **Its register applies; its palette doesn't.**
+
   A sitrep is a terminal reply, not a GitHub artefact: no sections drawn from the palette, and no self-ranking, no smoke, no mea culpas.
 
 ## Ground the report before writing it
@@ -29,12 +30,15 @@ It is the state the session has reached, and what still needs a decision.
 The transcript records what was attempted; the repo records what happened.
 
 - **Check the working tree** — `git status`, `git diff --stat`, and `git log` back to where the session started.
+
   This is what settles the Done/Open boundary for anything touching code.
 
 - **Re-read the artefacts the session claims to have produced** where cheap — the file, the issue, the PR body.
+
   A file written three edits ago may not say what the session thinks it says.
 
 - **Say so if the context was compacted.**
+
   One line, at the top: the earlier part of the session is a summary, so coverage before that point is partial. The reader needs to know which half of the report is first-hand.
 
 ## Section 1: Done
@@ -45,6 +49,7 @@ No IDs here — Done is not up for reply, and IDs on it are noise.
 
 - **Landed means verified**, not attempted: the file is written, the test passed, the commit exists.
 - **Tag anything claimed but unchecked with `unverified:`** rather than promoting or dropping it.
+
   A test that was written but never run is a real result and a real caveat; both belong on the line.
 - **Something discussed but not built is not Done** — it is an idea, and belongs in Open.
 
@@ -61,14 +66,18 @@ Per item, children say **why it is still open and what would settle it** — the
 Where an item blocks something in flight, say which.
 
 - **An ID's scope is the session, not the sitrep.**
+
   `chalk:voice` requires a published ID to be stable; here that means `Q2` stays `Q2` across every sitrep in the session, even once `Q1` is closed. Renumbering breaks every reference the user has already made, including in their own notes.
 
 - **A carried-over item is restated in full, never referenced by ID alone.**
+
   A sitrep is most often read after a compaction or a break, which is exactly when the earlier reply that introduced `Q2` is no longer on screen. Every live item gets its subject line in every sitrep that carries it.
 - **Newly-raised items take the next free number**, never a recycled one.
 - **A closed item drops out silently.**
+
   Don't keep a struck-through graveyard; if resolving it changed the state, that shows up in Done.
 - **Nothing open is a legitimate result.**
+
   Say so in one line and stop. Manufacturing open questions to fill the section is the main way this skill goes wrong — it hands the user work that does not exist and buries the items that are real.
 
 ## Section 3: tl;dr
@@ -78,11 +87,14 @@ A terminal scrolls upward, so in a chat reply the last thing written is the firs
 The placement is the only thing this overrides.
 
 - **It MUST carry a `tl;dr` heading**, which is the displaced case `chalk:voice` names rather than a second override.
+
   Voice drops the heading where the tl;dr opens the artefact, because the position is what marks it; here Done and Open hold that position, so without a heading the summary reads as a third section of the report.
 
 - **Readable cold still binds, and it's the one voice rule chat otherwise relaxes.**
+
   Someone who did not see the session should get where the work stands and what it is waiting on.
 - **Where there is an obvious next move, it is the last bullet.**
+
   Where there isn't, don't invent one.
 
 ## When the work has an issue or an open PR
@@ -91,12 +103,15 @@ The placement is the only thing this overrides.
 A sitrep is chat: it survives until the terminal is closed.
 
 - **Read them before writing.**
+
   The issue description states the problem as it currently stands; the PR states what landed. A Done item that contradicts either is worth catching before you report it.
 
 - **Nothing in a sitrep should be material that isn't already in one of them, or on its way there.**
+
   A sitrep is a view over durable artefacts, not a third place state lives. Where it turns out to be the only place something is written down, that's the finding — say so.
 
 - **Offer to write an Open item up where it would outlive the session.**
+
   An unresolved `Q` goes to the **Open questions** section of whichever artefact owns it — the issue for the problem or the direction, the PR for the change that landed — via `chalk:issue` or `chalk:pr`. Offer, don't do it unasked: a sitrep is a read.
 
 ## Cut hard
@@ -104,6 +119,7 @@ A sitrep is chat: it survives until the terminal is closed.
 **Length is the enemy here.** A sitrep the user skims is worse than three bullets they read.
 
 - **Summarise at the altitude of the work, not the tool calls.**
+
   "Reworked the retry path to back off on 429s" — not the six edits that got there.
 - **Drop dead ends** unless the reason they failed constrains what comes next, in which case that constraint is the point and the attempt is the elaboration.
 - **Don't recap the user's own instructions back to them.**

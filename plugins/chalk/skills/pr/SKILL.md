@@ -21,21 +21,25 @@ Unlike an issue, it has no mechanism for resolving what it doesn't yet know, so 
 A PR does get approved, but the approver is not who you write for: they hold the diff, so argument where they could just look reads as something you couldn't show.
 
 - **Reader 1 is a peer updating their mental model**, now.
+
   They need the delta, and above all **the belief they hold that no longer holds**.
   A PR is the moment the rest of the team learns the change exists, so their first question is whether it affects them.
   **Success:** the reader can tell how this affects their work, and what they believe about the system afterwards is true - the understanding is conveyed accurately and concisely.
 
 - **Reader 2 is the same person in a year**, asking why one aspect of this mattered.
+
   **Success:** they don't accidentally revert it, and they don't rehash from scratch a decision this description already settled.
 
 ## Which path
 
 - **Resolves an issue** — the issue carries the problem, so this description MUST NOT restate it.
+
   Reference it at the top (`Resolves #N`, or `Part of #N`) and assume the reader has read it. What this adds is how the problem shaped the implementation: the approach, the decisions, the trade-offs, the dead ends.
 
   **tl;dr → What changes → Usage / migration → Consequences → Out of scope → Alternative approaches → Open questions**
 
 - **Standalone** — there is no issue, so this description carries the problem itself, acting as both.
+
   **The first line MUST state what, why and why now** — the line that would have been a reference has to do the issue's opening job instead.
   **This is the path that leads with the problem.** On the other one, leading with the problem is the duplication the pairing exists to prevent.
   It inserts the problem sections, and only those: the rest of the issue side is design-space or forward-looking material, and a PR is retrospective.
@@ -79,6 +83,7 @@ Otherwise draft one from the branch's commits that captures the intent rather th
 It is the first stage of the filter the tl;dr's abstract then runs — reader 1 scans a list of merged PRs for the one that touched their area, and reader 2 searches it a year later.
 
 - **State the delta: "X no longer Ys", "X now Zs".**
+
   This is the accomplished form of the issue title's `should`, and it disambiguates the same way — "leader election in the replica log" doesn't say which side of the change this PR is on.
   It also puts What changes' obligation in the title: the fact that was true and no longer is.
 
@@ -107,10 +112,13 @@ Write the drafted description to a file and **delegate to the `weed-prose` agent
 It MUST be the body exactly as GitHub holds it (`gh issue view <n> --json body -q .body`), with no summary, no annotation and no comments. A body you have described rather than copied tells the agent what you think the issue says, which is the session leaking in through the one input that was meant to keep it out.
 
 - **You MUST NOT give it the session or the branch's commit bodies.**
+
   It holds the branch diff and the linked issue — what the later reader can reach, and nothing they can't.
 - **Passing the issue is what lets it cut duplication.**
+
   Without the issue, repeated problem context reads as necessary; with it, the cut is obvious and the link does the work.
 - **Where there is no linked issue, say so.**
+
   It will otherwise strip the problem context a standalone PR is required to carry, and it checks the first line for what, why and why now instead.
 - **Its cuts apply; its Gaps are questions for you**, and it MUST NOT invent an answer to one.
 
@@ -118,8 +126,13 @@ It MUST be the body exactly as GitHub holds it (`gh issue view <n> --json body -
 Not "ask if you're unsure" — that judgement is made by the context that just spent the session building the reasoning, and it always comes back confident.
 `weed-prose` has already decided, from the draft alone, which questions the description fails to answer.
 
-- **A gap MUST be closed by adding a sentence that answers it, and the redraft MUST go back to `weed-prose`.**
-  **You MUST NOT close a gap by deciding it doesn't apply**, and you MUST NOT judge your own redraft — the agent that raised the gap is the one that closes it. 
+- **A gap MUST be closed by adding a sentence that answers it.**
+
+  **You MUST NOT close one by deciding it doesn't apply.**
+
+- **The redraft MUST go back to `weed-prose`.**
+
+  You MUST NOT judge your own redraft — the agent that raised the gap is the one that closes it.
   Loop until it reports no blocking gaps.
 - **Relay each question as written.** Composing your own is where the ask gets dropped.
 - **A `blocking` gap — a missing *why now*, or a standalone PR whose first line doesn't state what, why and why now — MUST be resolved before you open the PR.**
@@ -132,5 +145,6 @@ Not "ask if you're unsure" — that judgement is made by the context that just s
 - Push the branch if needed.
 - Pass the title and the fully-drafted description, ready to post verbatim.
 - Pass any project-specific PR conventions in your context verbatim — default reviewers, labels, base branch, draft status, project boards — and let the agent apply them alongside its own defaults.
+
   They typically live in the project's `CLAUDE.md` or in explicit user instructions for this session.
 - The agent assigns the current user by default. Tell it to skip assignment only if the user has asked you to.

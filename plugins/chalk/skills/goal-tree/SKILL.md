@@ -26,6 +26,7 @@ If they argue rather than accomplish, it's an argument tree; see `chalk:voice`.
 Not "do these look related to the parent?" but "do these, **plus what we already know about this system**, get us there?"
 
 - **The domain knowledge is part of the test.**
+
   Say that out loud rather than leaning on it silently.
 
 - **Each node MUST be tested for sufficiency explicitly** rather than assumed, and any node whose children are not clearly sufficient MUST be marked `check:` rather than left to read as settled.
@@ -38,6 +39,7 @@ Not "do these look related to the parent?" but "do these, **plus what we already
 
 - **Something we do.**
 - **Something expected of someone or something else**
+
   The user, CI, another team, an upstream library, existing behaviour.
 - **A plain fact about the world** we're relying on.
 
@@ -72,16 +74,21 @@ The issue answers what has to be true for this to be done; a plan answers which 
 Granular execution — which sub-task is next, what was tried — is session state and stays in the plan you're working from.
 
 - **A child may be a link to another issue that owns that part.**
+
   `- [ ] Secondaries serve stale reads without blocking the primary — #412`
 
 - **If a child is doing real work, it probably wants to be a sub-issue.**
+
   Then the tree is a readable map *of* the sub-issue graph rather than a second copy of it that drifts. Wire the relationship, don't just write the link — see `chalk:issue`.
 
 - **Palette placement**
+
   **Potential approach** for the target end state and the direction to it — and anywhere else a section has a goal structure to express.
 
 - **A goal tree proposing a solution MUST NOT be written into an issue the session didn't earn.**
+
   Include it when the session genuinely worked the direction; leave it out when the session was about noticing the problem. A speculative tree reads as a decision the next person can't distinguish from a settled one — the rule is `chalk:issue`'s.
 
 - **Done-ness is not the tree's job.**
+
   A node is tested for sufficiency — whether its children accomplish it — and that question is unchanged by whether anyone has started. Tracking state belongs to GitHub's own: issue state, blocked-by, and the linked PRs. See "An issue either lands in one piece, or it has children" in `chalk:issue`.
