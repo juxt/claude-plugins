@@ -69,7 +69,10 @@ It surfaces in three places, and MUST be carried in each.
     The motivation is only legible against the context, and splitting them makes the reader hold one half while they go looking for the other.
     **Context SHOULD come first in the tree**, because that is the order a reader processes them in.
 
-    - **Context runs in both directions**: where this sits — the user-facing effect, the initiative it belongs to, the deployment it showed up under — and **what it unblocks**, the work that can't proceed until it lands.
+    - **What the work unblocks is context, as much as where it sits is.**
+
+      Backwards: the user-facing effect, the initiative it belongs to, the deployment it showed up under.
+      Forwards: the work that cannot proceed until this lands.
 
     - **A named downstream is the strongest form of *why now*, because it is checkable.**
 
