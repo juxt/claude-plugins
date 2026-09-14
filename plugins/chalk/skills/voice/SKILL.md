@@ -380,10 +380,23 @@ persisted b7:  termId               = 5   ← b4, B's term
 
 ## tl;dr
 
-- **A tl;dr is a mindmap at takeaway grain**: one top-level bullet per takeaway, children backing it up, optionally after a single summary sentence.
+- **A tl;dr is a mindmap at takeaway grain**: one top-level bullet per takeaway, children backing it up.
 
-  A flat row of one-liners is the failure mode, and the one that looks finished.
   It is the reader's first paging decision over the whole artefact, so its subjects carry the same obligations as any other: placeable against a goal, and safe to agree with unread.
+
+  - **The mindmap is the part that is not optional.**
+
+    A summary sentence MAY come before it; the tree MUST be there either way.
+    A tl;dr written as prose has spent the reader's first decision on a paragraph they have to read in full before they can navigate anything.
+
+  - **That sentence is an abstract, and MUST be one sentence.**
+
+    It says what is true now, in the terms the reader arrives with.
+    **It MUST NOT argue the change**: the grounds are the body's, and a summary that starts giving them is the body arriving early.
+
+  - **Avoiding the flat row of one-liners walks into a paragraph of prose.**
+
+    The flat row has the shape and no argument; the paragraph has the argument and no shape, and it is the one that looks finished.
 
 - **It summarises the artefact for its reader, not the session for its author**, and MUST be readable by someone who did not see the session, the branch or the prior state.
 
