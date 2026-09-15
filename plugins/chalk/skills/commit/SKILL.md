@@ -38,11 +38,9 @@ You MUST load these skills first:
    **Delegate to the `weed-comments` agent**, passing the paths of the staged files and nothing else.
 
    - **You MUST NOT tell it what the change is for.** Not the issue, not the problem, not what you decided. 
-
      It stands in for a reader who has none of that, and briefing it makes it a second opinion from your own context rather than a first opinion from the reader's.
 
    - **Its deletions apply.** They land in the working tree and you stage them; you do not review them back into place. 
-
      The user sees them in the commit diff, which is the human review point.
 
    - **Its Misfiled list is input to Draft the body** — a comment deleted for being design rationale is rationale the body now has to carry.
@@ -85,7 +83,6 @@ You MUST load these skills first:
    - anything self-evident from the diff, the code or the linked issue;
 
    - play-by-play of mechanical steps ("then I ran the tests"); the journey of how you got there.
-
      Not this (mechanical play-by-play):
      > Investigated the flaky test. Found it only failed in the full suite. Added logging to narrow it down. Discovered a race condition in TemporalBounds.intersect().
 
@@ -104,11 +101,9 @@ You MUST load these skills first:
    Your reader arrived from `git blame` mid-investigation of something else, so they are the most impatient reader any chalk artefact has: they will read subject lines and leave. Each one MUST be discardable against that investigation, or agreeable without the body.
 
    - **No headings.**
-
      The tree's top-level bullets already partition the body, and a body short enough to read in a `git log` doesn't want a second, coarser structure laid over the top of them.
 
    - **Rarely a tl;dr.**
-
      The subject line is the body's tl;dr, so most bodies would only repeat it. A body long enough that its argument needs summarising MAY open with one, per `chalk:voice`, in place of the lead-in line.
 
 5. **Make the commit.**
@@ -127,22 +122,18 @@ You MUST load these skills first:
 **`<scope>: <claim>`, or `<type>(<scope>): <claim>` where the type carries information** — Conventional Commits with the type optional.
 
 - **The scope is the plugin or component** — `chalk`, `code-map`, `clojure-lsp`.
-
   It is not optional: a repo of plugins is read one plugin at a time.
 
 - **Add a type only where it tells the reader something the claim doesn't** — `feat`, `fix`, `perf`, `refactor`.
-
   Most commits here carry none, because a claim that states what is now true already says what kind of change it was.
 
 - **State a claim, not an imperative.**
-
   "the blank line after a subject depends on the renderer", not "fix the blank line rule".
   The subject is the body's tl;dr, and a claim can be checked against the diff for truth where an imperative can only be obeyed. It is also what makes a subject quotable in place of a SHA, per `chalk:voice`.
 
 - **Lowercase after the colon, and no full stop.**
 
 - **A breaking change MUST carry a `BREAKING CHANGE:` footer** naming what stops working and what to do instead.
-
   `!` before the colon (`feat(chalk)!:`) is the short form and is not sufficient alone — the footer is where the reader learns what to change. Removing a skill or renaming a user-invocable command is a break even where nothing errors.
 
 ### Issue references
