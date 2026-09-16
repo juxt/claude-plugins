@@ -164,6 +164,10 @@ It surfaces in three places, and MUST be carried in each.
   **Rollout and compatibility land here too**: where the change is only safe under conditions the diff can't express, say which versions interoperate and what the safe sequence is.
   Where it's an end-user feature the full guide is in the docs, so keep this short; the reader is a senior engineer on the project.
 
+  **Where there is a forward step there is nearly always a reverse one**, and the reader who finds out otherwise finds out mid-rollback.
+  Whether the migration can be undone, whether the old version can still read what the new one wrote, and what someone does who has deployed this and wants out.
+  **Where the diff doesn't settle it, ask rather than guess** — a missing rollback note sends someone to find out, and a wrong one doesn't.
+
 - **Consequences**
   Nygard's ADR field: what is different as a result, and now inherited.
 
