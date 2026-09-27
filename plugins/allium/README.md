@@ -1,20 +1,36 @@
 # Allium
 
-*Velocity through clarity*
-
----
-
-Feed your AI something healthier than Markdown. [allium-lang.org](https://allium-lang.org/)
+The specification language that talks back: [allium-lang.org](https://allium-lang.org/).
 
 ## What this is
 
 Allium is a skill for clarifying intent during agentic engineering. The LLM builds and maintains a behavioural specification alongside your code, capturing what the system should do in a form that persists across sessions. Paired with a CLI that validates syntax and draws semantic inferences, it catches design gaps, surfaces implications you missed and generates tests from the formal behaviours of your system.
 
+It also works in reverse. Point Allium at code you already have and it distils a specification of how the system behaves, surfacing bugs and edge cases the code never made explicit.
+
+## Command-line tooling
+
+The [Allium CLI](https://github.com/juxt/allium-tools) checks specs for structural problems and generates tests. It catches things language models can't do reliably on their own: tracing data flow across rules, verifying that every entity lifecycle can reach a terminal state, spotting dead ends. The LLM uses these findings to ask better questions and produce more complete specs.
+
+The skills work without the CLI, falling back to the language reference, but installing it means every edit is formally checked and the results feed straight into the conversation.
+
+Install via [Homebrew](https://brew.sh/) or [crates.io](https://crates.io/crates/allium-cli):
+
+```
+brew tap juxt/allium && brew install allium
+```
+
+```
+cargo install allium-cli
+```
+
+See the [allium-tools repo](https://github.com/juxt/allium-tools) for details.
+
 ## How it works
 
-You keep a `.allium` file alongside your code describing what the system should do — entities and their shapes, and rules in the form *when* an event happens, *requires* these preconditions hold, *ensures* these outcomes follow — while deliberately leaving out how it's done. The spec is the primary artefact; the code that implements it is secondary. Because the structure is explicit rather than prose, contradictions surface on their own: two rules with incompatible preconditions expose the conflict without anyone needing to be clever enough to spot it.
+You keep a `.allium` file alongside your code, setting out what the system should do rather than how it does it. It contains entities, which describe the things in the system and their shape, and rules. Each rule has three parts: a *when* that names the triggering event, a *requires* that lists the preconditions, and an *ensures* that states the outcomes. The spec and the code are two representations of the same system, one behavioural and one concrete, and much of the value comes from comparing them against each other, and against the tests that connect them. Because the behaviour is written as structure rather than prose, contradictions show up on their own: two rules with incompatible preconditions expose the conflict without a powerful model having to notice it.
 
-Two forces feed the spec, and one loop keeps it honest against the code:
+Two directions feed the spec, and a loop keeps it, the tests and the code in agreement:
 
 ```
         intent ──/elicit──►  ┌───────────────┐  ◄──/distill── existing code
@@ -27,11 +43,11 @@ Two forces feed the spec, and one loop keeps it honest against the code:
                              (generate tests)
 ```
 
-`/elicit` works forward from intent through conversation; `/distill` works backward from existing code, filtering out implementation detail. `/tend` makes targeted edits as requirements change; `/weed` finds where spec and code have diverged and reconciles them in either direction; `/propagate` generates tests from the spec so the implementation is checked against specified behaviour. `/allium` is the entry point — point it at your project and it routes you to the right one. The [skills table](#skills-and-agents) below covers each in detail.
+`/elicit` works forward from intent through conversation; `/distill` works backward from existing code, filtering out implementation detail. `/tend` makes targeted edits as requirements change; `/weed` finds where spec and code have diverged and reconciles them in either direction; `/propagate` generates tests from the spec so the implementation is checked against specified behaviour. `/allium` is the entry point: point it at your project and it routes you to the right one. The [skills table](#skills-and-agents) below covers each in detail.
 
 ## The Allium loop
 
-Agentic coding is a loop: the agent **gathers context**, **takes action**, **verifies** the result, and **repeats** until the goal is met. The phase that decides quality is verification — a signal the loop can trust to tell *green* from *done*. Allium is built for that loop, and it owns the hard parts: a *behavioural* verification signal, and context that doesn't drift between sessions.
+Agentic coding runs as a loop. The agent gathers context, takes action, verifies the result and repeats until the goal is met. Verification is the phase that decides quality, because the loop needs a signal it can trust to tell *green* from *done*. Allium is built for that loop and takes on its hardest parts: a verification signal at the level of behaviour, and context that doesn't drift between sessions.
 
 ```
    gather context ───▶ take action ──────▶ verify ─────────▶ repeat
@@ -44,21 +60,20 @@ Agentic coding is a loop: the agent **gathers context**, **takes action**, **ver
               (not the code) was wrong
 ```
 
-- **Gather context** — `/elicit` (from intent) or `/distill` (from code) produces the spec. Unlike re-reading code each session, the spec *persists*, so meaning doesn't drift.
-- **Take action** — `/propagate` turns the spec into tests (the contract), then you implement against them. For new behaviour, confirm the tests *fail* first — a generated test that's already green is already covered or vacuous.
-- **Verify** — run the tests, then `/weed` for spec↔code alignment, then the CLI's structural checks. A behaviour-level pass/fail, not merely "unit tests are green."
-- **Repeat** — until spec, tests and code agree and no open questions remain. The loop can re-enter at *any* phase: when verification shows the **spec** was wrong, you revise intent (`/tend`), not just the code — the way real development discovers requirements by building, rather than assuming them fixed up front.
+Gathering context means producing the spec, working forward from intent with `/elicit` or backward from existing code with `/distill`. The spec persists, so meaning carries from one session to the next instead of being re-read from the code each time. Taking action starts with `/propagate`, which turns the spec into tests, the contract you then implement against. For new behaviour, confirm those tests fail first, since a generated test that is already green is either already covered or vacuous.
+
+Verification runs the tests, then `/weed` to check that spec and code still agree, then the CLI's structural checks. A pass at this level means the behaviour is right, not just that the unit tests are green. The loop repeats until spec, tests and code agree and no questions remain open. It can re-enter at any phase: when verification shows the spec itself was wrong, you revise intent with `/tend` instead of patching the code, the way real development turns up requirements by building rather than assuming them fixed from the start.
 
 Two entry points run the same loop:
 
 - **Spec-first** (new features): `/elicit → /propagate → implement → /weed`, looping `/tend → /propagate` as requirements change.
 - **Code-first** (existing code): `/distill → review → /propagate → run against the code → /weed`, repeated per area until a pass finds nothing new.
 
-See [recommended loops](skills/allium/references/recommended-loops.md) for the full walkthrough, both diagrams, exit conditions and the implementation prompt. *(This is the "agentic loop" framing now common in AI engineering; for background see [How Claude Code works](https://code.claude.com/docs/en/how-claude-code-works) and [Loop Engineering](https://thenewstack.io/loop-engineering/).)*
+See [recommended loops](skills/allium/references/recommended-loops.md) for the full walkthrough, both diagrams, exit conditions and the implementation prompt. This is the "agentic loop" framing now common in AI engineering; for background see [How Claude Code works](https://code.claude.com/docs/en/how-claude-code-works) and [Loop Engineering](https://thenewstack.io/loop-engineering/).
 
 ## Get started
 
-Allium works with Claude Code, Codex, Copilot, Cursor, Windsurf, Aider, Continue and 40+ other tools. How you install depends on your editor, but the skills are the same everywhere.
+Allium works with Claude Code, Codex, Copilot, Cursor, Windsurf, Aider, Continue and 40+ other tools. How you install depends on your editor, but the skills are the same everywhere. See [supported harnesses](#supported-harnesses) for the full matrix and what each one gets.
 
 **Claude Code** via the [JUXT plugin marketplace](https://github.com/juxt/claude-plugins):
 
@@ -88,23 +103,46 @@ Once installed, type `/allium` to get started. Allium examines your project and 
 
 Jump to what [Allium looks like in practice](#what-this-looks-like-in-practice).
 
-## Command-line tooling
+## Supported harnesses
 
-The [Allium CLI](https://github.com/juxt/allium-tools) checks specs for structural problems and generates tests. It catches things language models can't do reliably on their own: tracing data flow across rules, verifying that every entity lifecycle can reach a terminal state, spotting dead ends. The LLM uses these findings to ask better questions and produce more complete specs.
+Allium is built to be portable. The skills are plain Markdown and the CLI is a standalone binary, so any tool that can follow instructions and run `allium check` can use it. Whether a harness is supported comes down to one thing: it needs to read Anthropic-style skills or an `AGENTS.md` file. If it does, `npx skills add juxt/allium` installs the skills and they run. The harnesses named below are the ones we provide install paths and per-editor setup for; anything else works through that same standard.
 
-The skills work without the CLI, falling back to the language reference, but installing it means every edit is formally checked and the results feed straight into the conversation.
+Allium reaches a harness through up to four layers. Harnesses differ in how many of them they can use.
 
-Install via [Homebrew](https://brew.sh/) or [crates.io](https://crates.io/crates/allium-cli):
+- **Skills.** The six workflows (`/allium`, `/elicit`, `/distill`, `/propagate`, `/tend`, `/weed`), and the core of Allium. Any agent that reads Anthropic-style skills or an `AGENTS.md` can run them.
+- **Autonomous agents.** `tend` and `weed` running in their own context. This needs a harness with a subagent concept.
+- **Automatic verification.** A post-edit hook runs `allium check` and feeds the results back in the same turn. This needs an edit hook.
+- **Live diagnostics.** The [`allium-lsp`](https://github.com/juxt/allium-tools) language server, for go-to-definition, hover and inline errors. This needs an LSP client.
 
-```
-brew tap juxt/allium && brew install allium
-```
+| Harness | Skills | Agents | Auto-verify | LSP | Install |
+|---|:---:|:---:|:---:|:---:|---|
+| Claude Code | ✓ | ✓ | ✓ | ✓ | Plugin |
+| Codex | ✓ | — | git hook | manual | Plugin |
+| GitHub Copilot (agent mode) | ✓ | ✓ | git hook | — | Reads repo |
+| Cursor | ✓ | — | recipe | — | `npx skills` |
+| Windsurf | ✓ | — | recipe | — | `npx skills` |
+| Aider | ✓ | — | recipe | — | `npx skills` |
+| JetBrains (Junie) | ✓ | — | recipe | manual | `npx skills` |
+| Any other skills or `AGENTS.md` reader (Continue, Cline, Zed, Gemini CLI, opencode, Amp, Kilo Code, Factory, …) | ✓ | — | git hook | manual | `npx skills` |
 
-```
-cargo install allium-cli
-```
+**recipe** means we ship an editor-specific config you turn on once: Cursor and Windsurf edit hooks, Aider's `lint-cmd`, or a JetBrains File Watcher. **git hook** means verification runs through the harness-agnostic [pre-commit hook](.pre-commit-hooks.yaml) or a manual `allium check`, rather than live in the loop. **manual** LSP means the `allium-lsp` server works with the editor's language client, but you wire it up yourself. Only the Claude Code plugin does that for you.
 
-See the [allium-tools repo](https://github.com/juxt/allium-tools) for details.
+Claude Code is the reference harness. It uses every layer, and we test against it first. Everything else runs the same skills. The differences are in verification and live diagnostics, not in the language or the workflows.
+
+### Not supported
+
+Allium needs an agent that can read and maintain a spec. A couple of categories are out of scope by design.
+
+- **Autocomplete-only assistants.** These predict the next token. They don't follow a skill or drive a loop, so there is nothing for Allium to attach to. GitHub Copilot's agent mode is supported, but its plain ghost-text completions are not.
+- **Harnesses with no way to load instructions.** If a tool can't read a skill, an `AGENTS.md` or a rules file, you can't point it at Allium.
+
+If a tool in either group gains an instruction-following agent, we'll add it.
+
+### Reporting issues
+
+If a skill won't load or misbehaves on one of the harnesses above, tell us. [Raise an issue](https://github.com/juxt/allium/issues) and name the harness. If your harness runs the skills but has no automatic verification or live diagnostics, that's a capability gap rather than a fault: run `allium check` from the git pre-commit hook or by hand, and wire up `allium-lsp` if your editor has a language client. Autocomplete-only tools have no agent for the skills to attach to, so Allium won't run there.
+
+How editors discover skills and agents is still settling, and we ship the most portable formats we can. If your editor doesn't pick something up, tell us which one.
 
 ## Skills and agents
 
@@ -230,13 +268,13 @@ A customer's account was suspended for a terms of service violation. They've app
 
 ---
 
-> ***> A customer says they can't reset their password. Their account was suspended last month but they've appealed and we want to let them back in. Can you enable password reset for suspended users?***
->
-> ✻ Your Allium requires `user.status in {active, locked}` for password resets. This user's status is `suspended`, so the reset is blocked by design. Reactivating through password reset would bypass your `AccountReinstated` rule, which requires admin approval and logs an audit trail.
->
-> ✻ Should we reinstate the account through the existing admin flow first, then let them reset their password? Or create a new `AccountReinstatedViaAppeal` rule that combines both steps with the audit trail intact?
->
-> ***> Reinstate through the admin flow first. The audit trail matters.***
+***> A customer says they can't reset their password. Their account was suspended last month but they've appealed and we want to let them back in. Can you enable password reset for suspended users?***
+
+✻ Your Allium requires `user.status in {active, locked}` for password resets. This user's status is `suspended`, so the reset is blocked by design. Reactivating through password reset would bypass your `AccountReinstated` rule, which requires admin approval and logs an audit trail.
+
+✻ Should we reinstate the account through the existing admin flow first, then let them reset their password? Or create a new `AccountReinstatedViaAppeal` rule that combines both steps with the audit trail intact?
+
+***> Reinstate through the admin flow first. The audit trail matters.***
 
 ---
 
@@ -248,13 +286,13 @@ A developer starts a new session days later, working on a different feature.
 
 ---
 
-> ***> Add a free trial. New subscribers get their first month at no charge.***
->
-> ✻ Your Allium has a constraint here. `SubscriptionCreated` ensures a payment is processed and `InvoiceGenerated` requires `invoice.amount > 0`. A free first month would need to bypass both.
->
-> ✻ Should the trial skip invoice generation entirely, or create a zero-value invoice for the audit trail? And should the `PaymentMethod` still be captured upfront, or only when the trial converts?
->
-> ***> Create a zero-value invoice and capture the payment method upfront.***
+***> Add a free trial. New subscribers get their first month at no charge.***
+
+✻ Your Allium has a constraint here. `SubscriptionCreated` ensures a payment is processed and `InvoiceGenerated` requires `invoice.amount > 0`. A free first month would need to bypass both.
+
+✻ Should the trial skip invoice generation entirely, or create a zero-value invoice for the audit trail? And should the `PaymentMethod` still be captured upfront, or only when the trial converts?
+
+***> Create a zero-value invoice and capture the payment method upfront.***
 
 ---
 
@@ -266,17 +304,17 @@ A developer asks for a feature and lets the loop run to convergence.
 
 ---
 
-> ***> Add gift cards to checkout.***
->
-> ✻ I'll capture this as a spec first (`/elicit`). One thing to pin down before building: can a gift card be combined with a promo code, or are they mutually exclusive?
->
-> ***> Mutually exclusive.***
->
-> ✻ Spec updated. Generated tests with `/propagate` and ran them — 4 new tests, all failing as expected (red). Implementing against them now.
->
-> ✻ Tests green. `/weed` flagged a divergence: the code lets a gift card pay for shipping, but the spec scopes it to goods only. Fixing the code to match the spec.
->
-> ✻ Re-ran: tests pass, `/weed` clean, no open questions. Spec, tests and code agree — converged.
+***> Add gift cards to checkout.***
+
+✻ I'll capture this as a spec first (`/elicit`). One thing to pin down before building: can a gift card be combined with a promo code, or are they mutually exclusive?
+
+***> Mutually exclusive.***
+
+✻ Spec updated. Generated tests with `/propagate` and ran them — 4 new tests, all failing as expected (red). Implementing against them now.
+
+✻ Tests green. `/weed` flagged a divergence: the code lets a gift card pay for shipping, but the spec scopes it to goods only. Fixing the code to match the spec.
+
+✻ Re-ran: tests pass, `/weed` clean, no open questions. Spec, tests and code agree — converged.
 
 ---
 
@@ -312,9 +350,9 @@ Like its namesake, working with Allium may produce tears during the peeling, but
 
 <a href="https://www.star-history.com/?repos=juxt%2Fallium&type=date&legend=top-left">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=juxt/allium&type=date&theme=dark&legend=top-left&sealed_token=vt0GNhF_frBP9ZqhIlkjvtV23Gc_DWcj6qsQ_8KGNyUZ3DhLS12B2A_pjCYzDMdOzG7jkZaXrySjpqd8F56yde5soJlN5qM30I07Nw0xbTg78E6OABguNwYRHLk9ayL9ts7TP0Rst9Ysk7c1oD6VasbdJzyVgFUtrydXzXKqej6YxB-nbfcc42BGeWmY" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=juxt/allium&type=date&legend=top-left&sealed_token=vt0GNhF_frBP9ZqhIlkjvtV23Gc_DWcj6qsQ_8KGNyUZ3DhLS12B2A_pjCYzDMdOzG7jkZaXrySjpqd8F56yde5soJlN5qM30I07Nw0xbTg78E6OABguNwYRHLk9ayL9ts7TP0Rst9Ysk7c1oD6VasbdJzyVgFUtrydXzXKqej6YxB-nbfcc42BGeWmY" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=juxt/allium&type=date&legend=top-left&sealed_token=vt0GNhF_frBP9ZqhIlkjvtV23Gc_DWcj6qsQ_8KGNyUZ3DhLS12B2A_pjCYzDMdOzG7jkZaXrySjpqd8F56yde5soJlN5qM30I07Nw0xbTg78E6OABguNwYRHLk9ayL9ts7TP0Rst9Ysk7c1oD6VasbdJzyVgFUtrydXzXKqej6YxB-nbfcc42BGeWmY" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=juxt/allium&type=date&theme=dark&legend=top-left&sealed_token=ATV6CpoJ8Tmy9jznSB4ugWLaUwHO8PbXbIcjgpFCAlQ0_vX1gyGmi2UX8qQe-LCeT2AEGuu09J8k9sgqzjuXMCSDIco3iJPnuaQAi_Y06rBbUVyu7ZScow" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=juxt/allium&type=date&legend=top-left&sealed_token=ATV6CpoJ8Tmy9jznSB4ugWLaUwHO8PbXbIcjgpFCAlQ0_vX1gyGmi2UX8qQe-LCeT2AEGuu09J8k9sgqzjuXMCSDIco3iJPnuaQAi_Y06rBbUVyu7ZScow" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=juxt/allium&type=date&legend=top-left&sealed_token=ATV6CpoJ8Tmy9jznSB4ugWLaUwHO8PbXbIcjgpFCAlQ0_vX1gyGmi2UX8qQe-LCeT2AEGuu09J8k9sgqzjuXMCSDIco3iJPnuaQAi_Y06rBbUVyu7ZScow" />
  </picture>
 </a>
 
