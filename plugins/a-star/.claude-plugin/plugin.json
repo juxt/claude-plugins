@@ -1,0 +1,8 @@
+{
+  "name": "a-star",
+  "version": "0.1.0",
+  "description": "Harness to spike to an end-to-end quickly, then land atomic, comprehensible, correct, compliant changes from what the spike found.",
+  "dependencies": [
+    { "name": "beads", "marketplace": "beads-marketplace" }
+  ]
+}
