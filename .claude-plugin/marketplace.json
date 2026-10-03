@@ -8,7 +8,15 @@
     "description": "JUXT plugin marketplace for Claude Code",
     "version": "1.0.0"
   },
+  "allowCrossMarketplaceDependenciesOn": [
+    "beads-marketplace"
+  ],
   "plugins": [
+    {
+      "name": "a-star",
+      "description": "Harness to spike to an end-to-end quickly, then land atomic, comprehensible, correct, compliant changes from what the spike found.",
+      "source": "./plugins/a-star"
+    },
     {
       "name": "allium",
       "description": "Velocity through clarity.",

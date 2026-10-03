@@ -53,6 +53,8 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 
 - `/chalk:sitrep [focus]` — report where the session has got to, and what's still open
 
+- `/chalk:put-down [issue]` — park the session's work on its issue: description corrected, metadata sorted, discovered cards raised and linked
+
 ## Components
 
 - **Skill** (`issue`): Problem-focused issue descriptions, and keeping them accurate
@@ -62,6 +64,8 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 - **Skill** (`pr`): Pull requests with intent-driven descriptions
 
 - **Skill** (`sitrep`): Where the session has got to — what landed, and what's still open as ID'd ideas, decisions and questions
+
+- **Skill** (`put-down`): Parks the session's work on its issue, so the next session resumes from the issue and its links alone
 
 - **Skill** (`voice`): The shared writing voice — the audience, the specification register, the mindmap structure two propositions in a relation take, the line-format rule. `references/palette.md` carries the issue/PR section palette.
 
