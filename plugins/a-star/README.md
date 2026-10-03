@@ -9,7 +9,7 @@ It optimises for sustainability — what the human has to hold in their head, an
 A **card** is the unit of work: an issue in the project's tracker, or whatever the project calls one.
 Changes are split per Kent Beck's *Tidy First?* — a **tidy** changes structure, a **drive** changes behaviour, and the two never share a commit.
 
-A card's root — its goal, invariants and out of scope — stays on its tracker issue; everything below it, from the tasks a spike finds to the open questions and decisions, lives in [beads](https://github.com/steveyegge/beads), which a-star uses as it is.
+A card's root — its goal, invariants and out of scope — stays on its tracker issue; everything below it, from the tasks a spike finds to the open questions and decisions, lives in [beads](https://github.com/gastownhall/beads), which a-star uses as it is.
 
 ## Why
 
@@ -54,7 +54,7 @@ a-star depends on the `beads` plugin, from beads' own marketplace, which runs `b
 Add that marketplace first:
 
 ```
-/plugin marketplace add steveyegge/beads
+/plugin marketplace add gastownhall/beads
 /plugin install a-star@juxt-plugins
 ```
 

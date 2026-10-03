@@ -16,10 +16,10 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 Installing software and editing the user's machine are the user's to approve: say what each install will do, and wait.
 
 1. **The beads plugin is installed** — a-star depends on it, for its `bd prime` hooks at session start and before compaction.
-   Where it isn't, the user adds it: `/plugin marketplace add steveyegge/beads`, then reinstalls a-star.
+   Where it isn't, the user adds it: `/plugin marketplace add gastownhall/beads`, then reinstalls a-star.
 
 2. **`bd` is on the path** — `bd version`.
-   Where it isn't, offer `mise use -g github:steveyegge/beads@1.3.1`, or `npm install -g @beads/bd`.
+   Where it isn't, offer `mise use -g github:gastownhall/beads@1.3.1`, or `npm install -g @beads/bd`.
 
 3. **This repo has a bd workspace** — `bd where`.
    Where it doesn't: `bd init --setup-exclude --skip-agents --skip-hooks`.
