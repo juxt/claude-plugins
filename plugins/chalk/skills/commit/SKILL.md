@@ -49,10 +49,10 @@ You MUST load these skills first:
 
    - **Its Dissolvable list goes to the user, not into the commit.** A rename or a simplification is a code change, and staging one here would break the atomicity the step above just established.
 
-3. **Read this commit's section of the session's plan, where `chalk:pick-up` started one, then the conversation history** for what the plan lacks.
+3. **Read the session's plan journal, where `chalk:pick-up` started one, then the conversation history** for what the journal lacks.
 
-   **The plan was written when each decision was made; the history may be a compaction summary.**
-   Where the two disagree, the plan wins. Pick what this commit needs from its section: the body is a selection, not a copy.
+   Where the two disagree, resolve the ambiguity.
+   Of the entries that bear on this change, the body carries what step 4 says its reader needs, and nothing else: it is a selection, not a copy.
 
    Optimise for later reading: your reader is whoever runs `git blame` on one of these lines while debugging something else, months on. 
    They won't care about the journey — they need *why* this change exists and *why* it was done this way.

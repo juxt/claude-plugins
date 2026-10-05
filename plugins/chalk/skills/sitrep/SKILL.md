@@ -33,7 +33,7 @@ The transcript records what was attempted; the repo records what happened.
   This is what settles the Done/Open boundary for anything touching code.
 
 - **Read the session's plan, where `chalk:pick-up` started one.**
-  Its decisions and questions were written as they happened, so they outrank the transcript's recollection of them.
+  Where it and the transcript disagree, resolve the ambiguity.
 
 - **Re-read the artefacts the session claims to have produced** where cheap — the file, the issue, the PR body.
   A file written three edits ago may not say what the session thinks it says.
