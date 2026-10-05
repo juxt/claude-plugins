@@ -18,7 +18,7 @@ Then install individual plugins:
 
 Once the marketplace is added, you can install any of the following:
 
-- **[a-star](plugins/a-star/)**: harness to spike to an end-to-end quickly, then land atomic, comprehensible, correct, compliant changes from what the spike found. Keeps its working state in [beads](https://github.com/gastownhall/beads).
+- **[A⭐](plugins/a-star/)** (a-star): harness to spike to an end-to-end quickly, then land atomic, comprehensible, correct, compliant changes from what the spike found. Keeps its working state in [beads](https://github.com/gastownhall/beads).
 - **[Allium](https://juxt.github.io/allium/)**: an LLM-native behavioural specification language.
 - **[Chalk](plugins/chalk/)**: GitHub Issue-backed agent session memory. Like [beads](https://github.com/gastownhall/beads) but uses GitHub Issues as the storage backend.
 - **[Chill](plugins/chill/)**: a circuit-breaker skill that interrupts forward momentum when Claude is spinning, scope-creeping, or pushing through errors.

@@ -1,4 +1,4 @@
-# a-star
+# A⭐ (a-star)
 
 Harness to spike to an end-to-end quickly, then land atomic, comprehensible, correct, compliant changes from what the spike found.
 
@@ -9,13 +9,13 @@ It optimises for sustainability — what the human has to hold in their head, an
 A **card** is the unit of work: an issue in the project's tracker, or whatever the project calls one.
 Changes are split per Kent Beck's *Tidy First?* — a **tidy** changes structure, a **drive** changes behaviour, and the two never share a commit.
 
-A card's root — its goal, invariants and out of scope — stays on its tracker issue; everything below it, from the tasks a spike finds to the open questions and decisions, lives in [beads](https://github.com/gastownhall/beads), which a-star uses as it is.
+A card's root — its goal, invariants and out of scope — stays on its tracker issue; everything below it, from the tasks a spike finds to the open questions and decisions, lives in [beads](https://github.com/gastownhall/beads), which A⭐ uses as it is.
 
 ## Why
 
 - **The human's context is now the scarce resource.**
   Writing the code was never the hard part; most of an engineer's work is now the thinking — the analysis, the judgement — and working alongside AI makes that thinking more taxing, not less, especially in naturally complex domains.
-  a-star aims to shrink what the human has to hold in their head at any one time: each landed change is small enough to review and then page out.
+  A⭐ aims to shrink what the human has to hold in their head at any one time: each landed change is small enough to review and then page out.
 
 - **Plans should come from evidence, not from reading.**
   Many agent harnesses plan the whole change from the code as it reads, then execute the plan; decades of agile practice say the route is found by building, in small steps, with feedback from each.
@@ -33,7 +33,7 @@ A card's root — its goal, invariants and out of scope — stays on its tracker
 - `/a-star:tidy <what>` — land one structure change, interrupting the work in hand if need be
 - `/a-star:landed <what>` — catch up after you've merged something, and choose what's next
 - `/a-star:sitrep` — refresh your context on a card
-- `/a-star:setup` — set a repo up for a-star
+- `/a-star:setup` — set a repo up for A⭐
 - `/a-star:primary`, `/a-star:secondary` — say whether you're watching this session; it starts primary
 
 ## On the name
@@ -50,7 +50,7 @@ A\* follows the most promising place, re-estimates from wherever it has got to, 
 
 ## Setup
 
-a-star depends on the `beads` plugin, from beads' own marketplace, which runs `bd prime` at session start and before compaction.
+A⭐ depends on the `beads` plugin, from beads' own marketplace, which runs `bd prime` at session start and before compaction.
 Add that marketplace first:
 
 ```
@@ -63,10 +63,10 @@ Then run `/a-star:setup` in each repo: it installs `bd` if need be, initialises 
 
 ## Policy
 
-a-star carries the process; your project carries the policy — readiness, landing, definition of done, coding standards, writing, and the rest, in its `AGENTS.md` or equivalent.
-Where a slot is missing, a-star asks rather than guessing.
+A⭐ carries the process; your project carries the policy — readiness, landing, definition of done, coding standards, writing, and the rest, in its `AGENTS.md` or equivalent.
+Where a slot is missing, A⭐ asks rather than guessing.
 
 ## Recommended alongside
 
-[chalk](../chalk/) writes the commit messages, PR descriptions and issue updates a-star's work produces, for the colleague who wasn't there.
+[chalk](../chalk/) writes the commit messages, PR descriptions and issue updates A⭐'s work produces, for the colleague who wasn't there.
 Name it in your project's writing policy; neither plugin depends on the other.
