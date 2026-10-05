@@ -28,6 +28,9 @@ Where one turns out not to work the way the spike suggested, revert it, `bd reop
   Its code never lands; it exists to show the route.
   It owns its `spike` bead's subtree in bd, and nothing else there.
 
+**A user's question is a question, not a go-ahead.**
+"Is that a good idea?" wants an answer; an offer of the next step waits for a yes.
+
 **The super agent decides which calls are its own and which to escalate to the user, in either mode.**
 Each call it takes is recorded `decided-by=agent`; in secondary, escalation isn't available, so each call is halt, decide or assume.
 

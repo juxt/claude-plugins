@@ -34,6 +34,8 @@ Refining changes bd and the tracker issue, and nothing else: no code, no other f
 - **Invariants** — what must stay true however the spike gets there; where the project names core invariants, the ones this card touches.
 - **Out of scope** — what the card deliberately doesn't cover.
 
+**What else the issue carries is the writing policy's call**, an approach included; a-star needs only the root agreed.
+
 **A card with no epic gets one**: `bd create --type epic --external-ref <tracker issue>`, titled for the card and carrying nothing else.
 A card with no tracker issue keeps its root in the epic's description instead.
 
@@ -69,6 +71,9 @@ Close it deliberately, with one of:
 ## It ends at readiness
 
 **The card is ready when a spike can start from it alone** — the test in `a-star:a-star`.
+
+**Before refinement ends, the tracker issue says what it agreed**, written through the project's writing policy: every decision that bears on the problem or the agreed scope, not only the root.
+A decision left only in the session's working state is one the issue's next reader never sees.
 
 **Once it's ready, offer `a-star:spike`, or parking the card** per the project's put-down policy.
 Stopping short of ready parks nothing extra: every open question is already a `decision` issue in bd, and the next `/a-star <card>` resumes from there.

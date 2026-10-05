@@ -66,6 +66,10 @@ The super agent decides what stands; you record what you found.
   A tidy, or an atomic change of value to the user, that you're reasonably sure no later increment will redo.
   It's an FYI: the super agent may land it under you while you work.
 
+- **Anything that invalidates the card's plan — end your turn with it, however you'd work round it.**
+  The card's contract costing far more than it looked, a decision in your brief that can't hold, an invariant the route has to break.
+  It is the user's to settle, not yours or the super agent's.
+
 - **Stuck, or a question whose answer would change your route — end your turn with it.**
   State the item, what you'd do if told to carry on regardless, and stop; the super agent resumes you with the answer, your context intact.
 

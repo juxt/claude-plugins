@@ -35,7 +35,12 @@ The base has probably moved since, and spikes are cheap.
 **The spiker writes what it finds into its spike bead's subtree**; in primary, relay what matters to the user as it appears there.
 
 - **An increment it messages you** — a tidy, or an atomic change of value to the user, it's reasonably sure no later increment will redo.
-  Record it as a `chore` or a `task` under the card, and offer it: `a-star:tidy` or `a-star:drive` can take it now, while the spike carries on.
+  Record it as a `chore` or a `task` under the card, and tell the user it could land now, while the spike carries on.
+  In primary it lands only on their go-ahead; in secondary, per `a-star:secondary`.
+
+- **A finding that invalidates the plan** — the card's contract, a decision already made, an invariant, or the cost of the route the card agreed.
+  It goes to the user in either mode, never decided by the super agent: in secondary, record it as an open question, halt the line of work it bears on, and move to other ready work.
+  The bigger the gap between what was agreed and what the spike found, the less the agreement still stands for.
 
 - **A turn it ends on** — stuck, or a question whose answer would change its route.
   Decide it yourself, or — in primary — escalate it to the user; in secondary, where nobody can answer, decide, assume or halt per `a-star:secondary`.
