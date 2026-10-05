@@ -11,26 +11,21 @@ user-invocable: true
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 **The user isn't watching, so nobody answers a question until they're back.**
-Nothing needs parking on the switch: the card's state is already in the plan. Record the mode at its top.
+Record the mode.
 
 Load `a-star:a-star` first.
 
-## What secondary needs
+- **Work only on a ready card.**
+  One that isn't, or a question the card can't answer, gets its questions recorded and the card put down.
 
-- **Only a ready card.**
-  One that fails readiness, or a spike that finds a question the card can't answer, goes back to `a-star:refine` — record the question and park the card, rather than holding it as context.
+- **Each call is halt, decide or assume.**
+  Record each decision, and each point you carry on past as an assumption.
 
-- **With nobody to escalate to, each call is halt, decide or assume.**
-  Every decision you make is recorded as the agent's, for review at landing; every point you carry on past is an assumption in the plan.
-
-- **Stop a line of work only on a show-stopper, or a change that would move the outcome significantly from the plan.**
-  Record it as an open question in the plan, against the landing it blocks, then move to other ready work; with none left, put the card down per the project's conventions.
-
-- **A tidy's target follows the project's answer to how a tidy lands**, else the feature branch.
+- **Halt a line of work only on a show-stopper, or a change that would move the outcome significantly from the plan.**
+  Record it as an open question blocking that sub-goal, and move to other ready work; with none left, put the card down.
 
 - **Push where the project's answers allow**, so CI backstops what nobody is watching.
 
-- **Land nothing outside the project's ship/show/ask conventions.**
-  Merging stays the user's act.
+- **Merging stays the user's.**
 
 **When the user comes back, `a-star:primary` hands the session back.**
