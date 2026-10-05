@@ -1,7 +1,7 @@
 ---
 name: sitrep
 description: >
-  Refresh the user's context on a card: beads' own state — where the work is, open questions, decisions, risks, assumptions, what's ready — plus what beads can't see: the repo's state, and where the two disagree.
+  Refresh the user's context on a card: the plan's state — where the work is, open questions, decisions, risks, assumptions, what's next — plus what the plan can't see: the repo's state, and where the two disagree.
   Use when the user says "/a-star:sitrep", "where are we", "recap", "what's still open", or is coming back to a card after a break or a compaction.
 user-invocable: true
 argument-hint: "[card, if not already in session]"
@@ -13,29 +13,29 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 **Success: the user's context is refreshed in a few subject lines** — enough to agree with where the card stands, or redirect it, without reading the transcript.
 
-**A sitrep refreshes the user's context: where the card stands, and what it's waiting on.**
-The card's state is in bd, so the report reads it back rather than reconstructing it from the transcript.
+**The card's state is in the plan, so the report reads it back rather than reconstructing it from the transcript.**
+Where the project has its own sitrep conventions, they shape the report; this skill says what goes in it.
 
 Load `a-star:a-star` first.
 
-## Beads' state, as beads gives it
+## The plan's state
 
-- **Where the work is** — `bd list --tree --parent <card>`; the `in_progress` chain is the yak stack.
-- **Open questions** — the open `decision` issues under the card, each with what it blocks.
-- **Decisions** — the closed `decision` issues, with their reasons and who decided.
-- **Assumptions and risks** — the notes on the card's nodes.
-- **Ready** — `bd ready --exclude-type epic --parent <card>`.
-- **Spikes** — the `spike` beads under the card: what each route showed, and the one still running.
+- **Where the work is** — the top of the plan: the landing in hand, and any tidy that interrupted it.
+- **Open questions** — each with the landing it blocks.
+- **Decisions** — with who made them; the agent's first, since they're the ones awaiting review.
+- **Assumptions and risks.**
+- **What's next** — the first unlanded section with nothing open blocking it.
+- **Spikes** — what each route showed, and the one still running.
 
-**Keep bd's IDs and wording**; `bd show <id>` has the rest.
+**Keep the plan's IDs and wording.**
 
-## What beads can't see
+## What the plan can't see
 
-**Beads records what the super agent told it; the repo records what happened.**
+**The plan records what the super agent wrote; the repo records what happened.**
 
-- **Check the repo** — `git status`, the card's feature and spike branches, uncommitted work, whether anything bd calls open has already landed.
+- **Check the repo** — `git status`, the card's feature and spike branches, uncommitted work, whether a section the plan calls unlanded has a commit.
 - **Say where the two disagree, and which is right.**
-  A node `in_progress` in bd but already merged, or a branch bd points at that no longer exists, is a finding.
+  A section with a SHA that isn't on the branch, or a branch the plan points at that no longer exists, is a finding.
 
 ## tl;dr
 
