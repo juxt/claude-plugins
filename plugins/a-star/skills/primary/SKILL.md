@@ -18,13 +18,13 @@ Load `a-star:a-star` first.
 ## Switching back from secondary
 
 **Refresh the user's context first, with `a-star:sitrep`**, so they can agree with what happened while they were away in a few subject lines.
-Lead with the decisions made `decided-by=agent` and the questions left open for them.
+Lead with the decisions the agent made and the questions left open for them.
 
 ## What primary needs
 
 - **Escalate what the user should decide, and decide the rest yourself.**
   Triage is the super agent's job in primary too: a question is cheaper than a wrong turn the user would have caught, but every one costs them context.
-  What you decide is recorded `decided-by=agent`, for review at landing.
+  What you decide is recorded as the agent's, for review at landing.
 
 - **Escalate a spike's findings while they can still change its route**, not as a running commentary.
 

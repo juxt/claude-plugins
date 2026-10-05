@@ -67,7 +67,10 @@ The first `##` in the body is the section after it.
 
 - Review the commits on this branch — all of them, not just the latest.
 
-- Review the conversation history for context that isn't in the commits.
+- Read the session's plan, all of it, where `chalk:pick-up` started one: what each commit's body left out, and the decisions that span commits.
+  Every `decided-by: agent` decision and every assumption in it is something the reviewer needs to see.
+
+- Review the conversation history for context that isn't in the commits or the plan.
 
 - Where there is a linked issue, read its description and comments via the github agent.
 

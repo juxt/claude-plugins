@@ -8,9 +8,6 @@
     "description": "JUXT plugin marketplace for Claude Code",
     "version": "1.0.0"
   },
-  "allowCrossMarketplaceDependenciesOn": [
-    "beads-marketplace"
-  ],
   "plugins": [
     {
       "name": "a-star",

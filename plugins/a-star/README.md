@@ -9,7 +9,7 @@ It optimises for sustainability — what the human has to hold in their head, an
 A **card** is the unit of work: an issue in the project's tracker, or whatever the project calls one.
 Changes are split per Kent Beck's *Tidy First?* — a **tidy** changes structure, a **drive** changes behaviour, and the two never share a commit.
 
-A card's root — its goal, invariants and out of scope — stays on its tracker issue; everything below it, from the tasks a spike finds to the open questions and decisions, lives in [beads](https://github.com/gastownhall/beads), which A⭐ uses as it is.
+A card's root — its goal, invariants and out of scope — stays on its tracker issue; everything below it, from the landings a spike finds to the open questions and decisions, lives in the session's plan, which survives a compaction whole.
 
 ## Why
 
@@ -26,10 +26,10 @@ A card's root — its goal, invariants and out of scope — stays on its tracker
 
 ## Usage
 
-- `/a-star <card>` — start or resume a card, from a bd ID or a tracker issue
+- `/a-star <card>` — pick up a card from its tracker issue, or resume it
 - `/a-star:refine` — agree a card's goal, invariants and out of scope
-- `/a-star:spike` — reach the goal end-to-end, and break the card into tasks
-- `/a-star:drive <task>` — land one behaviour change
+- `/a-star:spike` — reach the goal end-to-end, and break the card into landings
+- `/a-star:drive <landing>` — land one behaviour change
 - `/a-star:tidy <what>` — land one structure change, interrupting the work in hand if need be
 - `/a-star:landed <what>` — catch up after you've merged something, and choose what's next
 - `/a-star:sitrep` — refresh your context on a card
@@ -50,23 +50,18 @@ A\* follows the most promising place, re-estimates from wherever it has got to, 
 
 ## Setup
 
-A⭐ depends on the `beads` plugin, from beads' own marketplace, which runs `bd prime` at session start and before compaction.
-Add that marketplace first:
-
 ```
-/plugin marketplace add gastownhall/beads
 /plugin install a-star@juxt-plugins
 ```
 
-Then run `/a-star:setup` in each repo: it installs `bd` if need be, initialises a bd workspace without touching tracked files, and lists the policy slots your project hasn't answered.
-`/a-star` runs it for you the first time it finds no workspace.
+Then run `/a-star:setup` in each repo: it makes sure spike worktrees are ignored, and lists the choices your project hasn't answered.
 
-## Policy
+## What your project says
 
-A⭐ carries the process; your project carries the policy — readiness, landing, definition of done, coding standards, writing, and the rest, in its `AGENTS.md` or equivalent.
-Where a slot is missing, A⭐ asks rather than guessing.
+A⭐ carries the process, and defers to your project's own conventions for the rest — writing, the tracker, ship/show/ask, the definition of done, coding standards — without naming them.
+A few choices are A⭐'s own, such as how a tidy lands; where your project doesn't answer one, A⭐ asks rather than guessing.
 
 ## Recommended alongside
 
-[chalk](../chalk/) writes the commit messages, PR descriptions and issue updates A⭐'s work produces, for the colleague who wasn't there.
-Name it in your project's writing policy; neither plugin depends on the other.
+[chalk](../chalk/) writes the commit messages, PR descriptions and issue updates A⭐'s work produces, for the colleague who wasn't there, and its `pick-up` journals the decisions they're written from into the session's plan.
+A⭐ names neither; it works with whatever your project's conventions load.
