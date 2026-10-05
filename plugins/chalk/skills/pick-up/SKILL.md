@@ -62,6 +62,9 @@ The session is its only writer.
 - **It answers what has to land, not which files to touch.**
   Granular execution — which step is next, what was tried — is the session's, and the code says it better once written.
 
+- **Where it has a goal structure, it's a goal tree** (`chalk:goal-tree`): the issue's goal at the root, what lands at the leaves.
+  Test each node for sufficiency rather than assuming it, mark `check:` where unsure, and say where sufficiency leans on what the user already knows about the system — leaning on it silently is how a plan turns out to have a hole.
+
 ## 6. Journal as you go
 
 **Write each entry at the moment it happens, by the session that holds the context.**
