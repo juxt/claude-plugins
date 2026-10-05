@@ -77,8 +77,7 @@ Scope that was deliberately cut is a decision someone will want the reasoning fo
 ## In an issue description
 
 **An issue's goal tree sits higher than a plan's.**
-The issue answers what has to be true for this to be done; a plan answers which files to touch in what order.
-Granular execution — which sub-task is next, what was tried — is session state and stays in the plan you're working from.
+The issue answers what has to be true for this to be done; the session's plan answers what has to land to get there, and `chalk:pick-up` says what it carries.
 
 - **A child may be a link to another issue that owns that part.**
   `- [ ] Secondaries serve stale reads without blocking the primary — #412`
