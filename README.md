@@ -18,9 +18,9 @@ Then install individual plugins:
 
 Once the marketplace is added, you can install any of the following:
 
-- **[A⭐](plugins/a-star/)** (a-star): harness to spike to an end-to-end quickly, then land atomic, comprehensible, correct, compliant changes from what the spike found. Keeps its working state in [beads](https://github.com/gastownhall/beads).
+- **[A⭐](plugins/a-star/)** (a-star): agentic coding harness for complex project domains, preserving human context and agile principles.
 - **[Allium](https://juxt.github.io/allium/)**: an LLM-native behavioural specification language.
-- **[Chalk](plugins/chalk/)**: GitHub Issue-backed agent session memory. Like [beads](https://github.com/gastownhall/beads) but uses GitHub Issues as the storage backend.
+- **[Chalk](plugins/chalk/)**: How to write issues and PRs to accurately and efficiently convey changes to other humans.
 - **[Chill](plugins/chill/)**: a circuit-breaker skill that interrupts forward momentum when Claude is spinning, scope-creeping, or pushing through errors.
 - **[Clojure-lsp](plugins/clojure-lsp/)**: Clojure / ClojureScript language server (clojure-lsp + clj-kondo) for code intelligence, refactoring, and analysis.
 - **[Code-map](plugins/code-map/)**: build and query a code-only LSP-based symbol and call-graph map of the current project. A navigation accelerator for multi-file code reasoning.
