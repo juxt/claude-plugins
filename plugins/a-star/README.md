@@ -9,7 +9,7 @@ It optimises for sustainability — what the human has to hold in their head, an
 A **card** is the unit of work: an issue in the project's tracker, or whatever the project calls one.
 Changes are split per Kent Beck's *Tidy First?* — a **tidy** changes structure, a **drive** changes behaviour, and the two never share a commit.
 
-A card's root — its goal, invariants and out of scope — stays on its tracker issue; everything below it, from the landings a spike finds to the open questions and decisions, lives in the session's plan, which survives a compaction whole.
+A card's root — its goal, invariants and out of scope — stays on its tracker issue; everything below it — the sub-goals a spike finds, the open questions and decisions — is recorded in whatever the session tracks its work with.
 
 ## Why
 
@@ -27,13 +27,9 @@ A card's root — its goal, invariants and out of scope — stays on its tracker
 ## Usage
 
 - `/a-star <card>` — pick up a card from its tracker issue, or resume it
-- `/a-star:refine` — agree a card's goal, invariants and out of scope
-- `/a-star:spike` — reach the goal end-to-end, and break the card into landings
-- `/a-star:drive <landing>` — land one behaviour change
+- `/a-star:spike` — reach the goal end-to-end, and break the card into sub-goals
+- `/a-star:drive <sub-goal>` — land one behaviour change
 - `/a-star:tidy <what>` — land one structure change, interrupting the work in hand if need be
-- `/a-star:landed <what>` — catch up after you've merged something, and choose what's next
-- `/a-star:sitrep` — refresh your context on a card
-- `/a-star:setup` — set a repo up for A⭐
 - `/a-star:primary`, `/a-star:secondary` — say whether you're watching this session; it starts primary
 
 ## On the name
@@ -54,14 +50,12 @@ A\* follows the most promising place, re-estimates from wherever it has got to, 
 /plugin install a-star@juxt-plugins
 ```
 
-Then run `/a-star:setup` in each repo: it makes sure spike worktrees are ignored, and lists the choices your project hasn't answered.
-
 ## What your project says
 
 A⭐ carries the process, and defers to your project's own conventions for the rest — writing, the tracker, ship/show/ask, the definition of done, coding standards — without naming them.
-A few choices are A⭐'s own, such as how a tidy lands; where your project doesn't answer one, A⭐ asks rather than guessing.
+Three choices are A⭐'s own, how a tidy lands, how a drive lands, and branch cleanup; where your project doesn't answer one, A⭐ asks rather than guessing.
 
 ## Recommended alongside
 
-[chalk](../chalk/) writes the commit messages, PR descriptions and issue updates A⭐'s work produces, for the colleague who wasn't there, and its `pick-up` journals the decisions they're written from into the session's plan.
+[chalk](../chalk/) writes the commit messages, PR descriptions and issue updates A⭐'s work produces, for the colleague who wasn't there, and its `pick-up` records the sub-goals and decisions A⭐ asks for in the session's plan.
 A⭐ names neither; it works with whatever your project's conventions load.
