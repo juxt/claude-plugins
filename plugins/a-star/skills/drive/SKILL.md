@@ -27,7 +27,7 @@ Load `a-star:a-star` first.
    - **The suite stays green.** A test weakened or disabled to get past it is a broken invariant: report it, don't commit it.
    - **A structure change turning up mid-drive is a tidy** (`a-star:tidy`), not part of this commit.
 
-4. **Verify it** against the project's definition of done and its answer to how a drive lands, with the code review its ship/show/ask conventions call for.
+4. **Verify it** against the project's definition of done and its answer to how a drive lands, with the code review the project's conventions call for.
 
 5. **Commit**, and push where the project's answer says to.
 

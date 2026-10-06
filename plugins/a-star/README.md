@@ -9,7 +9,26 @@ It optimises for sustainability — what the human has to hold in their head, an
 A **card** is the unit of work: an issue in the project's tracker, or whatever the project calls one.
 Changes are split per Kent Beck's *Tidy First?* — a **tidy** changes structure, a **drive** changes behaviour, and the two never share a commit.
 
-A card's root — its goal, invariants and out of scope — stays on its tracker issue; everything below it — the sub-goals a spike finds, the open questions and decisions — is recorded in whatever the session tracks its work with.
+## What A⭐ does, and what it doesn't
+
+**A⭐ owns the spike/tidy/drive loop, and nothing else.**
+
+- **It does:**
+  - check a card is ready to spike, and agree what it's for with you where it isn't;
+  - spike to the goal with a cheap sub-agent, and turn what the spike found into sub-goals;
+  - land each sub-goal as one tidy or one drive, and keep the two apart;
+  - choose the next step from the ready sub-goals;
+  - adjust to whether you're watching the session (primary or secondary).
+
+- **It doesn't, and leaves to your project's conventions:**
+  - picking a card up and putting it down, and the tracker;
+  - planning, and where sub-goals, decisions and open questions are recorded;
+  - coding standards, and the definition of done;
+  - ship/show/ask, and code review;
+  - writing commit messages, PR descriptions and issue updates.
+
+- **Three choices are A⭐'s own, and your project answers them**: how a tidy lands, how a drive lands, and branch cleanup.
+  Where it doesn't answer one, A⭐ asks rather than guessing.
 
 ## Why
 
@@ -17,16 +36,16 @@ A card's root — its goal, invariants and out of scope — stays on its tracker
   Writing the code was never the hard part; most of an engineer's work is now the thinking — the analysis, the judgement — and working alongside AI makes that thinking more taxing, not less, especially in naturally complex domains.
   A⭐ aims to shrink what the human has to hold in their head at any one time: each landed change is small enough to review and then page out.
 
-- **Plans should come from evidence, not from reading.**
+- **The route should come from evidence, not from reading.**
   Many agent harnesses plan the whole change from the code as it reads, then execute the plan; decades of agile practice say the route is found by building, in small steps, with feedback from each.
 
 - **Spiking is now cheap.**
   A spiker on a cheaper model reaches an end-to-end in minutes, for a fraction of what the main session costs, so throwing a spike away and throwing another is affordable in a way it never was when a person wrote it.
-  The plan becomes what the spike found, rather than what was guessed before it.
+  The sub-goals are what the spike found, rather than what was guessed before it.
 
 ## Usage
 
-- `/a-star <card>` — pick up a card from its tracker issue, or resume it
+- `/a-star <card>` — start or resume the loop on a card, once your project's conventions have picked it up
 - `/a-star:spike` — reach the goal end-to-end, and break the card into sub-goals
 - `/a-star:drive <sub-goal>` — land one behaviour change
 - `/a-star:tidy <what>` — land one structure change, interrupting the work in hand if need be
@@ -49,11 +68,6 @@ A\* follows the most promising place, re-estimates from wherever it has got to, 
 ```
 /plugin install a-star@juxt-plugins
 ```
-
-## What your project says
-
-A⭐ carries the process, and defers to your project's own conventions for the rest — writing, the tracker, ship/show/ask, the definition of done, coding standards — without naming them.
-Three choices are A⭐'s own, how a tidy lands, how a drive lands, and branch cleanup; where your project doesn't answer one, A⭐ asks rather than guessing.
 
 ## Recommended alongside
 
