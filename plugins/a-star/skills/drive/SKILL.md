@@ -24,6 +24,7 @@ Load `a-star:a-star` first.
 
 3. **Write it to the project's coding standards.**
    - **No generality the sub-goal didn't ask for.**
+   - **No dead code.** Everything the commit adds has a caller outside the tests in this commit; what only a later sub-goal calls lands with that sub-goal.
    - **The suite stays green.** A test weakened or disabled to get past it is a broken invariant: report it, don't commit it.
    - **A structure change turning up mid-drive is a tidy** (`a-star:tidy`), not part of this commit.
 

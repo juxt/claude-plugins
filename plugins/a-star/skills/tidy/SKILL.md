@@ -15,6 +15,9 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 **A tidy changes structure, never behaviour, and never shares a commit with a behaviour change.**
 
+**A tidy adds no dead code.** It reshapes code that already runs; a new abstraction nothing yet calls lands with the first change that calls it.
+A caller only in tests doesn't count.
+
 Load `a-star:a-star` first.
 
 ## Now, later or never
