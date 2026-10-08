@@ -57,6 +57,8 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 
 - `/chalk:put-down [issue]` — park the session's work on its issue: description corrected, metadata sorted, discovered cards raised and linked
 
+- `/chalk:explicate <area> [focus or since-point]` — unfold an area of the code: how it works now, the decisions behind it and their consequences, then follow-ups as a depth-first walk
+
 ## Components
 
 - **Skill** (`issue`): Problem-focused issue descriptions, and keeping them accurate
@@ -70,6 +72,8 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 - **Skill** (`pick-up`): Picks up an issue's work, and starts the plan the session's commits and PR are written from — decisions, questions and constraints journalled as they happen
 
 - **Skill** (`put-down`): Parks the session's work on its issue, so the next session resumes from the issue and its links alone
+
+- **Skill** (`explicate`): Unfolds an area of the code for an engineer catching up on it — its model, the decisions that shaped it, cited or marked inferred, and their consequences elsewhere — and keeps the map as follow-ups go deeper. Explicit invocation only
 
 - **Skill** (`voice`): The shared writing voice — the audience, the specification register, the mindmap structure two propositions in a relation take, the line-format rule. `references/palette.md` carries the issue/PR section palette.
 
