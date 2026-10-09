@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470 350" width="470" height="350" font-family="system-ui, -apple-system, sans-serif" font-size="12">
+  <title>A car partway through a walled maze, with its track so far and a dart thrown over the walls to the exit</title>
+  <defs>
+    <marker id="tip" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e11d48"/></marker>
+    <marker id="tip-old" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e11d48" fill-opacity="0.3"/></marker>
+    <style>
+      .walls line { stroke: #1f2937; stroke-width: 5; stroke-linecap: square; }
+      .track { fill: none; stroke: #2563eb; stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
+      .spur { fill: none; stroke: #2563eb; stroke-opacity: 0.35; stroke-width: 4; stroke-dasharray: 2 6; stroke-linecap: round; }
+      .dart { stroke: #e11d48; stroke-width: 2.5; stroke-dasharray: 8 5; }
+      .dart-old { stroke: #e11d48; stroke-opacity: 0.3; stroke-width: 2; stroke-dasharray: 8 5; }
+      text { fill: #374151; }
+    </style>
+  </defs>
+  <rect width="470" height="350" rx="8" fill="#ffffff"/>
+  <g class="walls">
+    <line x1="70" y1="120" x2="70" y2="170"/>
+    <line x1="70" y1="220" x2="70" y2="270"/>
+    <line x1="70" y1="270" x2="70" y2="320"/>
+    <line x1="120" y1="20" x2="120" y2="70"/>
+    <line x1="120" y1="120" x2="120" y2="170"/>
+    <line x1="120" y1="270" x2="120" y2="320"/>
+    <line x1="170" y1="70" x2="170" y2="120"/>
+    <line x1="170" y1="170" x2="170" y2="220"/>
+    <line x1="170" y1="270" x2="170" y2="320"/>
+    <line x1="220" y1="170" x2="220" y2="220"/>
+    <line x1="220" y1="220" x2="220" y2="270"/>
+    <line x1="270" y1="70" x2="270" y2="120"/>
+    <line x1="270" y1="170" x2="270" y2="220"/>
+    <line x1="270" y1="220" x2="270" y2="270"/>
+    <line x1="320" y1="20" x2="320" y2="70"/>
+    <line x1="320" y1="120" x2="320" y2="170"/>
+    <line x1="320" y1="270" x2="320" y2="320"/>
+    <line x1="370" y1="70" x2="370" y2="120"/>
+    <line x1="370" y1="220" x2="370" y2="270"/>
+    <line x1="20" y1="20" x2="20" y2="270"/>
+    <line x1="420" y1="70" x2="420" y2="320"/>
+    <line x1="20" y1="70" x2="70" y2="70"/>
+    <line x1="20" y1="120" x2="70" y2="120"/>
+    <line x1="70" y1="120" x2="120" y2="120"/>
+    <line x1="70" y1="220" x2="120" y2="220"/>
+    <line x1="120" y1="70" x2="170" y2="70"/>
+    <line x1="170" y1="70" x2="220" y2="70"/>
+    <line x1="170" y1="220" x2="220" y2="220"/>
+    <line x1="170" y1="270" x2="220" y2="270"/>
+    <line x1="220" y1="120" x2="270" y2="120"/>
+    <line x1="270" y1="70" x2="320" y2="70"/>
+    <line x1="270" y1="120" x2="320" y2="120"/>
+    <line x1="270" y1="270" x2="320" y2="270"/>
+    <line x1="320" y1="120" x2="370" y2="120"/>
+    <line x1="320" y1="170" x2="370" y2="170"/>
+    <line x1="320" y1="220" x2="370" y2="220"/>
+    <line x1="370" y1="220" x2="420" y2="220"/>
+    <line x1="20" y1="20" x2="420" y2="20"/>
+    <line x1="20" y1="320" x2="420" y2="320"/>
+  </g>
+  <line class="dart-old" x1="45" y1="295" x2="430" y2="45" marker-end="url(#tip-old)"/>
+  <line class="dart-old" x1="145" y1="195" x2="430" y2="45" marker-end="url(#tip-old)"/>
+  <polyline class="spur" points="145,195 145,245 195,245"/>
+  <polyline class="track" points="5,295 45,295 45,195 145,195 145,145 230,145"/>
+  <line class="dart" x1="245" y1="145" x2="430" y2="45" marker-end="url(#tip)"/>
+  <g transform="translate(245,145)">
+    <rect x="-13" y="-11" width="7" height="4" rx="1" fill="#111827"/>
+    <rect x="6" y="-11" width="7" height="4" rx="1" fill="#111827"/>
+    <rect x="-13" y="7" width="7" height="4" rx="1" fill="#111827"/>
+    <rect x="6" y="7" width="7" height="4" rx="1" fill="#111827"/>
+    <rect x="-15" y="-8" width="30" height="16" rx="5" fill="#f59e0b" stroke="#92400e" stroke-width="1.5"/>
+    <rect x="3" y="-5" width="7" height="10" rx="2" fill="#fde68a"/>
+  </g>
+  <text x="426" y="67" text-anchor="start">exit</text>
+  <text x="300" y="87.5" fill="#e11d48" style="fill:#e11d48">dart</text>
+  <text x="151" y="136.5">track so far</text>
+  <text x="151" y="236.5">dead end</text>
+</svg>

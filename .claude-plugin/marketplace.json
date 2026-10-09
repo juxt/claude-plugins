@@ -11,7 +11,7 @@
   "plugins": [
     {
       "name": "a-star",
-      "description": "Harness to spike to an end-to-end quickly, then land atomic, comprehensible, correct, compliant changes from what the spike found.",
+      "description": "Agentic coding harness for complex domains: a cheap agent finds the route to the goal end-to-end, then each change lands small and simple enough for a human to review and put down.",
       "source": "./plugins/a-star"
     },
     {

@@ -18,7 +18,7 @@ Then install individual plugins:
 
 Once the marketplace is added, you can install any of the following:
 
-- **[A⭐](plugins/a-star/)** (a-star): agentic coding harness for complex project domains, preserving human context and agile principles.
+- **[A⭐](plugins/a-star/)** (a-star): agentic coding harness for complex domains — a cheap agent finds the route to the goal end-to-end, then each change lands small and simple enough for a human to review and put down.
 - **[Allium](https://juxt.github.io/allium/)**: an LLM-native behavioural specification language.
 - **[Chalk](plugins/chalk/)**: How to write issues and PRs to accurately and efficiently convey changes to other humans.
 - **[Chill](plugins/chill/)**: a circuit-breaker skill that interrupts forward momentum when Claude is spinning, scope-creeping, or pushing through errors.

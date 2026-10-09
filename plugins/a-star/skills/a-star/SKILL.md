@@ -1,7 +1,7 @@
 ---
 name: a-star
 description: >
-  The a-star process, and its entry point: pick a card up, make it ready, and offer the next spike, tidy or drive from its ready sub-goals.
+  The a-star process, and its entry point: pick a card up, make it ready, and offer the next dart or drive from its ready sub-goals.
   Every other a-star skill loads this one first — it carries the loop, the roles, where sub-goals come from, the structure/behaviour split, what a-star records, and what it needs the project to say.
   Use when the user says "/a-star <card>", "pick up <card>", "start work on <card>", "refine this card", or resumes a card from an earlier session.
 user-invocable: true
@@ -12,28 +12,28 @@ argument-hint: "<card: a tracker issue>"
 
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
-1. **Spike to an end-to-end as quickly as possible.**
-2. **Use what the spike found to land atomic, comprehensible, correct, compliant changes.** Go to 1 as required.
+1. **Dart to an end-to-end as quickly as possible.**
+2. **Use what the dart found to land atomic, comprehensible, correct, compliant changes.** Go to 1 as required.
 
-**Throwing a tidy or a drive away is always an option**: revert it, mark its sub-goal not done, and spike again with what it taught.
+**Throwing a drive away is always an option**: revert it, mark its sub-goal not done, and dart again with what it taught.
 
 ## Roles
 
 - **You, the main session, are the super agent.**
-  You triage what spikes raise, and write everything that lands, including the tests.
-- **The spiker reaches the goal end-to-end and reports.** Its code never lands.
+  You triage what darts raise, and write everything that lands, including the tests.
+- **The dart agent reaches the goal end-to-end and reports.** Its code never lands.
 
 **A user's question is a question, not a go-ahead.**
 "Is that a good idea?" wants an answer; an offer of the next step waits for a yes.
 
 ## Sub-goals
 
-- **Sub-goals come from spikes, not from reading the code.**
-- **A sub-goal is one tidy or one drive**, landing as one commit.
+- **Sub-goals come from darts, not from reading the code.**
+- **A sub-goal is one tidy or one advance**, landing as one commit by a drive.
 - **Together, a card's sub-goals MUST complete it.**
-- **The landed code keeps the data structures a spike got right**, and leaves out what it built around the ones it didn't.
+- **The landed code keeps the data structures a dart got right**, and leaves out what it built around the ones it didn't.
 
-**A structure change and a behaviour change never share a commit**: a tidy changes structure (`a-star:tidy`), a drive changes behaviour (`a-star:drive`).
+**A structure change and a behaviour change never share a commit**: a tidy changes structure, an advance changes behaviour, and `a-star:drive` lands either.
 
 ## What to record
 
@@ -53,7 +53,7 @@ In whatever the session tracks its work with:
 
 1. **Pick the card up** per the project's conventions — for example, reading the issue and its neighbourhood, agreeing why it's being done now, then assigning it and marking it in progress.
 
-2. **Make it ready.** A card is ready when a spike can start from it alone:
+2. **Make it ready.** A card is ready when a dart can start from it alone:
    - **its root is agreed** — goal, invariants and out of scope, on the tracker issue;
    - **no open question bears on the card itself**;
    - **the project's readiness conventions hold.**
@@ -62,7 +62,7 @@ In whatever the session tracks its work with:
    In secondary, record the questions and put the card down instead.
    **Before it ends, update the tracker issue with what was agreed**: every decision that bears on the problem or the agreed scope, not only the root.
 
-3. **Offer the next step, and wait** — a spike where the card has no sub-goals yet or part of its goal is still unwalked, else a drive or tidy on a ready sub-goal.
+3. **Offer the next step, and wait** — a dart where the card has no sub-goals yet or part of its goal is still unwalked, else a drive on a ready sub-goal.
 
 ## What the project says
 
@@ -71,7 +71,7 @@ In whatever the session tracks its work with:
 **The project MUST answer three choices of a-star's own**:
 
 - **How a tidy lands** — feature branch or main; what to verify before committing; when to push; whether it's done at commit or once CI is green.
-- **How a drive lands** — what to verify before committing, and whether to push the feature branch as work lands.
+- **How an advance lands** — what to verify before committing, and whether to push the feature branch as work lands.
 - **Branch cleanup** — what happens to a branch once its work has landed.
 
 **Raise an unanswered one as a question; don't fill it with a default.**

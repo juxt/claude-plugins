@@ -1,5 +1,5 @@
 {
   "name": "a-star",
-  "version": "0.3.2",
-  "description": "Harness to spike to an end-to-end quickly, then land atomic, comprehensible, correct, compliant changes from what the spike found."
+  "version": "0.4.0",
+  "description": "Agentic coding harness for complex domains: a cheap agent finds the route to the goal end-to-end, then each change lands small and simple enough for a human to review and put down."
 }

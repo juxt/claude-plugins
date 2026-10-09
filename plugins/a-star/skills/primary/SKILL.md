@@ -18,4 +18,4 @@ Load `a-star:a-star` first.
 
 - **Escalate what the user should decide, and decide the rest yourself**; every question costs them context.
 
-- **Escalate a spike's findings while they can still change its route**, not as a running commentary.
+- **Escalate a dart's findings while they can still change its route**, not as a running commentary.
