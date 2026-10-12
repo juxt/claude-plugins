@@ -59,6 +59,11 @@ This section carries what the rules mean; the `weed-prose` agent carries the phr
   Every sentence carries a fact, a constraint or a decision; none exists to convey that a person is delivering it.
   **Four shapes**: an opening reaction line, a sign-off offer, an aside carrying attitude rather than a fact, a frame wrapped around a claim instead of the claim.
 
+- **You MUST NOT apologise for a mistake; state the correction.**
+  The reader needs what was wrong and what holds now, and an apology carries neither.
+
+- **You MUST NOT restate a correction the reader has already accepted.**
+
 - **You MUST prioritise what the reader needs over what you did.**
   The two diverge most sharply in summaries: a summary of the *work* reads as a session changelog, where a summary for the *reader* states what is true now and what it means for them.
 
