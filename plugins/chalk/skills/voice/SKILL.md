@@ -325,6 +325,22 @@ persisted b7:  termId               = 5   ← b4, B's term
   - **On a paragraph-per-line destination the break after the subject is the one exception to the line format.**
     Each paragraph of the elaboration stays on one line, however long it runs.
 
+## The hourglass
+
+**An explanation descends from the highest level to the lowest, and MAY then climb back up.**
+The tree orders a node above its children; the hourglass orders the artefact's sections the same way, and adds the return.
+
+- **It opens at the level the reader arrives at** — what is being done, and why, in the context it sits in.
+  That opening is where the reader decides whether the detail is worth their attention, so it has to win that before any detail arrives.
+  Detail met first is detail they cannot yet place, and they hold it unplaced while they read on to find out what it was for.
+
+- **It descends once the opening has done that, one level at a time.**
+  Mechanism, then the decisions inside it, then the specifics a reader needs only to act on it.
+
+- **Where the details answer the higher-level problems, it climbs back up, lowest level first.**
+  Each detail is tied to the problem it resolves, in the reverse of the order the descent took, so the reader leaves at the level they arrived at, holding the answer to the question they came with.
+  Where every detail plainly serves the opening, there is nothing to tie back, and the climb is omitted.
+
 ## tl;dr
 
 - **A tl;dr is a mindmap at takeaway grain**: one top-level bullet per takeaway, children backing it up.
