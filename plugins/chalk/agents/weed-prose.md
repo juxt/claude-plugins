@@ -95,11 +95,14 @@ A prose diff — documentation, rules, a skill, a spec — ships the new wording
 After cutting, answer these from the trimmed draft alone, and **report each one you cannot answer**:
 
 - **Why does this change exist** — what problem, what constraint, what it unblocks?
-- **Why now** — what prompted it, rather than next month?
 - **What did it decide that the diff doesn't show** — an option rejected, a scope boundary, a dead end? *(PR only.)*
-- **For a standalone PR: does the first line state what, why and why now?**
+- **For a standalone PR: does the first line state what and why?**
 
-On an issue, three more, each checkable from the text alone:
+On an issue, four more, each checkable from the text alone:
+
+- **Is a downstream the issue claims named?**
+  "Unblocks future work" is a gap; a named card is the issue's *why now*.
+  An issue claiming no downstream is opportunistic, which is not a gap.
 
 - **Would someone with this exact problem be able to rule the issue out from the abstract?**
   The first line has to name the problem in the terms a reader arrives with. A mechanism-named abstract sends away the readers least able to recognise it.
@@ -111,9 +114,9 @@ On an issue, three more, each checkable from the text alone:
 You MUST NOT invent answers or write new sentences to fill a gap.
 Name the gap and let the caller fill it.
 
-**Write each gap as the question to put to the user, worded so it can be relayed verbatim** — "What prompted this now rather than next month?", "What made the lock approach unworkable?".
+**Write each gap as the question to put to the user, worded so it can be relayed verbatim** — "What problem does this solve for the user?", "What made the lock approach unworkable?".
 
-**A missing *why now* is blocking; the others are not.**
+**A missing *why* is blocking; the others are not.**
 
 ## Re-checking a redraft
 

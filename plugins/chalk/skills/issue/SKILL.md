@@ -65,15 +65,22 @@ You SHOULD NOT write a wall of undifferentiated prose.
 **The body MUST open with a tl;dr**, per `chalk:voice` — the summary sentence, then the mindmap, with no heading over it.
 The first `##` in the body is the section after it.
 
-## Establish the why, and the why now
+## Establish the why
 
 **An issue MUST NOT be filed without a clear and concise *why*.**
 Where the motivation isn't recoverable, ask — and treat "I can reconstruct it" as the answer that needs checking.
 
-- **The *why now* is the line most often missing.**
-  Either of these alone is one, so you need whichever you can evidence rather than both:
+- **The issue is the one place a *why now* lives.**
+  Commits and PRs link the issue rather than carrying their own, so whatever prompts the work belongs here.
+  Either of these alone is one, and you cite whichever you can evidence rather than both:
   1. impact (stated objectively)
   2. unblocking downstream dependencies
+
+  - **An issue with no *why now* is opportunistic, and that is a valid state.**
+    It needs no tag and blocks nothing; you MUST NOT invent one to fill the line.
+
+  - **A session that finds its work waits on another card writes that onto the other card**, through this skill: the named downstream in its context, and the blocked-by edge in the tracker.
+    The session that learns of the dependency is the only one holding it, so it is the one that records it.
 
 ## Check it doesn't already exist
 
@@ -211,7 +218,7 @@ Not "ask if you're unsure" — that judgement is made by the context that just b
 
 - **Relay each question as written.** Composing your own is where the ask gets dropped.
 
-- **A missing *why now* is blocking** and MUST be resolved before the issue is filed. There is no diff here to recover it from in six months.
+- **A missing *why* is blocking** and MUST be resolved before the issue is filed. There is no diff here to recover it from in six months.
 
 ### Filing it
 

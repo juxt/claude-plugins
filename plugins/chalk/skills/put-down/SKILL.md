@@ -41,6 +41,8 @@ If it is in any way unclear, you MUST confirm with the user which ones they want
 - **Parent/child relationships MUST be wired in the tracker**, as must blocked-by where the tracker models it.
   A child known only from a mention in the parent's text doesn't show up in the tracker's own view of the parent.
 
+- **A card this work turned out to wait on gets the dependency written onto it**, through `chalk:issue`'s own path, and not only the edge.
+
 - **A related card MAY just be mentioned by number.**
   That is often the right weight for a relationship that doesn't order the work.
 

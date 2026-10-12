@@ -1,6 +1,6 @@
 ---
 name: pick-up
-description: Pick up an issue's work in this session — read the issue and its neighbourhood, state the why-now and wait, sort the tracker metadata, and start the plan that journals the session's decisions, questions and constraints as they happen, so its commits and PR are written from them. Use when the user says "pick this up", "pick up #N", "start on #N", "/chalk:pick-up", or a session is starting work on an issue.
+description: Pick up an issue's work in this session — read the issue and its neighbourhood, report what the scan found, sort the tracker metadata, and start the plan that journals the session's decisions, questions and constraints as they happen, so its commits and PR are written from them. Use when the user says "pick this up", "pick up #N", "start on #N", "/chalk:pick-up", or a session is starting work on an issue.
 user-invocable: true
 argument-hint: "[issue]"
 ---
@@ -9,7 +9,7 @@ argument-hint: "[issue]"
 
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
-**Success: the session works from the issue alone, the user has agreed why it's being done now, and every commit and PR the session drafts finds its reasoning already written in the plan.**
+**Success: the session works from the issue alone, nothing in its neighbourhood that changes the picture has gone unreported, and every commit and PR the session drafts finds its reasoning already written in the plan.**
 
 ## Before you start
 
@@ -20,12 +20,16 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 **The issue, its parent, its sub-issues, what blocks it and what it blocks, and its linked PRs.**
 
-## 2. State the why-now, and wait
+## 2. Report what the scan found
 
-**Say why this issue is being worked now, traceable to something you can name** — a blocked card, a deadline, the user's say-so.
-Where you can't name one, say so; you MUST NOT pick the most plausible-looking sub-task instead.
+**Say what the neighbourhood tells you about this issue being worked now**, and carry on.
+The *why now*, where there is one, is the issue's own (`chalk:issue`); an issue without one is opportunistic.
 
-**Wait for the user's agreement before changing anything**, the tracker included.
+- **Where the scan changes the picture, wait for the user's agreement before changing anything, the tracker included.**
+  An open blocker, a duplicate, or a card that supersedes this one.
+
+- **Where the user named an umbrella rather than a piece of it, ask which piece.**
+  You MUST NOT pick the most plausible-looking sub-task instead.
 
 ## 3. Report and resolve gaps in the issue
 
@@ -64,11 +68,11 @@ Only the session writes it.
 - **`Q<n>` question** — what it blocks, and what would settle it.
 - **`constraint:`, `assumption:`, `risk:`** — what the work leans on that it doesn't control, and what could stop it.
 - **`dead-end:`** — a road that closed, and what closed it, where that constrains what comes next.
-- **`why-now:`** — what prompted a piece of work, whenever it isn't the issue's own.
 
 **Cutting scope and accepting a risk MUST be recorded**; they leave no other trace.
 
 **A decision that changes the problem or the agreed scope goes to the issue now**, through `chalk:issue`; the journal records that it went.
+**So does a dependency the session discovers**, onto the card it depends on rather than this one, per `chalk:issue`.
 **Everything else goes in the journal**, naming the sub-goal it bears on only where the entry doesn't make that obvious.
 
 **Each entry is one claim in `chalk:voice`'s register, terse.**

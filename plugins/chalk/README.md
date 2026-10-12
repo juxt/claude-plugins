@@ -13,7 +13,7 @@ Chalk puts it in the artefacts you already have, each carrying the part it's the
 
 ## The Intent Stack
 
-- **Issues** (`/chalk:issue`): file an issue whose description captures the problem, the evidence, and *why now* — enough that a reader can assess it without asking you. Also keeps an existing description accurate as the facts change.
+- **Issues** (`/chalk:issue`): file an issue whose description captures the problem, the evidence, and *why now* where there is one — enough that a reader can assess it without asking you. Also keeps an existing description accurate as the facts change.
 
 - **Commits** (`/chalk:commit`): create commits with contextual bodies that explain the *why*, referencing the issue where there is one.
 
@@ -53,7 +53,7 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 
 - `/chalk:sitrep [focus]` — report where the session has got to, and what's still open
 
-- `/chalk:pick-up [issue]` — pick up an issue's work: neighbourhood read, why-now agreed, metadata sorted, and a plan that journals decisions as they happen
+- `/chalk:pick-up [issue]` — pick up an issue's work: neighbourhood read and reported, metadata sorted, and a plan that journals decisions as they happen
 
 - `/chalk:put-down [issue]` — park the session's work on its issue: description corrected, metadata sorted, discovered cards raised and linked
 

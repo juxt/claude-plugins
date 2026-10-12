@@ -59,13 +59,11 @@ You MUST load these skills first:
 
    - **Why this** — what problem it solves, what it unblocks, what constraint drove it.
 
-   - **Why now** — what prompted it today: a deadline, a dependent piece of work, a recent incident, someone else blocked on it.
+   **Ask rather than guess**, and treat "I can reconstruct it" as the answer that needs checking — that judgement is made by the context that just built the *why*, so it always comes back confident.
+   Ask about whether something was a deliberate choice or a constraint, and whether something was intentionally out of scope or overlooked.
 
-   **Ask rather than guess**, and treat "I can reconstruct it" as the answer that needs checking — that judgement is made by the context that just built the *why*, so it always comes back confident. **Where a *why now* isn't traceable to something the user said, a commit or a file you can name, you don't have it.**
-
-   **A missing *why now* MUST be resolved with the user before you commit**, and you MUST NOT close it by deciding it doesn't apply.
-   Why-this can be recovered from the diff and the issue in six months; why-now exists only in the user's head and is gone tomorrow.
-   Ask about the same things you would have anyway: whether something was a deliberate choice or a constraint, and whether something was intentionally out of scope or overlooked.
+   **The *why now* is the issue's, not the commit's** (`chalk:issue`).
+   Carry one only where the session has it and there is no issue to hold it; you MUST NOT invent one, and its absence is no gap.
 
    Trivial changes — typo fixes, mechanical bumps, one-line config tweaks — don't need this step; the motivation is self-evident.
 

@@ -37,7 +37,8 @@ A PR does get approved, but the approver is not who you write for: they hold the
   **tl;dr → What changes → Usage / migration → Consequences → Out of scope → Alternative approaches → Open questions**
 
 - **Standalone** — there is no issue, so this description carries the problem itself, acting as both.
-  **The first line MUST state what, why and why now** — the line that would have been a reference has to do the issue's opening job instead.
+  **The first line MUST state what and why** — the line that would have been a reference has to do the issue's opening job instead.
+  A *why now* belongs there only where the session has one; you MUST NOT invent one.
   **This is the path that leads with the problem.** On the other one, leading with the problem is the duplication the pairing exists to prevent.
   It inserts the problem sections, and only those: the rest of the issue side is design-space or forward-looking material, and a PR is retrospective.
 
@@ -122,7 +123,7 @@ It MUST be the body exactly as GitHub holds it (`gh issue view <n> --json body -
   Without the issue, repeated problem context reads as necessary; with it, the cut is obvious and the link does the work.
 
 - **Where there is no linked issue, say so.**
-  It will otherwise strip the problem context a standalone PR is required to carry, and it checks the first line for what, why and why now instead.
+  It will otherwise strip the problem context a standalone PR is required to carry, and it checks the first line for what and why instead.
 
 - **Its cuts apply; its Gaps are questions for you**, and it MUST NOT invent an answer to one.
 
@@ -139,7 +140,7 @@ Not "ask if you're unsure" — that judgement is made by the context that just s
 
 - **Relay each question as written.** Composing your own is where the ask gets dropped.
 
-- **A `blocking` gap — a missing *why now*, or a standalone PR whose first line doesn't state what, why and why now — MUST be resolved before you open the PR.**
+- **A `blocking` gap — a missing *why*, or a standalone PR whose first line doesn't state what and why — MUST be resolved before you open the PR.**
 
 - **Answer from the branch where the branch genuinely has it**, naming the commit you are drawing on so the user can correct you. Where it doesn't, ask.
 
