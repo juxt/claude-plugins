@@ -50,6 +50,11 @@ Load `a-star:a-star` first.
 
 ## A tidy: now, later or never
 
+**A structure change to code this branch introduced, before that code has landed, is not a tidy: fix it up into the commit that introduced it.**
+A tidy reshapes code the base already runs; here there is no earlier shape worth a commit, and a reviewer would read the complex version and then its simplification where one simple commit would do.
+Once the introducing commit has landed, a reshape of its code is an ordinary tidy again.
+The fixup rewrites the branch, so push it per the project's conventions.
+
 - **Now** — it's worth having however the rest of the card turns out, or the work in hand needs it.
 - **Later** — whether it's worth having depends on the behaviour change: record it as a sub-goal, and carry on.
 - **Never** — it opens no option; don't record it.
@@ -71,7 +76,7 @@ Load `a-star:a-star` first.
 
 4. **Verify it** against the project's definition of done and its answer to how this mode lands, with the code review the project's conventions call for.
 
-5. **Commit**, and push where the project's answer says to.
+5. **Commit, to the project's commit conventions**, and push where the project's answer says to.
 
 6. **Record the sub-goal done**, with its commit.
    A tidy that interrupted something pops: rebase the feature branch onto it, and resume what it interrupted.

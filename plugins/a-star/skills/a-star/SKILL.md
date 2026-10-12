@@ -66,7 +66,7 @@ In whatever the session tracks its work with:
 
 ## What the project says
 
-**Everything not here follows the project's conventions** — writing, tracking, planning, picking a card up and putting it down, the base branch, ship/show/ask, the definition of done, coding standards.
+**Everything not here follows the project's conventions** — writing, tracking, planning, picking a card up and putting it down, the base branch, ship/show/ask, the definition of done, coding standards, and commit conventions — what goes together in one commit.
 
 **The project MUST answer three choices of a-star's own**:
 
