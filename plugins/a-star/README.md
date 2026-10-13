@@ -23,7 +23,7 @@ Hopefully you're closer! If not, you adapt your path — you might even backtrac
 
 A **card** is the unit of work: an issue in the project's tracker, or whatever the project calls one.
 Changes are split per Kent Beck's *Tidy First?* — a **tidy** changes structure, an **advance** changes behaviour, and the two never share a commit.
-A **drive** lands either one.
+A **drive** lands either one, in commits that are each one atomic unit of change carrying its own tests and docs, so a reviewer reading the branch commit by commit can agree with each before moving to the next.
 
 ## Why
 

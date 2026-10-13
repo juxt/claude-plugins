@@ -30,7 +30,9 @@ A drive that fails before it lands steps back per `a-star:drive`.
 ## Sub-goals
 
 - **Sub-goals come from darts, not from reading the code.**
-- **A sub-goal is one tidy or one advance**, landing as one commit by a drive.
+- **A sub-goal is one tidy or one advance**, landed by a drive.
+- **Each commit is one atomic unit of change, its own tests and docs included.**
+  The user reviews a branch commit by commit, understanding and agreeing with each before the next; a commit whose tests or docs arrive later can't be agreed with on its own.
 - **Together, a card's sub-goals MUST complete it.**
 - **The landed code keeps the data structures a dart got right**, and leaves out what it built around the ones it didn't.
 
@@ -43,7 +45,7 @@ In whatever the session tracks its work with:
 - **a sub-goal, and what it depends on;**
 - **a decision** — a call you aren't sure of is an open question instead;
 - **an open question, and what it blocks;**
-- **a sub-goal done**, with its commit;
+- **a sub-goal done**, with its commits;
 - **what's in hand** — the sub-goal being worked, and anything that interrupted it;
 - **whether the user is watching** (`a-star:primary`, `a-star:secondary`).
   A session starts primary, unless nobody can watch it — headless, cloud or scheduled — when it starts secondary.
@@ -67,7 +69,8 @@ In whatever the session tracks its work with:
 
 ## What the project says
 
-**Everything not here follows the project's conventions** — writing, tracking, planning, picking a card up and putting it down, the base branch, ship/show/ask, the definition of done, coding standards, and commit conventions — what goes together in one commit.
+**Everything not here follows the project's conventions** — writing, tracking, planning, picking a card up and putting it down, the base branch, ship/show/ask, the definition of done, coding standards, and how a commit is written.
+What goes in a commit is a-star's: one atomic unit of change.
 
 **The project MUST answer three choices of a-star's own**:
 

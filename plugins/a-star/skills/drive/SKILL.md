@@ -78,7 +78,7 @@ The fixup rewrites the branch, so push it per the project's conventions.
 
 5. **Commit, to the project's commit conventions**, and push where the project's answer says to.
 
-6. **Record the sub-goal done**, with its commit.
+6. **Record the sub-goal done**, with its commits.
    A tidy that interrupted something pops: rebase the feature branch onto it, and resume what it interrupted.
    A dart branch under it is the dart agent's to rebase or redo.
 
