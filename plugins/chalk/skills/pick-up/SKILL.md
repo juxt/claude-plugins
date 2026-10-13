@@ -50,7 +50,7 @@ Only the session writes it.
 - **It links the issue rather than copying it.**
 - **It holds what has to land, and below it, apart, the journal.**
 - **What has to land, not which files to touch.**
-- **Where it has a goal structure, it's a goal tree** (`chalk:goal-tree`): the issue's goal at the root, what lands at the leaves.
+- **What has to land SHOULD be a goal tree** (`chalk:goal-tree`): the issue's goal at the root, what lands at the leaves.
   Test each node for sufficiency, mark `check:` where unsure, and say where sufficiency leans on what the user already knows about the system.
 - **A sub-goal names what it depends on.**
   **It's ready once everything it depends on is done and no open question blocks it.**
