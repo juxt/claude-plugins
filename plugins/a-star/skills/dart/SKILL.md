@@ -23,6 +23,9 @@ You MAY point it at where the card's work is recorded instead, to read and never
 - **Pass `isolation: "worktree"`, and run it in the background**, so it can message you as it goes.
 - **`.claude/worktrees/` MUST be ignored by git**; add it to `.git/info/exclude` where it isn't.
 - **Every dart starts fresh from the current base**; an old dart is evidence, never resumed.
+- **Darts run in parallel — with each other, and with a drive; drives run one at a time.**
+  Dart whatever is ready that nothing in flight already covers.
+  A dart MAY start from another dart's branch instead of the base, where what it needs hasn't landed yet.
 
 ## While it runs
 
