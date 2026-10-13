@@ -90,3 +90,16 @@ Merging is the user's; once they have, remove what only served it per the projec
 
 **Stopping before it's done**: WIP-commit the work, leave it recorded as in hand, and put the card down.
 With the stack unpopped, the WIP commits and what's recorded as in hand are what the next session resumes from.
+
+## Handling Drive Failure
+
+**A drive has failed once its change is no longer atomic, or no longer comprehensible** — more than one change, or more than a reviewer can hold in their head.
+Other signs: the same failure twice; a fix reaching into code the sub-goal didn't name; a test you'd have to weaken to get past; the code not being what the plan assumed.
+
+**Step back rather than push on**: set the drive aside — WIP-commit it or revert it — and mark its sub-goal not ready.
+
+- **Break it down again, per *Tidy First?*'s "Getting Untangled"** — by default, discard the drive and redo it tidying first, with what it taught.
+  However the work then splits, each change is atomic and comprehensible, recorded as a sub-goal.
+- **Throw a dart where the route is what's unknown**, from where the work is, with what the drive taught.
+- **Take it back to the user where a decision is** — the sub-goal's scope, the plan, an invariant.
+  In secondary, record it as an open question blocking the sub-goal, and move to other ready work.

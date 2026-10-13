@@ -16,6 +16,7 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 2. **Use what the dart found to land atomic, comprehensible, correct, compliant changes.** Go to 1 as required.
 
 **Throwing a drive away is always an option**: revert it, mark its sub-goal not done, and dart again with what it taught.
+A drive that fails before it lands steps back per `a-star:drive`.
 
 ## Roles
 
