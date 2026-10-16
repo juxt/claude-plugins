@@ -59,6 +59,8 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 
 - `/chalk:explicate <area> [focus or since-point]` — unfold an area of the code: how it works now, the decisions behind it and their consequences, then follow-ups as a depth-first walk
 
+- `/chalk:rubber-duck [topic]` — talk a design through in whatever order it comes: decisions, constraints, questions and ideas kept under stable IDs, and turned into whatever the user picks at the end
+
 ## Components
 
 - **Skill** (`issue`): Problem-focused issue descriptions, and keeping them accurate
@@ -74,6 +76,8 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 - **Skill** (`put-down`): Parks the session's work on its issue, so the next session resumes from the issue and its links alone
 
 - **Skill** (`explicate`): Unfolds an area of the code for an engineer catching up on it — its model, the decisions that shaped it, cited or marked inferred, and their consequences elsewhere — and keeps the map as follow-ups go deeper. Explicit invocation only
+
+- **Skill** (`rubber-duck`): Talks a design through with the user — files what they say by kind and area whatever order it arrives in, pushes back with consequences and conflicts, keeps its questions from blocking, and leaves the output to the user at the end
 
 - **Skill** (`voice`): The shared writing voice — the audience, the specification register, the mindmap structure two propositions in a relation take, the line-format rule. `references/palette.md` carries the issue/PR section palette.
 
