@@ -61,6 +61,8 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 
 - `/chalk:rubber-duck [topic]` — talk a design through in whatever order it comes: decisions, constraints, questions and ideas kept under stable IDs, and turned into whatever the user picks at the end
 
+- `/chalk:root-cause [symptom]` — find why something happened, as a fault tree: the observed symptom at the root, immediate causes beneath it, each settled against evidence kept in one file
+
 ## Components
 
 - **Skill** (`issue`): Problem-focused issue descriptions, and keeping them accurate
@@ -82,6 +84,8 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 - **Skill** (`voice`): The shared writing voice — the audience, the specification register, the mindmap structure two propositions in a relation take, the line-format rule. `references/palette.md` carries the issue/PR section palette.
 
 - **Skill** (`goal-tree`): Goal trees, where children accomplish their parent rather than argue for it, and each node is tested for sufficiency
+
+- **Skill** (`root-cause`): Fault trees — a goal tree turned over, whose children are the causes that could directly produce their parent, each marked open, confirmed or refuted against evidence; a confirmed cause hands over to `goal-tree`'s moves for closing a gap
 
 - **Skill** (`code-comments`): The default is no comment — what earns an exception, what dissolves one, and what to delete. Load it early in a session that touches code, and again when reviewing a diff
 
