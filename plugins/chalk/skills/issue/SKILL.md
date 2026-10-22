@@ -216,6 +216,10 @@ Not "ask if you're unsure" — that judgement is made by the context that just b
 - **The redraft MUST go back to `weed-prose`.**
   You MUST NOT judge your own redraft — the agent that raised the gap is the one that closes it. Loop until it reports no blocking gaps.
 
+- **A correction to a filed description goes back for the nodes it changed, not the whole body.**
+  Pass the whole body and name the changed nodes; the rest has already been weeded.
+  The user MAY waive the re-weed for a one-node or purely structural edit.
+
 - **Relay each question as written.** Composing your own is where the ask gets dropped.
 
 - **A missing *why* is blocking** and MUST be resolved before the issue is filed. There is no diff here to recover it from in six months.
