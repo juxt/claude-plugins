@@ -192,6 +192,19 @@ The description is the source of truth, so it MUST be corrected as the facts cha
 - **Where a PR is coming/open, the issue MUST be corrected before the PR closes.**
   If the work contradicted a constraint the issue asserted, or the prior art didn't transfer, the later reader otherwise finds a confident, wrong problem statement and a PR that silently disagrees with it.
 
+### Comments
+
+**What goes stale on a different clock from the design goes in a comment, not the description.**
+"Not needed for 2.2" is release scoping: true when written, and wrong in the description once 2.2 ships.
+
+**A closing comment MUST carry its own reasoning**, not only a link.
+The issue or PR it links may be rewritten later, and a close that only points at it is left citing reasoning that no longer says what the close relied on.
+
+### Check the body against the session
+
+**Before the body goes out, name what the session holds that it doesn't** — the facts the session established, the routes it rejected, and the arguments a conclusion rests on.
+The body outlives the session and its journal, so a conclusion posted without its argument is one the next reader takes on trust or re-derives.
+
 ### Weed the draft
 
 Write the drafted body to a file and **delegate to the `weed-prose` agent**, naming the artefact as an issue body and passing the path, plus the parent issue if there is one.
