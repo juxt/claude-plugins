@@ -46,6 +46,9 @@ Those skills carry the voice guidance the body needs.
 
 Pass the body from a file, and verify the write landed.
 
+**Run the write and its readback as separate commands**, each a plain `gh` or `wc` call.
+Your Bash permissions match one command at a time, so a write chained to its readback with `&&`, a variable or process substitution is refused, and the retry costs a round.
+
 Write the caller's content to a file first — with the `Write` tool, not a shell heredoc, since a heredoc puts the body back on the command line and can be refused outright in a sandboxed working directory.
 
 **Issue bodies, PR bodies and comments each have a `--body-file` flag. Use it.**
