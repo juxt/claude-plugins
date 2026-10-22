@@ -11,7 +11,9 @@ argument-hint: "[card, if not already in session]"
 
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
-**Success: the route to the goal is known, cheaply, with nothing landed** — the data structures that match the problem, sub-goals that together complete the card, each small enough for a human to hold in their head, and every question, assumption and risk on the way surfaced while it could still change the route.
+**Success: the unknowns and constraints on the route to the goal are surfaced while they could still change it, the next steps are suggested, and the dart wrote no more than that took, with nothing landed.**
+The next steps are sub-goals that together complete the card, each small enough for a human to hold in their head, on data structures that match the problem.
+A passing suite is not part of it.
 
 Load `a-star:a-star` first.
 
@@ -20,6 +22,7 @@ Load `a-star:a-star` first.
 **Spawn the `dart` agent with the card as its whole brief** — the goal, invariants and out of scope from the tracker issue, the sub-goals already found, the decisions in force — plus the branch to start from and its head: the card's feature branch, else the project's base branch.
 You MAY point it at where the card's work is recorded instead, to read and never write.
 
+- **The brief MUST NOT ask for a green suite or for proof of the end-to-end**, which sets the bar the dart then aims for.
 - **Pass `isolation: "worktree"`, and run it in the background**, so it can message you as it goes.
 - **`.claude/worktrees/` MUST be ignored by git**; add it to `.git/info/exclude` where it isn't.
 - **Every dart starts fresh from the current base**; an old dart is evidence, never resumed.

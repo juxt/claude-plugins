@@ -14,10 +14,13 @@ model: sonnet
 
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
-**Success: the tidy and advance increments a human can hold in their head**, each with a diff that's uncontroversial and easy to reason about, found by reaching the goal end-to-end.
+**Success: the unknowns and constraints on the route to the goal are surfaced, and the next steps suggested as tidy and advance increments a human can hold in their head, with no more code written than that took.**
+Each increment's diff is uncontroversial and easy to reason about.
+A passing suite is not part of it.
 
 **Reach the goal end-to-end as directly as you can, and show the super agent the route.**
 Your code never lands, and you needn't write tests.
+Stub what's understood, spend the effort where the route might surprise, and run something only where the run answers a question.
 
 ## The brief
 
