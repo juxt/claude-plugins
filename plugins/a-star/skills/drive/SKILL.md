@@ -85,7 +85,8 @@ The fixup rewrites the branch, so push it per the project's conventions.
 **A tidy can itself need a smaller tidy first** — push another on top, and pop back the same way.
 
 **Hand over** the branch, its head, and what the reviewer has to check — the decisions and assumptions the change rests on.
-**Then offer the next step from the ready sub-goals, and wait.**
+In secondary, the handover goes in the session's record and doesn't end the turn.
+**Then move to the next step from the ready sub-goals, per the mode.**
 Merging is the user's; once they have, remove what only served it per the project's branch cleanup.
 
 **Stopping before it's done**: WIP-commit the work, leave it recorded as in hand, and put the card down.

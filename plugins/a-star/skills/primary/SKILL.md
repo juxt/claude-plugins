@@ -2,7 +2,7 @@
 name: primary
 description: >
   Put this a-star session in primary mode: the user is actively watching its progress, so they steer as it goes. Sessions start primary; use this to switch back from secondary.
-  Use when the user says "/a-star:primary", "I'm back", "switch to primary", or returns to a session they'd left running.
+  Use when the user says "/a-star:primary", "I'm back" or "switch to primary".
 user-invocable: true
 ---
 
@@ -15,6 +15,8 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 Load `a-star:a-star` first.
 
 - **Coming back from secondary, record the mode, then refresh the user's context** per the project's conventions — leading with the decisions made while they were away and the questions left for them.
+
+- **Offer the next step, and wait for a yes.**
 
 - **Escalate what the user should decide, and decide the rest yourself**; every question costs them context.
 

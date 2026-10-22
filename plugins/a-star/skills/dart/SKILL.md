@@ -50,4 +50,4 @@ You MAY point it at where the card's work is recorded instead, to read and never
 
 **Keep the dart branch until the sub-goals it informed have landed**, then remove it per the project's branch cleanup.
 
-**Then offer the next step from the ready sub-goals, and wait** — or another dart, where part of the goal is still unwalked.
+**Then move to the next step from the ready sub-goals, per the mode** — or another dart, where part of the goal is still unwalked.

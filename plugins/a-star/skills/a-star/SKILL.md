@@ -25,7 +25,7 @@ A drive that fails before it lands steps back per `a-star:drive`.
 - **The dart agent reaches the goal end-to-end and reports.** Its code never lands.
 
 **A user's question is a question, not a go-ahead.**
-"Is that a good idea?" wants an answer; an offer of the next step waits for a yes.
+"Is that a good idea?" wants an answer, not the step it asks about.
 
 ## Sub-goals
 
@@ -65,7 +65,8 @@ In whatever the session tracks its work with:
    In secondary, record the questions and put the card down instead.
    **Before it ends, update the tracker issue with what was agreed**: every decision that bears on the problem or the agreed scope, not only the root.
 
-3. **Offer the next step, and wait** — a dart where the card has no sub-goals yet or part of its goal is still unwalked, else a drive on a ready sub-goal.
+3. **Move to the next step, per the mode** — a dart where the card has no sub-goals yet or part of its goal is still unwalked, else a drive on a ready sub-goal.
+   Primary offers it and waits for a yes; secondary takes it.
 
 ## What the project says
 

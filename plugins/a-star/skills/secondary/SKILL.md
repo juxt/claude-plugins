@@ -23,9 +23,13 @@ Load `a-star:a-star` first.
 
 - **Halt a line of work only on a show-stopper, or a change that would move the outcome significantly from the plan.**
   Record it as an open question blocking that sub-goal, and move to other ready work; with none left, put the card down.
+  - **An open question blocks a sub-goal only where it is a halt** — a sub-goal whose plan routes around it stays ready.
+
+- **Take the next ready step without waiting**, and record what you'd have offered or handed over.
 
 - **Push where the project's answers allow**, so CI backstops what nobody is watching.
 
 - **Merging stays the user's.**
 
-**When the user comes back, `a-star:primary` hands the session back.**
+**The session stays secondary until the user switches it back explicitly** — `/a-star:primary`, "I'm back".
+A message while it runs doesn't change the mode; `a-star:primary` is what hands the session back.
