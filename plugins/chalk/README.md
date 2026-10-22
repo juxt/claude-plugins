@@ -75,7 +75,7 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 
 - **Skill** (`put-down`): Parks the session's work on its issue, so the next session resumes from the issue and its links alone
 
-- **Skill** (`explicate`): Unfolds an area of the code for an engineer catching up on it — its model, the decisions that shaped it, cited or marked inferred, and their consequences elsewhere — and keeps the map as follow-ups go deeper. Explicit invocation only
+- **Skill** (`explicate`): Unfolds an area of the code for an engineer catching up on it — its model, the decisions that shaped it, cited or marked inferred, and their consequences elsewhere — and keeps the map as follow-ups go deeper. Fires on "explicate"
 
 - **Skill** (`rubber-duck`): Talks a design through with the user — files what they say by kind and area whatever order it arrives in, pushes back with consequences and conflicts, keeps its questions from blocking, and leaves the output to the user at the end
 

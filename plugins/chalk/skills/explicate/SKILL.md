@@ -2,9 +2,8 @@
 name: explicate
 description: >
   Explicate an area of the codebase for an engineer catching up on it — how it works now, the decisions that shaped it and their consequences elsewhere, grounded in the code and its recorded history — then answer follow-ups as a depth-first walk, keeping track of where the user has been.
-  Use only when the user runs "/chalk:explicate".
+  Use when the user says "/chalk:explicate" or "explicate <area>".
 user-invocable: true
-disable-model-invocation: true
 argument-hint: "<area: a path, namespace or concept> [focus, or a since-point]"
 ---
 
