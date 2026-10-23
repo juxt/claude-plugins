@@ -82,6 +82,10 @@ The fixup rewrites the branch, so push it per the project's conventions.
    A tidy that interrupted something pops: rebase the feature branch onto it, and resume what it interrupted.
    A dart branch under it is the dart agent's to rebase or redo.
 
+7. **Clear the darts this drive superseded** — each whose code no longer holds evidence a remaining sub-goal needs.
+   First record what it taught that the record doesn't yet hold: what it found, and where the road departed from its route.
+   Then remove its branch and worktree per the project's branch cleanup.
+
 **A tidy can itself need a smaller tidy first** — push another on top, and pop back the same way.
 
 **Hand over** the branch, its head, and what the reviewer has to check — the decisions and assumptions the change rests on.
