@@ -27,7 +27,7 @@ Load `a-star:a-star` first.
 
 - **Take the next ready step without waiting**, and record what you'd have offered or handed over.
 
-- **Push where the project's answers allow**, so CI backstops what nobody is watching.
+- **Push a drive's branch where the project's answers allow**, so CI backstops what nobody is watching — never a dart's.
 
 - **Merging stays the user's.**
 

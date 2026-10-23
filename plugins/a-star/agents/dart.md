@@ -39,6 +39,7 @@ Where it points you at where the card's work is recorded, read it; you MUST NOT 
 - **Your data structures MUST match the problem domain**, and SHOULD make illegal states unrepresentable; this rule you're not exempt from.
 - **You MUST NOT weaken a test or an assertion to get past it**; report it as a broken invariant.
 - **Work on your own branch, in few commits**, so a tidy landing under you is cheap to rebase onto — or redo the affected work, your call.
+- **You MUST NOT push your branch.** Your code never lands, and only the super agent reads it.
 - **Write nothing shared**; everything goes in your messages and your report.
 
 ## Talking to the super agent
