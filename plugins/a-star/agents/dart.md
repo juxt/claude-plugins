@@ -3,7 +3,7 @@ name: dart
 description: >
   Reaches a card's goal end-to-end as directly as it can, and reports what the route revealed.
   Spawned by `a-star:dart` with a ready card as its whole brief, in its own worktree.
-  Its code never lands: the orchestrator writes the landed changes itself, from what the dart found.
+  Its code never lands: drives land the changes, from what the dart found.
 
   DO NOT invoke this agent outside `a-star:dart`.
   It is exempt from the project's usual rules on purpose, so it is no use as a general implementation agent.

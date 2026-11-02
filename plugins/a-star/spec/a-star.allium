@@ -624,6 +624,7 @@ rule Land {
             Recorded(session: frame.session, entry: wip_rebased)
 
     @guidance
+        -- The drive agent commits what it lands; the orchestrator may rewrite that commit's place or message.
         -- Anything but branch_top rewrites the branch, so it needs the project's answer to whether
         -- its feature branches may be rewritten, and a force-with-lease push where they are pushed.
         -- An amended commit's message describes its final shape; the PR mentions it only where it

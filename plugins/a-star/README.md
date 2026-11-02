@@ -67,7 +67,7 @@ They're stated as state machines in [`spec/a-star.allium`](spec/a-star.allium): 
 - **It does:**
   - check the plan it's handed has an approved goal;
   - dart to the goal with a cheap sub-agent, and turn what the dart found into sub-goals;
-  - drive each sub-goal to landing as one tidy, advance or amend, each at the lowest point in the branch it can sit;
+  - drive each sub-goal to landing through a drive sub-agent, as one tidy, advance or amend, each at the lowest point in the branch it can sit;
   - triage what darts and drives turn up, and choose each move — dart, drive, revert, replan, park or done;
   - adjust to whether you're watching the session (primary or secondary).
 

@@ -1,7 +1,7 @@
 ---
 name: drive
 description: >
-  Land one ready sub-goal to the project's standards, as one of three kinds of frame: a tidy changes structure, an advance changes behaviour, an amend makes an earlier unlanded commit fit for purpose.
+  Land one ready sub-goal to the project's standards through the drive agent, as one of three kinds of frame: a tidy changes structure, an advance changes behaviour, an amend makes an earlier unlanded commit fit for purpose.
   Where a dart takes the straight line to the goal, a drive takes the road — the coding standards, tests, definition of done and review the dart ignored.
   A drive is a stack: a tidy, an amend or a prequel can interrupt the frame in hand, and a better drive can pre-empt it; each lands at the lowest point in the branch its dependencies allow.
   Use when the user says "drive <sub-goal>", "land this", "tidy <what>", "this needs a tidy first", "pause, let's tidy that", "fix up that earlier commit", picks a sub-goal offered by `/a-star`, `a-star:dart` or another drive, or a dart or drive turns up a structure change.
@@ -19,6 +19,10 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 The walls the dart ignored — the project's coding standards, its tests, its definition of done, its code review — are what a drive navigates.
 
 Load `a-star:a-star` first; the drive's states are in its spec.
+
+**You, the orchestrator, hold the stack; the `drive` agent lands each frame.**
+It reports what it turns up and commits what it lands; you triage, choose, record, and may rewrite its commit.
+The rules below bind whoever is writing the frame — the agent, and you where you rewrite.
 
 ## Frames
 
@@ -86,18 +90,20 @@ There is no earlier shape worth a commit, and a reviewer would read the complex 
 
 ## Doing it
 
-1. **Record it as what's in hand, before the first edit**, and add its task.
+1. **Record it as what's in hand, before anything is edited.** Its task already exists, from when the sub-goal was recorded at triage — a tidy, amend or prequel pushed onto the stack included.
 
-2. **Work on a branch off its target**, in its own worktree — for an advance, the card's feature branch off the project's base branch; for a tidy, where it lands.
+2. **Spawn the `drive` agent with the frame as its brief** — its sub-goal, kind and placement; the decisions and principles in force; the darts' evidence — plus the branch to work from and its head: for an advance, the card's feature branch off the project's base branch; for a tidy, where it lands.
+   You MAY point it at where the card's work is recorded instead, to read and never write.
+   Pass `isolation: "worktree"`, and run it in the background, so it can message you as it goes.
 
-3. **Write it**, per [In every frame](#in-every-frame).
-   What it turns up beyond its own sub-goal — a stretch of route nobody darted, a better split, a constraint — is reported for triage per `a-star:a-star`, and doesn't stop the frame.
+3. **Triage what it reports as it goes**, per `a-star:a-star` — a stretch of route nobody darted, a better split of a later sub-goal, a constraint — without stopping the frame.
 
-4. **Verify it** against the project's definition of done and its answer to how this kind lands, with the code review the project's conventions call for.
+4. **When it ends its turn on something that stops the frame**, decide: a user's decision is offered in primary; an earlier commit to fix is an amend frame; a better drive is a pre-emption; a failure is [Handling Drive Failure](#handling-drive-failure).
+   Then resume it with `SendMessage`, or push the new frame.
 
-5. **Commit, to the project's commit conventions, at the frame's placement**, and push where the project's answer says to.
+5. **Take its commit onto the feature branch at the frame's placement**, rewriting its place or message where the branch should read otherwise, and push where the project's answer says to.
 
-6. **Record the sub-goal done**, with its commits, and complete its task.
+6. **Record the sub-goal done**, with its commits, and complete its task; record what its report taught, and add a task for any sub-goal it turned up.
    A frame that interrupted another pops: rebase the WIP onto it, and resume what it interrupted.
    A dart branch under it is the dart agent's to rebase or redo.
 
@@ -112,8 +118,8 @@ Merging is the user's; once they have, remove what only served it per the projec
 
 ## Interrupting the frame in hand
 
-**A tidy needed now, an amend, or a prequel pushes a frame on top of the one in hand.**
-Set the work in hand aside as a WIP commit to rebase afterwards — or discard it to redo on the new structure, whichever is cheaper — and mark its task blocked by the new frame's.
+**A tidy needed now, an amend, or a prequel pushes a frame on top of the one in hand**, landed by a drive agent of its own.
+The agent in hand has WIP-committed its work before ending its turn; rebase that afterwards — or discard it to redo on the new structure, whichever is cheaper — and mark its task blocked by the new frame's.
 You MUST NOT use `git stash`: it's shared across worktrees.
 
 **A frame can itself be interrupted** — push another on top, and pop back the same way.
@@ -122,7 +128,7 @@ You MUST NOT use `git stash`: it's shared across worktrees.
 Set the original aside as a WIP commit, land the pre-empting drive, then rebase the WIP onto it and resume the original with what is left of it.
 A pre-empted drive is kept and resumed; a failed one is thrown away and re-split.
 
-**Stopping before it's done**: WIP-commit the work, leave it recorded as in hand, and park.
+**Stopping before it's done**: WIP-commit the work, leave it recorded as in hand, and park — whatever else is ready.
 With the stack unpopped, the WIP commits and what's recorded as in hand are what the next session resumes from.
 
 ## Handling Drive Failure
@@ -131,6 +137,7 @@ With the stack unpopped, the WIP commits and what's recorded as in hand are what
 Other signs: the same failure twice; a fix reaching into code the sub-goal didn't name; a test you'd have to weaken to get past; the code not being what the plan assumed.
 
 **Step back rather than push on**: set the drive aside — WIP-commit it or revert it — mark its sub-goal not ready, and remove its task.
+It is readied again once its re-split's tidies have landed, or superseded by the sub-goals that replace it.
 
 - **Break it down again, per *Tidy First?*'s "Getting Untangled"** — by default, discard the drive and redo it tidying first, with what it taught.
   However the work then splits, each change is atomic and comprehensible, recorded as a sub-goal.

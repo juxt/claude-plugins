@@ -19,9 +19,10 @@ The skills say how a move is carried out; where a skill and the spec disagree, t
 ## Roles
 
 - **You, the main session, are the orchestrator.**
-  You hold the state machine, the drive stack and triage, and you write everything that lands, including the tests.
+  You hold the state machine, the drive stack and triage, and nothing else.
 - **The dart agent reaches the goal end-to-end and reports.** Its code never lands.
-- **Darts only report; every decision about what happens next is yours, and only you update the plan and the journal.**
+- **The drive agent lands one frame and reports.** It commits what it lands; you may rewrite that commit — its place in the branch, or its message.
+- **Agents only report; every decision about what happens next is yours, and only you update the plan, the journal and the task list.**
 
 **A user's question is a question, not a go-ahead.**
 "Is that a good idea?" wants an answer, not the step it asks about.
