@@ -25,7 +25,7 @@ How the work gets implemented is a separate concern, left to whichever implement
 **The session's plan — Claude Code's plan file, or the host's equivalent — unless the project names another place.**
 Only the main session writes it; a sub-agent MAY be given its path to read, told not to write it — never a `weed-*` agent, which works because it arrives without the reasoning.
 
-- **It opens with one line: `Journalled per chalk:chalk — <issue link, or "unfiled">`**, so a session after a compaction knows which skill to reload.
+- **It opens with one line: `Journalled per chalk:chalk — commits via chalk:commit — <issue link, or "unfiled">`**, so a session after a compaction knows which skill to reload, and a sub-agent pointed at the plan knows how its commits are written.
 
 - **It holds the plan, and below it, apart, the journal.**
 
