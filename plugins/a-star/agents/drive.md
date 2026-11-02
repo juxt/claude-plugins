@@ -2,7 +2,7 @@
 name: drive
 description: >
   Lands one frame of a drive — a tidy, an advance or an amend — to the project's standards, commits it at the placement it was briefed with, and reports what it turned up.
-  Spawned by `a-star:drive` with the frame as its brief, in its own worktree.
+  Spawned by `a-star:drive` with the frame as its brief, in the card's own checkout on its feature branch.
   It decides nothing about what happens next: the orchestrator triages its report, and may rewrite its commit.
 
   DO NOT invoke this agent outside `a-star:drive`.
@@ -25,7 +25,9 @@ It points you at where the card's work is recorded — the decisions and princip
 It carries nothing else: the project's conventions and the skills' rules are yours to load, not the brief's to retell, and where it dictates otherwise, what you load wins.
 
 **It names the branch to work from and its head.**
-Before you change anything, your worktree MUST contain that head: `git merge-base --is-ancestor <head> HEAD`, else `git reset --hard <head>`.
+You work in the card's own checkout, on that branch, with no worktree of your own.
+Before you change anything, `HEAD` MUST be that head: `git rev-parse HEAD`.
+Where it isn't, end your turn and say so — you MUST NOT reset, as the checkout is the card's and not yours to discard.
 
 ## How you work
 
