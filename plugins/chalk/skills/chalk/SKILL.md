@@ -125,10 +125,15 @@ Implement unfiled where a card would carry nothing the PR can't: the PR takes th
 - **Ask the user what they can answer now**, rather than parking it in the plan.
 - **Open questions keep only what nobody can answer yet** — needing investigation, or deliberately deferred.
 
-### 4. Sort the metadata
+### 4. The plan's first step updates the card's metadata
 
-**Assignee, status, board — whatever the project's tracker conventions say for a card being picked up.**
+**On a route that implements, the plan MUST open with the tracker update**: the user as assignee, then status and board as the project's tracker conventions say for a card being picked up.
 Where they don't say, ask.
+
+- **It is a step in the plan, not something done while planning.**
+  Plan mode is read-only, and until the plan is approved nobody has agreed to do the work.
+
+- **A card already assigned to someone else changes the picture**, per step 1.
 
 ### 5. Exiting plan mode is the user approving the goal and the route
 
