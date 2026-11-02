@@ -20,6 +20,7 @@ This file carries what goes in each section.
 
 - **standalone PR** — it carries the problem too, so the problem sections are inserted between the tl;dr and What changes: **Symptoms → Root cause** for a bug fix, **Problem** for a feature.
   **Those only.** Properties of a good solution, Prior art, Invariants and Potential approach are design-space or forward-looking material, and a PR is retrospective — evaluation criteria written after the choice read as justification for it.
+  Current state is dropped too: What changes names what was true and no longer is, and a second account of the before splits it.
 
 **The issue is a living document; the PR freezes at merge.**
 That is why an issue MAY hold marked speculation — it has a mechanism for resolving it — and a PR mostly may not.
@@ -90,6 +91,28 @@ It surfaces in three places, and MUST be carried in each.
 
   - **What writers drop is the gap itself.**
     A description of today's behaviour with no statement of what it can't do leaves the reader to infer the problem from the absence of a feature.
+    Today's behaviour goes in Current state; the gap stays here.
+
+- **Current state** — **only where today's behaviour holds details the reader needs to see the problem or bound its solution.**
+  A `###` under Problem on a feature; its own section on a bug.
+  Where the before is obvious to a senior engineer on the project, or the work is greenfield, it is cut: it would spend the reader's attention on nothing they lacked.
+
+  **How the system behaves today, as states and the events that change them** — what each reader needs, which events change which state, which changes happen together, what is retained and for how long.
+  Describing it is where the constraints surface: each coupling it shows either bounds the solution or is one the change may remove.
+
+  - **It describes behaviour, not code**, for the reason Problem does: code dates the moment work starts, and behaviour survives a change of approach.
+
+  - **It states what is, never what is missing.**
+    An absence presupposes the future state; the gap belongs in Problem, the target in Potential approach.
+
+  - **Each coupling is marked `essential` or `accidental`** — essential where the problem imposes it and any solution must keep it, accidental where only the current system does and the change may remove it.
+    On a bug, the essential ones are the invariants a fix must preserve.
+
+  - **It stays as the *before* as the work lands** — the one exception to correcting the issue as facts change.
+    On a closed issue it is what the change changed; corrected to the after, it would describe a problem nobody had.
+    A fact about the before that turns out wrong is still corrected.
+
+  - **Potential approach's future state uses the same vocabulary**, and the difference between the two is the goal tree's leaves.
 
 - **Symptoms**
   Observable behaviour, error messages, affected conditions ("multi-writer only", "under chaos monkey testing"), and the repro.
@@ -138,6 +161,7 @@ It surfaces in three places, and MUST be carried in each.
   One **goal tree** (`chalk:goal-tree`) of what has to be true when this is done — not which files to touch.
   **Named "potential" deliberately**: it is a direction nobody has walked yet, and the heading is the one place a reader can't skip that.
   **Future state** and **Implementation** both land here; neither is a section of its own.
+  Where the issue has a Current state, the future state is written in its vocabulary — the same states and events — so the reader sees the difference rather than reconstructing it.
 
   A child MAY be a link to the issue that owns that part, and under `chalk:issue`'s one-piece-or-children rule the tree doubles as the sub-issue skeleton — which is why it is compulsory on a parent issue.
   **It dies on the PR side**: a PR is retrospective, and what landed is What changes and Consequences.

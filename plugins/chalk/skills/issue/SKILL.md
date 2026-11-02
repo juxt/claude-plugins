@@ -110,7 +110,7 @@ It is the first stage of the filter the tl;dr's abstract then runs — someone s
 ## Writing a bug
 
 An investigation log: it converges on a fact, and until it gets there its central claim is a guess.
-**tl;dr → Symptoms → Root cause / Analysis → Invariants → Out of scope → Alternative approaches → Open questions**
+**tl;dr → Symptoms → Current state → Root cause / Analysis → Out of scope → Alternative approaches → Open questions**
 
 Each section's content is in the palette, and not every bug needs every section — but where a section appears, this is its position.
 
@@ -128,6 +128,9 @@ Each section's content is in the palette, and not every bug needs every section 
   *Possible* root cause is the normal state for most of a bug's life, so the marking is the default and not the exception.
   Unmarked, the next reader builds on a guess with no way to tell it from a finding.
 
+- **Current state comes before Root cause**, so the mechanism is read against the behaviour it breaks.
+  Its essential couplings are what a fix must preserve.
+
 ## Writing a feature
 
 A design brief: it converges on a choice, and its job is to **constrain** that choice rather than to make it.
@@ -141,6 +144,9 @@ Each section's content is in the palette, and not every feature needs every sect
 
   - **Where a fix is obvious but unconsidered, one line under the problem is enough** ("probably wants X").
     A guess written up as a decision is worse than no section at all: reader 1 can't tell it from a conclusion, and will build it.
+
+- **Problem carries a Current state subsection only where today's behaviour bears on the problem** — see the palette.
+  Its couplings are the constraints the design has to respect, so where it appears it is drafted before Potential approach.
 
 - **Potential approach MUST be a goal tree** (`chalk:goal-tree`), not a task list.
   It answers what has to be true for this to be done, not which files to touch.
@@ -179,6 +185,8 @@ A decision still owed or a hypothesis nobody verified has no other home in the p
 ### Correcting the description
 
 The description is the source of truth, so it MUST be corrected as the facts change — a new failure mode, revised scope, a root cause that turned out to be something else.
+
+- **Current state is the exception: it stays as the *before*** once the work lands — see the palette.
 
 - **Update facts; preserve framing.**
   Don't rewrite someone else's narrative or reorder their sections to your taste — keep their intent and correct what is now wrong.
