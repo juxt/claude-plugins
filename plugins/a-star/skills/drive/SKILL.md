@@ -69,6 +69,10 @@ An amended commit's message describes its final shape, the PR mentions an amend 
 - **Simple, not easy** — Rich Hickey's *Simple Made Easy*.
   Un-braid concerns rather than reach for what's nearest to hand; state that can be derived, or can drift from what it mirrors, shouldn't exist.
   **The test: a human reviewing the change in isolation can see each concern on its own**, confirming one without holding the rest of the change in their head.
+- **Accidental complexity recognised for what it is** — Moseley & Marks, *Out of the Tar Pit*.
+  Complexity the problem doesn't impose has to earn its place — performance is the usual reason — and the commit says what it buys.
+- **Illegal states unrepresentable** — Minsky, *Effective ML*.
+  A field guarded at every use wants a type, not another check.
 - **No generality the sub-goal didn't ask for.**
 - **No dead code.** Everything the commit adds has a caller outside the tests in this commit; a new abstraction nothing yet calls lands with the first change that calls it.
   A tidy reshapes code that already runs.
