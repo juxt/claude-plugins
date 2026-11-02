@@ -103,13 +103,16 @@ There is no earlier shape worth a commit, and a reviewer would read the complex 
 4. **When it ends its turn on something that stops the frame**, decide: a user's decision is offered in primary; an earlier commit to fix is an amend frame; a better drive is a pre-emption; a failure is [Handling Drive Failure](#handling-drive-failure).
    Then resume it with `SendMessage`, or push the new frame.
 
-5. **Take its commit onto the feature branch at the frame's placement**, rewriting its place or message where the branch should read otherwise, and push where the project's answer says to.
+5. **Review the frame's diff before taking its commit**, with the review the project's conventions call for, over its code and its comments.
+   A finding inside the frame's scope resumes the drive agent with `SendMessage` to fix it; anything else is triaged like any other report.
 
-6. **Record the sub-goal done**, with its commits, and complete its task; record what its report taught, and add a task for any sub-goal it turned up.
+6. **Take its commit onto the feature branch at the frame's placement**, rewriting its place or message where the branch should read otherwise, and push where the project's answer says to.
+
+7. **Record the sub-goal done**, with its commits, and complete its task; record what its report taught, and add a task for any sub-goal it turned up.
    A frame that interrupted another pops: rebase the WIP onto it, and resume what it interrupted.
    A dart branch under it is the dart agent's to rebase or redo.
 
-7. **Clear the darts this drive superseded** — each whose code no longer holds evidence a remaining sub-goal needs.
+8. **Clear the darts this drive superseded** — each whose code no longer holds evidence a remaining sub-goal needs.
    First record what it taught that the record doesn't yet hold: what it found, and where the road departed from its route.
    Then remove its branch and worktree per the project's branch cleanup.
 
