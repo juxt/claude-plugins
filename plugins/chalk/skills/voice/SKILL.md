@@ -248,9 +248,14 @@ Asked for by name, it takes this form, not a table or a run of prose.
   A tag is a claim, not decoration: 'assumption:' says you have not verified it, which stops the next reader building on it as though you had.
   It is also what withdraws decision 2 from one node, per the tree above: a reader who cannot agree from the subject alone needs telling before they do it anyway.
 
-- **Nodes a reader might want to refer to SHOULD have a typed ID**, prefixing the subject line.
+- **Every node a reader might want to discuss MUST have a typed ID**, prefixing the subject line.
   **D1** for a decision, **Q1** for a question, **I1** for an idea, **C1** for a constraint, **A1** for an assumption, **D2.1** for its first child.
+  Discussion happens by reference: without an ID the reader quotes or paraphrases the node, and a reply can't be checked against what it answers.
   IDs beat numbered lists, which renumber silently when a sibling is inserted.
+
+  - **Plan files and conversation output are covered as well as published artefacts** — a plan is discussed before it is approved, and a reply is discussed in the next turn.
+
+  - **A reply with nothing discussable carries none** — a plain answer, a confirmation, a report of what ran.
 
   - **A published ID MUST be stable.**
     Reuse it rather than minting a second one for the same node.
