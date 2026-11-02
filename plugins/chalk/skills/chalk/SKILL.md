@@ -162,6 +162,8 @@ Once approved, take the route:
 
 **A harness hands back to chalk when it can't continue on the plan as approved.**
 
-- **Re-plan where the goal is invalidated** — back into plan mode, with a `replan:` entry naming what it invalidated, for the user to approve again.
+- **Re-plan where the goal is invalidated — re-enter plan mode first**, with `EnterPlanMode` or the host's equivalent, before any other step.
+  The approved plan no longer holds, so nothing more is built until the user approves the revised one.
+  Journal a `replan:` entry naming what it invalidated, revise the plan, and ask for approval as in step 5.
 - **Park where the work can't continue** — `chalk:put-down`.
 - **Finish where the sub-goals complete the goal** — `chalk:pr`.
