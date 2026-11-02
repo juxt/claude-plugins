@@ -220,6 +220,7 @@ Not "ask if you're unsure" — that judgement is made by the context that just b
 
 - **A gap MUST be closed by adding a sentence that answers it.**
   You MUST NOT close one by deciding it doesn't apply.
+  A mindmap gap is closed by restructuring the node it names, not by asking the user.
 
 - **The redraft MUST go back to `weed-prose`.**
   You MUST NOT judge your own redraft — the agent that raised the gap is the one that closes it. Loop until it reports no blocking gaps.

@@ -3,7 +3,7 @@ name: weed-prose
 description: >
   Reviews a drafted PR description or issue body as the artefact's pinned reader would —
   cutting sentences answerable from what that reader already holds, and reporting where
-  the why is missing. Deletion-only; it never rewrites.
+  the why is missing and where reasoning breaks the mindmap rules. Deletion-only; it never rewrites.
 
   DO NOT invoke this agent directly from the main conversation, and DO NOT give it the
   session's reasoning. It stands in for a reader who has only what the artefact points at;
@@ -118,6 +118,28 @@ Name the gap and let the caller fill it.
 
 **A missing *why* is blocking; the others are not.**
 
+### Report reasoning the reader can't follow
+
+**Test the reasoning against `chalk:voice`'s mindmap rules as the reader meets it**, holding only the trimmed draft.
+The drafter applied those rules from a context that can't see what it takes for granted; you can.
+
+- **Reasoning the reader has to follow that isn't a mindmap is a gap.**
+  A run of "because", "so" or "therefore" in prose, or reasoning carried in table cells — "p2's A@3 precedes it, so p2 moves up".
+  A table of data is not reasoning, and stays unrestricted.
+
+- **Every mindmap node must either be agreeable from its subject line, or be settled by descending into its body.**
+  A node that is neither is a gap.
+  Whether the reader would skip it is not tested: only the reader knows their goal.
+
+  - **Agree: the subject line is acceptable from its ancestors, and in a walkthrough the earlier steps, alone.**
+    A term not defined by then fails — "kept so that every parent precedes its children", where "precedes" is defined only below.
+
+  - **Descend: where the subject can't be agreed with, its body settles it.**
+    A body that elaborates without grounding the subject fails.
+
+**Report each as a gap for the drafter, naming the node and what it leans on**; you still MUST NOT rewrite it.
+**These gaps are non-blocking.**
+
 ## Re-checking a redraft
 
 The caller MUST send you a redraft that answers any gap you reported.
@@ -150,4 +172,5 @@ Return, as your final text:
 
 1. **Cut** — the sentence's opening words and which category it fell under.
 2. **Gaps** — each as a verbatim question for the user, marked `blocking` or `non-blocking`.
-3. **Counts** — sentences in the draft, sentences cut.
+3. **Mindmap gaps** — each naming the node and what it leans on, for the drafter.
+4. **Counts** — sentences in the draft, sentences cut.
