@@ -84,6 +84,8 @@ This section carries what the rules mean; the `weed-prose` agent carries the phr
   - **Precision beats simplicity where the two conflict.**
     What gets cut is the decorative metaphor, not the exact term.
 
+  - **A design is described in the model taxonomy** — objects, their roles, the state each owns, lifetimes, and who waits on whom, per [references/models.md](references/models.md).
+
 - **You SHOULD use one term for one concept throughout an artefact.**
   Synonym variation costs the reader a re-check every time they have to ask whether you meant something different.
 

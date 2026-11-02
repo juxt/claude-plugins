@@ -127,6 +127,7 @@ Ask where the user hasn't said and the request doesn't settle it.
   Test each node for sufficiency, mark `check:` where unsure, and say where sufficiency leans on what the user already knows about the system.
 
 - **Either way, the plan says what has to be true, not which files to touch.**
+  Where the change reshapes the design, what has to be true is the target model, stated as a model diff at the goal tree's root ([`chalk:voice`'s models reference](../voice/references/models.md)).
 
 **The route is part of the plan**: file and stop, implement an existing card, file and implement, or implement unfiled.
 Implement unfiled where a card would carry nothing the PR can't: the PR takes the standalone path in `chalk:pr` and carries the problem itself.
