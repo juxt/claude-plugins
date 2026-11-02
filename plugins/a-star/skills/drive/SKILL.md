@@ -1,10 +1,10 @@
 ---
 name: drive
 description: >
-  Land one ready sub-goal to the project's standards, in one of two modes: a tidy changes structure, an advance changes behaviour.
+  Land one ready sub-goal to the project's standards, as one of three kinds of frame: a tidy changes structure, an advance changes behaviour, an amend makes an earlier unlanded commit fit for purpose.
   Where a dart takes the straight line to the goal, a drive takes the road — the coding standards, tests, definition of done and review the dart ignored.
-  A tidy can interrupt the work in hand: decide now, later or never, park the work, land the tidy, and resume. Recursive — a tidy can be interrupted by another.
-  Use when the user says "drive <sub-goal>", "land this", "tidy <what>", "this needs a tidy first", "pause, let's tidy that", picks a sub-goal offered by `/a-star`, `a-star:dart` or another drive, or a dart or drive turns up a structure change.
+  A drive is a stack: a tidy, an amend or a prequel can interrupt the frame in hand, and a better drive can pre-empt it; each lands at the lowest point in the branch its dependencies allow.
+  Use when the user says "drive <sub-goal>", "land this", "tidy <what>", "this needs a tidy first", "pause, let's tidy that", "fix up that earlier commit", picks a sub-goal offered by `/a-star`, `a-star:dart` or another drive, or a dart or drive turns up a structure change.
 user-invocable: true
 argument-hint: "<sub-goal, or the structure change needed>"
 ---
@@ -18,11 +18,12 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 **A dart takes the straight line to the goal; a drive takes the road.**
 The walls the dart ignored — the project's coding standards, its tests, its definition of done, its code review — are what a drive navigates.
 
-Load `a-star:a-star` first.
+Load `a-star:a-star` first; the drive's states are in its spec.
 
-## Modes
+## Frames
 
-**Every drive is a tidy or an advance, decided before it starts, and the two never share a commit.**
+**A drive is a stack of frames, and every frame is a tidy, an advance or an amend, decided before it starts.**
+No two kinds share a commit.
 
 - **Tidy** — changes structure, never behaviour.
   **Success: an equivalence change that gives us options**, reviewable by asking only *could this change anything?*
@@ -31,7 +32,28 @@ Load `a-star:a-star` first.
 - **Advance** — changes behaviour, moving the base a step towards the goal.
   **A structure change turning up mid-advance is a tidy**, never part of this commit: decide [now, later or never](#a-tidy-now-later-or-never), and if now, it interrupts the advance.
 
-## In either mode
+- **Amend** — makes an unlanded commit on the branch fit for the drive's purpose, or completes it, and lands inside that commit.
+  It keeps the kind of the commit it amends: an amended tidy still changes no behaviour, an amended advance stays within its scope; anything beyond that is a new sub-goal.
+  Once that commit has landed on the target branch, a change to its code is an ordinary tidy or advance.
+
+## Where a frame lands
+
+**Every frame lands at the lowest point in the branch its dependencies allow.**
+The user reviews the branch commit by commit, so its order is the order a reviewer is best shown, not the order the work happened in.
+
+- **A prequel — usually a tidy depending on nothing in the branch — lands at the branch's base.**
+  It can then be cherry-picked onto main, and drops out of the PR once the branch is rebased.
+- **An amend lands inside the commit it amends.**
+- **Anything else lands at the top.**
+
+**Anywhere but the top rewrites the branch**, so it needs the project's answer to whether its feature branches may be rewritten, and a force-with-lease push where they're pushed.
+Without that answer, it's a question for the user.
+
+**The branch reads as though each commit was right first time.**
+An intermediate shape and its correction are two things for the reviewer to page in where one would do.
+An amended commit's message describes its final shape, the PR mentions an amend only where it leaves a consequence the reader bears, and the journey stays in the session's record.
+
+## In every frame
 
 - **One ready sub-goal, small enough for a reviewer to hold in their head**; one too big is two — record both before starting.
 - **What the darts found is evidence, never code to edit into shape.**
@@ -50,50 +72,57 @@ Load `a-star:a-star` first.
 
 ## A tidy: now, later or never
 
-**A structure change to code this branch introduced, before that code has landed, is not a tidy: fix it up into the commit that introduced it.**
-A tidy reshapes code the base already runs; here there is no earlier shape worth a commit, and a reviewer would read the complex version and then its simplification where one simple commit would do.
-Once the introducing commit has landed, a reshape of its code is an ordinary tidy again.
-The fixup rewrites the branch, so push it per the project's conventions.
+**A structure change to code this branch introduced, before that code has landed, is not a tidy: it is an amend of the commit that introduced it.**
+There is no earlier shape worth a commit, and a reviewer would read the complex version and then its simplification where one simple commit would do.
 
 - **Now** — it's worth having however the rest of the card turns out, or the work in hand needs it.
 - **Later** — whether it's worth having depends on the behaviour change: record it as a sub-goal, and carry on.
 - **Never** — it opens no option; don't record it.
 
-**Where it lands is per the project's answer to how a tidy lands**; where it's silent, the feature branch.
+**Where it lands is per the project's answer to how a tidy lands**; where it's silent, the feature branch, as a prequel where it depends on nothing in the branch.
 
 - **Feature branch** — it lands with the card's advances.
 - **Main** — a tidy branch off main, for the user to merge; rebase the feature branch onto it as soon as it's committed.
 
 ## Doing it
 
-1. **Record it as what's in hand.**
-   A tidy interrupting the work in hand first sets that work aside — as a WIP commit to rebase afterwards, or discarded to redo on the tidied structure, whichever is cheaper — and goes on the stack: a sub-goal the interrupted one depends on, in hand on top of it.
-   You MUST NOT use `git stash`: it's shared across worktrees.
+1. **Record it as what's in hand, before the first edit**, and add its task.
 
 2. **Work on a branch off its target**, in its own worktree — for an advance, the card's feature branch off the project's base branch; for a tidy, where it lands.
 
-3. **Write it**, per [In either mode](#in-either-mode).
+3. **Write it**, per [In every frame](#in-every-frame).
+   What it turns up beyond its own sub-goal — a stretch of route nobody darted, a better split, a constraint — is reported for triage per `a-star:a-star`, and doesn't stop the frame.
 
-4. **Verify it** against the project's definition of done and its answer to how this mode lands, with the code review the project's conventions call for.
+4. **Verify it** against the project's definition of done and its answer to how this kind lands, with the code review the project's conventions call for.
 
-5. **Commit, to the project's commit conventions**, and push where the project's answer says to.
+5. **Commit, to the project's commit conventions, at the frame's placement**, and push where the project's answer says to.
 
-6. **Record the sub-goal done**, with its commits.
-   A tidy that interrupted something pops: rebase the feature branch onto it, and resume what it interrupted.
+6. **Record the sub-goal done**, with its commits, and complete its task.
+   A frame that interrupted another pops: rebase the WIP onto it, and resume what it interrupted.
    A dart branch under it is the dart agent's to rebase or redo.
 
 7. **Clear the darts this drive superseded** — each whose code no longer holds evidence a remaining sub-goal needs.
    First record what it taught that the record doesn't yet hold: what it found, and where the road departed from its route.
    Then remove its branch and worktree per the project's branch cleanup.
 
-**A tidy can itself need a smaller tidy first** — push another on top, and pop back the same way.
-
 **Hand over** the branch, its head, and what the reviewer has to check — the decisions and assumptions the change rests on.
 In secondary, the handover goes in the session's record and doesn't end the turn.
-**Then move to the next step from the ready sub-goals, per the mode.**
+**Then you are back to choosing, per `a-star:a-star`.**
 Merging is the user's; once they have, remove what only served it per the project's branch cleanup.
 
-**Stopping before it's done**: WIP-commit the work, leave it recorded as in hand, and put the card down.
+## Interrupting the frame in hand
+
+**A tidy needed now, an amend, or a prequel pushes a frame on top of the one in hand.**
+Set the work in hand aside as a WIP commit to rebase afterwards — or discard it to redo on the new structure, whichever is cheaper — and mark its task blocked by the new frame's.
+You MUST NOT use `git stash`: it's shared across worktrees.
+
+**A frame can itself be interrupted** — push another on top, and pop back the same way.
+
+**A better drive found mid-drive pre-empts the one in hand.**
+Set the original aside as a WIP commit, land the pre-empting drive, then rebase the WIP onto it and resume the original with what is left of it.
+A pre-empted drive is kept and resumed; a failed one is thrown away and re-split.
+
+**Stopping before it's done**: WIP-commit the work, leave it recorded as in hand, and park.
 With the stack unpopped, the WIP commits and what's recorded as in hand are what the next session resumes from.
 
 ## Handling Drive Failure
@@ -101,7 +130,7 @@ With the stack unpopped, the WIP commits and what's recorded as in hand are what
 **A drive has failed once its change is no longer atomic, or no longer comprehensible** — more than one change, or more than a reviewer can hold in their head.
 Other signs: the same failure twice; a fix reaching into code the sub-goal didn't name; a test you'd have to weaken to get past; the code not being what the plan assumed.
 
-**Step back rather than push on**: set the drive aside — WIP-commit it or revert it — and mark its sub-goal not ready.
+**Step back rather than push on**: set the drive aside — WIP-commit it or revert it — mark its sub-goal not ready, and remove its task.
 
 - **Break it down again, per *Tidy First?*'s "Getting Untangled"** — by default, discard the drive and redo it tidying first, with what it taught.
   However the work then splits, each change is atomic and comprehensible, recorded as a sub-goal.

@@ -61,13 +61,14 @@ A⭐ aims to solve the following problems, and optimises for sustainability — 
 
 ## What A⭐ does, and what it doesn't
 
-**A⭐ owns the dart/drive loop, and nothing else.**
+**A⭐ owns the moves between darts and drives, and nothing else.**
+They're stated as state machines in [`spec/a-star.allium`](spec/a-star.allium): what each move needs to be true, and what it records.
 
 - **It does:**
-  - check a card is ready to dart, and agree what it's for with you where it isn't;
+  - check the plan it's handed has an approved goal;
   - dart to the goal with a cheap sub-agent, and turn what the dart found into sub-goals;
-  - drive each sub-goal to landing as one tidy or one advance, and keep the two apart;
-  - choose the next step from the ready sub-goals;
+  - drive each sub-goal to landing as one tidy, advance or amend, each at the lowest point in the branch it can sit;
+  - triage what darts and drives turn up, and choose each move — dart, drive, revert, replan, park or done;
   - adjust to whether you're watching the session (primary or secondary).
 
 - **It doesn't, and leaves to your project's conventions:**
@@ -77,14 +78,14 @@ A⭐ aims to solve the following problems, and optimises for sustainability — 
   - ship/show/ask, and code review;
   - writing commit messages, PR descriptions and issue updates.
 
-- **Three choices are A⭐'s own, and your project answers them**: how a tidy lands, how an advance lands, and branch cleanup.
+- **Four choices are A⭐'s own, and your project answers them**: how a tidy lands, how an advance lands, whether feature branches may be rewritten, and branch cleanup.
   Where it doesn't answer one, A⭐ asks rather than guessing.
 
 ## Usage
 
-- `/a-star <card>` — start or resume the loop on a card, once your project's conventions have picked it up
+- `/a-star <card>` — start or resume work on a card, once its plan is approved
 - `/a-star:dart` — reach the goal end-to-end, and break the card into sub-goals
-- `/a-star:drive <sub-goal>` — land one sub-goal to the project's standards: a tidy, interrupting the work in hand if need be, or an advance
+- `/a-star:drive <sub-goal>` — land one sub-goal to the project's standards: a tidy, an advance, or an amend of an earlier commit, interrupting the work in hand if need be
 - `/a-star:primary`, `/a-star:secondary` — say whether you're watching this session; it starts primary
 
 ## Setup

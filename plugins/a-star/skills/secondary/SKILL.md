@@ -16,16 +16,16 @@ Record the mode.
 Load `a-star:a-star` first.
 
 - **Work only on a ready card.**
-  One that isn't, or a question the card can't answer, gets its questions recorded and the card put down.
+  One that isn't, or a question the card can't answer, gets its questions recorded and the card parked.
 
 - **Each call is halt, decide or assume.**
   Record each decision, and each point you carry on past as an assumption.
 
 - **Halt a line of work only on a show-stopper, or a change that would move the outcome significantly from the plan.**
-  Record it as an open question blocking that sub-goal, and move to other ready work; with none left, put the card down.
+  Record it as an open question blocking that sub-goal, and move to other ready work; with none left, park.
   - **An open question blocks a sub-goal only where it is a halt** — a sub-goal whose plan routes around it stays ready.
 
-- **Take the next ready step without waiting**, and record what you'd have offered or handed over.
+- **Take each move out of choosing without offering it** — the offered state is bypassed — and record what you'd have offered or handed over.
 
 - **Push a drive's branch where the project's answers allow**, so CI backstops what nobody is watching — never a dart's.
 

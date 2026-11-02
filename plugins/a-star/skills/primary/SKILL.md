@@ -16,7 +16,8 @@ Load `a-star:a-star` first.
 
 - **Coming back from secondary, record the mode, then refresh the user's context** per the project's conventions — leading with the decisions made while they were away and the questions left for them.
 
-- **Offer the next step, and wait for a yes.**
+- **Offer every move out of choosing, and take it only on a yes** — the offered state in `a-star:a-star`'s spec.
+  A question from the user is not that yes.
 
 - **Escalate what the user should decide, and decide the rest yourself**; every question costs them context.
 

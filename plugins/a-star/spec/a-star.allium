@@ -1,0 +1,659 @@
+-- allium: 3
+-- The skills say how each move is carried out; this says when a move is open, and what it records.
+
+------------------------------------------------------------
+-- External Entities
+------------------------------------------------------------
+
+-- The plan the outer harness hands in, its goal approved by the user — chalk's planning is one such harness.
+-- a-star records into it and exits back to it; it never approves a plan itself.
+external entity Plan {
+    goal_approved: Boolean
+}
+
+-- An unlanded commit on the card's feature branch.
+external entity Commit {
+    landed: Boolean
+}
+
+------------------------------------------------------------
+-- Enumerations
+------------------------------------------------------------
+
+enum Mode { primary | secondary }
+
+enum Move { dart | drive | revert | replan | park | done }
+
+enum YieldKind {
+    increment             -- ready to land as it stands
+    sub_goal              -- new, or an existing one better split
+    unwalked_route        -- a stretch of the goal nobody has darted
+    earlier_commit        -- an unlanded commit superseded, or needing completion
+    constraint            -- a constraint, assumption or risk, recorded on the node it bounds
+    route_question        -- answered or escalated, then the agent resumes
+    invalidating_finding  -- changes the card's target or its goal
+    user_decision         -- a tidy's now, later or never; scope
+}
+
+enum FrameKind { tidy | advance | amend }
+
+-- Where a frame's commit lands: the lowest point its dependencies allow.
+enum Placement {
+    branch_base     -- a prequel: depends on nothing in the branch, cherry-pickable onto main
+    inside_commit
+    branch_top      -- everything else
+}
+
+------------------------------------------------------------
+-- Entities and Variants
+------------------------------------------------------------
+
+entity Session {
+    plan: Plan
+    mode: Mode
+    status: choosing | offered | reverting | parked | exited
+    offered_move: Move? when status = offered
+    exit: replan | done when status = exited
+
+    sub_goals: SubGoal with session = this
+    darts: Dart with session = this
+    frames: Frame with session = this
+    yields: Yield with session = this
+    untriaged: yields where not triaged
+
+    ready_sub_goals: sub_goals where status = ready and is_ready
+    drivable_sub_goals: ready_sub_goals where is_drivable
+    -- The frame being worked; the rest of the stack is interrupted or pre-empted under it.
+    in_hand: frames where status = in_hand | writing | verifying
+    open_frames: frames where status = in_hand | writing | verifying | interrupted | pre_empted | parked
+
+    transitions status {
+        choosing -> offered
+        offered -> choosing
+        choosing -> reverting
+        reverting -> choosing
+        choosing -> parked
+        offered -> parked
+        parked -> choosing
+        choosing -> exited
+        terminal: exited
+    }
+}
+
+entity SubGoal {
+    session: Session
+    status: pending | ready | in_hand | done | superseded
+    kind: FrameKind
+    placement: Placement
+    -- For an amend, the unlanded commit it lands inside.
+    amends: Commit? when kind = amend
+    -- Built and run by a dart, rather than reasoned about.
+    exercised: Boolean
+    -- The orchestrator judged it straightforward enough to drive undarted; recorded as a decision.
+    judged_straightforward: Boolean
+    depends_on: Set<SubGoal>
+    blocked_by_question: Boolean
+
+    is_ready: depends_on.all(d => d.status = done) and not blocked_by_question
+    is_drivable: is_ready and (exercised or judged_straightforward)
+}
+
+entity Dart {
+    session: Session
+    status: briefed | running | waiting | reported | evidence | cleared | lost
+    -- Something a remaining sub-goal still needs from its code.
+    still_needed: Boolean
+
+    transitions status {
+        briefed -> running
+        running -> waiting
+        waiting -> running
+        running -> reported
+        waiting -> reported
+        reported -> evidence
+        reported -> cleared
+        evidence -> cleared
+        running -> lost
+        waiting -> lost
+        terminal: cleared, lost
+    }
+}
+
+entity Frame {
+    session: Session
+    sub_goal: SubGoal
+    kind: FrameKind
+    placement: Placement
+    status: in_hand | writing | verifying | interrupted | pre_empted | parked | landed | failed
+    -- The frame this one interrupted, set aside as a WIP commit (never `git stash`).
+    interrupts: Frame?
+
+    transitions status {
+        in_hand -> writing
+        writing -> verifying
+        verifying -> writing
+        verifying -> landed
+        in_hand -> failed
+        writing -> failed
+        verifying -> failed
+        interrupted -> failed
+        pre_empted -> failed
+        parked -> failed
+        writing -> interrupted
+        interrupted -> writing
+        writing -> pre_empted
+        pre_empted -> writing
+        in_hand -> parked
+        writing -> parked
+        verifying -> parked
+        parked -> writing
+        terminal: landed, failed
+    }
+}
+
+entity Yield {
+    session: Session
+    kind: YieldKind
+    from_dart: Dart?
+    from_frame: Frame?
+    changes_goal: Boolean
+    changes_target: Boolean
+    -- The kind of frame that would land it, and where; a report without them is a route question back to its author.
+    frame_kind: FrameKind when kind = sub_goal | increment
+    placement: Placement when kind = sub_goal | increment
+    commit: Commit when kind = earlier_commit
+    -- The sub-goals a question or finding blocks until it is settled.
+    bears_on: Set<SubGoal>
+    triaged: Boolean
+}
+
+------------------------------------------------------------
+-- Rules
+------------------------------------------------------------
+
+rule Enter {
+    when: Start(plan, mode)
+    requires: plan.goal_approved
+    ensures: Session.created(plan: plan, mode: mode, status: choosing)
+}
+
+rule OfferMove {
+    when: Choose(session, move)
+    requires: session.status = choosing
+    requires: session.mode = primary
+    ensures: session.status = offered
+    ensures: session.offered_move = move
+}
+
+-- Only the user's yes takes the offered move. A question from the user is not a yes.
+rule AcceptOffer {
+    when: UserSaysYes(session)
+    requires: session.status = offered
+    ensures: session.status = choosing
+    ensures: Take(session: session, move: session.offered_move)
+}
+
+rule DeclineOffer {
+    when: UserSaysNo(session)
+    requires: session.status = offered
+    ensures: session.status = choosing
+}
+
+rule TakeUnoffered {
+    when: Choose(session, move)
+    requires: session.status = choosing
+    requires: session.mode = secondary
+    ensures: Take(session: session, move: move)
+    ensures: Recorded(session: session, entry: would_have_offered)
+}
+
+-- The mode changes only on an explicit switch; any other message from the user leaves it.
+rule SwitchMode {
+    when: UserSwitchesMode(session, mode)
+    ensures: session.mode = mode
+    ensures: Recorded(session: session, entry: mode_change)
+}
+
+-- dart: part of the goal not yet walked, or a sub-goal no dart has exercised, that nothing in flight covers.
+rule TakeDart {
+    when: Take(session, move)
+    requires: move = dart
+    requires: session.status = choosing
+    ensures: Dart.created(session: session, status: briefed, still_needed: true)
+    ensures: Recorded(session: session, entry: dart_in_flight)
+
+    @guidance
+        -- The brief asks for the route built, not analysed. Darts run in parallel with each other and with a drive.
+}
+
+-- drive: one drivable sub-goal, recorded as in hand before the first edit.
+rule TakeDrive {
+    when: Take(session, move)
+    requires: move = drive
+    requires: session.status = choosing
+    requires: session.open_frames.count = 0
+    requires: session.drivable_sub_goals.count > 0
+    let sub_goal = session.drivable_sub_goals.first
+    ensures: sub_goal.status = in_hand
+    ensures: Frame.created(session: session, sub_goal: sub_goal, kind: sub_goal.kind, placement: sub_goal.placement, status: in_hand)
+    ensures: Recorded(session: session, entry: in_hand)
+
+    @guidance
+        -- Which drivable sub-goal is the orchestrator's choice; `.first` stands for it.
+}
+
+-- revert: what is now known changes the card's target, while its goal still stands. Not sunk cost.
+rule TakeRevert {
+    when: Take(session, move)
+    requires: move = revert
+    requires: session.status = choosing
+    ensures: session.status = reverting
+    ensures: Recorded(session: session, entry: replan)
+    ensures:
+        for frame in session.open_frames:
+            frame.status = failed
+            frame.sub_goal.status = if frame.sub_goal.is_ready: ready else: pending
+
+    @guidance
+        -- Tag the old head, restart from the base, and replay the commits that still hold.
+        -- Frames in hand are thrown away with it: their WIP sits on the old head, kept by the tag as evidence.
+}
+
+-- A landed sub-goal whose commit was not replayed is outstanding again; one the new target no longer needs is then superseded.
+rule RevertDone {
+    when: Replayed(session, not_replayed)
+    requires: session.status = reverting
+    ensures: session.status = choosing
+    ensures:
+        for sub_goal in not_replayed:
+            sub_goal.status = if sub_goal.is_ready: ready else: pending
+            TaskAdded(sub_goal: sub_goal)
+}
+
+-- replan: the goal itself is invalidated. Exits to the outer harness, which re-plans with the user.
+rule TakeReplan {
+    when: Take(session, move)
+    requires: move = replan
+    requires: session.status = choosing
+    ensures: session.status = exited
+    ensures: session.exit = replan
+    ensures: Recorded(session: session, entry: replan)
+    ensures: SessionEnded(session: session)
+    ensures:
+        for frame in session.open_frames:
+            frame.status = failed
+            frame.sub_goal.status = pending
+
+    @guidance
+        -- Frames in hand are thrown away with the plan they served; their WIP commits stay as evidence for the re-plan.
+}
+
+-- park: nothing is ready, and what is blocked waits on the user or someone else.
+-- Hands back to the outer harness; the session stays parked, its stack intact, until resumed.
+rule TakePark {
+    when: Take(session, move)
+    requires: move = park
+    requires: session.status = choosing
+    requires: session.ready_sub_goals.count = 0
+    ensures: session.status = parked
+    ensures:
+        for frame in session.in_hand:
+            frame.status = parked
+}
+
+-- Stopping: the user ends the session mid-work, whatever else is ready. The stack is parked as it stands.
+rule Stop {
+    when: UserStops(session)
+    requires: session.status = choosing or session.status = offered
+    ensures: session.status = parked
+    ensures:
+        for frame in session.in_hand:
+            frame.status = parked
+}
+
+-- A resumed session picks its stack back up.
+rule Resume {
+    when: SessionResumed(session)
+    requires: session.status = parked
+    ensures: session.status = choosing
+    ensures:
+        for frame in session.frames where status = parked:
+            frame.status = writing
+}
+
+-- A dart in flight when the session ends — exited, or the conversation itself gone — is lost,
+-- and darted again by whichever session picks the work up, where still needed.
+rule DartLost {
+    when: SessionEnded(session)
+    for dart in session.darts where status = running or status = waiting:
+        ensures: dart.status = lost
+        ensures: Recorded(session: session, entry: dart_lost)
+}
+
+rule TakeDone {
+    when: Take(session, move)
+    requires: move = done
+    requires: session.status = choosing
+    requires: session.open_frames.count = 0
+    requires: session.sub_goals.all(s => s.status = done or s.status = superseded)
+    ensures: session.status = exited
+    ensures: session.exit = done
+    ensures: SessionEnded(session: session)
+}
+
+-- Triage: darts and drives only report; every decision about what happens next is the orchestrator's,
+-- and only the orchestrator updates the plan and the journal.
+-- A yield is triaged from choosing; one arriving while a move is offered, a revert runs or the session is parked waits.
+-- One at a time: a yield that chooses a move may leave choosing, and the next waits until it is back.
+rule TriageOnArrival {
+    when: y: Yield.created
+    requires: y.session.status = choosing
+    requires: y.session.untriaged.first = y
+    ensures: Triage(y: y)
+}
+
+rule TriageNext {
+    when: y: Yield.triaged becomes true
+    requires: y.session.status = choosing
+    requires: y.session.untriaged.count > 0
+    ensures: Triage(y: y.session.untriaged.first)
+}
+
+rule TriageBacklog {
+    when: session: Session.status transitions_to choosing
+    requires: session.untriaged.count > 0
+    ensures: Triage(y: session.untriaged.first)
+}
+
+rule TriageGoalChange {
+    when: Triage(y)
+    requires: y.changes_goal
+    ensures: y.triaged = true
+    ensures: Choose(session: y.session, move: replan)
+    ensures:
+        if y.from_dart != null:
+            DartReport(dart: y.from_dart)
+}
+
+rule TriageTargetChange {
+    when: Triage(y)
+    requires: not y.changes_goal
+    requires: y.changes_target
+    ensures: y.triaged = true
+    ensures: Choose(session: y.session, move: revert)
+    ensures:
+        if y.from_dart != null:
+            DartReport(dart: y.from_dart)
+}
+
+rule TriageUnwalkedRoute {
+    when: Triage(y)
+    requires: y.kind = unwalked_route
+    requires: not y.changes_goal and not y.changes_target
+    ensures: y.triaged = true
+    ensures: Recorded(session: y.session, entry: unwalked_route)
+    ensures: Choose(session: y.session, move: dart)
+}
+
+rule TriageSubGoal {
+    when: Triage(y)
+    requires: y.kind = sub_goal or y.kind = increment
+    requires: not y.changes_goal and not y.changes_target
+    ensures: y.triaged = true
+    ensures:
+        let sub_goal = SubGoal.created(
+            session: y.session, status: pending, kind: y.frame_kind, placement: y.placement,
+            exercised: y.from_dart != null, judged_straightforward: false)
+        Recorded(session: y.session, entry: sub_goal)
+        TaskAdded(sub_goal: sub_goal)
+
+    @guidance
+        -- A better split of the sub-goal a frame is driving is a pre-emption (PreEmpt), not a new sub-goal alongside it.
+}
+
+rule TriageRecordOnly {
+    when: Triage(y)
+    requires: y.kind = constraint
+    requires: not y.changes_goal and not y.changes_target
+    ensures: y.triaged = true
+    ensures: Recorded(session: y.session, entry: on_goal_tree_node)
+}
+
+-- An earlier, unlanded commit unfit for the frame in hand, or incomplete, is amended before that frame goes on.
+rule TriageEarlierCommit {
+    when: Triage(y)
+    requires: y.kind = earlier_commit
+    requires: not y.changes_goal and not y.changes_target
+    ensures: y.triaged = true
+    ensures:
+        let sub_goal = SubGoal.created(
+            session: y.session, status: pending, kind: amend, placement: inside_commit,
+            amends: y.commit, exercised: true, judged_straightforward: false)
+        Recorded(session: y.session, entry: sub_goal)
+        TaskAdded(sub_goal: sub_goal)
+        if y.from_frame != null and y.from_frame.status = writing:
+            PushFrame(frame: y.from_frame, sub_goal: sub_goal)
+
+    @guidance
+        -- From a dart, or a frame no longer writing, the amend stays a recorded sub-goal, driven when ready.
+}
+
+rule TriageRouteQuestion {
+    when: Triage(y)
+    requires: y.kind = route_question
+    requires: not y.changes_goal and not y.changes_target
+    ensures: y.triaged = true
+    ensures: Recorded(session: y.session, entry: decision)
+    ensures:
+        if y.from_dart != null:
+            OrchestratorResumes(dart: y.from_dart)
+
+    @guidance
+        -- Answered by the orchestrator, or in primary escalated to the user first; the answer is recorded as a decision.
+}
+
+-- The user's to settle, in either mode: asked in primary; in secondary recorded as an open question, and other ready work goes on.
+rule TriageForUser {
+    when: Triage(y)
+    requires: y.kind = user_decision or y.kind = invalidating_finding
+    requires: not y.changes_goal and not y.changes_target
+    ensures: y.triaged = true
+    ensures:
+        for sub_goal in y.bears_on:
+            sub_goal.blocked_by_question = true
+    ensures:
+        if y.session.mode = primary:
+            UserAsked(session: y.session, about: y)
+        else:
+            Recorded(session: y.session, entry: open_question)
+}
+
+rule UserSettles {
+    when: UserAnswers(y)
+    requires: y.kind = user_decision or y.kind = invalidating_finding
+    ensures: Recorded(session: y.session, entry: decision)
+    ensures:
+        for sub_goal in y.bears_on:
+            sub_goal.blocked_by_question = false
+    ensures:
+        if y.from_dart != null:
+            OrchestratorResumes(dart: y.from_dart)
+
+    @guidance
+        -- An answer that changes the goal or the target is a new yield, triaged as one.
+}
+
+rule SubGoalReady {
+    when: sub_goal: SubGoal.is_ready
+    requires: sub_goal.status = pending
+    ensures: sub_goal.status = ready
+}
+
+-- One with nothing left to depend on is ready from the start; its is_ready never turns from false to true.
+rule SubGoalReadyOnCreation {
+    when: sub_goal: SubGoal.created
+    requires: sub_goal.status = pending
+    requires: sub_goal.is_ready
+    ensures: sub_goal.status = ready
+}
+
+-- A failed drive's sub-goal, re-split, is superseded by the sub-goals that replace it.
+rule Supersede {
+    when: OrchestratorSupersedes(sub_goal)
+    requires: sub_goal.status = pending or sub_goal.status = ready
+    ensures: sub_goal.status = superseded
+    ensures: TaskRemoved(sub_goal: sub_goal)
+    ensures: Recorded(session: sub_goal.session, entry: replan)
+}
+
+-- A failed drive's sub-goal stays pending until the orchestrator readies it again, or a re-split supersedes it (Supersede).
+rule SubGoalReReadied {
+    when: OrchestratorReadies(sub_goal)
+    requires: sub_goal.status = pending
+    requires: sub_goal.is_ready
+    ensures: sub_goal.status = ready
+}
+
+rule DartRuns {
+    when: dart: Dart.created
+    ensures: dart.status = running
+}
+
+-- The dart is waiting before its question or finding is triaged, so the answer always finds it waiting.
+rule DartAsks {
+    when: DartEndsTurn(dart, yield_kind, changes_goal, changes_target)
+    requires: dart.status = running
+    requires: yield_kind = route_question or yield_kind = invalidating_finding
+    ensures: dart.status = waiting
+    ensures: Yield.created(
+        session: dart.session, kind: yield_kind, from_dart: dart,
+        changes_goal: changes_goal, changes_target: changes_target, triaged: false)
+}
+
+rule DartAnswered {
+    when: OrchestratorResumes(dart)
+    requires: dart.status = waiting
+    ensures: dart.status = running
+}
+
+-- The orchestrator harvests the report: each finding in it is a Yield, triaged like any other,
+-- and the dart's branch and head are recorded while its code is still evidence.
+rule DartReports {
+    when: DartReport(dart)
+    requires: dart.status = running or dart.status = waiting
+    ensures: dart.status = reported
+    ensures: Recorded(session: dart.session, entry: harvest)
+}
+
+rule DartHarvested {
+    when: dart: Dart.status transitions_to reported
+    ensures:
+        if dart.still_needed:
+            dart.status = evidence
+        else:
+            dart.status = cleared
+}
+
+rule DartCleared {
+    when: dart: Dart.still_needed becomes false
+    requires: dart.status = evidence
+    ensures: dart.status = cleared
+    ensures: Recorded(session: dart.session, entry: what_it_taught)
+}
+
+rule StartWriting {
+    when: frame: Frame.created
+    requires: frame.status = in_hand
+    ensures: frame.status = writing
+}
+
+-- A tidy needed now, an amend, or a prequel interrupts the frame in hand: it is set aside as a WIP commit,
+-- the new frame goes on the stack, and the interrupted frame's task is blocked by it.
+-- The pushed sub-goal was recorded, and its task added, when triage created it — a tidy needed now arrives as a sub_goal yield.
+rule Interrupt {
+    when: PushFrame(frame, sub_goal)
+    requires: frame.status = writing
+    requires: sub_goal.status = pending or sub_goal.status = ready
+    requires: sub_goal.kind = amend implies sub_goal.placement = inside_commit
+    ensures: frame.status = interrupted
+    ensures: sub_goal.status = in_hand
+    ensures: Recorded(session: frame.session, entry: wip_commit)
+    ensures: Frame.created(
+        session: frame.session, sub_goal: sub_goal, kind: sub_goal.kind,
+        placement: sub_goal.placement, status: in_hand, interrupts: frame)
+    ensures: TaskBlocked(task: frame.sub_goal, by: sub_goal)
+
+    @guidance
+        -- An amend makes an unlanded commit fit for the drive's purpose, or completes it.
+        -- It keeps the kind of the commit it amends: an amended tidy still changes no behaviour,
+        -- an amended advance stays within its scope. Once that commit has landed, it is an ordinary tidy or advance.
+}
+
+-- A better drive found mid-drive pre-empts the one in hand: the original is kept, not failed.
+rule PreEmpt {
+    when: BetterDrive(frame, sub_goal)
+    requires: frame.status = writing
+    requires: sub_goal.status = ready
+    ensures: frame.status = pre_empted
+    ensures: sub_goal.status = in_hand
+    ensures: Recorded(session: frame.session, entry: wip_commit)
+    ensures: TaskBlocked(task: frame.sub_goal, by: sub_goal)
+    ensures: Frame.created(
+        session: frame.session, sub_goal: sub_goal, kind: sub_goal.kind,
+        placement: sub_goal.placement, status: in_hand, interrupts: frame)
+}
+
+rule Verify {
+    when: ReadyToVerify(frame)
+    requires: frame.status = writing
+    ensures: frame.status = verifying
+}
+
+-- Landing: the project's definition of done holds; the commit lands at the frame's placement,
+-- and reads as though it had been right first time.
+rule Land {
+    when: Verified(frame)
+    requires: frame.status = verifying
+    ensures: frame.status = landed
+    ensures: frame.sub_goal.status = done
+    ensures: Recorded(session: frame.session, entry: done)
+    ensures: TaskCompleted(sub_goal: frame.sub_goal)
+    ensures:
+        if frame.interrupts != null:
+            frame.interrupts.status = writing
+            Recorded(session: frame.session, entry: wip_rebased)
+
+    @guidance
+        -- Anything but branch_top rewrites the branch, so it needs the project's answer to whether
+        -- its feature branches may be rewritten, and a force-with-lease push where they are pushed.
+        -- An amended commit's message describes its final shape; the PR mentions it only where it
+        -- leaves a consequence the reader bears.
+}
+
+-- A drive has failed once its change is no longer atomic, or no longer comprehensible: thrown away, re-split.
+rule Fail {
+    when: DriveFailed(frame)
+    requires: frame.status = writing or frame.status = verifying
+    ensures: frame.status = failed
+    ensures: frame.sub_goal.status = pending
+    ensures: TaskRemoved(sub_goal: frame.sub_goal)
+    ensures:
+        if frame.interrupts != null:
+            frame.interrupts.status = writing
+}
+
+------------------------------------------------------------
+-- Invariants
+------------------------------------------------------------
+
+-- Drives run one at a time: one frame is being worked; the rest of the stack is interrupted or pre-empted under it.
+invariant OneFrameInHand {
+    for session in Sessions:
+        session.in_hand.count <= 1
+}
+
+invariant DrivenOnlyWhenDrivable {
+    for frame in Frames:
+        frame.interrupts = null
+            implies frame.sub_goal.exercised or frame.sub_goal.judged_straightforward
+}

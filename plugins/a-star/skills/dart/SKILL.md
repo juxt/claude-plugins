@@ -37,27 +37,31 @@ You MAY point it at where the card's work is recorded instead, to read and never
 
 ## While it runs
 
+**The dart agent only reports; you triage what it reports**, per `a-star:a-star`'s Triage, and it acts on nothing it found.
+Record it as in flight, so a session resumed after this one ends knows it was lost, and darts again where it is still needed.
+
 - **An increment ready to land** — record it as a sub-goal, and tell the user.
   In primary it lands only on their go-ahead; in secondary, per `a-star:secondary`.
 
 - **A finding that invalidates the plan** — the card's contract, a decision already made, an invariant, or the cost of the agreed route.
   It is the user's to settle, in either mode: in secondary, record it as an open question, halt the line of work it bears on, and move to other ready work.
+  One that changes the card's target is a revert; one that changes its goal, a replan.
 
 - **A question about the route** — answer it, or in primary escalate it; record the decision and resume the dart agent with `SendMessage`.
-  A question the card itself can't answer means the card isn't ready: end the dart, and make it ready.
+  A question the card itself can't answer means the plan has a gap: end the dart, and take it to the user — a replan where the answer changes the goal.
 
 ## Harvest
 
-**Record what you accept from the dart agent's report:**
+**Record what you accept from the dart agent's report, in the plan and the journal, and add a task for each sub-goal recorded:**
 
 - **the sub-goals**, each with what it depends on, and whether the dart exercised it — together they MUST complete the card;
-  **One not exercised is dartable before it is drivable**, however confident its description: its shape is still an unknown.
+  **One not exercised is darted before it is driven**, however confident its description — its shape is still an unknown — unless you judge it straightforward, and record that as a decision.
 - **the decisions** — the dart agent's you keep;
 - **the questions**, each with what it blocks;
 - **the assumptions and risks**, including each invariant it broke;
 - **the data structures that matched the problem**, and the dart's branch and head.
 
 **Keep the dart branch only while its code is still evidence a drive needs.**
-Once the sub-goals it informed have landed, or what it found is recorded well enough that nothing needs its code, whichever comes first, remove it and its worktree per the project's branch cleanup.
+Once the sub-goals it informed have landed, or what it found is recorded well enough that nothing needs its code, whichever comes first, record what it taught that the record doesn't yet hold, then remove it and its worktree per the project's branch cleanup.
 
-**Then move to the next step from the ready sub-goals, per the mode** — or another dart, where part of the goal is still unwalked.
+**Then you are back to choosing, per `a-star:a-star`.**
