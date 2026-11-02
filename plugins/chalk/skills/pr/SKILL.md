@@ -79,8 +79,13 @@ The first `##` in the body is the section after it.
 
 - Identify the base branch.
 
-**Correct the issue before opening the PR** where the work contradicted something it asserted.
+## Correct the issue
+
+**Before you draft the description, correct the linked issue** wherever the work contradicted something it asserted.
 A confident, wrong problem statement with a PR that silently disagrees is worse for the later reader than either alone.
+
+Do it first because the description is drafted against the issue and passed to `weed-prose` beside it: a stale issue makes the description either repeat the error or look as though it contradicts the problem.
+Where there is no linked issue, there is nothing to correct and this step is empty.
 
 ## Draft the title
 
