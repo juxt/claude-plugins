@@ -72,7 +72,8 @@ In primary, a move is first offered, and only the user's yes takes it; in second
 - **a constraint, assumption or risk** — recorded on the goal-tree node it bounds;
 - **a question about the route** — answer it, or in primary escalate it, then resume;
 - **a finding that changes the card's target** — revert; **one that changes its goal** — replan;
-- **a decision that is the user's** — offer it in primary; in secondary, record it and move to other ready work.
+- **a decision that is the user's** — offer it in primary; in secondary, record it and move to other ready work;
+- **two reports that conflict** — you settle it, by your own check where one is cheap, and record the decision.
 
 ## Sub-goals
 
