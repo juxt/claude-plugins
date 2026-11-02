@@ -16,6 +16,9 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 [`spec/a-star.allium`](../../spec/a-star.allium) states them: each move's guard (`requires`) and what it records (`ensures`).
 The skills say how a move is carried out; where a skill and the spec disagree, the spec governs, and the disagreement is a question for the user.
 
+**Its inspiration is the Mikado Method** (Ellnestam & Brolund, 2014): try the goal, revert, work the graph of prerequisites backwards, land the leaves.
+The dart is the try, the revert is the revert, and each drive lands a leaf.
+
 ## Roles
 
 - **You, the main session, are the orchestrator.**
@@ -82,6 +85,8 @@ In primary, a move is first offered, and only the user's yes takes it; in second
 - **Each commit is one atomic unit of change, its own tests and docs included.**
   The user reviews a branch commit by commit, understanding and agreeing with each before the next; a commit whose tests or docs arrive later can't be agreed with on its own.
 - **Together, a card's sub-goals MUST complete it.**
+- **Sub-goals are ordered so the suite stays green through every one of them**, accepting a larger diff where that is what it takes.
+  Check it when a sub-goal is recorded, against the call graph, not when a drive discovers it: which assertions does this invalidate, and is there a sub-goal that would keep them true if it landed first?
 - **The landed code keeps the data structures a dart got right**, and leaves out what it built around the ones it didn't.
 
 **A structure change and a behaviour change never share a commit**: a tidy changes structure, an advance changes behaviour, and `a-star:drive` lands either.
