@@ -106,6 +106,8 @@ There is no earlier shape worth a commit, and a reviewer would read the complex 
 
 5. **Review the frame's diff before taking its commit**, with the review the project's conventions call for, over its code and its comments.
    A finding inside the frame's scope resumes the drive agent with `SendMessage` to fix it; anything else is triaged like any other report.
+   A finding the drive agent could only have missed because something it reads was silent or wrong is also a gap: triage where its fix belongs — the project's instructions or skills, the record, a skill of a-star's own, or the session's setup — and fix it there, so the next frame doesn't repeat it.
+   A fresh drive's mistake is the signal that the plan or the project is missing something, and amending the commit alone leaves the miss in place.
 
 6. **Take its commit onto the feature branch at the frame's placement**, rewriting its place or message where the branch should read otherwise, and push where the project's answer says to.
 

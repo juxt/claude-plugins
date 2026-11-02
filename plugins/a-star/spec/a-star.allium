@@ -628,6 +628,7 @@ rule Land {
     @guidance
         -- Verified includes the orchestrator's review of the frame's diff, code and comments, before it takes the commit.
         -- A finding inside the frame's scope sends the drive agent back to fix it; anything else is triaged like any other report.
+        -- A finding that traces to something the drive agent reads being silent or wrong is also fixed where it belongs — the project, the record, a skill or the setup — not only in the commit.
         -- The drive agent commits what it lands; the orchestrator may rewrite that commit's place or message.
         -- Anything but branch_top rewrites the branch, so it needs the project's answer to whether
         -- its feature branches may be rewritten, and a force-with-lease push where they are pushed.
