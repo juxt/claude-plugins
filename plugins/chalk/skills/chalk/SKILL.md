@@ -76,6 +76,19 @@ Each is one claim in `chalk:voice`'s register, terse; an entry that would mean n
 **So does a dependency the session discovers**, onto the card it depends on rather than this one, per `chalk:issue`.
 Everything else stays in the journal, naming the sub-goal it bears on only where the entry doesn't make that obvious.
 
+## The task list
+
+**The host's task list — Claude Code's tasks, or the host's equivalent — is a view of the plan's goal tree, never a second source.**
+At any point it holds the current tree's open leaves; it is what the user sees of the work in progress.
+
+- **A task carries a leaf's ID and subject line, and nothing the leaf doesn't.**
+  Anything worth adding to a task belongs in the plan first.
+
+- **Approving a plan that implements creates a task per open leaf.**
+- **A `replan:` removes the tasks of the leaves it drops, and creates those of the leaves it adds.**
+- **A sub-goal marked done completes its task.**
+- **An implementation harness keeps it current as sub-goals move**, through the same rules.
+
 ## `/chalk [issue]`
 
 **Enter plan mode first** — `EnterPlanMode`, or the host's equivalent — unless the session is already in it.

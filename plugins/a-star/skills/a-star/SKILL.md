@@ -50,6 +50,13 @@ In whatever the session tracks its work with:
 - **whether the user is watching** (`a-star:primary`, `a-star:secondary`).
   A session starts primary, unless nobody can watch it — headless, cloud or scheduled — when it starts secondary.
 
+**Keep the host's task list current as sub-goals move**, as a view of the plan per `chalk:chalk`, where the session journals there:
+
+- **a tidy or a drive commissioned adds its task**, carrying the sub-goal's ID and subject line;
+- **done completes it**;
+- **superseded or thrown away removes it**, as a re-plan's dropped leaves are removed;
+- **a tidy interrupting a drive marks the drive's task blocked by the tidy's.**
+
 **Take the next step from the ready sub-goals.**
 
 ## `/a-star <card>`
