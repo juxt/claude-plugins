@@ -98,9 +98,10 @@ There is no earlier shape worth a commit, and a reviewer would read the complex 
    A restatement is a second copy to drift, and a wrong one overrides the right one.
    Pass `isolation: "worktree"`, and run it in the background, so it can message you as it goes.
 
-3. **Triage what it reports as it goes**, per `a-star:a-star` — a stretch of route nobody darted, a better split of a later sub-goal, a constraint — without stopping the frame.
+3. **Triage what it reports as it goes**, per `a-star:a-star` — a stretch of route nobody darted, a better split of a later sub-goal, a constraint, an earlier commit that wants amending but doesn't block the frame — without stopping the frame.
+   The amend is recorded as a sub-goal, driven after the frame in hand lands.
 
-4. **When it ends its turn on something that stops the frame**, decide: a user's decision is offered in primary; an earlier commit to fix is an amend frame; a better drive is a pre-emption; a failure is [Handling Drive Failure](#handling-drive-failure).
+4. **When it ends its turn on something that stops the frame**, decide: a user's decision is offered in primary; an earlier commit this frame can't land on is an amend frame, pushed first; a better drive is a pre-emption; a failure is [Handling Drive Failure](#handling-drive-failure).
    Then resume it with `SendMessage`, or push the new frame.
 
 5. **Review the frame's diff before taking its commit**, with the review the project's conventions call for, over its code and its comments.
@@ -123,7 +124,7 @@ Merging is the user's; once they have, remove what only served it per the projec
 
 ## Interrupting the frame in hand
 
-**A tidy needed now, an amend, or a prequel pushes a frame on top of the one in hand**, landed by a drive agent of its own.
+**A tidy needed now, an amend of a commit the frame in hand can't land on, or a prequel pushes a frame on top of the one in hand**, landed by a drive agent of its own.
 The agent in hand has WIP-committed its work before ending its turn; rebase that afterwards — or discard it to redo on the new structure, whichever is cheaper — and mark its task blocked by the new frame's.
 You MUST NOT use `git stash`: it's shared across worktrees.
 

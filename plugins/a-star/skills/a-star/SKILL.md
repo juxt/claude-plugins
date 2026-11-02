@@ -68,7 +68,7 @@ In primary, a move is first offered, and only the user's yes takes it; in second
 
 - **an increment ready to land, or a new or better-split sub-goal** — record it as a sub-goal, with its kind and where it would land, what it depends on, and whether a dart exercised it;
 - **a stretch of the route not yet walked** — a dart;
-- **an earlier, unlanded commit superseded or incomplete** — an amend, per `a-star:drive`;
+- **an earlier, unlanded commit superseded or incomplete** — an amend, per `a-star:drive`; pushed ahead of the frame in hand only if that frame can't land correctly on the commit as it stands, otherwise recorded to drive after it;
 - **a constraint, assumption or risk** — recorded on the goal-tree node it bounds;
 - **a question about the route** — answer it, or in primary escalate it, then resume;
 - **a finding that changes the card's target** — revert; **one that changes its goal** — replan;

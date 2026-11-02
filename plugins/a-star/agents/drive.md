@@ -43,10 +43,10 @@ Before you change anything, your worktree MUST contain that head: `git merge-bas
 
 **You only report.** What happens next — and every update to the plan, the journal and the task list — is the orchestrator's.
 
-- **What doesn't stop the frame** — a stretch of route nobody darted, a better split of a later sub-goal, a constraint, assumption or risk: `SendMessage` it to `main`, and carry on.
+- **What doesn't stop the frame** — a stretch of route nobody darted, a better split of a later sub-goal, a constraint, assumption or risk, or an earlier, unlanded commit that wants amending but that this frame can land correctly on as it stands: `SendMessage` it to `main`, and carry on.
 - **What does** — end your turn with it, having WIP-committed the work in hand:
   - **a decision that is the user's** — a tidy's now, later or never; the sub-goal's scope;
-  - **an earlier, unlanded commit unfit for this frame, or incomplete** — say what it lacks; the orchestrator decides whether to amend it first;
+  - **an earlier, unlanded commit this frame can't land correctly on, because it is unfit or incomplete** — say what it lacks; the orchestrator decides whether to amend it first;
   - **a better drive that should come first**, which would pre-empt this one;
   - **a finding that invalidates the plan**, or a test you'd have to weaken to get past;
   - **the frame failing** — no longer atomic, or no longer comprehensible.
