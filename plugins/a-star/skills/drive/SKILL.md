@@ -92,8 +92,10 @@ There is no earlier shape worth a commit, and a reviewer would read the complex 
 
 1. **Record it as what's in hand, before anything is edited.** Its task already exists, from when the sub-goal was recorded at triage — a tidy, amend or prequel pushed onto the stack included.
 
-2. **Spawn the `drive` agent with the frame as its brief** — its sub-goal, kind and placement; the decisions and principles in force; the darts' evidence — plus the branch to work from and its head: for an advance, the card's feature branch off the project's base branch; for a tidy, where it lands.
-   You MAY point it at where the card's work is recorded instead, to read and never write.
+2. **Spawn the `drive` agent with the frame as its brief, and nothing else** — its sub-goal, its kind and placement, the branch to work from and its head, and where the card's work is recorded: for an advance, the card's feature branch off the project's base branch; for a tidy, where it lands.
+   The record carries the decisions, principles and darts' evidence, which it reads and never writes.
+   The brief MUST NOT restate what the agent loads for itself — the project's conventions, the skills' rules, how to verify — nor dictate a format a named skill owns, such as a commit message's.
+   A restatement is a second copy to drift, and a wrong one overrides the right one.
    Pass `isolation: "worktree"`, and run it in the background, so it can message you as it goes.
 
 3. **Triage what it reports as it goes**, per `a-star:a-star` — a stretch of route nobody darted, a better split of a later sub-goal, a constraint — without stopping the frame.

@@ -22,7 +22,8 @@ Wherever they say "you" record, triage, choose, offer, spawn, or update the plan
 ## The brief
 
 **It names the frame: its sub-goal, its kind, and its placement** — the branch's base, inside a named commit, or the top.
-It carries the decisions and principles in force, and the evidence from darts; where it points you at where the card's work is recorded, read it — you MUST NOT write it.
+It points you at where the card's work is recorded — the decisions and principles in force, and the evidence from darts: read it, you MUST NOT write it.
+It carries nothing else: the project's conventions and the skills' rules are yours to load, not the brief's to retell, and where it dictates otherwise, what you load wins.
 
 **It names the branch to work from and its head.**
 Before you change anything, your worktree MUST contain that head: `git merge-base --is-ancestor <head> HEAD`, else `git reset --hard <head>`.
