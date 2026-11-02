@@ -225,6 +225,23 @@ Every node they read is context they hold while reading the next, their capacity
 - **Siblings are read in order, and dependency fixes it.**
   A proposition that depends on an earlier sibling MUST come after it; strength, frequency or severity only break ties among siblings that do not depend on each other.
 
+### The walkthrough
+
+**A walkthrough — of a mechanism, an algorithm, a worked example — is a mindmap whose siblings are successors.**
+Asked for by name, it takes this form, not a table or a run of prose.
+
+- **The steps are numbered**, since the order is part of what the reader has to get right.
+
+- **It opens with its anchor**: what the mechanism is for and the state it starts from, before any step.
+
+- **Each step's subject line is the state change it makes**; its reasons are its children.
+  "p2 moves above p1", grounded by "p2's A@3 precedes p1's A@5" below it — not the reason carried in the step's own line, or in a table cell beside it.
+
+- **Each step MUST be decidable from its ancestors plus the steps before it.**
+  A term a later step defines is not available yet; define it in the anchor, or at the step that first needs it.
+
+- **A table of states MAY sit alongside, as data**: the state after each step, citing the step, carrying no reasoning.
+
 ### Nodes carry labels a reader can act on
 
 - **You SHOULD tag a bullet where the tag sharpens it**, prefixing the subject line — 'goal:', 'pro:', 'con:', 'idea:', 'assumption:', 'check:'.
