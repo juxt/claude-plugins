@@ -11,9 +11,9 @@ argument-hint: "[card, if not already in session]"
 
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
-**Success: the unknowns and constraints on the route to the goal are surfaced while they could still change it, the next steps are suggested, and the dart wrote no more than that took, with nothing landed.**
+**Success: enough information back to decide the next steps, as soon as it can be had** — the unknowns and constraints on the route surfaced while they could still change it, the next steps suggested, and the dart wrote no more than that took, with nothing landed.
 The next steps are sub-goals that together complete the card, each small enough for a human to hold in their head, on data structures that match the problem.
-A passing suite is not part of it.
+A green suite and the project's definition of done are anti-goals, not merely not the bar: the dart reports once the next steps are decidable, rather than when the route is finished.
 
 Load `a-star:a-star` first.
 
@@ -25,7 +25,8 @@ You MAY point it at where the card's work is recorded instead, to read and never
 - **The brief MUST ask for the route built, not analysed.**
   A dart's value is what building teaches; analysis of a sub-goal is a guess about it, and the constraints it would have surfaced turn up at drive time instead, after the sub-goals before it have landed.
 
-- **The brief MUST NOT ask for a green suite or for proof of the end-to-end**, which sets the bar the dart then aims for.
+- **The brief MUST NOT ask for a green suite, the project's definition of done, or proof of the end-to-end**, which sets the bar the dart then aims for.
+  It MUST ask the dart to report as soon as the next steps are decidable.
 - **Pass `isolation: "worktree"`, and run it in the background**, so it can message you as it goes.
 - **`.claude/worktrees/` MUST be ignored by git**; add it to `.git/info/exclude` where it isn't.
 - **Every dart starts fresh from the current base**; an old dart is evidence, never resumed.

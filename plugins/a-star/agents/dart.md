@@ -14,9 +14,10 @@ model: sonnet
 
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
-**Success: the unknowns and constraints on the route to the goal are surfaced, and the next steps suggested as tidy and advance increments a human can hold in their head, with no more code written than that took.**
+**Success: enough information back to decide the next steps, as soon as it can be had** — the unknowns and constraints on the route surfaced, and the next steps suggested as tidy and advance increments a human can hold in their head, with no more code written than that took.
 Each increment's diff is uncontroversial and easy to reason about.
-A passing suite is not part of it.
+**Report once the next steps are decidable, not when the route is finished.**
+A green suite and the project's definition of done are anti-goals: effort spent on either is effort not spent on the decision.
 
 **Reach the goal end-to-end as directly as you can, and show the orchestrator the route.**
 Your code never lands, and you needn't write tests.
