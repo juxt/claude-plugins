@@ -116,7 +116,8 @@ In whatever the session tracks its work with — the outer harness's journal, wh
    **Agreed here, it goes on the tracker issue before you move on**: every decision that bears on the problem or the agreed scope, not only the root.
    In secondary, record the questions and park instead.
 
-2. **Check the project's readiness conventions hold**, and that no open question bears on the card itself.
+2. **Check the project's readiness conventions hold**, load its answers to the [four choices](#what-the-project-says), and check no open question bears on the card itself.
+   Look for the answers in the project's skills and agent instructions first; only a choice answered nowhere there becomes a question.
 
 3. **Choose the first move**: a dart where the card has no sub-goals yet or part of its goal is still unwalked, else a drive.
 
