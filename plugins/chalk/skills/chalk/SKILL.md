@@ -131,6 +131,9 @@ Ask where the user hasn't said and the request doesn't settle it.
 **The route is part of the plan**: file and stop, implement an existing card, file and implement, or implement unfiled.
 Implement unfiled where a card would carry nothing the PR can't: the PR takes the standalone path in `chalk:pr` and carries the problem itself.
 
+**A route that implements names its implementation harness, and that is `a-star:a-star` where a-star is installed and the user hasn't stated another preference.**
+Where a-star isn't installed, or the user prefers another harness or none, the plan says that instead.
+
 ### 3. Close the gaps while planning
 
 **Report gaps against `chalk:issue`'s palette** — a missing goal, unclear scope, open questions nobody has answered.
