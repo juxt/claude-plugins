@@ -162,6 +162,8 @@ entity Yield {
     frame_kind: FrameKind when kind = sub_goal | increment
     placement: Placement when kind = sub_goal | increment
     commit: Commit when kind = earlier_commit
+    -- Whether the frame can't land correctly on that commit as it stands.
+    blocks_frame: Boolean when kind = earlier_commit
     -- The sub-goals a question or finding blocks until it is settled.
     bears_on: Set<SubGoal>
     triaged: Boolean
@@ -419,7 +421,7 @@ rule TriageRecordOnly {
     ensures: Recorded(session: y.session, entry: on_goal_tree_node)
 }
 
--- An earlier, unlanded commit unfit for the frame in hand, or incomplete, is amended before that frame goes on.
+-- An earlier, unlanded commit is amended; before the frame in hand goes on only where that frame can't land correctly without it.
 rule TriageEarlierCommit {
     when: Triage(y)
     requires: y.kind = earlier_commit
@@ -431,11 +433,11 @@ rule TriageEarlierCommit {
             amends: y.commit, exercised: true, judged_straightforward: false)
         Recorded(session: y.session, entry: sub_goal)
         TaskAdded(sub_goal: sub_goal)
-        if y.from_frame != null and y.from_frame.status = writing:
+        if y.blocks_frame and y.from_frame != null and y.from_frame.status = writing:
             PushFrame(frame: y.from_frame, sub_goal: sub_goal)
 
     @guidance
-        -- From a dart, or a frame no longer writing, the amend stays a recorded sub-goal, driven when ready.
+        -- From a dart, a frame no longer writing, or a frame the commit doesn't block, the amend stays a recorded sub-goal, driven when ready.
 }
 
 rule TriageRouteQuestion {
@@ -624,6 +626,9 @@ rule Land {
             Recorded(session: frame.session, entry: wip_rebased)
 
     @guidance
+        -- Verified includes the orchestrator's review of the frame's diff, code and comments, before it takes the commit.
+        -- A finding inside the frame's scope sends the drive agent back to fix it; anything else is triaged like any other report.
+        -- A finding that traces to something the drive agent reads being silent or wrong is also fixed where it belongs — the project, the record, a skill or the setup — not only in the commit.
         -- The drive agent commits what it lands; the orchestrator may rewrite that commit's place or message.
         -- Anything but branch_top rewrites the branch, so it needs the project's answer to whether
         -- its feature branches may be rewritten, and a force-with-lease push where they are pushed.

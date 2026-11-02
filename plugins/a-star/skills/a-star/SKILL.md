@@ -68,11 +68,12 @@ In primary, a move is first offered, and only the user's yes takes it; in second
 
 - **an increment ready to land, or a new or better-split sub-goal** — record it as a sub-goal, with its kind and where it would land, what it depends on, and whether a dart exercised it;
 - **a stretch of the route not yet walked** — a dart;
-- **an earlier, unlanded commit superseded or incomplete** — an amend, per `a-star:drive`;
+- **an earlier, unlanded commit superseded or incomplete** — an amend, per `a-star:drive`; pushed ahead of the frame in hand only if that frame can't land correctly on the commit as it stands, otherwise recorded to drive after it;
 - **a constraint, assumption or risk** — recorded on the goal-tree node it bounds;
 - **a question about the route** — answer it, or in primary escalate it, then resume;
 - **a finding that changes the card's target** — revert; **one that changes its goal** — replan;
-- **a decision that is the user's** — offer it in primary; in secondary, record it and move to other ready work.
+- **a decision that is the user's** — offer it in primary; in secondary, record it and move to other ready work;
+- **two reports that conflict** — you settle it, by your own check where one is cheap, and record the decision.
 
 ## Sub-goals
 
@@ -108,11 +109,15 @@ In whatever the session tracks its work with — the outer harness's journal, wh
 ## `/a-star <card>`
 
 1. **Check the plan is approved** — the card's goal, its constraints and out of scope agreed with the user, by the outer harness or on the tracker issue.
-   Where it isn't, hand back to the outer harness to plan it; with none, agree the root with the user — what the card is for, never how it gets there.
+   Where it isn't, choose how to make it ready, taking the first that applies:
+   1. the user has said how to ready it — do that;
+   2. `chalk:chalk` is installed — hand to it to plan the card;
+   3. otherwise ask the user how, agreeing the root with them — what the card is for, never how it gets there.
    **Agreed here, it goes on the tracker issue before you move on**: every decision that bears on the problem or the agreed scope, not only the root.
    In secondary, record the questions and park instead.
 
-2. **Check the project's readiness conventions hold**, and that no open question bears on the card itself.
+2. **Check the project's readiness conventions hold**, load its answers to the [four choices](#what-the-project-says), and check no open question bears on the card itself.
+   Look for the answers in the project's skills and agent instructions first; only a choice answered nowhere there becomes a question.
 
 3. **Choose the first move**: a dart where the card has no sub-goals yet or part of its goal is still unwalked, else a drive.
 

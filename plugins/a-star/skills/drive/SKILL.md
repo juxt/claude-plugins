@@ -92,22 +92,31 @@ There is no earlier shape worth a commit, and a reviewer would read the complex 
 
 1. **Record it as what's in hand, before anything is edited.** Its task already exists, from when the sub-goal was recorded at triage — a tidy, amend or prequel pushed onto the stack included.
 
-2. **Spawn the `drive` agent with the frame as its brief** — its sub-goal, kind and placement; the decisions and principles in force; the darts' evidence — plus the branch to work from and its head: for an advance, the card's feature branch off the project's base branch; for a tidy, where it lands.
-   You MAY point it at where the card's work is recorded instead, to read and never write.
-   Pass `isolation: "worktree"`, and run it in the background, so it can message you as it goes.
+2. **Record the branch's head, then spawn the `drive` agent with the frame as its brief, and nothing else** — its sub-goal, its kind and placement, the branch to work from and its head, and where the card's work is recorded: for an advance, the card's feature branch off the project's base branch; for a tidy, where it lands.
+   The record carries the decisions, principles and darts' evidence, which it reads and never writes.
+   The brief MUST NOT restate what the agent loads for itself — the project's conventions, the skills' rules, how to verify — nor dictate a format a named skill owns, such as a commit message's.
+   A restatement is a second copy to drift, and a wrong one overrides the right one.
+   It works in the card's own checkout, on the feature branch, with no worktree: drives run one at a time, so nothing else needs the checkout.
+   Run it in the background, so it can message you as it goes, and MUST NOT touch the checkout until it ends — you work on the plan only.
 
-3. **Triage what it reports as it goes**, per `a-star:a-star` — a stretch of route nobody darted, a better split of a later sub-goal, a constraint — without stopping the frame.
+3. **Triage what it reports as it goes**, per `a-star:a-star` — a stretch of route nobody darted, a better split of a later sub-goal, a constraint, an earlier commit that wants amending but doesn't block the frame — without stopping the frame.
+   The amend is recorded as a sub-goal, driven after the frame in hand lands.
 
-4. **When it ends its turn on something that stops the frame**, decide: a user's decision is offered in primary; an earlier commit to fix is an amend frame; a better drive is a pre-emption; a failure is [Handling Drive Failure](#handling-drive-failure).
+4. **When it ends its turn on something that stops the frame**, decide: a user's decision is offered in primary; an earlier commit this frame can't land on is an amend frame, pushed first; a better drive is a pre-emption; a failure is [Handling Drive Failure](#handling-drive-failure).
    Then resume it with `SendMessage`, or push the new frame.
 
-5. **Take its commit onto the feature branch at the frame's placement**, rewriting its place or message where the branch should read otherwise, and push where the project's answer says to.
+5. **Review the frame's diff from the head you recorded, before taking its commit**, with the review the project's conventions call for, over its code and its comments.
+   A finding inside the frame's scope resumes the drive agent with `SendMessage` to fix it; anything else is triaged like any other report.
+   A finding the drive agent could only have missed because something it reads was silent or wrong is also a gap: triage where its fix belongs — the project's instructions or skills, the record, a skill of a-star's own, or the session's setup — and fix it there, so the next frame doesn't repeat it.
+   A fresh drive's mistake is the signal that the plan or the project is missing something, and amending the commit alone leaves the miss in place.
 
-6. **Record the sub-goal done**, with its commits, and complete its task; record what its report taught, and add a task for any sub-goal it turned up.
+6. **Take its commit**, which is already on the feature branch at the frame's placement, rewriting its place or message where the branch should read otherwise, and push where the project's answer says to.
+
+7. **Record the sub-goal done**, with its commits, and complete its task; record what its report taught, and add a task for any sub-goal it turned up.
    A frame that interrupted another pops: rebase the WIP onto it, and resume what it interrupted.
    A dart branch under it is the dart agent's to rebase or redo.
 
-7. **Clear the darts this drive superseded** — each whose code no longer holds evidence a remaining sub-goal needs.
+8. **Clear the darts this drive superseded** — each whose code no longer holds evidence a remaining sub-goal needs.
    First record what it taught that the record doesn't yet hold: what it found, and where the road departed from its route.
    Then remove its branch and worktree per the project's branch cleanup.
 
@@ -118,7 +127,7 @@ Merging is the user's; once they have, remove what only served it per the projec
 
 ## Interrupting the frame in hand
 
-**A tidy needed now, an amend, or a prequel pushes a frame on top of the one in hand**, landed by a drive agent of its own.
+**A tidy needed now, an amend of a commit the frame in hand can't land on, or a prequel pushes a frame on top of the one in hand**, landed by a drive agent of its own.
 The agent in hand has WIP-committed its work before ending its turn; rebase that afterwards — or discard it to redo on the new structure, whichever is cheaper — and mark its task blocked by the new frame's.
 You MUST NOT use `git stash`: it's shared across worktrees.
 
@@ -136,7 +145,7 @@ With the stack unpopped, the WIP commits and what's recorded as in hand are what
 **A drive has failed once its change is no longer atomic, or no longer comprehensible** — more than one change, or more than a reviewer can hold in their head.
 Other signs: the same failure twice; a fix reaching into code the sub-goal didn't name; a test you'd have to weaken to get past; the code not being what the plan assumed.
 
-**Step back rather than push on**: set the drive aside — WIP-commit it or revert it — mark its sub-goal not ready, and remove its task.
+**Step back rather than push on**: set the drive aside — WIP-commit it, or `git reset --hard` to the head you recorded before it — mark its sub-goal not ready, and remove its task.
 It is readied again once its re-split's tidies have landed, or superseded by the sub-goals that replace it.
 
 - **Break it down again, per *Tidy First?*'s "Getting Untangled"** — by default, discard the drive and redo it tidying first, with what it taught.

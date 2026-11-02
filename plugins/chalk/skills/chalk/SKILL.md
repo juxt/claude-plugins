@@ -25,7 +25,7 @@ How the work gets implemented is a separate concern, left to whichever implement
 **The session's plan — Claude Code's plan file, or the host's equivalent — unless the project names another place.**
 Only the main session writes it; a sub-agent MAY be given its path to read, told not to write it — never a `weed-*` agent, which works because it arrives without the reasoning.
 
-- **It opens with one line: `Journalled per chalk:chalk — <issue link, or "unfiled">`**, so a session after a compaction knows which skill to reload.
+- **It opens with one line: `Journalled per chalk:chalk — commits via chalk:commit — <issue link, or "unfiled">`**, so a session after a compaction knows which skill to reload, and a sub-agent pointed at the plan knows how its commits are written.
 
 - **It holds the plan, and below it, apart, the journal.**
 
@@ -130,6 +130,9 @@ Ask where the user hasn't said and the request doesn't settle it.
 
 **The route is part of the plan**: file and stop, implement an existing card, file and implement, or implement unfiled.
 Implement unfiled where a card would carry nothing the PR can't: the PR takes the standalone path in `chalk:pr` and carries the problem itself.
+
+**A route that implements names its implementation harness, and that is `a-star:a-star` where a-star is installed and the user hasn't stated another preference.**
+Where a-star isn't installed, or the user prefers another harness or none, the plan says that instead.
 
 ### 3. Close the gaps while planning
 
