@@ -55,9 +55,13 @@ Each is one claim in `chalk:voice`'s register, terse; an entry that would mean n
 - **`principle:`** — a rule the user states for how the work is done, beyond this one call.
   A harness briefing a sub-agent passes these on.
 
-- **`constraint:`** — what bounds the solution, marked `essential` where the problem imposes it, `accidental` where the current system does and the change may remove it.
+- **`C<n>` constraint** — what bounds the solution, marked `essential` where the problem imposes it, `accidental` where the current system does and the change may remove it.
 
-- **`assumption:`, `risk:`** — what the work leans on that it doesn't control, and what could stop it.
+- **`A<n>` assumption** — what the work leans on that it doesn't control.
+
+- **`risk:`** — what could stop it.
+
+- **A constraint or assumption sits on the goal-tree node it bounds** (`chalk:goal-tree`), so it carries into the issue's tree under the same ID.
 
 - **`dead-end:`** — a road that closed, and what closed it, where that constrains what comes next.
 

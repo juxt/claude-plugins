@@ -19,9 +19,34 @@ Each node's children are what it takes to achieve it, recursively, down to leave
 **Every node's children MUST be work that accomplishes it, not evidence that argues for it.**
 If they argue rather than accomplish, it's an argument tree; see `chalk:voice`.
 
+## Constraints and assumptions annotate the node they bound
+
+**A constraint bounds which children may accomplish a node; it accomplishes nothing itself.**
+So it is an annotation on the node, not a child of it, and so is an assumption the node leans on.
+
+- **Two kinds, each with a typed ID** (`chalk:voice`), written as the node's first sub-bullets, ahead of its children — the ID is what tells an annotation from a child.
+
+  - **`C<n>` — constraint**, marked `essential` where the problem imposes it, `accidental` where only the current system does and the work may remove it.
+    An invariant is an essential constraint: something any solution must preserve.
+
+  - **`A<n>` — assumption**: what the node leans on that it doesn't control.
+    Distinct from the `assumption:` tag, which marks a node itself as unverified.
+
+- **An annotation scopes to the node's subtree.**
+  One that bounds the whole card annotates the root; one written higher than it binds reads as card-wide and constrains work it doesn't touch.
+
+- **Where Current state carries the coupling, the annotation names it in a clause** rather than restating it — the palette puts each thing in one place.
+
+- **A constraint a test can pin SHOULD be a test, not an annotation.**
+  Prose asks someone not to revert a constraint; a test refuses to let them, and only a test has a decay alarm.
+  Annotations carry the ones no test can hold.
+
+- **A constraint this work creates is not an annotation** — it is inherited, and lives in the PR's Consequences.
+
 ## The test at each node is sufficiency
 
-**Assume every child is done, then ask whether the parent is thereby achieved.**
+**Assume every child is done, then ask whether the parent is thereby achieved within its annotations.**
+A set of children that reaches the parent by breaking one of its constraints is not sufficient.
 
 Not "do these look related to the parent?" but "do these, **plus what we already know about this system**, get us there?"
 

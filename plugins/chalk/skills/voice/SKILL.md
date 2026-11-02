@@ -232,7 +232,7 @@ Every node they read is context they hold while reading the next, their capacity
   It is also what withdraws decision 2 from one node, per the tree above: a reader who cannot agree from the subject alone needs telling before they do it anyway.
 
 - **Nodes a reader might want to refer to SHOULD have a typed ID**, prefixing the subject line.
-  **D1** for a decision, **Q1** for a question, **I1** for an idea, **D2.1** for its first child.
+  **D1** for a decision, **Q1** for a question, **I1** for an idea, **C1** for a constraint, **A1** for an assumption, **D2.1** for its first child.
   IDs beat numbered lists, which renumber silently when a sibling is inserted.
 
   - **A published ID MUST be stable.**

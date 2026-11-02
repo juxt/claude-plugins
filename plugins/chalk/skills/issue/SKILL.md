@@ -134,7 +134,7 @@ Each section's content is in the palette, and not every bug needs every section 
 ## Writing a feature
 
 A design brief: it converges on a choice, and its job is to **constrain** that choice rather than to make it.
-**tl;dr → Problem → Properties of a good solution → Prior art → Invariants → Potential approach → Out of scope → Alternative approaches → Open questions**
+**tl;dr → Problem → Properties of a good solution → Prior art → Potential approach → Out of scope → Alternative approaches → Open questions**
 
 Each section's content is in the palette, and not every feature needs every section — but where a section appears, this is its position.
 

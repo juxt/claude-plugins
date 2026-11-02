@@ -19,7 +19,7 @@ This file carries what goes in each section.
   **It MUST NOT restate the issue**: assume the reader has read it.
 
 - **standalone PR** — it carries the problem too, so the problem sections are inserted between the tl;dr and What changes: **Symptoms → Root cause** for a bug fix, **Problem** for a feature.
-  **Those only.** Properties of a good solution, Prior art, Invariants and Potential approach are design-space or forward-looking material, and a PR is retrospective — evaluation criteria written after the choice read as justification for it.
+  **Those only.** Properties of a good solution, Prior art and Potential approach are design-space or forward-looking material, and a PR is retrospective — evaluation criteria written after the choice read as justification for it.
   Current state is dropped too: What changes names what was true and no longer is, and a second account of the before splits it.
 
 **The issue is a living document; the PR freezes at merge.**
@@ -136,7 +136,7 @@ It surfaces in three places, and MUST be carried in each.
 - **Properties of a good solution** — **contested changes only, and never on a bug**: a bug has a correct answer, not a design space.
   The criteria any answer will be judged against.
   Unnecessary where the change is uncontroversial.
-  It is an **input**: written before the choice, it constrains it, and it is what stops Invariants and Potential approach being argued in a vacuum.
+  It is an **input**: written before the choice, it constrains it, and it is what stops Potential approach being argued in a vacuum.
 
   *Known failure mode, accepted:* written after choosing, it retrofits criteria the chosen approach happens to satisfy and reads as persuasion.
   There is deliberately no machinery here to police that.
@@ -148,19 +148,11 @@ It surfaces in three places, and MUST be carried in each.
   "Here's what Swift does" as a reason to do the same thing is the framing that fails `chalk:voice`'s no-persuasion rule; "Swift can do this because it has no stable ABI, and we do" is the same sentence carrying a fact.
   **What writers drop is the *don't*** — an entry listing only the constraints we share has done half the work.
 
-- **Invariants**
-  The non-obvious things any solution must preserve.
-  An **input** to the design.
-
-  **An invariant a test can pin SHOULD be a test, not a sentence here.**
-  Prose asks someone not to revert a constraint; a test refuses to let them, and only a test has a decay alarm.
-  This section carries the ones no test can hold.
-  Against Consequences: an invariant any solution **must preserve** is an input and lives here, where a constraint this change **created** is inherited and lives there.
-
 - **Potential approach**
   One **goal tree** (`chalk:goal-tree`) of what has to be true when this is done — not which files to touch.
   **Named "potential" deliberately**: it is a direction nobody has walked yet, and the heading is the one place a reader can't skip that.
   **Future state** and **Implementation** both land here; neither is a section of its own.
+  **Constraints and assumptions annotate the node they bound** (`C<n>`, `A<n>`, per `chalk:goal-tree`), card-wide ones on the root; there is no separate Invariants section.
   Where the issue has a Current state, the future state is written in its vocabulary — the same states and events — so the reader sees the difference rather than reconstructing it.
 
   A child MAY be a link to the issue that owns that part, and under `chalk:issue`'s one-piece-or-children rule the tree doubles as the sub-issue skeleton — which is why it is compulsory on a parent issue.
