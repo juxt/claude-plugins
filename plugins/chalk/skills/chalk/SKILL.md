@@ -156,6 +156,16 @@ Where they don't say, ask.
 **`ExitPlanMode`, or the host's equivalent, asks for that approval**; you MUST NOT ask for it any other way.
 A rejection with comments is planning continuing: revise the plan, journal what changed, and ask again.
 
+**Asking is a claim that the plan is aligned, not that it is finished**, so you MUST answer three questions first:
+
+1. Is any part of the plan a guess you'd revise if you asked the user one question?
+2. Have you taken a neutral acknowledgement from the user for agreement?
+3. Is there a decision inside the plan you made without surfacing it?
+
+- **Yes to any → ask that instead**, and stay in plan mode.
+- **Uncertain → stay in plan mode.**
+  Exiting is the one move within the turn that can't be taken back; staying costs nothing.
+
 Once approved, take the route:
 
 - **File and stop** — file through `chalk:issue`.
