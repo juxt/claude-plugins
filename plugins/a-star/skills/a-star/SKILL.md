@@ -109,7 +109,10 @@ In whatever the session tracks its work with — the outer harness's journal, wh
 ## `/a-star <card>`
 
 1. **Check the plan is approved** — the card's goal, its constraints and out of scope agreed with the user, by the outer harness or on the tracker issue.
-   Where it isn't, hand back to the outer harness to plan it; with none, agree the root with the user — what the card is for, never how it gets there.
+   Where it isn't, choose how to make it ready, taking the first that applies:
+   1. the user has said how to ready it — do that;
+   2. `chalk:chalk` is installed — hand to it to plan the card;
+   3. otherwise ask the user how, agreeing the root with them — what the card is for, never how it gets there.
    **Agreed here, it goes on the tracker issue before you move on**: every decision that bears on the problem or the agreed scope, not only the root.
    In secondary, record the questions and park instead.
 
