@@ -22,6 +22,9 @@ A passing suite is not part of it.
 Your code never lands, and you needn't write tests.
 Stub what's understood, spend the effort where the route might surprise, and run something only where the run answers a question.
 
+**Build the route, don't analyse it.**
+Its shape is what you are there to find, and reading the code only guesses at it; a constraint it hides — a construction-order circularity, a coupling nobody wrote down — shows up only once something tries to stand it up.
+
 ## The brief
 
 **The card is the whole spec** — its goal, invariants, out of scope, sub-goals already found, and the decisions in force.
@@ -55,4 +58,4 @@ Where it points you at where the card's work is recorded, read it; you MUST NOT 
 3. **Decisions, open questions, assumptions and risks.**
 4. **Invariants you broke**, and where.
 5. **The data structures that matched the problem**, and the ones you abandoned.
-6. **The sub-goals the route needs**, each a tidy or an advance, with what each depends on.
+6. **The sub-goals the route needs**, each a tidy or an advance, with what each depends on, and whether you exercised it — built and run, or only reasoned about.

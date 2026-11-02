@@ -22,6 +22,9 @@ Load `a-star:a-star` first.
 **Spawn the `dart` agent with the card as its whole brief** — the goal, invariants and out of scope from the tracker issue, the sub-goals already found, the decisions in force — plus the branch to start from and its head: the card's feature branch, else the project's base branch.
 You MAY point it at where the card's work is recorded instead, to read and never write.
 
+- **The brief MUST ask for the route built, not analysed.**
+  A dart's value is what building teaches; analysis of a sub-goal is a guess about it, and the constraints it would have surfaced turn up at drive time instead, after the sub-goals before it have landed.
+
 - **The brief MUST NOT ask for a green suite or for proof of the end-to-end**, which sets the bar the dart then aims for.
 - **Pass `isolation: "worktree"`, and run it in the background**, so it can message you as it goes.
 - **`.claude/worktrees/` MUST be ignored by git**; add it to `.git/info/exclude` where it isn't.
@@ -47,7 +50,8 @@ You MAY point it at where the card's work is recorded instead, to read and never
 
 **Record what you accept from the dart agent's report:**
 
-- **the sub-goals**, each with what it depends on — together they MUST complete the card;
+- **the sub-goals**, each with what it depends on, and whether the dart exercised it — together they MUST complete the card;
+  **One not exercised is dartable before it is drivable**, however confident its description: its shape is still an unknown.
 - **the decisions** — the dart agent's you keep;
 - **the questions**, each with what it blocks;
 - **the assumptions and risks**, including each invariant it broke;
