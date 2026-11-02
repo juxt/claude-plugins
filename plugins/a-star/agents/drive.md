@@ -6,7 +6,6 @@ description: >
   It decides nothing about what happens next: the orchestrator triages its report, and may rewrite its commit.
 
   DO NOT invoke this agent outside `a-star:drive`.
-model: sonnet
 ---
 
 # Drive
