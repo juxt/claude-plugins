@@ -1,31 +1,40 @@
 # Chalk
 
-Capture intent across issues, commits, and PRs — why, not just what.
+**Human context is now the scarce resource.**
+An agent produces more change than anyone can hold in their head, so what limits the work is what the human has to read, decide and remember.
 
-Chalk is an intent layer for Claude Code.
-It ensures that the *reasoning* behind your work is captured at every level: why you're doing this work (issues), and why each change was made the way it was (commits and PRs).
+Chalk manages that context: what a person takes in, when they take it in, and what they can safely let go of.
 
-tl;dr: similar to [beads](https://github.com/gastownhall/beads) but uses the project's existing issue tracker (e.g. GitHub issues).
+It writes issues, agents' plans, commits and PRs in a style that lets the reader focus on what's important to them at the time: drilling down into the details when they need them, and not getting bogged down in them when they don't.
 
-An agent working through anything non-trivial accumulates reasoning, and that reasoning has to live somewhere.
-Held in the model's context it evaporates at the next compaction; kept in a bespoke store it becomes a silo that drifts from wherever the team actually works.
-Chalk puts it in the artefacts you already have, each carrying the part it's the natural home for — and writes them for a human who wasn't there, reading months later.
+## The intent stack
 
-## The Intent Stack
+**Each artefact carries the part of the reasoning its own reader needs, which is what keeps them from duplicating each other.**
 
-- **Issues** (`/chalk:issue`): file an issue whose description captures the problem, the evidence, and *why now* where there is one — enough that a reader can assess it without asking you. Also keeps an existing description accurate as the facts change.
+- **Plan** (`/chalk [issue]`) — the goal and the route, agreed in plan mode; then the session's journal of decisions, questions and constraints, written as they happen.
+  Its reader is the session itself, and the next one after a compaction; it is what the issue, commits and PR are written from.
 
-- **Commits** (`/chalk:commit`): create commits with contextual bodies that explain the *why*, referencing the issue where there is one.
+- **Issue** (`/chalk:issue`) — the problem, the evidence, and *why now* where there is one, kept accurate as the facts change.
+  Its reader has decided to pick the work up, or is checking whether it is what they are hitting.
 
-- **Pull requests** (`/chalk:pr`): create PRs with descriptions that capture the problem, the approach, key decisions, and scope boundaries. Delegates to the github agent for the actual creation.
+- **Pull request** (`/chalk:pr`) — the approach, key decisions and scope boundaries, taken across the whole branch.
+  Its reader is a peer updating their mental model now, or the same person in a year asking why.
 
-Each is written for a different reader, and that's what keeps them from duplicating each other:
+- **Commit** (`/chalk:commit`) — why this change exists, and why it was done this way.
+  Its reader arrived from `git blame` on one line, mid-investigation of something else.
 
-- The **issue** is what you read to decide whether to pick the work up.
+## With an implementation harness
 
-- The **PR** is what you read to understand why the change was made the way it was, taken across the whole branch.
+**chalk plans and journals; how the work is implemented is left to a harness, or to none.**
 
-- The **commit** is what you read when `git blame` drops you on one specific line.
+- **A harness records through chalk's journal**
+  Its record kinds — decision, question, requirement, principle, constraint, assumption, risk, dead-end, replan — are the interface, so the harness names what to record and chalk says where.
+
+- **A harness hands back to chalk when it can't continue on the plan as approved**
+  chalk re-plans where the goal is invalidated, parks the work on its issue where it can't continue, and opens the PR where the goal is complete.
+
+- **[A⭐](../a-star/) is one such harness**
+  It lands each change *"small and simple enough for a human to review and put down"* — the same scarce attention, spent at review time rather than planning time.
 
 ## Installation
 
@@ -45,6 +54,8 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 
 ## Usage
 
+- `/chalk [issue]` — plan the session's work in plan mode, with or without a card, until the goal and route are approved; then journal decisions in the plan as they happen
+
 - `/chalk:issue [title]` — file an issue, or update an existing issue's description
 
 - `/chalk:commit <headline>` — create a contextual commit
@@ -52,8 +63,6 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 - `/chalk:pr [title]` — create a PR with an intent-driven description
 
 - `/chalk:sitrep [focus]` — report where the session has got to, and what's still open
-
-- `/chalk:pick-up [issue]` — pick up an issue's work: neighbourhood read and reported, metadata sorted, and a plan that journals decisions as they happen
 
 - `/chalk:put-down [issue]` — park the session's work on its issue: description corrected, metadata sorted, discovered cards raised and linked
 
@@ -63,6 +72,8 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 
 ## Components
 
+- **Skill** (`chalk`): Plans a session's work and keeps its journal — the plan file the session's commits, PR and issue updates are written from, and the record kinds an implementation harness journals through
+
 - **Skill** (`issue`): Problem-focused issue descriptions, and keeping them accurate
 
 - **Skill** (`commit`): Contextual commits that capture the why
@@ -70,8 +81,6 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 - **Skill** (`pr`): Pull requests with intent-driven descriptions
 
 - **Skill** (`sitrep`): Where the session has got to — what landed, and what's still open as ID'd ideas, decisions and questions
-
-- **Skill** (`pick-up`): Picks up an issue's work, and starts the plan the session's commits and PR are written from — decisions, questions and constraints journalled as they happen
 
 - **Skill** (`put-down`): Parks the session's work on its issue, so the next session resumes from the issue and its links alone
 

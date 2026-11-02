@@ -95,5 +95,19 @@ A⭐ aims to solve the following problems, and optimises for sustainability — 
 
 ## Recommended alongside
 
-[chalk](../chalk/) writes the commit messages, PR descriptions and issue updates A⭐'s work produces, for the colleague who wasn't there, and its `pick-up` records the sub-goals and decisions A⭐ asks for in the session's plan.
-A⭐ names neither; it works with whatever your project's conventions load.
+**[chalk](../chalk/) is the harness A⭐ runs inside: chalk plans the session and keeps its journal, and A⭐ implements the plan.**
+
+- **chalk gets the goal agreed before A⭐ starts**
+  `/chalk` plans in plan mode, and the user leaving plan mode is their approval of the goal and the route.
+  A card that arrives that way is already most of the way to A⭐'s *ready*.
+
+- **What A⭐ records lands in chalk's journal**
+  Sub-goals and what they depend on, decisions, open questions, what's done and what's in hand all go in the session's plan file, in chalk's record kinds.
+
+- **chalk writes what A⭐'s work produces, from that journal**
+  Commit bodies, the PR description and issue updates, each for the colleague who wasn't there.
+
+- **When A⭐ can't continue on the plan as approved, chalk re-plans, parks or finishes**
+  Re-plan where the goal is invalidated; park the work on its issue with `chalk:put-down`; open the PR with `chalk:pr` once the sub-goals complete the card.
+
+A⭐'s skills name no planning tool or store, so it runs on whatever your project's conventions load in chalk's place.

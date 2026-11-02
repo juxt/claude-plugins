@@ -32,7 +32,7 @@ The transcript records what was attempted; the repo records what happened.
 - **Check the working tree** — `git status`, `git diff --stat`, and `git log` back to where the session started.
   This is what settles the Done/Open boundary for anything touching code.
 
-- **Read the session's plan, where `chalk:pick-up` started one.**
+- **Load `chalk:chalk`, and read the session's plan, where it started one.**
   Where it and the transcript disagree, resolve the ambiguity.
 
 - **Re-read the artefacts the session claims to have produced** where cheap — the file, the issue, the PR body.

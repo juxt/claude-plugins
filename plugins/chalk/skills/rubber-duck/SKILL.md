@@ -99,11 +99,11 @@ The conversation is the input; the record is the state.
 ## 6. The user chooses the output
 
 **When the user is done, offer what the record could become, and let them pick.**
-A Claude Docs doc or an artifact, cards through `chalk:issue`, a plan through `chalk:pick-up` once there's a card for it, or nothing beyond the scratch file.
+A Claude Docs doc or an artifact, cards through `chalk:issue`, a plan through `chalk:chalk`, or nothing beyond the scratch file.
 
 - **You MUST NOT choose for them** or publish before they've chosen.
 
 - **Whatever they choose is written from the record**, in that destination's own form, with its IDs kept where it has a reader who might reply on one.
 
 - **Rubber-ducking stops where a card starts.**
-  Once the work is one card's, `chalk:pick-up` journals its plan, taking what bears on that card from the record.
+  Once the work is one card's, or the user wants it built, `chalk:chalk` plans it, taking what bears on it from the record.

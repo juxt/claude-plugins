@@ -21,6 +21,8 @@ You MUST load these skills first:
 
 - **`chalk:code-comments`** — the body is where a comment's design rationale belongs, so this is the moment the misfiled ones surface.
 
+- **`chalk:chalk`** — the plan file's shape and the journal's record kinds, which the body is written from.
+
 ## Your responsibilities
 
 1. **Stage relevant changes.**
@@ -49,7 +51,7 @@ You MUST load these skills first:
 
    - **Its Dissolvable list goes to the user, not into the commit.** A rename or a simplification is a code change, and staging one here would break the atomicity the step above just established.
 
-3. **Read the session's plan journal, where `chalk:pick-up` started one, then the conversation history** for what the journal lacks.
+3. **Read the session's plan journal, where `chalk:chalk` started one, then the conversation history** for what the journal lacks.
 
    Where the two disagree, resolve the ambiguity.
    Of the entries that bear on this change, the body carries what step 4 says its reader needs, and nothing else: it is a selection, not a copy.
