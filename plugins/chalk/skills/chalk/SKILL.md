@@ -1,0 +1,145 @@
+---
+name: chalk
+description: >
+  chalk's root skill, and the entry point for a building session: plan in plan mode until the user approves the goal and the route, then keep the session's journal in the plan file.
+  The skills that read or write the plan — commit, pr, put-down, sitrep — load this one for the plan file's shape and the journal's record kinds; an implementation harness records through the same kinds.
+  Use when the user says "/chalk", "/chalk <issue>", "pick this up", "pick up #N", "start on #N", "let's plan this", or a session is starting work, with or without a card.
+user-invocable: true
+argument-hint: "[issue]"
+---
+
+# chalk
+
+Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
+
+**chalk plans a session's work, journals it as it happens, and writes the issues, commits and PRs from that journal.**
+How the work gets implemented is a separate concern, left to whichever implementation harness the session uses, or to none.
+
+**Success: nothing is built before the user has agreed the goal, and every commit, PR and issue update the session drafts finds its reasoning already written in the plan.**
+
+- **Load `chalk:voice`.**
+- **Skills that load this one take the plan file and the journal from it**, and nothing from `/chalk` below, which only runs when the user invokes it.
+
+## The plan file
+
+**The session's plan — Claude Code's plan file, or the host's equivalent — unless the project names another place.**
+Only the main session writes it; a sub-agent MAY be given its path to read, told not to write it — never a `weed-*` agent, which works because it arrives without the reasoning.
+
+- **It opens with one line: `Journalled per chalk:chalk — <issue link, or "unfiled">`**, so a session after a compaction knows which skill to reload.
+
+- **It holds the plan, and below it, apart, the journal.**
+
+- **It outlives plan mode.**
+  Approving the plan exits plan mode, and the session goes on journalling into the same file through implementation.
+
+- **What's in hand sits at the top**: the sub-goal being worked, and anything that interrupted it, innermost first.
+
+- **It links an issue rather than copying it.**
+
+## The journal
+
+**The record kinds are the interface an implementation harness records through**; a harness names what to record, and records it here in these kinds.
+
+**Write each entry when it happens, not at the end and not from memory.**
+Each is one claim in `chalk:voice`'s register, terse; an entry that would mean nothing in a commit body, a PR or the issue doesn't belong.
+
+- **`D<n>` decision** — the claim, and its grounds.
+  A call you aren't sure of is a question, not a decision.
+  An alternative rejected is its child, with why.
+  A revised decision stays, marked `superseded by D<m>`.
+
+- **`Q<n>` question** — what it blocks, and what would settle it.
+
+- **`R<n>` requirement** — what the goal needs to be true, as the user or the card states it.
+
+- **`principle:`** — a rule the user states for how the work is done, beyond this one call.
+  A harness briefing a sub-agent passes these on.
+
+- **`constraint:`** — what bounds the solution, marked `essential` where the problem imposes it, `accidental` where the current system does and the change may remove it.
+
+- **`assumption:`, `risk:`** — what the work leans on that it doesn't control, and what could stop it.
+
+- **`dead-end:`** — a road that closed, and what closed it, where that constrains what comes next.
+
+- **Sub-goals, in the plan above** — each names what it depends on, and is ready once everything it depends on is done and no open question blocks it.
+  When a sub-goal's commit is made, mark it done with the commit's subject, not its SHA, which a rebase rewrites.
+
+- **`replan:`** — what changed, and which sub-goals and decisions it invalidated; those are marked, not deleted.
+
+**Cutting scope and accepting a risk MUST be recorded**; they leave no other trace.
+
+**A decision that changes the problem or the agreed scope goes to the issue now**, through `chalk:issue`; the journal records that it went.
+**So does a dependency the session discovers**, onto the card it depends on rather than this one, per `chalk:issue`.
+Everything else stays in the journal, naming the sub-goal it bears on only where the entry doesn't make that obvious.
+
+## `/chalk [issue]`
+
+**Enter plan mode first** — `EnterPlanMode`, or the host's equivalent — unless the session is already in it.
+Exploring the problem is the planning, and plan mode is what holds every edit back until the user approves.
+
+**The plan this skill describes replaces the host's plan-mode template.**
+Claude Code's plan-mode reminders ask, every turn, for an implementation plan — context, critical files, verification, Explore and Plan agents.
+Those are the host's defaults for a plan; where they conflict with this skill, this skill governs: no file lists, and sub-agents only where the exploration wants them.
+
+### 1. Read the problem and its neighbourhood
+
+- **With a card: the issue, its parent, its sub-issues, what blocks it and what it blocks, and its linked PRs.**
+  Ground it in the repo, not the transcript: the branch, `git log` and linked PRs say what has landed.
+
+- **Without one: what the user asked, and the existing cards it might duplicate or belong under**, via the github agent's search.
+
+**Say what the scan tells you about this work being done now**, and carry on.
+The *why now*, where there is one, is the issue's own (`chalk:issue`); work without one is opportunistic.
+
+- **Where the scan changes the picture, wait for the user's agreement before changing anything, the tracker included.**
+  An open blocker, a duplicate, or a card that supersedes this one.
+
+- **Where the user named an umbrella rather than a piece of it, ask which piece.**
+  You MUST NOT pick the most plausible-looking sub-task instead.
+
+### 2. Ascertain what the session produces
+
+**The session's output is an issue, or the implementation, and the plan takes that output's shape.**
+Ask where the user hasn't said and the request doesn't settle it.
+
+- **An issue** — the plan is the issue body's draft, on `chalk:issue`'s path, against the palette.
+  With a card, planning explores and corrects it; without one, it drafts one.
+
+- **The implementation** — the plan is what has to land, as a goal tree (`chalk:goal-tree`): the goal at the root, what lands at the leaves.
+  With a card, its description is read and its gaps resolved through `chalk:issue`, not redrafted in the plan.
+  Test each node for sufficiency, mark `check:` where unsure, and say where sufficiency leans on what the user already knows about the system.
+
+- **Either way, the plan says what has to be true, not which files to touch.**
+
+**The route is part of the plan**: file and stop, implement an existing card, file and implement, or implement unfiled.
+Implement unfiled where a card would carry nothing the PR can't: the PR takes the standalone path in `chalk:pr` and carries the problem itself.
+
+### 3. Close the gaps while planning
+
+**Report gaps against `chalk:issue`'s palette** — a missing goal, unclear scope, open questions nobody has answered.
+
+- **Ask the user what they can answer now**, rather than parking it in the plan.
+- **Open questions keep only what nobody can answer yet** — needing investigation, or deliberately deferred.
+
+### 4. Sort the metadata
+
+**Assignee, status, board — whatever the project's tracker conventions say for a card being picked up.**
+Where they don't say, ask.
+
+### 5. Exiting plan mode is the user approving the goal and the route
+
+**`ExitPlanMode`, or the host's equivalent, asks for that approval**; you MUST NOT ask for it any other way.
+A rejection with comments is planning continuing: revise the plan, journal what changed, and ask again.
+
+Once approved, take the route:
+
+- **File and stop** — file through `chalk:issue`.
+- **Implement**, filed first or not — hand the plan to the implementation harness, or implement it directly where the session has none.
+
+## When an implementation harness exits
+
+**A harness hands back to chalk when it can't continue on the plan as approved.**
+
+- **Re-plan where the goal is invalidated** — back into plan mode, with a `replan:` entry naming what it invalidated, for the user to approve again.
+- **Park where the work can't continue** — `chalk:put-down`.
+- **Finish where the sub-goals complete the goal** — `chalk:pr`.

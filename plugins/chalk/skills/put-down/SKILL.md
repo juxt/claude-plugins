@@ -21,7 +21,7 @@ What the session learned, the questions it left open and the work it discovered 
 - **Ground it in the repo, not the transcript.**
   `git status`, `git log` and the branch say what landed; the transcript only says what was attempted.
 
-- **Read the session's plan, where `chalk:pick-up` started one.**
+- **Load `chalk:chalk`, and read the session's plan, where it started one.**
   What the issue's next reader needs from it — open questions, and decisions that bear on the problem — reaches the issue through `chalk:issue`'s own path below.
 
 ## 1. Ensure the description is correct and up-to-date.

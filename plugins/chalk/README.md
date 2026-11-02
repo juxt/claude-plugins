@@ -53,7 +53,7 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 
 - `/chalk:sitrep [focus]` — report where the session has got to, and what's still open
 
-- `/chalk:pick-up [issue]` — pick up an issue's work: neighbourhood read and reported, metadata sorted, and a plan that journals decisions as they happen
+- `/chalk [issue]` — plan the session's work in plan mode, with or without a card, until the goal and route are approved; then journal decisions in the plan as they happen
 
 - `/chalk:put-down [issue]` — park the session's work on its issue: description corrected, metadata sorted, discovered cards raised and linked
 
@@ -71,7 +71,7 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 
 - **Skill** (`sitrep`): Where the session has got to — what landed, and what's still open as ID'd ideas, decisions and questions
 
-- **Skill** (`pick-up`): Picks up an issue's work, and starts the plan the session's commits and PR are written from — decisions, questions and constraints journalled as they happen
+- **Skill** (`chalk`): Plans a session's work and keeps its journal — the plan file the session's commits, PR and issue updates are written from, and the record kinds an implementation harness journals through
 
 - **Skill** (`put-down`): Parks the session's work on its issue, so the next session resumes from the issue and its links alone
 

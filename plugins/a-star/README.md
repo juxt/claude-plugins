@@ -95,5 +95,5 @@ A⭐ aims to solve the following problems, and optimises for sustainability — 
 
 ## Recommended alongside
 
-[chalk](../chalk/) writes the commit messages, PR descriptions and issue updates A⭐'s work produces, for the colleague who wasn't there, and its `pick-up` records the sub-goals and decisions A⭐ asks for in the session's plan.
+[chalk](../chalk/) writes the commit messages, PR descriptions and issue updates A⭐'s work produces, for the colleague who wasn't there, and its root skill plans the session and journals the sub-goals and decisions A⭐ asks for in the session's plan.
 A⭐ names neither; it works with whatever your project's conventions load.

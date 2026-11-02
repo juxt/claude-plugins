@@ -57,6 +57,8 @@ Load, via the Skill tool:
 
 - **`chalk:voice`'s `references/palette.md`** — the sections on your path. Not every change needs every section.
 
+- **`chalk:chalk`** — the plan file's shape and the journal's record kinds, which the description is written from.
+
 **Write each section as a mindmap** — a short tl;dr opening it, then the tree.
 Reader 1 is scanning for what touches their work and reader 2 for one decision, so both skip most of the body: every subject line MUST let them discard the bullet against that goal, or take it unread.
 A wall of undifferentiated prose means this step was skipped.
@@ -68,7 +70,7 @@ The first `##` in the body is the section after it.
 
 - Review the commits on this branch — all of them, not just the latest.
 
-- Read the session's plan journal, all of it, where `chalk:pick-up` started one.
+- Read the session's plan journal, all of it, where `chalk:chalk` started one.
   It's material, not a draft: what reaches the description is what *Your readers* and the palette call for — a decision because it matters to them, whoever made it.
 
 - Review the conversation history for context that isn't in the commits or the plan.
