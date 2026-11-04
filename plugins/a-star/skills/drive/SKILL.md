@@ -37,7 +37,10 @@ No two kinds share a commit.
   **A structure change turning up mid-advance is a tidy**, never part of this commit: decide [now, later or never](#a-tidy-now-later-or-never), and if now, it interrupts the advance.
 
 - **Amend** — makes an unlanded commit on the branch fit for the drive's purpose, or completes it, and is committed inside that commit.
-  It keeps the kind of the commit it amends: an amended tidy still changes no behaviour, an amended advance stays within its scope; anything beyond that is a new sub-goal.
+  It keeps the kind of the commit it amends: an amended tidy still changes no behaviour, and an amended advance keeps its subject line true.
+  - **An advance's scope is its commit's claim, its subject line.**
+    An amend may change the mechanism completely while the subject still holds.
+    One that would change the subject is a new sub-goal, or a revert.
   Once that commit has landed on the project's base branch, a change to its code is an ordinary tidy or advance.
   - **A new approach to an unlanded commit is an amend of that commit, wherever it sits in the branch, and never a later commit on top.**
     A reviewer would otherwise read an approach and then its replacement, agreeing with a commit the branch goes on to undo.

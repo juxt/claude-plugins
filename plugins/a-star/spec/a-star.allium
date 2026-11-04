@@ -626,7 +626,9 @@ rule Interrupt {
     @guidance
         -- An amend makes an unlanded commit fit for the drive's purpose, or completes it.
         -- It keeps the kind of the commit it amends: an amended tidy still changes no behaviour,
-        -- an amended advance stays within its scope. Once that commit has landed on the base branch, a change to it is an ordinary tidy or advance.
+        -- an amended advance keeps its subject line true. It may change the mechanism while the subject still holds;
+        -- one that would change the subject is a new sub-goal, or a revert.
+        -- Once that commit has landed on the base branch, a change to it is an ordinary tidy or advance.
 }
 
 -- A better drive found mid-drive pre-empts the one in hand: the original is kept, not failed.
