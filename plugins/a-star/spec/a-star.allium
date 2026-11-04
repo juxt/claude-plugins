@@ -9,6 +9,7 @@
 -- a-star records into it and exits back to it; it never approves a plan itself.
 external entity Plan {
     goal_approved: Boolean
+    first_move: Move?
 }
 
 -- A commit on the card's feature branch.
@@ -194,7 +195,14 @@ entity Yield {
 rule Enter {
     when: Start(plan, mode)
     requires: plan.goal_approved
-    ensures: Session.created(plan: plan, mode: mode, status: choosing)
+    ensures:
+        let session = Session.created(plan: plan, mode: mode, status: choosing)
+        if plan.first_move != null:
+            Take(session: session, move: plan.first_move)
+
+    @guidance
+        -- Approving a plan that names its first move is the user's yes to that move, so it is taken without being offered.
+        -- Only the first: every later move is offered in primary as usual.
 }
 
 rule OfferMove {

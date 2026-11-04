@@ -48,6 +48,9 @@ How the goal gets understood and agreed is that harness's; a-star only checks it
 **Every move is taken from one state, choosing.**
 In primary, a move is first offered, and only the user's yes takes it; in secondary it is taken directly, and what would have been offered is recorded (`a-star:primary`, `a-star:secondary`).
 
+- **The first move, where the approved plan names it, is already accepted.**
+  Approving the plan was the yes, so it is taken without being offered again; every later move is offered as usual.
+
 - **dart** — part of the goal is still unwalked, or a sub-goal no dart has exercised, and nothing in flight covers it.
   Darts run in parallel, with each other and with a drive. `a-star:dart`.
 
@@ -130,7 +133,7 @@ In whatever the session tracks its work with — the outer harness's journal, wh
 2. **Check the project's readiness conventions hold**, load its answers to the [four choices](#what-the-project-says), and check no open question bears on the card itself.
    Look for the answers in the project's skills and agent instructions first; only a choice answered nowhere there becomes a question.
 
-3. **Choose the first move**: a dart where the card has no sub-goals yet or part of its goal is still unwalked, else a drive.
+3. **Choose the first move**: the one the approved plan names, taken directly; otherwise a dart where the card has no sub-goals yet or part of its goal is still unwalked, else a drive.
 
 ## What the project says
 
