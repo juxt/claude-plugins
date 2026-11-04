@@ -16,14 +16,14 @@ Hopefully you're closer! If not, you adapt your path — you might even backtrac
 
 1. **Dart** to an end-to-end as quickly as possible.
    A cheap sub-agent reaches the goal ignoring the project's usual rules, the way the dart ignores the walls; its code never lands.
-2. **Drive**: use what the dart found to land atomic, comprehensible, correct, compliant changes.
-   A drive obeys the walls — the project's coding standards, tests and review — and each change it lands is a real step along the route.
+2. **Drive**: use what the dart found to commit atomic, comprehensible, correct, compliant changes.
+   A drive obeys the walls — the project's coding standards, tests and review — and each change it commits is a real step along the route.
 3. **Go to 1** from wherever the work has got to.
    The distance a dart still has to cover — its diff against the base — shrinks as the work converges, and the card is done when nothing is left between the base and the goal.
 
 A **card** is the unit of work: an issue in the project's tracker, or whatever the project calls one.
 Changes are split per Kent Beck's *Tidy First?* — a **tidy** changes structure, an **advance** changes behaviour, and the two never share a commit.
-A **drive** lands either one, in commits that are each one atomic unit of change carrying its own tests and docs, so a reviewer reading the branch commit by commit can agree with each before moving to the next.
+A **drive** makes either one, in commits that are each one atomic unit of change carrying its own tests and docs, so a reviewer reading the branch commit by commit can agree with each before moving to the next.
 
 ## Why
 
@@ -67,7 +67,7 @@ They're stated as state machines in [`spec/a-star.allium`](spec/a-star.allium): 
 - **It does:**
   - check the plan it's handed has an approved goal;
   - dart to the goal with a cheap sub-agent, and turn what the dart found into sub-goals;
-  - drive each sub-goal to landing through a drive sub-agent, as one tidy, advance or amend, each at the lowest point in the branch it can sit;
+  - drive each sub-goal to a commit through a drive sub-agent, as one tidy, advance or amend, each at the lowest point in the branch it can sit;
   - triage what darts and drives turn up, and choose each move — dart, drive, revert, replan, park or done;
   - adjust to whether you're watching the session (primary or secondary).
 
@@ -78,14 +78,14 @@ They're stated as state machines in [`spec/a-star.allium`](spec/a-star.allium): 
   - ship/show/ask, and code review;
   - writing commit messages, PR descriptions and issue updates.
 
-- **Four choices are A⭐'s own, and your project answers them**: how a tidy lands, how an advance lands, whether feature branches may be rewritten, and branch cleanup.
+- **Four choices are A⭐'s own, and your project answers them**: where a tidy is committed, where an advance is committed, whether feature branches may be rewritten, and branch cleanup.
   Where it doesn't answer one, A⭐ asks rather than guessing.
 
 ## Usage
 
 - `/a-star <card>` — start or resume work on a card, once its plan is approved
 - `/a-star:dart` — reach the goal end-to-end, and break the card into sub-goals
-- `/a-star:drive <sub-goal>` — land one sub-goal to the project's standards: a tidy, an advance, or an amend of an earlier commit, interrupting the work in hand if need be
+- `/a-star:drive <sub-goal>` — commit one sub-goal to the project's standards: a tidy, an advance, or an amend of an earlier commit, interrupting the work in hand if need be
 - `/a-star:primary`, `/a-star:secondary` — say whether you're watching this session; it starts primary
 
 ## Setup
@@ -102,7 +102,7 @@ They're stated as state machines in [`spec/a-star.allium`](spec/a-star.allium): 
   `/chalk` plans in plan mode, and the user leaving plan mode is their approval of the goal and the route.
   A card that arrives that way is already most of the way to A⭐'s *ready*.
 
-- **What A⭐ records lands in chalk's journal**
+- **What A⭐ records goes in chalk's journal**
   Sub-goals and what they depend on, decisions, open questions, what's done and what's in hand all go in the session's plan file, in chalk's record kinds.
 
 - **chalk writes what A⭐'s work produces, from that journal**

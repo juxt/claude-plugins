@@ -11,7 +11,9 @@ external entity Plan {
     goal_approved: Boolean
 }
 
--- An unlanded commit on the card's feature branch.
+-- A commit on the card's feature branch.
+-- It has landed once it reaches the project's base branch; until then it is unlanded,
+-- and amendable where the project lets its feature branches be rewritten.
 external entity Commit {
     landed: Boolean
 }
@@ -25,7 +27,7 @@ enum Mode { primary | secondary }
 enum Move { dart | drive | revert | replan | park | done }
 
 enum YieldKind {
-    increment             -- ready to land as it stands
+    increment             -- ready to commit as it stands
     sub_goal              -- new, or an existing one better split
     unwalked_route        -- a stretch of the goal nobody has darted
     earlier_commit        -- an unlanded commit superseded, or needing completion
@@ -37,7 +39,7 @@ enum YieldKind {
 
 enum FrameKind { tidy | advance | amend }
 
--- Where a frame's commit lands: the lowest point its dependencies allow.
+-- Where a frame is committed: the lowest point its dependencies allow.
 enum Placement {
     branch_base     -- a prequel: depends on nothing in the branch, cherry-pickable onto main
     inside_commit
@@ -85,7 +87,6 @@ entity SubGoal {
     status: pending | ready | in_hand | done | superseded
     kind: FrameKind
     placement: Placement
-    -- For an amend, the unlanded commit it lands inside.
     amends: Commit? when kind = amend
     -- Built and run by a dart, rather than reasoned about.
     exercised: Boolean
@@ -138,7 +139,7 @@ entity Frame {
     sub_goal: SubGoal
     kind: FrameKind
     placement: Placement
-    status: in_hand | writing | verifying | interrupted | pre_empted | parked | landed | failed
+    status: in_hand | writing | verifying | interrupted | pre_empted | parked | committed | failed
     -- The frame this one interrupted, set aside as a WIP commit (never `git stash`).
     interrupts: Frame?
 
@@ -146,7 +147,7 @@ entity Frame {
         in_hand -> writing
         writing -> verifying
         verifying -> writing
-        verifying -> landed
+        verifying -> committed
         in_hand -> failed
         writing -> failed
         verifying -> failed
@@ -161,7 +162,7 @@ entity Frame {
         writing -> parked
         verifying -> parked
         parked -> writing
-        terminal: landed, failed
+        terminal: committed, failed
     }
 }
 
@@ -172,11 +173,11 @@ entity Yield {
     from_frame: Frame?
     changes_goal: Boolean
     changes_target: Boolean
-    -- The kind of frame that would land it, and where; a report without them is a route question back to its author.
+    -- The kind of frame that would commit it, and where; a report without them is a route question back to its author.
     frame_kind: FrameKind when kind = sub_goal | increment
     placement: Placement when kind = sub_goal | increment
     commit: Commit when kind = earlier_commit
-    -- Whether the frame can't land correctly on that commit as it stands.
+    -- Whether the frame can't be committed correctly on that commit as it stands.
     blocks_frame: Boolean when kind = earlier_commit
     -- The sub-goals a question or finding blocks until it is settled.
     bears_on: Set<SubGoal>
@@ -275,7 +276,7 @@ rule TakeRevert {
         -- Frames in hand are thrown away with it: their WIP sits on the old head, kept by the tag as evidence.
 }
 
--- A landed sub-goal whose commit was not replayed is outstanding again; one the new target no longer needs is then superseded.
+-- A done sub-goal whose commit was not replayed is outstanding again; one the new target no longer needs is then superseded.
 rule RevertDone {
     when: Replayed(session, not_replayed)
     requires: session.status = reverting
@@ -435,7 +436,7 @@ rule TriageRecordOnly {
     ensures: Recorded(session: y.session, entry: on_goal_tree_node)
 }
 
--- An earlier, unlanded commit is amended; before the frame in hand goes on only where that frame can't land correctly without it.
+-- An earlier, unlanded commit is amended; before the frame in hand goes on only where that frame can't be committed correctly without it.
 rule TriageEarlierCommit {
     when: Triage(y)
     requires: y.kind = earlier_commit
@@ -603,7 +604,7 @@ rule Interrupt {
     @guidance
         -- An amend makes an unlanded commit fit for the drive's purpose, or completes it.
         -- It keeps the kind of the commit it amends: an amended tidy still changes no behaviour,
-        -- an amended advance stays within its scope. Once that commit has landed, it is an ordinary tidy or advance.
+        -- an amended advance stays within its scope. Once that commit has landed on the base branch, a change to it is an ordinary tidy or advance.
 }
 
 -- A better drive found mid-drive pre-empts the one in hand: the original is kept, not failed.
@@ -626,12 +627,12 @@ rule Verify {
     ensures: frame.status = verifying
 }
 
--- Landing: the project's definition of done holds; the commit lands at the frame's placement,
+-- Committing: the project's definition of done holds; the commit goes at the frame's placement,
 -- and reads as though it had been right first time.
-rule Land {
+rule Committed {
     when: Verified(frame)
     requires: frame.status = verifying
-    ensures: frame.status = landed
+    ensures: frame.status = committed
     ensures: frame.sub_goal.status = done
     ensures: Recorded(session: frame.session, entry: done)
     ensures: TaskCompleted(sub_goal: frame.sub_goal)
@@ -644,7 +645,7 @@ rule Land {
         -- Verified includes the orchestrator's review of the frame's diff, code and comments, before it takes the commit.
         -- A finding inside the frame's scope sends the drive agent back to fix it; anything else is triaged like any other report.
         -- A finding that traces to something the drive agent reads being silent or wrong is also fixed where it belongs — the project, the record, a skill or the setup — not only in the commit.
-        -- The drive agent commits what it lands; the orchestrator may rewrite that commit's place or message.
+        -- The drive agent makes the commit; the orchestrator may rewrite that commit's place or message.
         -- Anything but branch_top rewrites the branch, so it needs the project's answer to whether
         -- its feature branches may be rewritten, and a force-with-lease push where they are pushed.
         -- An amended commit's message describes its final shape; the PR mentions it only where it

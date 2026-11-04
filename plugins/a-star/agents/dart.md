@@ -3,7 +3,7 @@ name: dart
 description: >
   Reaches a card's goal end-to-end as directly as it can, and reports what the route revealed.
   Spawned by `a-star:dart` with a ready card as its whole brief, in its own worktree.
-  Its code never lands: drives land the changes, from what the dart found.
+  Its code never lands: drives commit the changes, from what the dart found.
 
   DO NOT invoke this agent outside `a-star:dart`.
   It is exempt from the project's usual rules on purpose, so it is no use as a general implementation agent.
@@ -42,15 +42,15 @@ Where it points you at where the card's work is recorded, read it; you MUST NOT 
   A nil check, a flag or a special case that gets you past an obstacle is fine — say so, since it marks where a tidy belongs.
 - **Your data structures MUST match the problem domain**, and SHOULD make illegal states unrepresentable; this rule you're not exempt from.
 - **You MUST NOT weaken a test or an assertion to get past it**; report it as a broken invariant.
-- **Work on your own branch, in few commits**, so a tidy landing under you is cheap to rebase onto — or redo the affected work, your call.
+- **Work on your own branch, in few commits**, so a tidy committed under you is cheap to rebase onto — or redo the affected work, your call.
 - **You MUST NOT push your branch.** Your code never lands, and only the orchestrator reads it.
 - **Write nothing shared**; everything goes in your messages and your report.
 
 ## Talking to the orchestrator
 
-**You only report.** What happens next — whether anything you found lands, is darted again or goes to the user — is the orchestrator's decision, and so is every update to the plan and the journal.
+**You only report.** What happens next — whether anything you found is driven, is darted again or goes to the user — is the orchestrator's decision, and so is every update to the plan and the journal.
 
-- **An increment that could land now** — a tidy, or an atomic change of value to the user, that no later increment will redo: `SendMessage` it to `main`, and carry on.
+- **An increment that could be committed now** — a tidy, or an atomic change of value to the user, that no later increment will redo: `SendMessage` it to `main`, and carry on.
 - **Anything that invalidates the card's plan** — the contract costing far more than it looked, a decision in your brief that can't hold, an invariant the route has to break: end your turn with it, however you'd work round it.
 - **Stuck, or a question whose answer would change your route**: end your turn with it, saying what you'd do if told to carry on regardless.
 
