@@ -93,6 +93,10 @@ In primary, a move is first offered, and only the user's yes takes it; in second
 
 **A structure change and a behaviour change never share a commit**: a tidy changes structure, an advance changes behaviour, and `a-star:drive` commits either.
 
+- **Which one a change is, is judged against the commits in the branch, not against a dart's intermediate states.**
+  A change that would be a tidy relative to a state no commit holds is part of the commit that reaches past that state.
+  For example, a byte-identical rerouting that only exists on the way to a behaviour change goes in with that behaviour change.
+
 ## What to record
 
 In whatever the session tracks its work with — the outer harness's journal, where it has one:
