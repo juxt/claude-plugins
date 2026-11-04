@@ -16,15 +16,15 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 [`spec/a-star.allium`](../../spec/a-star.allium) states them: each move's guard (`requires`) and what it records (`ensures`).
 The skills say how a move is carried out; where a skill and the spec disagree, the spec governs, and the disagreement is a question for the user.
 
-**Its inspiration is the Mikado Method** (Ellnestam & Brolund, 2014): try the goal, revert, work the graph of prerequisites backwards, land the leaves.
-The dart is the try, the revert is the revert, and each drive lands a leaf.
+**Its inspiration is the Mikado Method** (Ellnestam & Brolund, 2014): try the goal, revert, work the graph of prerequisites backwards, commit the leaves.
+The dart is the try, the revert is the revert, and each drive commits a leaf.
 
 ## Roles
 
 - **You, the main session, are the orchestrator.**
   You hold the state machine, the drive stack and triage, and nothing else.
 - **The dart agent reaches the goal end-to-end and reports.** Its code never lands.
-- **The drive agent lands one frame and reports.** It commits what it lands; you may rewrite that commit — its place in the branch, or its message.
+- **The drive agent commits one frame and reports.** You may rewrite that commit — its place in the branch, or its message.
 - **Agents only report; every decision about what happens next is yours, and only you update the plan, the journal and the task list.**
 
 **A user's question is a question, not a go-ahead.**
@@ -39,7 +39,7 @@ How the goal gets understood and agreed is that harness's; a-star only checks it
 
 - **replan** — the goal itself is invalidated;
 - **park** — nothing is ready, and what's blocked waits on the user or someone else;
-- **done** — the landed sub-goals complete the card.
+- **done** — the done sub-goals complete the card.
 
 **A finding that leaves the goal standing is never an exit**: a revert, a replan of sub-goals, or a question, all inside a-star.
 
@@ -47,6 +47,9 @@ How the goal gets understood and agreed is that harness's; a-star only checks it
 
 **Every move is taken from one state, choosing.**
 In primary, a move is first offered, and only the user's yes takes it; in secondary it is taken directly, and what would have been offered is recorded (`a-star:primary`, `a-star:secondary`).
+
+- **The first move, where the approved plan names it, is already accepted.**
+  Approving the plan was the yes, so it is taken without being offered again; every later move is offered as usual.
 
 - **dart** — part of the goal is still unwalked, or a sub-goal no dart has exercised, and nothing in flight covers it.
   Darts run in parallel, with each other and with a drive. `a-star:dart`.
@@ -58,7 +61,7 @@ In primary, a move is first offered, and only the user's yes takes it; in second
 
 - **revert** — what is now known changes the card's target, while its goal still stands.
   Tag the old head, restart from the base, and replay the commits that still hold.
-  Frames in hand are thrown away; a landed sub-goal whose commit isn't replayed is outstanding again, or superseded where the new target doesn't need it.
+  Frames in hand are thrown away; a done sub-goal whose commit isn't replayed is outstanding again, or superseded where the new target doesn't need it.
   It is a move of its own, not a failure path: what the branch cost so far is no argument against it.
 
 - **replan, park, done** — the exits above.
@@ -69,9 +72,10 @@ In primary, a move is first offered, and only the user's yes takes it; in second
 
 **Darts and drives turn up the same kinds of thing, and you triage each:**
 
-- **an increment ready to land, or a new or better-split sub-goal** — record it as a sub-goal, with its kind and where it would land, what it depends on, and whether a dart exercised it;
+- **an increment ready to commit, or a new or better-split sub-goal** — record it as a sub-goal, with its kind and where it would be committed, what it depends on, and whether a dart exercised it;
 - **a stretch of the route not yet walked** — a dart;
-- **an earlier, unlanded commit superseded or incomplete** — an amend, per `a-star:drive`; pushed ahead of the frame in hand only if that frame can't land correctly on the commit as it stands, otherwise recorded to drive after it;
+- **an earlier, unlanded commit superseded or incomplete** — an amend, per `a-star:drive`; pushed ahead of the frame in hand only if that frame can't be committed correctly on the commit as it stands, otherwise recorded to drive after it;
+- **a change that would replace the approach of an unlanded commit, anywhere in the branch** — never a sub-goal on top: an amend of the commit that introduced the approach, or a revert where the approach spans several commits;
 - **a constraint, assumption or risk** — recorded on the goal-tree node it bounds;
 - **a question about the route** — answer it, or in primary escalate it, then resume;
 - **a finding that changes the card's target** — revert; **one that changes its goal** — replan;
@@ -81,20 +85,26 @@ In primary, a move is first offered, and only the user's yes takes it; in second
 ## Sub-goals
 
 - **Sub-goals come from darts, not from reading the code.**
-- **A sub-goal is one tidy, one advance or one amend**, landed by a drive.
+- **A sub-goal is one tidy, one advance or one amend**, committed by a drive.
 - **Each sub-goal is atomic, and goes from green to green.**
   One unit of change, its own tests and docs included: the user reviews a branch commit by commit, agreeing with each before the next, and a commit whose tests or docs arrive later, or that leaves the suite red for a later one to fix, can't be agreed with on its own.
-  A sub-goal that can't land green wants another ordered before it; that's a question to ask when it's recorded, not one for its drive to discover.
+  A sub-goal that can't be committed green wants another ordered before it; that's a question to ask when it's recorded, not one for its drive to discover.
 - **Together, a card's sub-goals MUST complete it.**
-- **The landed code keeps the data structures a dart got right**, and leaves out what it built around the ones it didn't.
+- **The code a drive commits keeps the data structures a dart got right**, and leaves out what it built around the ones it didn't.
+- **The branch is shaped for its reviewer, not kept in the order the work happened.**
+  Reordering, merging or splitting unlanded commits so the branch is easier to review is encouraged.
 
-**A structure change and a behaviour change never share a commit**: a tidy changes structure, an advance changes behaviour, and `a-star:drive` lands either.
+**A structure change and a behaviour change never share a commit**: a tidy changes structure, an advance changes behaviour, and `a-star:drive` commits either.
+
+- **Which one a change is, is judged against the commits in the branch, not against a dart's intermediate states.**
+  A change that would be a tidy relative to a state no commit holds is part of the commit that reaches past that state.
+  For example, a byte-identical rerouting that only exists on the way to a behaviour change goes in with that behaviour change.
 
 ## What to record
 
 In whatever the session tracks its work with — the outer harness's journal, where it has one:
 
-- **a sub-goal: its kind (tidy, advance or amend) and where it would land, what it depends on, and whether a dart exercised it;**
+- **a sub-goal: its kind (tidy, advance or amend) and where it would be committed, what it depends on, and whether a dart exercised it;**
 - **a decision** — a call you aren't sure of is an open question instead;
 - **an open question, and what it blocks;**
 - **a sub-goal done**, with its commits;
@@ -123,17 +133,21 @@ In whatever the session tracks its work with — the outer harness's journal, wh
 2. **Check the project's readiness conventions hold**, load its answers to the [four choices](#what-the-project-says), and check no open question bears on the card itself.
    Look for the answers in the project's skills and agent instructions first; only a choice answered nowhere there becomes a question.
 
-3. **Choose the first move**: a dart where the card has no sub-goals yet or part of its goal is still unwalked, else a drive.
+3. **Choose the first move**: the one the approved plan names, taken directly; otherwise a dart where the card has no sub-goals yet or part of its goal is still unwalked, else a drive.
 
 ## What the project says
 
 **Everything not here follows the project's conventions** — writing, tracking, planning, picking a card up and putting it down, the base branch, ship/show/ask, the definition of done, coding standards, and how a commit is written.
 What goes in a commit is a-star's: one atomic unit of change.
 
+**A commit has landed once it reaches the project's base branch, and not before.**
+A frame is committed, not landed: pushing the feature branch, or opening a PR on it, lands nothing.
+Until it lands, a commit is amendable, wherever the project lets its feature branches be rewritten.
+
 **The project MUST answer four choices of a-star's own**:
 
-- **How a tidy lands** — feature branch or main; what to verify before committing; when to push; whether it's done at commit or once CI is green.
-- **How an advance lands** — what to verify before committing, and whether to push the feature branch as work lands.
+- **Where a tidy is committed** — feature branch or main; what to verify before committing; when to push; whether it's done at commit or once CI is green.
+- **Where an advance is committed** — what to verify before committing, and whether to push the feature branch as each is committed.
 - **Whether its feature branches may be rewritten** — which an amend, a prequel or a revert needs; and a force-with-lease push where they're pushed.
 - **Branch cleanup** — what happens to a branch once its work has landed.
 

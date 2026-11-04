@@ -18,6 +18,8 @@ Load `a-star:a-star` first.
 
 - **Offer every move out of choosing, and take it only on a yes** — the offered state in `a-star:a-star`'s spec.
   A question from the user is not that yes.
+  - **The plan's first move, named in the plan the user approved, is the exception.**
+    Their approval was the yes, so take it without offering it again.
 
 - **Escalate what the user should decide, and decide the rest yourself**; every question costs them context.
 

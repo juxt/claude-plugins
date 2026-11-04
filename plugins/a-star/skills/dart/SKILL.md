@@ -1,7 +1,7 @@
 ---
 name: dart
 description: >
-  Reach a ready card's goal end-to-end with the dart agent, triaging what it raises as it goes — increments ready to land, findings that invalidate the plan, questions about the route — and harvesting the sub-goals it found.
+  Reach a ready card's goal end-to-end with the dart agent, triaging what it raises as it goes — increments ready to commit, findings that invalidate the plan, questions about the route — and harvesting the sub-goals it found.
   Use when `/a-star` offers a dart, or the user says "dart this", "throw a dart", "throw the dart".
 user-invocable: true
 argument-hint: "[card, if not already in session]"
@@ -23,7 +23,7 @@ Load `a-star:a-star` first.
 You MAY point it at where the card's work is recorded instead, to read and never write.
 
 - **The brief MUST ask for the route built, not analysed.**
-  A dart's value is what building teaches; analysis of a sub-goal is a guess about it, and the constraints it would have surfaced turn up at drive time instead, after the sub-goals before it have landed.
+  A dart's value is what building teaches; analysis of a sub-goal is a guess about it, and the constraints it would have surfaced turn up at drive time instead, after the sub-goals before it have been committed.
 
 - **The brief MUST NOT ask for a green suite, the project's definition of done, or proof of the end-to-end**, which sets the bar the dart then aims for.
   It MUST ask the dart to report as soon as the next steps are decidable.
@@ -34,15 +34,15 @@ You MAY point it at where the card's work is recorded instead, to read and never
   Its code never lands, so nothing outside this session needs it.
 - **Darts run in parallel — with each other, and with a drive; drives run one at a time.**
   Dart whatever is ready that nothing in flight already covers.
-  A dart MAY start from another dart's branch instead of the base, where what it needs hasn't landed yet.
+  A dart MAY start from another dart's branch instead of the base, where what it needs hasn't been committed yet.
 
 ## While it runs
 
 **The dart agent only reports; you triage what it reports**, per `a-star:a-star`'s Triage, and it acts on nothing it found.
 Record it as in flight, so a session resumed after this one ends knows it was lost, and darts again where it is still needed.
 
-- **An increment ready to land** — record it as a sub-goal, and tell the user.
-  In primary it lands only on their go-ahead; in secondary, per `a-star:secondary`.
+- **An increment ready to commit** — record it as a sub-goal, and tell the user.
+  In primary it is committed only on their go-ahead; in secondary, per `a-star:secondary`.
 
 - **A finding that invalidates the plan** — the card's contract, a decision already made, an invariant, or the cost of the agreed route.
   It is the user's to settle, in either mode: in secondary, record it as an open question, halt the line of work it bears on, and move to other ready work.
@@ -63,6 +63,6 @@ Record it as in flight, so a session resumed after this one ends knows it was lo
 - **the data structures that matched the problem**, and the dart's branch and head.
 
 **Keep the dart branch only while its code is still evidence a drive needs.**
-Once the sub-goals it informed have landed, or what it found is recorded well enough that nothing needs its code, whichever comes first, record what it taught that the record doesn't yet hold, then remove it and its worktree per the project's branch cleanup.
+Once the sub-goals it informed have been committed, or what it found is recorded well enough that nothing needs its code, whichever comes first, record what it taught that the record doesn't yet hold, then remove it and its worktree per the project's branch cleanup.
 
 **Then you are back to choosing, per `a-star:a-star`.**
