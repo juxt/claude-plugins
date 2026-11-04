@@ -96,6 +96,20 @@ entity SubGoal {
 
     is_ready: depends_on.all(d => d.status = done) and not blocked_by_question
     is_drivable: is_ready and (exercised or judged_straightforward)
+
+    transitions status {
+        pending -> ready
+        pending -> in_hand
+        ready -> in_hand
+        in_hand -> done
+        in_hand -> pending
+        in_hand -> ready
+        done -> pending
+        done -> ready
+        pending -> superseded
+        ready -> superseded
+        terminal: superseded
+    }
 }
 
 entity Dart {
@@ -518,6 +532,7 @@ rule SubGoalReReadied {
 
 rule DartRuns {
     when: dart: Dart.created
+    requires: dart.status = briefed
     ensures: dart.status = running
 }
 
