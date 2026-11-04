@@ -179,6 +179,9 @@ entity Yield {
     commit: Commit when kind = earlier_commit
     -- Whether the frame can't be committed correctly on that commit as it stands.
     blocks_frame: Boolean when kind = earlier_commit
+    -- Commits anywhere in the branch whose approach the reported change replaces.
+    supersedes: Set<Commit> when kind = sub_goal | increment
+    unlanded_superseded: supersedes where not landed
     -- The sub-goals a question or finding blocks until it is settled.
     bears_on: Set<SubGoal>
     triaged: Boolean
@@ -416,6 +419,7 @@ rule TriageSubGoal {
     when: Triage(y)
     requires: y.kind = sub_goal or y.kind = increment
     requires: not y.changes_goal and not y.changes_target
+    requires: y.unlanded_superseded.count = 0
     ensures: y.triaged = true
     ensures:
         let sub_goal = SubGoal.created(
@@ -426,6 +430,24 @@ rule TriageSubGoal {
 
     @guidance
         -- A better split of the sub-goal a frame is driving is a pre-emption (PreEmpt), not a new sub-goal alongside it.
+}
+
+rule TriageSupersedingChange {
+    when: Triage(y)
+    requires: y.kind = sub_goal or y.kind = increment
+    requires: not y.changes_goal and not y.changes_target
+    requires: y.unlanded_superseded.count > 0
+    ensures: y.triaged = true
+    ensures:
+        if y.unlanded_superseded.count = 1:
+            for commit in y.unlanded_superseded:
+                let sub_goal = SubGoal.created(
+                    session: y.session, status: pending, kind: amend, placement: inside_commit,
+                    amends: commit, exercised: y.from_dart != null, judged_straightforward: false)
+                Recorded(session: y.session, entry: sub_goal)
+                TaskAdded(sub_goal: sub_goal)
+        else:
+            Choose(session: y.session, move: revert)
 }
 
 rule TriageRecordOnly {

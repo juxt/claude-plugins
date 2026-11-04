@@ -72,6 +72,7 @@ In primary, a move is first offered, and only the user's yes takes it; in second
 - **an increment ready to commit, or a new or better-split sub-goal** — record it as a sub-goal, with its kind and where it would be committed, what it depends on, and whether a dart exercised it;
 - **a stretch of the route not yet walked** — a dart;
 - **an earlier, unlanded commit superseded or incomplete** — an amend, per `a-star:drive`; pushed ahead of the frame in hand only if that frame can't be committed correctly on the commit as it stands, otherwise recorded to drive after it;
+- **a change that would replace the approach of an unlanded commit, anywhere in the branch** — never a sub-goal on top: an amend of the commit that introduced the approach, or a revert where the approach spans several commits;
 - **a constraint, assumption or risk** — recorded on the goal-tree node it bounds;
 - **a question about the route** — answer it, or in primary escalate it, then resume;
 - **a finding that changes the card's target** — revert; **one that changes its goal** — replan;
@@ -87,6 +88,8 @@ In primary, a move is first offered, and only the user's yes takes it; in second
   A sub-goal that can't be committed green wants another ordered before it; that's a question to ask when it's recorded, not one for its drive to discover.
 - **Together, a card's sub-goals MUST complete it.**
 - **The code a drive commits keeps the data structures a dart got right**, and leaves out what it built around the ones it didn't.
+- **The branch is shaped for its reviewer, not kept in the order the work happened.**
+  Reordering, merging or splitting unlanded commits so the branch is easier to review is encouraged.
 
 **A structure change and a behaviour change never share a commit**: a tidy changes structure, an advance changes behaviour, and `a-star:drive` commits either.
 
