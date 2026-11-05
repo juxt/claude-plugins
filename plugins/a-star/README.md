@@ -109,6 +109,6 @@ They're stated as state machines in [`spec/a-star.allium`](spec/a-star.allium): 
   Commit bodies, the PR description and issue updates, each for the colleague who wasn't there.
 
 - **When A⭐ can't continue on the plan as approved, chalk re-plans, parks or finishes**
-  Re-plan where the goal is invalidated; park the work on its issue with `chalk:put-down`; open the PR with `chalk:pr` once the sub-goals complete the card.
+  Re-plan where the goal is invalidated; park the work on its issue with `chalk:put-down`; finish once the sub-goals complete the card, opening a PR with `chalk:pr` where the plan predicted one.
 
 A⭐'s skills name no planning tool or store, so it runs on whatever your project's conventions load in chalk's place.
