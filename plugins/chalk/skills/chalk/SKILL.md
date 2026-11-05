@@ -130,7 +130,10 @@ Ask where the user hasn't said and the request doesn't settle it.
   Where the change reshapes the design, what has to be true is the target model, stated as a model diff at the goal tree's root ([`chalk:voice`'s models reference](../voice/references/models.md)).
 
 **The route is part of the plan**: file and stop, implement an existing card, file and implement, or implement unfiled.
-Implement unfiled where a card would carry nothing the PR can't: the PR takes the standalone path in `chalk:pr` and carries the problem itself.
+Implement unfiled where a card would carry nothing the commit or a standalone PR can't: a PR, where there is one, takes the standalone path in `chalk:pr` and carries the problem itself.
+
+**A route that implements predicts whether its finish opens a PR**, by the rules under [the finish](#when-an-implementation-harness-exits).
+Approving the plan approves the prediction.
 
 **A route that implements names its implementation harness, and that is `a-star:a-star` where a-star is installed and the user hasn't stated another preference.**
 Where a-star isn't installed, or the user prefers another harness or none, the plan says that instead.
@@ -180,4 +183,12 @@ Once approved, take the route:
   The approved plan no longer holds, so nothing more is built until the user approves the revised one.
   Journal a `replan:` entry naming what it invalidated, revise the plan, and ask for approval as in step 5.
 - **Park where the work can't continue** — `chalk:put-down`.
-- **Finish where the sub-goals complete the goal** — `chalk:pr`.
+- **Finish where the sub-goals complete the goal, opening a PR or not as the plan predicted.**
+  A PR exists to share what the commit doesn't, so the prediction follows where that knowledge lives.
+  - **Ask the user only where the work reverses the prediction.**
+    Whether the implementation turned out counter-intuitive, or changed what the issue should say, is only known at the end; a prediction those leave standing needs no question.
+  - **The prediction is one of three outcomes, each selected by its condition.**
+    - **No PR, where the commit carries it all, or an issue carries the knowledge and nothing in the implementation is counter-intuitive** — offer a `chalk:issue` update first where the work changed what the issue should say.
+      The finish then hands to nothing: it ends with a report naming the branch and its head sha.
+    - **A standalone PR, where there is no issue and something to share beyond the commit** — `chalk:pr`'s standalone path.
+    - **A PR resolving the issue, where the implementation is worth sharing in its own right** — `chalk:pr`.

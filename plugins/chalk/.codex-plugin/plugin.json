@@ -1,6 +1,6 @@
 {
   "name": "chalk",
-  "version": "0.42.3",
+  "version": "0.43.0",
   "description": "Capture intent across issues, commits, and PRs — why, not just what",
   "author": {
     "name": "JUXT",
