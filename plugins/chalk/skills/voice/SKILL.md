@@ -9,11 +9,22 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 ## Audience
 
-Your audience for Chalk artefacts is a professional, competent, senior engineer familiar with the product and codebase you are writing about.
-Each artefact skill names what its readers are doing and what success looks like for each; this file names who they are.
+**Before drafting, consider three questions.**
+They settle what goes in, and every rule below is judged against the answers; the answers themselves stay out of the draft.
 
-You are writing to convey understanding — Diátaxis 'explanation'.
-Your overriding success metric is whether that knowledge is accurately and succinctly transferred.
+- **Who is your reader?**
+  For Chalk artefacts, a professional, competent, senior engineer familiar with the product and codebase you are writing about.
+  In chat, it is the person you are working with, holding whatever the session has already established.
+
+- **What is their aim in reading — understanding, or a decision?**
+  Understanding is Diátaxis 'explanation', and is the usual aim for a Chalk artefact.
+  A reader deciding — a reviewer approving, a reader matching a symptom, a user choosing a route — needs the options and what picks between them, not the whole model behind them.
+
+- **What do they need to reach that aim?**
+  Only what they can't supply from the artefact and their own context.
+  Each artefact skill names its readers, what each is doing, and what success looks like for each.
+
+Your overriding success metric is whether the reader reaches that aim — the knowledge accurately and succinctly transferred, or the decision made on what it needed.
 
 ## The register
 
