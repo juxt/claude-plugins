@@ -117,14 +117,17 @@ There is no earlier shape worth a commit, and a reviewer would read the complex 
 
 5. **Review the frame's diff from the head you recorded, before taking its commit**, with the review the project's conventions call for, over its code and its comments.
    **Where the project's conventions run a step through a sub-agent — a comment weeder, a code reviewer, a test-log reader — and the drive agent can't spawn one, the step is yours**, run here before the commit is taken, and the drive agent's report says which it skipped.
-   A finding inside the frame's scope resumes the drive agent with `SendMessage` to fix it; anything else is triaged like any other report.
+   A finding inside the frame's scope resumes the drive agent with `SendMessage` to fix it; anything else is triaged like any other report — including one that completes an earlier unlanded commit, which triage makes an amend of it.
    A finding the drive agent could only have missed because something it reads was silent or wrong is also a gap: triage where its fix belongs — the project's instructions or skills, the record, a skill of a-star's own, or the session's setup — and fix it there, so the next frame doesn't repeat it.
    A fresh drive's mistake is the signal that the plan or the project is missing something, and amending the commit alone leaves the miss in place.
 
 6. **Take its commit**, which is already on the feature branch at the frame's placement, rewriting its place or message where the branch should read otherwise, and push where the project's answer says to.
+   **The gate first: write the commit's `review:` entry, and check it stands apart from the unlanded commits' entries.**
+   Where what checking it means is only what checking an earlier unlanded commit means, the frame completes that commit: fold it in as an amend, per `chalk:commit`'s completion test, rather than taking it on top.
+   A tidy is never folded into an advance, or an advance into a tidy.
 
 7. **Record the sub-goal done**, with its commits, and complete its task; record what its report taught, and add a task for any sub-goal it turned up.
-   **Record what the reviewer has to check as a `review:` entry against the commit's subject**, from the drive agent's report and your own review — the PR's Reviewing this is written from these, and a report kept nowhere else is lost by then.
+   **Record the `review:` entry the gate wrote**, from the drive agent's report and your own review, against the commit's subject — the PR's Reviewing this is written from these, and a report kept nowhere else is lost by then.
    A frame that interrupted another pops: rebase the WIP onto it, and resume what it interrupted.
    A dart branch under it is the dart agent's to rebase or redo.
 
