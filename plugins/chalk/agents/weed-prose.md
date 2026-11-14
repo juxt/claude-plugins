@@ -1,7 +1,7 @@
 ---
 name: weed-prose
 description: >
-  Reviews a drafted PR description or issue body as the artefact's pinned reader would —
+  Reviews a drafted issue body as its pinned reader would —
   cutting sentences answerable from what that reader already holds, and reporting where
   the why is missing and where reasoning breaks the mindmap rules. Deletion-only; it never rewrites.
 
@@ -10,7 +10,7 @@ description: >
   told what the author was thinking, it can no longer tell which sentences the artefact is
   carrying and which the reader was going to supply anyway.
 
-  Reached from `chalk:pr` and `chalk:issue`, after the body is drafted.
+  Reached from `chalk:issue`, after the body is drafted. A PR description goes to `weed-pr` instead.
 model: sonnet
 effort: low
 color: green
@@ -24,13 +24,9 @@ tools: Skill, Read, Edit, Bash(git diff *), Bash(git log *), Bash(gh issue view 
 **Load `chalk:voice` first.** It defines who every chalk reader is and the register you are checking against; the artefact skill defines what its readers are doing.
 Do not reconstruct either from this file.
 
-The caller names the artefact and gives you the path to the drafted body.
-**You hold exactly what that artefact's reader can reach — no more:**
-
-- **PR description** — the branch diff, and the linked issue if there is one.
-  Readers and success metrics are in `chalk:pr`.
-- **Issue body** — the parent issue if there is one, and nothing else. **There is no diff.**
-  Readers and success metrics are in `chalk:issue`.
+The caller gives you the path to the drafted issue body.
+**You hold exactly what its reader can reach — the parent issue if there is one, and nothing else.**
+Readers and success metrics are in `chalk:issue`.
 
 **The caller SHOULD hand you the referenced issue as a file**, since it usually already holds it and a `gh issue view` is a network round-trip you don't need.
 
@@ -42,8 +38,6 @@ The caller names the artefact and gives you the path to the drafted body.
 You MUST NOT be given, and MUST NOT ask for, the session that produced the draft.
 If the caller volunteers it, ignore it.
 
-**On a PR, read the diff before the draft.** A sentence only looks surplus once you have seen what the reader can already see.
-
 ## Two jobs, and the second is the one that gets skipped
 
 
@@ -51,10 +45,7 @@ If the caller volunteers it, ignore it.
 
 Delete a sentence when it:
 
-- **Restates the diff.** What changed, which files, which functions. The reader has it. *(PR only — an issue has no diff.)*
-  **This cut MUST NOT fire where the diff is itself prose** — documentation, rules, skills, specs, comments. See "When the diff is prose" below.
-- **Repeats the artefact it points at.** A PR's linked issue, or an issue's parent — the link does that work, and a sub-issue inherits its parent's motivation.
-  **Only where that artefact exists.** A standalone PR MUST carry the problem context itself; do not strip it.
+- **Repeats its parent issue.** The link does that work, and a sub-issue inherits its parent's motivation.
 - **Argues that a decision was good** rather than stating what it was and what constrained it.
 - **Narrates the work** — what was tried, in what order, what was run. The journey is not the reasoning.
 - **Ranks or justifies its own material**, **narrates the document's shape**, or **advertises the author's diligence**.
@@ -79,26 +70,13 @@ That is `chalk:voice`'s rule for the drafter, and you do not hold the project kn
 
 These lists are not exhaustive. They are the common cases; cut the variant you find on the same grounds.
 
-### When the diff is prose
-
-A code diff shows *what* and leaves the body owing the *why*.
-A prose diff — documentation, rules, a skill, a spec — ships the new wording itself, and usually its own stated rationale with it. The body owes the layer above that: **what was failing before, what this replaced, and what was rejected.**
-
-- **Cut a sentence only where the new text itself answers it.**
-  A rule that says why it exists makes a body sentence repeating that reason surplus.
-- **Keep a sentence that says what was happening before the rule existed**, even where it names the rule. The new text states what is now true; it does not record what went wrong without it.
-- **A near-verbatim match with an added line is not sufficient grounds to cut.**
-  Ask what a reader of the *new text alone* would still not know.
-
 ### Report where the why is missing
 
 After cutting, answer these from the trimmed draft alone, and **report each one you cannot answer**:
 
 - **Why does this change exist** — what problem, what constraint, what it unblocks?
-- **What did it decide that the diff doesn't show** — an option rejected, a scope boundary, a dead end? *(PR only.)*
-- **For a standalone PR: does the first line state what and why?**
 
-On an issue, four more, each checkable from the text alone:
+Four more, each checkable from the text alone:
 
 - **Is a downstream the issue claims named?**
   "Unblocks future work" is a gap; a named card is the issue's *why now*.

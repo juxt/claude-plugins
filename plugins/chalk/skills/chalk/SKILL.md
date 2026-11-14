@@ -65,6 +65,9 @@ Each is one claim in `chalk:voice`'s register, terse; an entry that would mean n
 
 - **`dead-end:`** — a road that closed, and what closed it, where that constrains what comes next.
 
+- **`review:`** — what a reviewer needs to check a commit, by its subject: what checking it means, the invariants it rests on with where each is made true, what pins it and what would break it, and what was verified and what wasn't.
+  It is written when the commit is taken, from whoever knew it then, so that `chalk:pr`'s Reviewing this finds it in the journal rather than in a report nobody kept.
+
 - **Sub-goals, in the plan above** — each names what it depends on, and is ready once everything it depends on is done and no open question blocks it.
   When a sub-goal's commit is made, mark it done with the commit's subject, not its SHA, which a rebase rewrites.
 

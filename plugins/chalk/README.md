@@ -98,7 +98,8 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 
 - **Agent** (`weed-comments`): Deletes code comments that don't earn their place, arriving without the context that wrote them
 
-- **Agent** (`weed-prose`): Reviews a drafted commit body or PR description as its pinned reader would, cutting what that reader already holds
+- **Agent** (`weed-pr`): Reads a drafted PR description cold, as the reviewer who has to own the change, and reports where it gets stuck — questions, never answers
+- **Agent** (`weed-prose`): Reviews a drafted issue body as its pinned reader would, cutting what that reader already holds
 
 The writing skills are loaded by the others rather than run directly.
 `code-comments` is the exception: nothing else can know you're about to write a comment, so load it yourself.

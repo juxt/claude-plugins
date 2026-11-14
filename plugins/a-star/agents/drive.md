@@ -55,6 +55,8 @@ Where it isn't, end your turn and say so — you MUST NOT reset, as the checkout
 ## Report
 
 1. **The commit**, its placement, branch and head — or the WIP commit, where you stopped.
-2. **What the reviewer has to check** — the decisions and assumptions the change rests on.
+2. **What the reviewer has to check** — what checking this commit means, the invariants it rests on with where each is made true, what test pins it and what would break it, and what you verified and what you didn't.
+   Write it for a reviewer who never sees this report; the orchestrator records it as it stands.
+   **Name any step of the project's conventions you couldn't run** because it needs a sub-agent you can't spawn.
 3. **What you reported along the way**, as one list.
 4. **Where the road departed from the darts' route**, and what that taught.
