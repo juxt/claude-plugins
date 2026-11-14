@@ -15,11 +15,19 @@ This skill owns the PR description.
 **A PR description freezes at merge.**
 Unlike an issue, it has no mechanism for resolving what it doesn't yet know, so it states what is now true rather than what might be — and it hands the change over rather than arguing for it.
 
+**What it hands over is the author's theory of the change** — what the change is for, why each part is the way it is, and what would break if it changed (Naur, *Programming as Theory Building*).
+The code is a lossy projection of that theory: a reader can rebuild it from the diff, at far more cost and less faithfully than by reading it.
+Where the author worked in a session nobody watched — a background agent, a long run — the description is the only place the theory reaches a human.
+
 ## Your readers
 
-`chalk:voice` says who they are; here they are doing one of two things, and **neither of them is a gate**.
-Any one reader is doing one of the two; you are writing for both at once, so the description MUST serve each and satisfying one is not a licence to drop the other.
-A PR does get approved, but the approver is not who you write for: they hold the diff, so argument where they could just look reads as something you couldn't show.
+`chalk:voice` says who they are; here they are doing one of three things.
+Any one reader is doing one of the three; you are writing for all of them at once, so the description MUST serve each and satisfying one is not a licence to drop another.
+
+- **Reader 0 is the reviewer, who has to own the change once it merges.**
+  They review it commit by commit, and afterwards they maintain it, debug it and defend it.
+  They hold the diff, so argument where they could just look reads as something you couldn't show; what they can't look at is the theory.
+  **Success — the bus test:** holding only the description and what it links, they can explain the change to a teammate, predict its behaviour in a case the description doesn't mention, and notice when a later change breaks an invariant it relies on.
 
 - **Reader 1 is a peer updating their mental model**, now.
   They need the delta, and above all **the belief they hold that no longer holds**.
@@ -31,10 +39,11 @@ A PR does get approved, but the approver is not who you write for: they hold the
 
 ## Which path
 
-- **Resolves an issue** — the issue carries the problem, so this description MUST NOT restate it.
-  Reference it at the top (`Resolves #N`, or `Part of #N`) and assume the reader has read it. What this adds is how the problem shaped the implementation: the approach, the decisions, the trade-offs, the dead ends.
+- **Resolves an issue** — the issue carries the problem and the direction, so this description MUST NOT restate the problem.
+  Reference it at the top (`Resolves #N`, or `Part of #N`) and assume the reader has read it. What this adds is the theory as built: the model, how the problem shaped it, the decisions, the trade-offs, the dead ends.
+  **The model is stated here even where the issue's Potential approach states it too** — the issue holds the direction a reader can follow, the description holds the model as it landed, and the overlap is the price of each standing on its own.
 
-  **tl;dr → What changes → Usage / migration → Consequences → Out of scope → Alternative approaches → Open questions**
+  **tl;dr → What changes → Usage / migration → Reviewing this → Consequences → Out of scope → Alternative approaches → Open questions**
 
 - **Standalone** — there is no issue, so this description carries the problem itself, acting as both.
   **The first line MUST state what and why** — the line that would have been a reference has to do the issue's opening job instead.
@@ -42,9 +51,9 @@ A PR does get approved, but the approver is not who you write for: they hold the
   **This is the path that leads with the problem.** On the other one, leading with the problem is the duplication the pairing exists to prevent.
   It inserts the problem sections, and only those: the rest of the issue side is design-space or forward-looking material, and a PR is retrospective.
 
-  - **fixing a bug** — **tl;dr → Symptoms → Root cause → What changes → Usage / migration → Consequences → Alternative approaches (optional) → Open questions**
+  - **fixing a bug** — **tl;dr → Symptoms → Root cause → What changes → Usage / migration → Reviewing this → Consequences → Alternative approaches (optional) → Open questions**
 
-  - **adding a feature** — **tl;dr → Problem → What changes → Usage / migration → Consequences → Out of scope → Alternative approaches → Open questions**
+  - **adding a feature** — **tl;dr → Problem → What changes → Usage / migration → Reviewing this → Consequences → Out of scope → Alternative approaches → Open questions**
 
 Each section's content is in the palette, and not every change needs every section — but where a section appears, this is its position.
 
@@ -60,7 +69,8 @@ Load, via the Skill tool:
 - **`chalk:chalk`** — the plan file's shape and the journal's record kinds, which the description is written from.
 
 **Write each section as a mindmap** — a short tl;dr opening it, then the tree.
-Reader 1 is scanning for what touches their work and reader 2 for one decision, so both skip most of the body: every subject line MUST let them discard the bullet against that goal, or take it unread.
+Reader 0 is working through the change in the order it can be checked, reader 1 is scanning for what touches their work, and reader 2 for one decision, so all three skip most of the body: every subject line MUST let them discard the bullet against that goal, or take it unread.
+**The skill is in helping the reader see quickly what they can skip**, not in making the body short: depth below a subject line costs a skipping reader almost nothing, and a missing model sentence costs every reviewer the rebuild.
 A wall of undifferentiated prose means this step was skipped.
 
 **The body MUST open with a tl;dr**, per `chalk:voice` — the summary sentence, then the mindmap, with no heading over it.
@@ -72,6 +82,7 @@ The first `##` in the body is the section after it.
 
 - Read the session's plan journal, all of it, where `chalk:chalk` started one.
   It's material, not a draft: what reaches the description is what *Your readers* and the palette call for — a decision because it matters to them, whoever made it.
+  Its `review:` entries are Reviewing this's raw material.
 
 - Review the conversation history for context that isn't in the commits or the plan.
 
@@ -84,7 +95,7 @@ The first `##` in the body is the section after it.
 **Before you draft the description, correct the linked issue** wherever the work contradicted something it asserted.
 A confident, wrong problem statement with a PR that silently disagrees is worse for the later reader than either alone.
 
-Do it first because the description is drafted against the issue and passed to `weed-prose` beside it: a stale issue makes the description either repeat the error or look as though it contradicts the problem.
+Do it first because the description is drafted against the issue and passed to `weed-pr` beside it: a stale issue makes the description either repeat the error or look as though it contradicts the problem.
 Where there is no linked issue, there is nothing to correct and this step is empty.
 
 ## Draft the title
@@ -102,11 +113,31 @@ It is the first stage of the filter the tl;dr's abstract then runs — reader 1 
 ## Draft the description
 
 **It MUST NOT just list what changed — the diff shows that.**
-It is the reasoning distilled across the branch. 
+It is the theory distilled across the branch.
 Usage examples and commit lists have a reference *shape*, but they are illustrations inside the explanation.
 
-**Teach the mental model the change assumes.**
+**The test for a sentence is whether a reader holding only the diff would arrive at it cheaply — not whether the diff contains it.**
+"Each group's ranks are offsets into the sorted stream" is derivable from a diff, at the cost of reconstructing the algorithm; it stays.
+"`aggregate` now calls `append`" is read off the diff at a glance; it goes.
+
+**Open one or two levels of abstraction above the work, and assume everything above that** — per `chalk:voice`'s hourglass.
+Work inside an aggregate's internals opens at the operator and the engine's memory model; the reader brings the storage format and the query engine themselves.
+
+**Teach the mental model the change assumes, before any type name.**
+State the model in a sentence, then descend: the mechanism, then the decisions inside it, then the specifics.
 Name what would surprise someone familiar with the subsystem, and don't assume the reader holds the model you built while implementing.
+
+- **A new algorithm or process gets a worked example, aimed at the path that isn't obvious.**
+  A model the reader can't run is one they can't check; a trace turns "I think I follow" into a prediction they confirm.
+
+- **A before-state goes in only where it doesn't follow from the after.**
+  "X now spills" makes "X didn't spill before" surplus; a before that was erratic — data-dependent, version-dependent — is not the negation of the after, and stays.
+
+- **The order of the sections carries the arc, and needs no closing summary.**
+  Each section leans only on those above it; where it does, the reader arrives at the inherited costs already holding what they are costs of.
+
+**Before handing it to `weed-pr`, ask what the reader will ask first, and answer it in place.**
+A question a reader asks after reading is a gap the description had; the cheapest place to find it is before they do.
 
 Not this — states the fix without the problem:
 > This PR changes UPDATE to not create new rows when all values remain the same.
@@ -118,39 +149,30 @@ This — problem first, with a concrete example and explicit scope:
 
 ## Weed the draft
 
-Write the drafted description to a file and **delegate to the `weed-prose` agent**, naming the artefact as a PR description and passing the path, the base branch, and the linked issue if there is one.
+Write the drafted description to a file and **delegate to the `weed-pr` agent**, passing the path, the base branch, and the linked issue if there is one.
+It reads the description cold, as the reviewer, attempts the reviewer's job from it, and reports where it gets stuck.
 
-**Pass the linked issue as a file, written verbatim** — you read it in *Gather the context*, so it costs the agent a network round-trip it doesn't need.
-It MUST be the body exactly as GitHub holds it (`gh issue view <n> --json body -q .body`), with no summary, no annotation and no comments. A body you have described rather than copied tells the agent what you think the issue says, which is the session leaking in through the one input that was meant to keep it out.
+**Pass the linked issue as a file, written verbatim** (`gh issue view <n> --json body -q .body`), with no summary, no annotation and no comments.
+A body you have described rather than copied tells the agent what you think the issue says, which is the session leaking in through the one input that was meant to keep it out.
 
-- **You MUST NOT give it the session or the branch's commit bodies.**
-  It holds the branch diff and the linked issue — what the later reader can reach, and nothing they can't.
+- **You MUST NOT give it the session, the plan or the branch's commit bodies.**
+  It holds what the reviewer holds: the base branch, the diff, the linked issue and the description.
+  The author can't see what the description leaves out, because the author holds the theory it was meant to carry.
 
-- **Passing the issue is what lets it cut duplication.**
-  Without the issue, repeated problem context reads as necessary; with it, the cut is obvious and the link does the work.
+- **Where there is no linked issue, say so**, so it reads the description as carrying the problem too.
 
-- **Where there is no linked issue, say so.**
-  It will otherwise strip the problem context a standalone PR is required to carry, and it checks the first line for what and why instead.
+**Its questions are for you to answer in the description, not to judge.**
+That judgement is made by the context that just spent the session building the theory, and it always comes back confident.
 
-- **Its cuts apply; its Gaps are questions for you**, and it MUST NOT invent an answer to one.
-
-**Put the gaps to the user.**
-Not "ask if you're unsure" — that judgement is made by the context that just spent the session building the reasoning, and it always comes back confident.
-`weed-prose` has already decided, from the draft alone, which questions the description fails to answer.
-
-- **A gap MUST be closed by adding a sentence that answers it.**
+- **A question MUST be closed by adding what answers it.**
   **You MUST NOT close one by deciding it doesn't apply.**
-  A mindmap gap is closed by restructuring the node it names, not by asking the user.
+  A node it couldn't decide on is closed by restructuring that node.
 
-- **The redraft MUST go back to `weed-prose`.**
-  You MUST NOT judge your own redraft — the agent that raised the gap is the one that closes it.
-  Loop until it reports no blocking gaps.
+- **Where only the user can answer, relay the question as written.**
+  Answer from the branch where the branch genuinely has it, naming the commit you draw on so the user can correct you.
 
-- **Relay each question as written.** Composing your own is where the ask gets dropped.
-
-- **A `blocking` gap — a missing *why*, or a standalone PR whose first line doesn't state what and why — MUST be resolved before you open the PR.**
-
-- **Answer from the branch where the branch genuinely has it**, naming the commit you are drawing on so the user can correct you. Where it doesn't, ask.
+- **The redraft MUST go back to `weed-pr`**, until it has no question left that it would ask before approving.
+  You MUST NOT judge your own redraft.
 
 ## Opening it
 

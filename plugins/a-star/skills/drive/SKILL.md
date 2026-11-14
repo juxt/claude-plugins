@@ -116,6 +116,7 @@ There is no earlier shape worth a commit, and a reviewer would read the complex 
    Then resume it with `SendMessage`, or push the new frame.
 
 5. **Review the frame's diff from the head you recorded, before taking its commit**, with the review the project's conventions call for, over its code and its comments.
+   **Where the project's conventions run a step through a sub-agent — a comment weeder, a code reviewer, a test-log reader — and the drive agent can't spawn one, the step is yours**, run here before the commit is taken, and the drive agent's report says which it skipped.
    A finding inside the frame's scope resumes the drive agent with `SendMessage` to fix it; anything else is triaged like any other report.
    A finding the drive agent could only have missed because something it reads was silent or wrong is also a gap: triage where its fix belongs — the project's instructions or skills, the record, a skill of a-star's own, or the session's setup — and fix it there, so the next frame doesn't repeat it.
    A fresh drive's mistake is the signal that the plan or the project is missing something, and amending the commit alone leaves the miss in place.
@@ -123,6 +124,7 @@ There is no earlier shape worth a commit, and a reviewer would read the complex 
 6. **Take its commit**, which is already on the feature branch at the frame's placement, rewriting its place or message where the branch should read otherwise, and push where the project's answer says to.
 
 7. **Record the sub-goal done**, with its commits, and complete its task; record what its report taught, and add a task for any sub-goal it turned up.
+   **Record what the reviewer has to check as a `review:` entry against the commit's subject**, from the drive agent's report and your own review — the PR's Reviewing this is written from these, and a report kept nowhere else is lost by then.
    A frame that interrupted another pops: rebase the WIP onto it, and resume what it interrupted.
    A dart branch under it is the dart agent's to rebase or redo.
 
@@ -130,7 +132,7 @@ There is no earlier shape worth a commit, and a reviewer would read the complex 
    First record what it taught that the record doesn't yet hold: what it found, and where the road departed from its route.
    Then remove its branch and worktree per the project's branch cleanup.
 
-**Hand over** the branch, its head, and what the reviewer has to check — the decisions and assumptions the change rests on.
+**Hand over** the branch, its head, and what the reviewer has to check — the decisions and assumptions the change rests on, as the `review:` entries record them.
 In secondary, the handover goes in the session's record and doesn't end the turn.
 **Then you are back to choosing, per `a-star:a-star`.**
 Merging is the user's; once they have, remove what only served it per the project's branch cleanup.

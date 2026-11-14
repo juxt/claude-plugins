@@ -14,9 +14,10 @@ This file carries what goes in each section.
 
 - **issue, no PR expected** — nothing about the implementation is interesting enough to warrant one.
 
-- **issue + PR** — the issue carries the problem, the prior art and the constraints.
-  The PR opens `Resolves #N` and is about what changes in the implementation.
-  **It MUST NOT restate the issue**: assume the reader has read it.
+- **issue + PR** — the issue carries the problem, the prior art, the constraints and the direction.
+  The PR opens `Resolves #N` and carries the theory as built: the model, the mechanism, the decisions inside it.
+  **It MUST NOT restate the problem**: assume the reader has read the issue.
+  It MAY restate the model where the issue's Potential approach already sketches it — the issue holds a direction, the PR the model as it landed, and each has to stand for its own reader.
 
 - **standalone PR** — it carries the problem too, so the problem sections are inserted between the tl;dr and What changes: **Symptoms → Root cause** for a bug fix, **Problem** for a feature.
   **Those only.** Properties of a good solution, Prior art and Potential approach are design-space or forward-looking material, and a PR is retrospective — evaluation criteria written after the choice read as justification for it.
@@ -162,7 +163,11 @@ It surfaces in three places, and MUST be carried in each.
   Written to PEP's **"How to Teach This"** test: how would you explain this to someone who already knows the old system?
   A drafter can *fail* that question, where "state the delta" is satisfiable vacuously.
 
+  **It opens with the model, in a sentence, before any type name**, then descends: the mechanism — walked through, where it is new — then the specifics.
+  Where the change introduces an algorithm or a process, it carries a worked example aimed at the path that isn't obvious.
+
   **It MUST name the fact that was true and is no longer**, stated objectively and never as a belief attributed to the reader: "the watermark wasn't being replicated", not "you believed the watermark was replicated".
+  **Where the old fact is just the negation of the new one, the new one names it**: "group-by now spills" says what was true before, and a second sentence saying so is surplus.
   **Compulsory rather than palette-optional, because it is invisible from the author's side** — the author holds the new model, so the delta reads as obvious.
   Palette-optional and reliably-dropped are the same outcome.
 
@@ -184,6 +189,26 @@ It surfaces in three places, and MUST be carried in each.
   Whether the migration can be undone, whether the old version can still read what the new one wrote, and what someone does who has deployed this and wants out.
   **Where the diff doesn't settle it, ask rather than guess** — a missing rollback note sends someone to find out, and a wrong one doesn't.
 
+- **Reviewing this** — **show and ask PRs, where correctness rests on an argument the diff doesn't show locally.**
+  For `chalk:pr`'s reader 0: what they need to check each commit and come away owning the change.
+  Concurrency and ordering, algorithms, on-disk formats, cross-cutting invariants and resource lifetimes are the usual cases; a change checkable line by line doesn't need it.
+
+  - **A map of the commits, each with what checking it means.**
+    A tidy is checked by asking "could this change anything?", so its entry names what to look at to answer that; an advance is checked against the invariants below.
+    Commits are named by their subject — a SHA is rewritten by a rebase or a squash.
+
+  - **The invariants the change's correctness rests on, each with where it is made true, what test pins it, and what change would break it.**
+    Stated, they turn review from simulating the code into checking an argument.
+    The test is what alarms when an invariant decays; one no test pins is marked unpinned, so nobody assumes it is held.
+
+  - **Where to spend attention, and what is mechanical.**
+    A reviewer's attention is the scarce resource; uniform scrutiny spends as little on the subtle part as on the plumbing.
+
+  - **The evidence, and where it runs out** — what was verified and how, what wasn't run, what was reasoned rather than measured.
+    This is not a test-plan checklist: CI renders that. It is what the reviewer can't see from CI — which properties the tests actually exercise, and which they don't.
+
+  - **How certain the motivation is**, where it is in doubt — a reviewer weighing urgency and blast radius needs to know whether the problem it fixes is confirmed.
+
 - **Consequences**
   Nygard's ADR field: what is different as a result, and now inherited.
 
@@ -198,7 +223,7 @@ It surfaces in three places, and MUST be carried in each.
 
   - **Measurements**, where one exists nowhere else — "p99 340ms → 40ms on the 10M-row fixture", "verified the rolling deploy by hand on staging".
     **A test-plan checklist does not belong anywhere in the description** — CI renders it.
-    The measurement is what survives.
+    The measurement is what survives; what the tests do and don't exercise, where it matters to review, is Reviewing this.
 
   - **Why not Rust's "Drawbacks":** theirs prices a cost so a reviewer can weigh it before saying yes, and it disappears once the answer is yes.
     This is a handover section — the cost is already accepted, and the reader needs to know they inherited it.

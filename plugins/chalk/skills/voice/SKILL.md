@@ -1,6 +1,6 @@
 ---
 name: voice
-description: Shared Chalk writing voice — the audience for Chalk artefacts, the specification register, the mindmap structure that two propositions in a relation MUST take, and the layout rules. The chalk:issue, chalk:commit, chalk:pr and chalk:sitrep skills load this before drafting any prose, and the weed-prose agent loads it to review one.
+description: Shared Chalk writing voice — the audience for Chalk artefacts, the specification register, the mindmap structure that two propositions in a relation MUST take, and the layout rules. The chalk:issue, chalk:commit, chalk:pr and chalk:sitrep skills load this before drafting any prose, and the weed-pr, weed-issue and weed-prose agents load it to review one.
 ---
 
 # Chalk Voice — Writing Principles
@@ -18,7 +18,8 @@ They settle what goes in, and every rule below is judged against the answers; th
 
 - **What is their aim in reading — understanding, or a decision?**
   Understanding is Diátaxis 'explanation', and is the usual aim for a Chalk artefact.
-  A reader deciding — a reviewer approving, a reader matching a symptom, a user choosing a route — needs the options and what picks between them, not the whole model behind them.
+  A reader deciding — a reader matching a symptom, a user choosing a route — needs the options and what picks between them, not the whole model behind them.
+  A reviewer approving a change in a complex domain is not deciding in this sense: they have to own the change once it merges, so their aim is understanding — the author's theory of it (Naur, *Programming as Theory Building*).
 
 - **What do they need to reach that aim?**
   Only what they can't supply from the artefact and their own context.
@@ -30,7 +31,7 @@ Your overriding success metric is whether the reader reaches that aim — the kn
 
 Three claims, and every rule under one is a way of failing it.
 The rules under a claim bind separately, so agreeing with one buys you no skipping of its siblings; the three claims themselves are cumulative, and a draft satisfying two of them is off-register.
-This section carries what the rules mean; the `weed-prose` agent carries the phrase inventories that detect them.
+This section carries what the rules mean; the `weed-prose` agent carries the phrase inventories that detect them, and `weed-pr` and `weed-issue` apply them.
 
 ### Every sentence serves the reader, not you
 
@@ -369,8 +370,15 @@ The tree orders a node above its children; the hourglass orders the artefact's s
   That opening is where the reader decides whether the detail is worth their attention, so it has to win that before any detail arrives.
   Detail met first is detail they cannot yet place, and they hold it unplaced while they read on to find out what it was for.
 
+  - **That level is one or two levels of abstraction above the work, and everything above it is the reader's own.**
+    Work inside an aggregate's internals opens at the operator and the engine's memory model; what the storage format is, or how the engine runs a query, the reader brings.
+    A reader who needs more than that takes responsibility for getting up to speed; restating it for them costs every other reader.
+
 - **It descends once the opening has done that, one level at a time.**
   Mechanism, then the decisions inside it, then the specifics a reader needs only to act on it.
+
+- **In an artefact whose sections are a mindmap, their order can carry the climb.**
+  Where each section leans only on those above it, the reader reaches the last holding what it is the consequence of, and an explicit conclusion repeats it — a PR differs from an essay here.
 
 - **Where the details answer the higher-level problems, it climbs back up, lowest level first.**
   Each detail is tied to the problem it resolves, in the reverse of the order the descent took, so the reader leaves at the level they arrived at, holding the answer to the question they came with.
