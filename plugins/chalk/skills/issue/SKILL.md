@@ -202,30 +202,28 @@ The description is the source of truth, so it MUST be corrected as the facts cha
 
 ### Weed the draft
 
-Write the drafted body to a file and **delegate to the `weed-prose` agent**, naming the artefact as an issue body and passing the path, plus the parent issue if there is one.
+Write the drafted body to a file and **delegate to the `weed-issue` agent**, passing the path, plus the parent issue if there is one.
+It reads the body cold, as each of the issue's readers, attempts each one's job from it, and reports where they get stuck.
 
 **Pass the parent as a file, written verbatim** (`gh issue view <n> --json body -q .body`) — body only, no comments, no summary and no annotation.
 A parent you have described rather than copied tells the agent what you think it says, which is the session leaking in through the one input that was meant to keep it out.
 
-- **You MUST NOT give it the session.**
-  It holds the parent issue and nothing else — what the later reader can reach, and nothing they can't. Told what you were thinking, it can no longer tell which sentences the body is carrying and which the reader was going to supply anyway.
+- **You MUST NOT give it the session or the plan.**
+  It holds what the issue's readers hold: the parent issue and the codebase. The filer can't see what the body leaves out, because the filer holds what it was meant to carry.
 
-- **Passing the parent is what lets it cut duplication.**
-  A sub-issue inherits its parent's motivation, so restating it is surplus and the link does the work.
+- **Passing the parent is what lets it treat the inherited motivation as the reader's**, and cut a restatement of it.
 
-- **Its cuts apply; its Gaps are questions for you**, and it MUST NOT invent an answer to one.
+**Its questions are for you to answer in the body, not to judge.**
+That judgement is made by the context that just built the *why*, and it always comes back confident.
 
-**Put the gaps to the user.**
-Not "ask if you're unsure" — that judgement is made by the context that just built the *why*, and it always comes back confident.
-
-- **A gap MUST be closed by adding a sentence that answers it.**
+- **A question MUST be closed by adding what answers it.**
   You MUST NOT close one by deciding it doesn't apply.
-  A mindmap gap is closed by restructuring the node it names, not by asking the user.
+  A node it couldn't decide on is closed by restructuring that node.
 
-- **The redraft MUST go back to `weed-prose`.**
-  You MUST NOT judge your own redraft — the agent that raised the gap is the one that closes it. Loop until it reports no blocking gaps.
+- **Where only the user can answer, relay the question as written.**
 
-- **Relay each question as written.** Composing your own is where the ask gets dropped.
+- **The redraft MUST go back to `weed-issue`**, until no reader has a question left they would ask the filer.
+  You MUST NOT judge your own redraft.
 
 - **A missing *why* is blocking** and MUST be resolved before the issue is filed. There is no diff here to recover it from in six months.
 

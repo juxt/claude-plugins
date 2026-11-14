@@ -1,6 +1,6 @@
 ---
 name: voice
-description: Shared Chalk writing voice — the audience for Chalk artefacts, the specification register, the mindmap structure that two propositions in a relation MUST take, and the layout rules. The chalk:issue, chalk:commit, chalk:pr and chalk:sitrep skills load this before drafting any prose, and the weed-prose and weed-pr agents load it to review one.
+description: Shared Chalk writing voice — the audience for Chalk artefacts, the specification register, the mindmap structure that two propositions in a relation MUST take, and the layout rules. The chalk:issue, chalk:commit, chalk:pr and chalk:sitrep skills load this before drafting any prose, and the weed-pr, weed-issue and weed-prose agents load it to review one.
 ---
 
 # Chalk Voice — Writing Principles
@@ -31,7 +31,7 @@ Your overriding success metric is whether the reader reaches that aim — the kn
 
 Three claims, and every rule under one is a way of failing it.
 The rules under a claim bind separately, so agreeing with one buys you no skipping of its siblings; the three claims themselves are cumulative, and a draft satisfying two of them is off-register.
-This section carries what the rules mean; the `weed-prose` and `weed-pr` agents carry the phrase inventories that detect them.
+This section carries what the rules mean; the `weed-prose` agent carries the phrase inventories that detect them, and `weed-pr` and `weed-issue` apply them.
 
 ### Every sentence serves the reader, not you
 
