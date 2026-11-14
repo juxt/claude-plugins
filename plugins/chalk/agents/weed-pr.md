@@ -96,8 +96,19 @@ The first finds what is structurally absent; the second finds missing content. M
    Predict each from the description, then check the diff. **A wrong prediction, or one that needed the diff, is a gap.**
 3. **For each invariant or load-bearing claim, find what makes it true, what test pins it, and what change would break it.**
    An invariant with no test is reported as unpinned. A claim you can only find support for in the diff is a rebuild.
-4. **Walk the subject lines alone, top to bottom.**
-   At each, could you decide to skip its subtree, or agree with it unread? Report each where you couldn't, and what it leaned on.
+4. **Walk the tree as the reader takes it, testing each node for the three decisions `chalk:voice` gives them.**
+   The drafter built the tree holding the theory, so a node can look sound to them and still leave the reader nowhere to go.
+   - **Skip: the subject states a claim the reader can hold their goal against.**
+     A topic — "Background", "Notes", "Details" — fails.
+   - **Agree: the subject carries one claim, acceptable from its ancestors alone**, and in a walkthrough the earlier steps.
+     A second claim riding on an `and`, a qualification appended to a finished claim, or a term defined only further down fails.
+   - **Descend: where the subject can't be agreed with unread, its body settles it, and carries nothing the subject doesn't reach.**
+     - **An elaboration carrying a proposition of its own is a gap**: the reader who agreed with the subject skipped it, and never met it.
+     - **A deduction in prose is a gap**, inside an elaboration as much as anywhere.
+       A run of "so", "because", "therefore" or "which means" across clauses, or reasoning carried in table cells — "p2's A@3 precedes it, so p2 moves up" — belongs as consequent children or an `A → B → C` chain.
+       A table of data is not reasoning, and stays unrestricted.
+     - **Children that are only related to their parent**, rather than grounding, narrowing or excepting it, are a gap, as is a sibling set whose relation the parent leaves unclear.
+   Report each, naming the node, the decision it fails, and what it leans on.
 5. **List the questions you would ask the author before approving.**
 
 ### Along the way: what doesn't belong
@@ -128,7 +139,8 @@ Return, as your final text:
 
 1. **Questions before approving** — each worded to be relayed to the author verbatim, marked by which task raised it.
 2. **Rebuilds** — where you had to reconstruct something from the diff, and what one sentence would have spared the reviewer.
-3. **Claims not safe to agree with unread**, and **subject lines you couldn't decide on** — each naming the node and what it leans on.
+3. **Mindmap gaps** — each naming the node, the decision it fails (skip, agree or descend), and what it leans on.
+   Claims not safe to agree with unread are agree failures, and go here.
 4. **Unpinned invariants.**
 5. **Cuts made**, with each sentence's opening words and its reason, and **references** that didn't resolve.
 
@@ -139,3 +151,4 @@ Return, as your final text:
 
 **Re-run both halves on the redraft**, not only the gaps you raised: the sentences added to close one are as likely as any to open another.
 **A question stays open until the description answers it**; the caller cannot close it by explaining to you why it doesn't apply.
+**An answer is tested against the tree as well as against the question**: one that arrives as a new sentence in an elaboration, carrying a proposition the subject doesn't reach, closes the question and opens a descend gap.
