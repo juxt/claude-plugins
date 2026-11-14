@@ -54,6 +54,8 @@ enum Placement {
 entity Session {
     plan: Plan
     mode: Mode
+    -- The unlanded commits read as review units: each independently acceptable, none a slice of another.
+    in_review_units: Boolean
     status: choosing | offered | reverting | parked | exited
     offered_move: Move? when status = offered
     exit: replan | done when status = exited
@@ -183,6 +185,8 @@ entity Yield {
     -- Commits anywhere in the branch whose approach the reported change replaces.
     supersedes: Set<Commit> when kind = sub_goal | increment
     unlanded_superseded: supersedes where not landed
+    -- An unlanded commit whose subject line still holds with the reported scope inside it: the scope completes it.
+    completes: Commit? when kind = sub_goal | increment
     -- The sub-goals a question or finding blocks until it is settled.
     bears_on: Set<SubGoal>
     triaged: Boolean
@@ -358,12 +362,29 @@ rule DartLost {
         ensures: Recorded(session: session, entry: dart_lost)
 }
 
+-- Before the done exit, a pass over the unlanded branch reorders, merges or splits its commits into review units,
+-- leaving the final tree unchanged; it needs the project's answer that feature branches may be rewritten.
+rule ShapeForReview {
+    when: ReviewUnitsChecked(session)
+    requires: session.status = choosing
+    requires: session.open_frames.count = 0
+    ensures: session.in_review_units = true
+    ensures: Recorded(session: session, entry: review_units)
+
+    @guidance
+        -- The test is the review entries: one that can't say what checking its commit means apart from its neighbours' is a slice; one needing two checks is two units.
+        -- A tidy and an advance are never merged: a structure change and a behaviour change never share a commit.
+        -- It catches what the frame gate and TriageCompletion missed; merging two commits merges their review entries.
+        -- Rewriting without the project's answer is a question for the user, and done waits on it.
+}
+
 rule TakeDone {
     when: Take(session, move)
     requires: move = done
     requires: session.status = choosing
     requires: session.open_frames.count = 0
     requires: session.sub_goals.all(s => s.status = done or s.status = superseded)
+    requires: session.in_review_units
     ensures: session.status = exited
     ensures: session.exit = done
     ensures: SessionEnded(session: session)
@@ -428,6 +449,7 @@ rule TriageSubGoal {
     requires: y.kind = sub_goal or y.kind = increment
     requires: not y.changes_goal and not y.changes_target
     requires: y.unlanded_superseded.count = 0
+    requires: y.completes = null
     ensures: y.triaged = true
     ensures:
         let sub_goal = SubGoal.created(
@@ -438,6 +460,28 @@ rule TriageSubGoal {
 
     @guidance
         -- A better split of the sub-goal a frame is driving is a pre-emption (PreEmpt), not a new sub-goal alongside it.
+        -- New scope is tested against the unlanded commits' subject lines first; one it completes takes it as an amend (TriageCompletion).
+}
+
+-- New scope that completes an unlanded commit is an amend of that commit, not a commit of its own:
+-- a reviewer would otherwise accept a slice, then the rest of the same change.
+rule TriageCompletion {
+    when: Triage(y)
+    requires: y.kind = sub_goal or y.kind = increment
+    requires: not y.changes_goal and not y.changes_target
+    requires: y.unlanded_superseded.count = 0
+    requires: y.completes != null and not y.completes.landed
+    ensures: y.triaged = true
+    ensures:
+        let sub_goal = SubGoal.created(
+            session: y.session, status: pending, kind: amend, placement: inside_commit,
+            amends: y.completes, exercised: y.from_dart != null, judged_straightforward: false)
+        Recorded(session: y.session, entry: sub_goal)
+        TaskAdded(sub_goal: sub_goal)
+
+    @guidance
+        -- The amend keeps the completed commit's kind and its subject line; one that would change the subject is a new sub-goal after all.
+        -- Findings from the orchestrator's own review of a frame are yields like any other, so they meet this test too.
 }
 
 rule TriageSupersedingChange {
@@ -668,6 +712,7 @@ rule Committed {
     ensures: frame.sub_goal.status = done
     ensures: Recorded(session: frame.session, entry: done)
     ensures: Recorded(session: frame.session, entry: review)
+    ensures: frame.session.in_review_units = false
     ensures: TaskCompleted(sub_goal: frame.sub_goal)
     ensures:
         if frame.interrupts != null:
@@ -676,6 +721,7 @@ rule Committed {
 
     @guidance
         -- Verified includes the orchestrator's review of the frame's diff, code and comments, before it takes the commit.
+        -- Before taking it, the orchestrator writes its review entry; where it only repeats an earlier unlanded commit's, the frame completes that commit and is folded in as an amend, never a tidy into an advance or the reverse.
         -- A finding inside the frame's scope sends the drive agent back to fix it; anything else is triaged like any other report.
         -- A finding that traces to something the drive agent reads being silent or wrong is also fixed where it belongs — the project, the record, a skill or the setup — not only in the commit.
         -- A step the project's conventions run through a sub-agent, which the drive agent can't spawn, is the orchestrator's, run before the commit is taken.

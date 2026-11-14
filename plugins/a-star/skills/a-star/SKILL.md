@@ -39,7 +39,7 @@ How the goal gets understood and agreed is that harness's; a-star only checks it
 
 - **replan** — the goal itself is invalidated;
 - **park** — nothing is ready, and what's blocked waits on the user or someone else;
-- **done** — the done sub-goals complete the card.
+- **done** — the done sub-goals complete the card, and the branch has had its review-unit pass.
 
 **A finding that leaves the goal standing is never an exit**: a revert, a replan of sub-goals, or a question, all inside a-star.
 
@@ -72,7 +72,9 @@ In primary, a move is first offered, and only the user's yes takes it; in second
 
 **Darts and drives turn up the same kinds of thing, and you triage each:**
 
-- **an increment ready to commit, or a new or better-split sub-goal** — record it as a sub-goal, with its kind and where it would be committed, what it depends on, and whether a dart exercised it;
+- **an increment ready to commit, or a new or better-split sub-goal** — first apply `chalk:commit`'s completion test against the unlanded commits: where one's subject still holds with the new scope inside it, the scope completes that commit and is an amend of it, below.
+  Otherwise record it as a sub-goal, with its kind and where it would be committed, what it depends on, and whether a dart exercised it.
+  This holds for scope the user adds mid-card and for findings from your own review of a frame alike;
 - **a stretch of the route not yet walked** — a dart;
 - **an earlier, unlanded commit superseded or incomplete** — an amend, per `a-star:drive`; pushed ahead of the frame in hand only if that frame can't be committed correctly on the commit as it stands, otherwise recorded to drive after it;
 - **a change that would replace the approach of an unlanded commit, anywhere in the branch** — never a sub-goal on top: an amend of the commit that introduced the approach, or a revert where the approach spans several commits;
@@ -93,6 +95,12 @@ In primary, a move is first offered, and only the user's yes takes it; in second
 - **The code a drive commits keeps the data structures a dart got right**, and leaves out what it built around the ones it didn't.
 - **The branch is shaped for its reviewer, not kept in the order the work happened.**
   Reordering, merging or splitting unlanded commits so the branch is easier to review is encouraged.
+- **Before the done exit, a review-unit pass over the unlanded branch.**
+  Reorder, merge or split its commits until each is independently acceptable and none is a slice of another, leaving the final tree unchanged.
+  **The test is the `review:` entries**: a commit whose entry can't say what checking it means apart from its neighbours' is a slice of one of them, and an entry that needs two different checks is two units.
+  **A tidy and an advance stay separate**, however closely they belong together — they are checked differently.
+  It catches what the frame gate and triage missed, and merging two commits merges their `review:` entries.
+  It rewrites the branch, so it needs the project's answer that feature branches may be rewritten; without one, it is a question for the user, and done waits on it.
 
 **A structure change and a behaviour change never share a commit**: a tidy changes structure, an advance changes behaviour, and `a-star:drive` commits either.
 

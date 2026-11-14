@@ -35,6 +35,14 @@ You MUST load these skills first:
 
    - Where reasonable, separate behaviour-preserving changes (refactorings) from behaviour-advancing ones.
 
+   - **On a branch with commits not yet on its base, test the change against their subject lines first.**
+     Where one still holds with this change inside it, the change completes that commit: amend it there — a fixup and an autosquash — rather than committing on top.
+     A reviewer shown a slice and then the rest of the same change agrees with one change twice.
+     - **The test: could a reviewer be told what checking this commit means, apart from its neighbours?**
+       A tidy is checked by "could this change anything?", an advance against its invariants; a commit with no check of its own completes the one whose check it shares.
+     - **It never folds a refactoring into a behaviour change**, however closely they belong together: they are checked differently, so they are two units.
+     - **Amending rewrites the branch**, so it needs the project's answer that its feature branches may be rewritten, and a force-with-lease push where they're pushed; without one, ask.
+
 2. **Weed the staged comments.**
 
    **Delegate to the `weed-comments` agent**, passing the paths of the staged files and nothing else.
