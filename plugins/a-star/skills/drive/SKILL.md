@@ -107,6 +107,7 @@ There is no earlier shape worth a commit, and a reviewer would read the complex 
    A restatement is a second copy to drift, and a wrong one overrides the right one.
    It works in the card's own checkout, on the feature branch, with no worktree: drives run one at a time, so nothing else needs the checkout.
    Run it in the background, so it can message you as it goes, and MUST NOT touch the checkout until it ends — you work on the plan only.
+   A harness hook that reports uncommitted changes while it runs is reporting the frame's work in progress; leave it.
 
 3. **Triage what it reports as it goes**, per `a-star:a-star` — a stretch of route nobody darted, a better split of a later sub-goal, a constraint, an earlier commit that wants amending but doesn't block the frame — without stopping the frame.
    The amend is recorded as a sub-goal, driven after the frame in hand is committed.
@@ -115,7 +116,7 @@ There is no earlier shape worth a commit, and a reviewer would read the complex 
    Then resume it with `SendMessage`, or push the new frame.
 
 5. **Review the frame's diff from the head you recorded, before taking its commit**, with the review the project's conventions call for, over its code and its comments.
-   **Where the project's conventions run a step through a sub-agent — a comment weeder, a code reviewer, a test-log reader — and the drive agent can't spawn one, the step is yours**, run here before the commit is taken, and the drive agent's report says which it skipped.
+   **The drive agent can't spawn the sub-agents the project's conventions call for — a comment weeder, a code reviewer, a test-log reader — so it asks you mid-frame**: spawn each as it asks, with exactly the inputs it names, and send the results back with `SendMessage`.
    **The review checks that a tidy changes no behaviour**: a commit typed as one whose diff or body shows a behaviour change, error paths included, is split or retyped before it is taken.
    A finding inside the frame's scope resumes the drive agent with `SendMessage` to fix it; anything else is triaged like any other report — including one that completes an earlier unlanded commit, which triage makes an amend of it.
    A finding the drive agent could only have missed because something it reads was silent or wrong is also a gap: triage where its fix belongs — the project's instructions or skills, the record, a skill of a-star's own, or the session's setup — and fix it there, so the next frame doesn't repeat it.

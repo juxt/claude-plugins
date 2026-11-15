@@ -723,7 +723,7 @@ rule Committed {
         -- Before taking it, the orchestrator writes its review entry; where it only repeats an earlier unlanded commit's, the frame completes that commit and is folded in as an amend, never a tidy into an advance or the reverse.
         -- A finding inside the frame's scope sends the drive agent back to fix it; anything else is triaged like any other report.
         -- A finding that traces to something the drive agent reads being silent or wrong is also fixed where it belongs — the project, the record, a skill or the setup — not only in the commit.
-        -- A step the project's conventions run through a sub-agent, which the drive agent can't spawn, is the orchestrator's, run before the commit is taken.
+        -- A step the project's conventions run through a sub-agent, which the drive agent can't spawn, the drive agent asks the orchestrator to run mid-frame, and waits for its results before committing.
         -- The review entry is what a reviewer has to check the commit, by its subject; its durable part goes into the commit's body, and the PR's Reviewing this takes what spans commits.
         -- The drive agent makes the commit; the orchestrator may rewrite that commit's place or message.
         -- Anything but branch_top rewrites the branch, which a feature branch the session owns

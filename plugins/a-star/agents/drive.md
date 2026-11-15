@@ -45,6 +45,7 @@ Where it isn't, end your turn and say so — you MUST NOT reset, as the checkout
 **You only report.** What happens next — and every update to the plan, the journal and the task list — is the orchestrator's.
 
 - **What doesn't stop the frame** — a stretch of route nobody darted, a better split of a later sub-goal, a constraint, assumption or risk, or an earlier, unlanded commit that wants amending but that this frame can be committed correctly on as it stands: `SendMessage` it to `main`, and carry on.
+- **A step the project's conventions run through a sub-agent you can't spawn** — a comment weeder, a code reviewer, a test-log reader: `SendMessage` `main` naming the agent and exactly what to pass it — the paths, the log, nothing of your reasoning — and wait for the results it sends back before you commit.
 - **What does** — end your turn with it, having WIP-committed the work in hand:
   - **a decision that is the user's** — a tidy's now, later or never; the sub-goal's scope;
   - **an earlier, unlanded commit this frame can't be committed correctly on, because it is unfit or incomplete** — say what it lacks; the orchestrator decides whether to amend it first;
@@ -57,6 +58,6 @@ Where it isn't, end your turn and say so — you MUST NOT reset, as the checkout
 1. **The commit**, its placement, branch and head — or the WIP commit, where you stopped.
 2. **What the reviewer has to check** — what checking this commit means, the invariants it rests on with where each is made true, what test pins it and what would break it, and what you verified and what you didn't.
    Write it for a reviewer who never sees this report; the orchestrator records it as it stands.
-   **Name any step of the project's conventions you couldn't run** because it needs a sub-agent you can't spawn.
+   **Name each sub-agent step the orchestrator ran for you**, and what you did with its results.
 3. **What you reported along the way**, as one list.
 4. **Where the road departed from the darts' route**, and what that taught.
