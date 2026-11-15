@@ -34,7 +34,7 @@ The user reviews the branch commit by commit, so its order is the order a review
 - **An amend is committed inside the commit it amends.**
 - **Anything else is committed at the top.**
 
-**Anywhere but the top rewrites the branch**, per `chalk:chalk`'s Feature branches.
+**Anywhere but the top rewrites the branch**, per `a-star:a-star`'s [Feature branches](../../a-star/SKILL.md#feature-branches).
 
 **The branch reads as though each commit was right first time.**
 An intermediate shape and its correction are two things for the reviewer to page in where one would do.

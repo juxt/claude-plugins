@@ -32,7 +32,7 @@ The dart is the try, the revert is the revert, and each drive commits a leaf.
 
 ## Entry and exit
 
-**a-star starts from a plan whose goal the user has approved**, handed in by whatever harness surrounds it — chalk's planning is one.
+**a-star starts from a plan whose goal the user has approved**, handed in by whatever harness surrounds it — for example, chalk's planning.
 How the goal gets understood and agreed is that harness's; a-star only checks it is.
 
 - **A card is ready once its goal, its constraints and what's out of scope are agreed with the user, and no open question bears on it.**
@@ -45,7 +45,8 @@ How the goal gets understood and agreed is that harness's; a-star only checks it
 - **done** — the done sub-goals complete the card, and the branch has had its review-unit pass.
 
 **park hands the work back to that harness** — nothing is ready, and what's blocked waits on the user or someone else.
-Parked work is resumed by a later session, from what `chalk:put-down` recorded on the issue — its stack recorded there, its branch pushed — or the project's equivalent.
+**A park leaves what a later session needs to resume**: the branch pushed — with `--force-with-lease`, per [Feature branches](#feature-branches) — and its head, the drive stack and any WIP commits recorded where the project tracks the card.
+Resuming starts from that record.
 
 **A finding that leaves the goal standing is never an exit**: a revert, a re-split of sub-goals, or a question, all inside a-star.
 Only the replan exit re-enters the harness's planning.
@@ -75,7 +76,7 @@ In primary, a move is first offered, and only the user's yes takes it; in second
 
 ### Primary and secondary
 
-**The mode — whether the user is watching — is the session's, and a-star reads it rather than sets it**; with none recorded, a session is primary unless it runs headless or scheduled.
+**The mode — whether the user is watching — is the session's, as the session records it, and a-star reads it rather than sets it**; with none recorded, a session is primary unless it runs headless or scheduled.
 These are what each mode means for a-star's own moves.
 
 **In primary:**
@@ -97,9 +98,12 @@ These are what each mode means for a-star's own moves.
 
 ## Triage
 
+**The completion test: where an unlanded commit's claim — its subject line — still holds with new scope inside it, that scope is an amend of the commit, not a new commit on top.**
+A tidy never folds into an advance, or an advance into a tidy.
+
 **Darts and drives turn up the same kinds of thing, and you triage each:**
 
-- **an increment ready to commit, or a new or better-split sub-goal** — first apply `chalk:commit`'s completion test against the unlanded commits; scope that completes one is an amend of it, below.
+- **an increment ready to commit, or a new or better-split sub-goal** — first apply the completion test against the unlanded commits; scope that completes one is an amend of it, below.
   Otherwise record it as a sub-goal, with its kind and where it would be committed, what it depends on, and whether a dart exercised it.
   This holds for scope the user adds mid-card and for findings from your own review of a frame alike;
 - **a stretch of the route not yet walked** — a dart;
@@ -125,9 +129,9 @@ These are what each mode means for a-star's own moves.
   Reorder, merge or split its commits until each is independently acceptable and none is a slice of another, leaving the final tree unchanged.
   **The test is the `review:` entries**: a commit whose entry can't say what checking it means apart from its neighbours' is a slice of one of them, and an entry that needs two different checks is two units.
   **A tidy and an advance stay separate**, however closely they belong together — they are checked differently.
-  Merging two commits merges their `review:` entries, and redrafts the merged body through `chalk:commit`.
+  Merging two commits merges their `review:` entries, and redrafts the merged body to the project's commit conventions.
   A rewritten subject updates the journal entries keyed by it.
-  It rewrites the branch, per `chalk:chalk`'s Feature branches.
+  It rewrites the branch, per [Feature branches](#feature-branches).
 
 **A structure change and a behaviour change never share a commit**: a tidy changes structure, an advance changes behaviour, and `a-star:drive` commits either.
 
@@ -143,36 +147,42 @@ In whatever the session tracks its work with — the outer harness's journal, wh
 - **a decision** — a call you aren't sure of is an open question instead;
 - **an open question, and what it blocks;**
 - **a sub-goal done**, with its commits;
+- **a commit's `review:` entry**, against its subject — the review notes its body also carries: what checking the commit means; the invariants it rests on, each with where it is made true, what pins it and what would break it; and what was verified and what wasn't;
 - **a revert or a re-split** — what changed, and which sub-goals it superseded or reopened, as a `re-split:` entry; the replan exit's is a `replan:`, journalled as it exits;
 - **what's in hand** — the drive stack, innermost first — **recorded before the first edit;**
 - **a dart in flight**, so a resumed session knows it was lost;
 
-**Keep the host's task list current as sub-goals move**, per `chalk:chalk`'s task list, where the session journals there — a tidy, amend or prequel pushed onto the stack included.
+**Keep the host's task list current as sub-goals move**: a sub-goal recorded adds its task — a tidy, amend or prequel pushed onto the stack included — one done completes it, one superseded or thrown away removes it, and a frame interrupting a drive marks the drive's task blocked by its own.
 
 ## `/a-star <card>`
 
 1. **Check the plan is approved, and the card [ready](#entry-and-exit)**, by the outer harness or on the tracker issue.
    Where it isn't, choose how to make it ready, taking the first that applies:
    1. the user has said how to ready it — do that;
-   2. `chalk:chalk` is installed — hand to it to plan the card;
+   2. the project has a planning skill — hand to it to plan the card;
    3. otherwise ask the user how, agreeing the root with them — what the card is for, never how it gets there.
    **Agreed here, it goes on the tracker issue before you move on**: every decision that bears on the problem or the agreed scope, not only the root.
    In secondary, record the questions and park instead.
-   **Resuming a card from an earlier session**, start from what `chalk:put-down` recorded on its issue — the branch, its head and the stack in hand — or the project's equivalent.
+   **Resuming a card from an earlier session**, start from the record its park left, per [Entry and exit](#entry-and-exit) — the branch, its head and the stack in hand.
 
 2. **Load the project's answers to the [three choices](#what-the-project-says)**, and check no open question bears on the card itself.
    Look for the answers in the project's skills and agent instructions first; only a choice answered nowhere there becomes a question.
 
 3. **Choose the first move**: the one the approved plan names, taken directly; otherwise a dart where the card has no sub-goals yet or part of its goal is still unwalked, else a drive.
 
+## Feature branches
+
+**A feature branch the session owns MAY be rewritten, and pushed with `--force-with-lease`; the project's base branch never is.**
+The session owns a branch it created for the card, one the user handed it, or one an earlier session created for the same card.
+
+**A commit has landed once it reaches the project's base branch, and not before.**
+A frame is committed, not landed: pushing the feature branch, or opening a PR on it, lands nothing.
+Until it lands, a commit is amendable.
+
 ## What the project says
 
 **Everything not here follows the project's conventions** — writing, tracking, planning, picking a card up and putting it down, the base branch, ship/show/ask, the definition of done, coding standards, and how a commit is written.
 What goes in a commit is a-star's: one atomic unit of change.
-
-**A commit has landed once it reaches the project's base branch, and not before.**
-A frame is committed, not landed: pushing the feature branch, or opening a PR on it, lands nothing.
-Until it lands, a commit is amendable, per `chalk:chalk`'s Feature branches.
 
 **The project MUST answer three choices of a-star's own**:
 

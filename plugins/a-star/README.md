@@ -96,7 +96,8 @@ They're stated as state machines in [`spec/a-star.allium`](spec/a-star.allium): 
 
 ## Recommended alongside
 
-**[chalk](../chalk/) is the harness A⭐ runs inside: chalk plans the session and keeps its journal, and A⭐ implements the plan.**
+**A⭐ needs three things from whatever surrounds it: a plan whose goal the user has approved, a place to record its work, and the project's commit conventions.**
+Neither plugin expects the other, but [chalk](../chalk/) supplies all three, and the two work well together: chalk plans the session and keeps its journal, and A⭐ implements the plan.
 
 - **chalk gets the goal agreed before A⭐ starts**
   `/chalk` plans in plan mode, and the user leaving plan mode is their approval of the goal and the route.
@@ -110,5 +111,3 @@ They're stated as state machines in [`spec/a-star.allium`](spec/a-star.allium): 
 
 - **When A⭐ can't continue on the plan as approved, chalk re-plans, parks or finishes**
   Re-plan where the goal is invalidated; park the work on its issue with `chalk:put-down`; finish once the sub-goals complete the card, opening a PR with `chalk:pr` where the plan predicted one.
-
-A⭐ leans on chalk's commit completion test, its branch-rewrite rule and its task list; a project replacing chalk supplies those.

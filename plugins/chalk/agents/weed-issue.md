@@ -6,8 +6,8 @@ description: >
   the questions they would ask the filer, the claims they couldn't take unread. It reports
   questions and never writes answers.
 
-  DO NOT invoke this agent directly from the main conversation (except on a drive agent's
-  request, relayed by the orchestrator), and DO NOT give it the
+  DO NOT invoke this agent directly from the main conversation (except on the request of an
+  implementation harness's agent, such as a-star's drive agent, relayed by the main session), and DO NOT give it the
   session's reasoning. The filer holds the problem and can't see what the body leaves out;
   this agent can, because it holds only what the issue's readers hold.
 

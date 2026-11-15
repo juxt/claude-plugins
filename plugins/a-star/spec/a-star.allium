@@ -5,7 +5,7 @@
 -- External Entities
 ------------------------------------------------------------
 
--- The plan the outer harness hands in, its goal approved by the user — chalk's planning is one such harness.
+-- The plan the outer harness hands in, its goal approved by the user — whatever harness surrounds a-star, for example chalk's planning.
 -- a-star records into it and exits back to it; it never approves a plan itself.
 external entity Plan {
     goal_approved: Boolean
@@ -14,7 +14,7 @@ external entity Plan {
 
 -- A commit on the card's feature branch.
 -- It has landed once it reaches the project's base branch; until then it is unlanded,
--- and amendable, per chalk:chalk's Feature branches.
+-- and amendable, per a-star:a-star's Feature branches.
 external entity Commit {
     landed: Boolean
 }
@@ -23,7 +23,7 @@ external entity Commit {
 -- Enumerations
 ------------------------------------------------------------
 
--- Whether the user is watching: the chalk session's mode, which a-star reads rather than owns.
+-- Whether the user is watching: the session's mode, as the session records it, which a-star reads rather than sets.
 enum Mode { primary | secondary }
 
 enum Move { dart | drive | revert | replan | park | done }
@@ -54,7 +54,7 @@ enum Placement {
 
 entity Session {
     plan: Plan
-    -- The chalk session's mode, read from it; it changes only by chalk's SwitchMode.
+    -- The session's mode, read rather than set: a-star never changes it.
     mode: Mode
     -- The unlanded commits read as review units: each independently acceptable, none a slice of another.
     in_review_units: Boolean
@@ -198,7 +198,7 @@ entity Yield {
 -- Rules
 ------------------------------------------------------------
 
--- The mode is the chalk session's at hand-in.
+-- The mode is the session's at hand-in, as the session records it.
 rule Enter {
     when: Start(plan, mode)
     requires: plan.goal_approved
@@ -242,7 +242,7 @@ rule TakeUnoffered {
     ensures: Recorded(session: session, entry: would_have_offered)
 }
 
--- The mode changes only by chalk's SwitchMode, which records the switch; session.mode follows it.
+-- The mode changes only outside a-star, where the session records it; session.mode follows it.
 
 -- dart: part of the goal not yet walked, or a sub-goal no dart has exercised, that nothing in flight covers.
 rule TakeDart {
@@ -362,7 +362,7 @@ rule DartLost {
 }
 
 -- Before the done exit, a pass over the unlanded branch reorders, merges or splits its commits into review units,
--- leaving the final tree unchanged; it rewrites the branch, per chalk:chalk's Feature branches.
+-- leaving the final tree unchanged; it rewrites the branch, per a-star:a-star's Feature branches.
 rule ShapeForReview {
     when: ReviewUnitsChecked(session)
     requires: session.status = choosing
@@ -373,7 +373,7 @@ rule ShapeForReview {
     @guidance
         -- The test is the review entries: one that can't say what checking its commit means apart from its neighbours' is a slice; one needing two checks is two units.
         -- A tidy and an advance are never merged: a structure change and a behaviour change never share a commit.
-        -- Merging two commits merges their review entries and redrafts the merged body through chalk:commit; a rewritten subject updates the journal entries keyed by it.
+        -- Merging two commits merges their review entries and redrafts the merged body to the project's commit conventions; a rewritten subject updates the journal entries keyed by it.
 }
 
 rule TakeDone {
@@ -723,12 +723,12 @@ rule Committed {
     @guidance
         -- Verified includes the orchestrator's review of the frame's diff, code and comments, before it takes the commit.
         -- The drive agent writes the review notes into the commit's body and reports them; at the gate the orchestrator checks they stand apart from the unlanded commits' review entries, rewriting the message only where they fall short, and records them as the commit's review entry.
-        -- Where chalk:commit's completion test finds the frame completes an earlier unlanded commit, it is folded in as an amend, never a tidy into an advance or the reverse; the brief's placement otherwise holds.
+        -- Where the completion test in a-star:a-star's Triage finds the frame completes an earlier unlanded commit, it is folded in as an amend, never a tidy into an advance or the reverse; the brief's placement otherwise holds.
         -- A finding inside the frame's scope sends the drive agent back to fix it; anything else is triaged like any other report.
         -- A finding that traces to something the drive agent reads being silent or wrong is also fixed where it belongs — the project, the record, a skill or the setup — not only in the commit.
         -- A step the project's conventions run through a sub-agent the drive agent can't spawn — a comment weed, a test-log reader — it asks the orchestrator for by ending its turn, and is resumed with the results; the orchestrator's review is the code review, so it asks for no other.
         -- The drive agent makes the commit and never pushes; the orchestrator may rewrite that commit's place or message, and pushes after the gate where the project's answer says to.
-        -- Anything but branch_top rewrites the branch, per chalk:chalk's Feature branches.
+        -- Anything but branch_top rewrites the branch, per a-star:a-star's Feature branches.
         -- An amended commit's message describes its final shape; the PR mentions it only where it
         -- leaves a consequence the reader bears.
 }

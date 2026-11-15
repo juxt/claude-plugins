@@ -39,7 +39,7 @@ It reports what it turns up and makes the commit; you triage, choose, record, an
    The amend is recorded as a sub-goal, driven after the frame in hand is committed.
    **The drive agent can't spawn the sub-agents the project's conventions call for — a comment weeder, a test-log reader — so it asks you for them**: spawn each with exactly the inputs it names, and resume it with the results.
    Your review in step 5 is the frame's code review, so it doesn't ask for another.
-   **It asks you, too, the questions `chalk:commit` would put to the user**: it has none of the session's history, and the user doesn't see its calls, so answer from the record, or in primary escalate.
+   **It asks you, too, the questions the project's commit conventions would put to the user**: it has none of the session's history, and the user doesn't see its calls, so answer from the record, or in primary escalate.
 
 4. **When it ends its turn**, decide: a sub-agent request is spawned and answered, per step 3; a user's decision is offered in primary; an earlier commit this frame can't be committed on is an amend frame, pushed first; a better drive is a pre-emption; a failure is [Handling Drive Failure](#handling-drive-failure).
    Then resume it with `SendMessage`, or push the new frame.
@@ -52,11 +52,11 @@ It reports what it turns up and makes the commit; you triage, choose, record, an
 
 6. **Take its commit**, which is already on the feature branch at the frame's placement, rewriting its place or message where the branch should read otherwise.
    **The gate first: check the review notes the drive agent wrote into the commit's body, and reported, stand apart from the unlanded commits' `review:` entries.**
-   Rewrite the message, through `chalk:commit`, only where the notes fall short of what `chalk:chalk` says a `review:` entry holds.
-   Where `chalk:commit`'s completion test finds the frame completes an earlier unlanded commit, fold it in as an amend rather than taking it on top.
+   Rewrite the message, to the project's commit conventions, only where the notes fall short of what a `review:` entry holds, per `a-star:a-star`'s What to record.
+   Where `a-star:a-star`'s completion test, in its Triage, finds the frame completes an earlier unlanded commit, fold it in as an amend rather than taking it on top.
    A tidy is never folded into an advance, or an advance into a tidy.
    A rewrite that changes a commit's subject updates the journal entries keyed by it.
-   **Then push, where the project's answer says to**, and in secondary wherever its answers allow, per `chalk:secondary` and `a-star:a-star`'s Primary and secondary; the drive agent never pushes.
+   **Then push, where the project's answer says to**, and in secondary wherever its answers allow, per `a-star:a-star`'s Primary and secondary; the drive agent never pushes.
 
 7. **Record the sub-goal done**, with its commits, and complete its task; record what its report taught, and add a task for any sub-goal it turned up.
    **Record the gate's notes as the commit's `review:` entry**, against its subject, with what your own review added — the PR's Reviewing this takes what spans commits and what was verified from these.
@@ -85,7 +85,7 @@ Set the original aside as a WIP commit, commit the pre-empting drive, then rebas
 A pre-empted drive is kept and resumed; a failed one is thrown away and re-split.
 
 **Stopping before it's done**: WIP-commit the work, leave it recorded as in hand, and park — whatever else is ready.
-With the stack unpopped, the next session resumes from what `chalk:put-down` pushes and records on the issue — the branch with its WIP commits, its head, and the stack in hand — not from this session's plan file.
+With the stack unpopped, the next session resumes from what the park leaves, per `a-star:a-star`'s Entry and exit — the branch pushed with its WIP commits, and its head and the stack in hand recorded where the project tracks the card — not from this session's plan file.
 
 ## Handling Drive Failure
 

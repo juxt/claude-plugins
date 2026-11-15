@@ -5,8 +5,8 @@ description: >
   Applies `chalk:code-comments` — the default of silence, the exceptions, the test —
   against code it has never seen before, and lands the deletions.
 
-  DO NOT invoke this agent directly from the main conversation (except on a drive agent's
-  request, relayed by the orchestrator), and DO NOT tell it
+  DO NOT invoke this agent directly from the main conversation (except on the request of an
+  implementation harness's agent, such as a-star's drive agent, relayed by the main session), and DO NOT tell it
   what the change was for. It works because it arrives without the reasoning that
   produced the comments — the context that wrote a comment is the one that cannot
   see it as surplus. A caller who explains the change turns this into same-session

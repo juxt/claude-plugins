@@ -40,7 +40,7 @@ You MAY point it at where the card's work is recorded instead, to read and never
 Record it as in flight, so a session resumed after this one ends knows it was lost, and darts again where it is still needed.
 
 - **An increment ready to commit** — record it as a sub-goal, and tell the user.
-  In primary it is committed only on their go-ahead; in secondary, per `chalk:secondary` and `a-star:a-star`'s Primary and secondary.
+  In primary it is committed only on their go-ahead; in secondary, per `a-star:a-star`'s Primary and secondary.
 
 - **A finding that invalidates the plan** — the card's contract, a decision already made, an invariant, or the cost of the agreed route.
   It is the user's to settle, in either mode: in secondary, record it as an open question, halt the line of work it bears on, and move to other ready work.
