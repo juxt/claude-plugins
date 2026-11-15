@@ -87,6 +87,7 @@ This section carries what the rules mean; the `weed-prose` agent carries the phr
 
 - **You MUST NOT assume the reader has any of your session's context.**
   A sentence that only parses if you know which files were touched, which commit came before, or what was said in chat is a sentence the audience can't use.
+  **The branch's own history is session context too** — "the two amends", "before the interrupt fix": the reader sees the branch as it stands, not how it moved.
 
 ### Word choice costs the reader a re-read
 
@@ -266,6 +267,9 @@ Asked for by name, it takes this form, not a table or a run of prose.
   **D1** for a decision, **Q1** for a question, **I1** for an idea, **C1** for a constraint, **A1** for an assumption, **D2.1** for its first child.
   Discussion happens by reference: without an ID the reader quotes or paraphrases the node, and a reply can't be checked against what it answers.
   IDs beat numbered lists, which renumber silently when a sibling is inserted.
+
+  - **An ID MUST NOT collide with a name the artefact's domain already uses** — TPC-H's Q1–Q22, a ticket scheme, a version.
+    Lengthen the prefix where it would: **OQ1** for an open question beside query names.
 
   - **Plan files and conversation output are covered as well as published artefacts** — a plan is discussed before it is approved, and a reply is discussed in the next turn.
 
