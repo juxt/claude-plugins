@@ -136,7 +136,7 @@ Name what would surprise someone familiar with the subsystem, and don't assume t
 - **The order of the sections carries the arc, and needs no closing summary.**
   Each section leans only on those above it; where it does, the reader arrives at the inherited costs already holding what they are costs of.
 
-**Before handing it to `weed-pr`, ask what the reader will ask first, and answer it in place.**
+**Before handing it to `weed-pr`, ask what the reader will ask first, and answer it in place**, and check every `→` reads as "therefore".
 A question a reader asks after reading is a gap the description had; the cheapest place to find it is before they do.
 
 Not this — states the fix without the problem:
@@ -171,6 +171,8 @@ That judgement is made by the context that just spent the session building the t
 - **Where only the user can answer, relay the question as written.**
   Answer from the branch where the branch genuinely has it, naming the commit you draw on so the user can correct you.
 
+- **A redraft keeps every answer earlier rounds settled.**
+  Restructuring a node to close one gap is where an earlier answer gets dropped.
 - **The redraft MUST go back to `weed-pr`**, until it has no question left that it would ask before approving.
   You MUST NOT judge your own redraft.
 

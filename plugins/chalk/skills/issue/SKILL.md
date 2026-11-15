@@ -222,6 +222,7 @@ That judgement is made by the context that just built the *why*, and it always c
 
 - **Where only the user can answer, relay the question as written.**
 
+- **A redraft keeps every answer earlier rounds settled.**
 - **The redraft MUST go back to `weed-issue`**, until no reader has a question left they would ask the filer.
   You MUST NOT judge your own redraft.
 

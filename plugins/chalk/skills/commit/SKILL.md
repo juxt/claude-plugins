@@ -104,6 +104,8 @@ You MUST load these skills first:
    **The tell, where the diff is itself prose** — a skill, a README, a spec: the sentence appears in substance in a line the diff *adds*.
    Read the added lines against the body before you call the draft finished. "Self-evident from the diff" is a judgement you cannot make about your own text, but this is a comparison you can run, and here restating the diff is the default failure rather than an occasional one — both sides argue the same rules in the same words.
 
+   **Check every `→` in the body reads as "therefore"** — a sequence, a "stacked on" or two independent premises are not one.
+
    **Be concise, but keep the reasoning.**
    A terse note with no *why* is as unhelpful as a verbose one. 
    Where the reasoning was complex and the change simple, say so: "Simple change in the end: …".
