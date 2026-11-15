@@ -12,11 +12,15 @@ description: >
     - `chalk:issue` skill — for creating issues, updating issue descriptions,
       posting issue comments, and issue relationship mutations.
     - `chalk:pr` skill — for opening pull requests.
+    - `chalk:chalk` skill — for reading an issue and its neighbourhood, searching
+      for existing issues, and the tracker update (assignee, status, board).
+    - `chalk:put-down` skill — for the tracker update, and through `chalk:issue`
+      for anything it posts.
 
-  Those skills carry the voice guidance that every GitHub-bound body needs; they
-  draft the body in the main context against that guidance, then hand it here to
-  post verbatim. Invoking this agent without loading the relevant skill first
-  skips the voice guidance and produces off-voice artefacts.
+  The skills that post a body carry the voice guidance it needs; they draft the
+  body in the main context against that guidance, then hand it here to post
+  verbatim. Invoking this agent without loading the relevant skill first skips
+  the voice guidance and produces off-voice artefacts.
 
   If you find yourself reaching for this agent directly, stop: load the
   `chalk:issue` or `chalk:pr` skill and follow its workflow. If a skill already
@@ -127,6 +131,11 @@ gh issue view N --json comments --jq '[.comments[-3:][].body]'
 Report back: issue title, the section headings present in the description, and last 2-3 comment summaries.
 If the caller asks for the one-hop neighbourhood too, combine with "Read issue neighbourhood" below.
 
+### Fetch a body verbatim to a file
+
+When the caller needs an issue or PR body as input to a weed, write it unaltered to the path the caller names: `gh issue view N --json body -q .body > <path>` (or `gh pr view`).
+Don't summarise, annotate or truncate it; report the path and the byte count.
+
 ### Read issue neighbourhood
 
 Fetch the issue's one-hop neighbourhood — parent, sub-issues, blocked-by, blocking — in a single GraphQL call.
@@ -196,6 +205,23 @@ gh issue edit N --add-assignee @me
 `--add-assignee` only adds — it does not displace existing assignees, so it's safe to run even when the issue is already assigned to someone else.
 
 Report back the comment URL and whether assignment was applied.
+
+### Assign, set status, add to a board
+
+The tracker update for a card being picked up or put down. It posts no body.
+The caller names the assignee, the board and the status, per the project's tracker conventions; where it names none of the latter two, only assign.
+
+```bash
+gh issue edit N --add-assignee @me
+gh project item-add PROJECT_NUMBER --owner OWNER --url ISSUE_URL --format json --jq .id
+gh project view PROJECT_NUMBER --owner OWNER --format json --jq .id
+gh project field-list PROJECT_NUMBER --owner OWNER --format json
+gh project item-edit --id ITEM_ID --project-id PROJECT_ID --field-id FIELD_ID --single-select-option-id OPTION_ID
+```
+
+`item-add` returns the existing item where the issue is already on the board.
+Resolve the field and option IDs from `field-list` by the names the caller gives; a name that doesn't resolve is a skipped rule, per Project-specific conventions.
+Report back the assignees, the board and the status as they now stand.
 
 ### Manage issue relationships (sub-issues, blocked-by)
 

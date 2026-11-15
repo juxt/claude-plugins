@@ -15,127 +15,57 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 **Success: a small change, ready to merge, that the user can review from its diff and message alone** — and, once it lands, page that part of the card out of their head.
 
-**A dart takes the straight line to the goal; a drive takes the road.**
-The walls the dart ignored — the project's coding standards, its tests, its definition of done, its code review — are what a drive navigates.
-
 Load `a-star:a-star` first; the drive's states are in its spec.
+Read [references/frame.md](references/frame.md): what a frame is, where it is committed, and the rules it is written to.
 
 **You, the orchestrator, hold the stack; the `drive` agent commits each frame.**
 It reports what it turns up and makes the commit; you triage, choose, record, and may rewrite its commit.
-The rules below bind whoever is writing the frame — the agent, and you where you rewrite.
-
-## Frames
-
-**A drive is a stack of frames, and every frame is a tidy, an advance or an amend, decided before it starts.**
-No two kinds share a commit.
-
-- **Tidy** — changes structure, never behaviour.
-  **Success: an equivalence change that gives us options**, reviewable by asking only *could this change anything?*
-  A change that could change anything isn't a tidy.
-
-- **Advance** — changes behaviour, moving the base a step towards the goal.
-  **A structure change turning up mid-advance is a tidy**, never part of this commit: decide [now, later or never](#a-tidy-now-later-or-never), and if now, it interrupts the advance.
-
-- **Amend** — makes an unlanded commit on the branch fit for the drive's purpose, or completes it, and is committed inside that commit.
-  It keeps the kind of the commit it amends: an amended tidy still changes no behaviour, and an amended advance keeps its subject line true.
-  - **An advance's scope is its commit's claim, its subject line.**
-    An amend may change the mechanism completely while the subject still holds.
-    One that would change the subject is a new sub-goal, or a revert.
-  Once that commit has landed on the project's base branch, a change to its code is an ordinary tidy or advance.
-  - **A new approach to an unlanded commit is an amend of that commit, wherever it sits in the branch, and never a later commit on top.**
-    A reviewer would otherwise read an approach and then its replacement, agreeing with a commit the branch goes on to undo.
-    Where the approach spans several commits, it's a revert instead.
-
-## Where a frame is committed
-
-**Every frame is committed at the lowest point in the branch its dependencies allow.**
-The user reviews the branch commit by commit, so its order is the order a reviewer is best shown, not the order the work happened in.
-
-- **A prequel — usually a tidy depending on nothing in the branch — is committed at the branch's base.**
-  It can then be cherry-picked onto main, and drops out of the PR once the branch is rebased.
-- **An amend is committed inside the commit it amends.**
-- **Anything else is committed at the top.**
-
-**Anywhere but the top rewrites the branch**, which a feature branch the session owns always allows, pushed with force-with-lease (`chalk:chalk`).
-
-**The branch reads as though each commit was right first time.**
-An intermediate shape and its correction are two things for the reviewer to page in where one would do.
-An amended commit's message describes its final shape, the PR mentions an amend only where it leaves a consequence the reader bears, and the journey stays in the session's record.
-
-## In every frame
-
-- **One ready sub-goal, small enough for a reviewer to hold in their head**; one too big is two — record both before starting.
-- **What the darts found is evidence, never code to edit into shape.**
-- **Write it to the project's coding standards.**
-- **Obviously no bugs, not no obvious bugs** — Hoare's distinction.
-  **The test: a human reviewing the change in isolation can see it has none** — for a tidy, this is its success criterion.
-  Where they can, they confirm it and page it out, which takes far more off their mind than any review that leaves them unsure they've looked hard enough.
-  A change that fails the test wants a tidy under it first, or is two sub-goals.
-- **Simple, not easy** — Rich Hickey's *Simple Made Easy*.
-  Un-braid concerns rather than reach for what's nearest to hand; state that can be derived, or can drift from what it mirrors, shouldn't exist.
-  **The test: a human reviewing the change in isolation can see each concern on its own**, confirming one without holding the rest of the change in their head.
-- **Accidental complexity recognised for what it is** — Moseley & Marks, *Out of the Tar Pit*.
-  Complexity the problem doesn't impose has to earn its place — performance is the usual reason — and the commit says what it buys.
-- **Illegal states unrepresentable** — Minsky, *Effective ML*.
-  A field guarded at every use wants a type, not another check.
-- **No generality the sub-goal didn't ask for.**
-- **No dead code.** Everything the commit adds has a caller outside the tests in this commit; a new abstraction nothing yet calls is committed with the first change that calls it.
-  A tidy reshapes code that already runs.
-- **The suite stays green.** A test weakened or disabled to get past it is a broken invariant: report it, don't commit it.
-
-## A tidy: now, later or never
-
-**A structure change to code this branch introduced, before that code has landed, is not a tidy: it is an amend of the commit that introduced it.**
-There is no earlier shape worth a commit, and a reviewer would read the complex version and then its simplification where one simple commit would do.
-
-- **Now** — it's worth having however the rest of the card turns out, or the work in hand needs it.
-- **Later** — whether it's worth having depends on the behaviour change: record it as a sub-goal, and carry on.
-- **Never** — it opens no option; don't record it.
-
-**Where it is committed is per the project's answer to where a tidy is committed**; where it's silent, the feature branch, as a prequel where it depends on nothing in the branch.
-
-- **Feature branch** — it lands with the card's advances.
-- **Main** — a tidy branch off main, for the user to merge; rebase the feature branch onto it as soon as it's committed.
 
 ## Doing it
 
 1. **Record it as what's in hand, before anything is edited.** Its task already exists, from when the sub-goal was recorded at triage — a tidy, amend or prequel pushed onto the stack included.
+   **An amend raised by your own review of a frame MAY be driven without a dart**, recorded as a decision that you judged it straightforward.
 
 2. **Record the branch's head, then spawn the `drive` agent with the frame as its brief, and nothing else** — its sub-goal, its kind and placement, the branch to work from and its head, and where the card's work is recorded: for an advance, the card's feature branch off the project's base branch; for a tidy, where it is committed.
    The record carries the decisions, principles and darts' evidence, which it reads and never writes.
    The brief MUST NOT restate what the agent loads for itself — the project's conventions, the skills' rules, how to verify — nor dictate a format a named skill owns, such as a commit message's.
    A restatement is a second copy to drift, and a wrong one overrides the right one.
-   It works in the card's own checkout, on the feature branch, with no worktree: drives run one at a time, so nothing else needs the checkout.
-   Run it in the background, so it can message you as it goes, and MUST NOT touch the checkout until it ends — you work on the plan only.
+   It works in the card's own checkout, with no worktree: drives run one at a time, so nothing else needs the checkout.
+   **You check out the branch it works from before briefing it** — the feature branch, or for a tidy committed on main, its tidy branch off main, and the feature branch again once that tidy is taken.
+   Run it in the background, so it can message you as it goes, and MUST NOT otherwise touch the checkout until it ends — you work on the plan only.
    A harness hook that reports uncommitted changes while it runs is reporting the frame's work in progress; leave it.
 
 3. **Triage what it reports as it goes**, per `a-star:a-star` — a stretch of route nobody darted, a better split of a later sub-goal, a constraint, an earlier commit that wants amending but doesn't block the frame — without stopping the frame.
    The amend is recorded as a sub-goal, driven after the frame in hand is committed.
+   **The drive agent can't spawn the sub-agents the project's conventions call for — a comment weeder, a test-log reader — so it asks you for them**: spawn each with exactly the inputs it names, and resume it with the results.
+   Your review in step 5 is the frame's code review, so it doesn't ask for another.
+   **It asks you, too, the questions `chalk:commit` would put to the user**: it has none of the session's history, and the user doesn't see its calls, so answer from the record, or in primary escalate.
 
-4. **When it ends its turn on something that stops the frame**, decide: a user's decision is offered in primary; an earlier commit this frame can't be committed on is an amend frame, pushed first; a better drive is a pre-emption; a failure is [Handling Drive Failure](#handling-drive-failure).
+4. **When it ends its turn**, decide: a sub-agent request is spawned and answered, per step 3; a user's decision is offered in primary; an earlier commit this frame can't be committed on is an amend frame, pushed first; a better drive is a pre-emption; a failure is [Handling Drive Failure](#handling-drive-failure).
    Then resume it with `SendMessage`, or push the new frame.
 
 5. **Review the frame's diff from the head you recorded, before taking its commit**, with the review the project's conventions call for, over its code and its comments.
-   **The drive agent can't spawn the sub-agents the project's conventions call for — a comment weeder, a code reviewer, a test-log reader — so it asks you mid-frame**: spawn each as it asks, with exactly the inputs it names, and send the results back with `SendMessage`.
    **The review checks that a tidy changes no behaviour**: a commit typed as one whose diff or body shows a behaviour change, error paths included, is split or retyped before it is taken.
    A finding inside the frame's scope resumes the drive agent with `SendMessage` to fix it; anything else is triaged like any other report — including one that completes an earlier unlanded commit, which triage makes an amend of it.
    A finding the drive agent could only have missed because something it reads was silent or wrong is also a gap: triage where its fix belongs — the project's instructions or skills, the record, a skill of a-star's own, or the session's setup — and fix it there, so the next frame doesn't repeat it.
    A fresh drive's mistake is the signal that the plan or the project is missing something, and amending the commit alone leaves the miss in place.
 
-6. **Take its commit**, which is already on the feature branch at the frame's placement, rewriting its place or message where the branch should read otherwise, and push where the project's answer says to.
-   **The gate first: write the commit's `review:` entry, and check it stands apart from the unlanded commits' entries.**
-   The entry's durable part — what checking the commit means, and its invariants — goes into the commit's body, per `chalk:commit`, rewriting the message where the drive agent's lacks it.
-   Where what checking it means is only what checking an earlier unlanded commit means, the frame completes that commit: fold it in as an amend, per `chalk:commit`'s completion test, rather than taking it on top.
+6. **Take its commit**, which is already on the feature branch at the frame's placement, rewriting its place or message where the branch should read otherwise.
+   **The gate first: check the review notes the drive agent wrote into the commit's body, and reported, stand apart from the unlanded commits' `review:` entries.**
+   Rewrite the message, through `chalk:commit`, only where the notes fall short of what `chalk:chalk` says a `review:` entry holds.
+   Where `chalk:commit`'s completion test finds the frame completes an earlier unlanded commit, fold it in as an amend rather than taking it on top.
    A tidy is never folded into an advance, or an advance into a tidy.
+   A rewrite that changes a commit's subject updates the journal entries keyed by it.
+   **Then push, where the project's answer says to**, and in secondary wherever its answers allow, per `a-star:secondary`; the drive agent never pushes.
 
 7. **Record the sub-goal done**, with its commits, and complete its task; record what its report taught, and add a task for any sub-goal it turned up.
-   **Record the `review:` entry the gate wrote**, from the drive agent's report and your own review, against the commit's subject — the PR's Reviewing this takes what spans commits and what was verified from these, and a report kept nowhere else is lost by then.
+   **Record the gate's notes as the commit's `review:` entry**, against its subject, with what your own review added — the PR's Reviewing this takes what spans commits and what was verified from these.
    A frame that interrupted another pops: rebase the WIP onto it, and resume what it interrupted.
    A dart branch under it is the dart agent's to rebase or redo.
 
 8. **Clear the darts this drive superseded** — each whose code no longer holds evidence a remaining sub-goal needs.
    First record what it taught that the record doesn't yet hold: what it found, and where the road departed from its route.
-   Then remove its branch and worktree per the project's branch cleanup.
+   Then remove its branch and worktree: a dart's code never lands, so a spent dart's are always removed, whatever the project's branch cleanup says.
 
 **Hand over** the branch, its head, and what the reviewer has to check — the decisions and assumptions the change rests on, as the `review:` entries record them.
 In secondary, the handover goes in the session's record and doesn't end the turn.
@@ -155,7 +85,7 @@ Set the original aside as a WIP commit, commit the pre-empting drive, then rebas
 A pre-empted drive is kept and resumed; a failed one is thrown away and re-split.
 
 **Stopping before it's done**: WIP-commit the work, leave it recorded as in hand, and park — whatever else is ready.
-With the stack unpopped, the WIP commits and what's recorded as in hand are what the next session resumes from.
+With the stack unpopped, the next session resumes from what `chalk:put-down` pushes and records on the issue — the branch with its WIP commits, its head, and the stack in hand — not from this session's plan file.
 
 ## Handling Drive Failure
 

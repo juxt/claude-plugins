@@ -28,7 +28,7 @@ It writes issues, agents' plans, commits and PRs in a style that lets the reader
 **chalk plans and journals; how the work is implemented is left to a harness, or to none.**
 
 - **A harness records through chalk's journal**
-  Its record kinds — decision, question, requirement, principle, constraint, assumption, risk, dead-end, replan — are the interface, so the harness names what to record and chalk says where.
+  Its record kinds — decision, question, requirement, principle, constraint, assumption, risk, dead-end, review, re-split, replan — are the interface, so the harness names what to record and chalk says where.
 
 - **A harness hands back to chalk when it can't continue on the plan as approved**
   chalk re-plans where the goal is invalidated, parks the work on its issue where it can't continue, and opens the PR where the goal is complete.
@@ -76,11 +76,11 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 
 - **Skill** (`issue`): Problem-focused issue descriptions, and keeping them accurate
 
-- **Skill** (`commit`): Contextual commits that capture the why
+- **Skill** (`commit`): Contextual commits that capture the why, with review notes: what checking the commit means, and the invariants it rests on
 
 - **Skill** (`pr`): Pull requests with intent-driven descriptions
 
-- **Skill** (`sitrep`): Where the session has got to — what landed, and what's still open as ID'd ideas, decisions and questions
+- **Skill** (`sitrep`): Where the session has got to — what landed, and what's still open as ID'd ideas, forks and questions
 
 - **Skill** (`put-down`): Parks the session's work on its issue, so the next session resumes from the issue and its links alone
 
@@ -98,7 +98,7 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 
 - **Agent** (`weed-comments`): Deletes code comments that don't earn their place, arriving without the context that wrote them
 
-- **Agent** (`weed-pr`): Reads a drafted PR description cold, as the reviewer who has to own the change, and reports where it gets stuck — questions, never answers
+- **Agent** (`weed-pr`): Reads a drafted PR description and the branch's commit messages and bodies cold, as the reviewer who has to own the change, and reports where it gets stuck — questions, never answers
 - **Agent** (`weed-issue`): Reads a drafted issue body cold, as each of its readers, and reports where each gets stuck — questions, never answers
 - **Agent** (`weed-prose`): Weeds prose no chalk artefact skill owns — docs, READMEs, blog posts — cutting what serves the writer rather than the reader
 

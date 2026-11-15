@@ -11,15 +11,13 @@ argument-hint: "[card, if not already in session]"
 
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
-**Success: enough information back to decide the next steps, as soon as it can be had** — the unknowns and constraints on the route surfaced while they could still change it, the next steps suggested, and the dart wrote no more than that took, with nothing landed.
-The next steps are sub-goals that together complete the card, each small enough for a human to hold in their head, on data structures that match the problem.
-A green suite and the project's definition of done are anti-goals, not merely not the bar: the dart reports once the next steps are decidable, rather than when the route is finished.
+**Success is the `dart` agent's, as it states it: enough information back to decide the next steps, as soon as it can be had**, with nothing landed.
 
 Load `a-star:a-star` first.
 
 ## Brief the dart agent
 
-**Spawn the `dart` agent with the card as its whole brief** — the goal, invariants and out of scope from the tracker issue, the sub-goals already found, the decisions in force — plus the branch to start from and its head: the card's feature branch, else the project's base branch.
+**Spawn the `dart` agent with the card as its whole brief** — the goal, invariants and out of scope from the tracker issue, the sub-goals already found, the decisions in force, the record's `principle:` entries — plus the branch to start from and its head: the card's feature branch, else the project's base branch.
 You MAY point it at where the card's work is recorded instead, to read and never write.
 
 - **The brief MUST ask for the route built, not analysed.**
@@ -49,13 +47,14 @@ Record it as in flight, so a session resumed after this one ends knows it was lo
   One that changes the card's target is a revert; one that changes its goal, a replan.
 
 - **A question about the route** — answer it, or in primary escalate it; record the decision and resume the dart agent with `SendMessage`.
-  A question the card itself can't answer means the plan has a gap: end the dart, and take it to the user — a replan where the answer changes the goal.
+  A question the card itself can't answer means the plan has a gap, and is the user's, like a finding that invalidates the plan: the dart waits on the answer, and it is a replan where the answer changes the goal.
 
 ## Harvest
 
 **Record what you accept from the dart agent's report, in the plan and the journal, and add a task for each sub-goal recorded:**
 
-- **the sub-goals**, each with what it depends on, and whether the dart exercised it — together they MUST complete the card;
+- **the sub-goals**, each with its kind, what it depends on, and whether the dart exercised it — together they MUST complete the card; you assign each where it would be committed.
+  Each refines the plan leaf it walked, whose task theirs replace.
   **One not exercised is darted before it is driven**, however confident its description — its shape is still an unknown — unless you judge it straightforward, and record that as a decision.
 - **the decisions** — the dart agent's you keep;
 - **the questions**, each with what it blocks;
@@ -63,6 +62,6 @@ Record it as in flight, so a session resumed after this one ends knows it was lo
 - **the data structures that matched the problem**, and the dart's branch and head.
 
 **Keep the dart branch only while its code is still evidence a drive needs.**
-Once the sub-goals it informed have been committed, or what it found is recorded well enough that nothing needs its code, whichever comes first, record what it taught that the record doesn't yet hold, then remove it and its worktree per the project's branch cleanup.
+Once the sub-goals it informed have been committed, or what it found is recorded well enough that nothing needs its code, whichever comes first, record what it taught that the record doesn't yet hold, then remove it and its worktree — always, since its code never lands.
 
 **Then you are back to choosing, per `a-star:a-star`.**

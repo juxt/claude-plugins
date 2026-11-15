@@ -9,8 +9,8 @@ argument-hint: "[issue, if the session hasn't named one]"
 
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
-**The code state survives a session on its own; the analysis state does not.**
-What the session learned, the questions it left open and the work it discovered all evaporate when it ends, unless they are on the issue.
+**Neither the code state nor the analysis state survives a session on its own.**
+Unpushed commits go with the session's checkout, and what the session learned, the questions it left open and the work it discovered all evaporate when it ends, unless they are on the issue.
 
 **The success criteria for this skill is that the next session can resume from the issue and its links alone.**
 
@@ -50,9 +50,17 @@ If it is in any way unclear, you MUST confirm with the user which ones they want
 
 ## 3. Sort the metadata
 
-**Assignee, status, labels — whatever the project's tracker conventions say for a card that is being put down.**
+**Assignee, status, labels — whatever the project's tracker conventions say for a card that is being put down**, through the github agent.
 Where they don't say, ask; MUST NOT guess.
 
-## 4. Report back
+## 4. Push the branch, and record where the work stands
 
-**The issue, each card raised, and what changed on each.**
+**Push the feature branch, WIP commits included**, with force-with-lease where it was rewritten — a branch the session owns, per `chalk:chalk`'s Feature branches.
+A branch the session doesn't own is left as it is, and the report says so.
+
+**Then record on the issue, as a comment through `chalk:issue`, what the next session resumes from**: the branch, its head commit's subject, and what was in hand — the stack of sub-goals being worked, innermost first.
+It goes in a comment, not the description: it moves with the work.
+
+## 5. Report back
+
+**The issue, each card raised, what changed on each, and the branch pushed.**

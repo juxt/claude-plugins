@@ -80,14 +80,15 @@ They're stated as state machines in [`spec/a-star.allium`](spec/a-star.allium): 
 
 - **Three choices are A⭐'s own, and your project answers them**: where a tidy is committed, where an advance is committed, and branch cleanup.
   Rewriting a feature branch the session owns, and force-with-lease pushing it, is always allowed; the base branch never is.
-  Where it doesn't answer one, A⭐ asks rather than guessing.
+  Where it doesn't answer one, A⭐ asks rather than guessing — except branch cleanup, where it deletes local branches and worktrees whose work has fully landed, and only offers to delete remote ones.
 
 ## Usage
 
 - `/a-star <card>` — start or resume work on a card, once its plan is approved
 - `/a-star:dart` — reach the goal end-to-end, and break the card into sub-goals
 - `/a-star:drive <sub-goal>` — commit one sub-goal to the project's standards: a tidy, an advance, or an amend of an earlier commit, interrupting the work in hand if need be
-- `/a-star:primary`, `/a-star:secondary` — say whether you're watching this session; it starts primary
+- `/a-star:primary`, `/a-star:secondary` — say whether you're watching this session.
+  A session starts primary, unless it runs headless or scheduled, when it starts secondary.
 
 ## Setup
 
@@ -112,4 +113,4 @@ They're stated as state machines in [`spec/a-star.allium`](spec/a-star.allium): 
 - **When A⭐ can't continue on the plan as approved, chalk re-plans, parks or finishes**
   Re-plan where the goal is invalidated; park the work on its issue with `chalk:put-down`; finish once the sub-goals complete the card, opening a PR with `chalk:pr` where the plan predicted one.
 
-A⭐'s skills name no planning tool or store, so it runs on whatever your project's conventions load in chalk's place.
+A⭐ leans on chalk's commit completion test, its branch-rewrite rule and its task list; a project replacing chalk supplies those.

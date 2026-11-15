@@ -41,7 +41,7 @@ Only the main session writes it; a sub-agent MAY be given its path to read, told
 **A feature branch the session owns may always be rewritten, and pushed with force-with-lease.**
 Amending, reordering and rewording unlanded commits is how a branch reaches review as review units, so it is not left to the project.
 
-- **The session owns a branch it created for its work**, or one the user handed it.
+- **The session owns a branch it created for its work**, one the user handed it, or one an earlier session created for the same card.
   A branch someone else is working on, or a PR someone else opened, is theirs.
 - **The project's base branch is never rewritten or force-pushed.**
 
@@ -75,12 +75,19 @@ Each is one claim in `chalk:voice`'s register, terse; an entry that would mean n
 - **`dead-end:`** — a road that closed, and what closed it, where that constrains what comes next.
 
 - **`review:`** — what a reviewer needs to check a commit, by its subject: what checking it means, the invariants it rests on with where each is made true, what pins it and what would break it, and what was verified and what wasn't.
-  It is written when the commit is taken, from whoever knew it then, so that `chalk:commit` carries it into the commit's body, and `chalk:pr`'s Reviewing this finds what spans commits and what was verified, rather than in a report nobody kept.
+  Whoever knows it writes it when the commit is made — before `chalk:commit`, which carries it into the commit's body, or, where a harness's agent made the commit, from the review notes that agent wrote into the body and reported.
+  `chalk:pr`'s Reviewing this finds what spans commits and what was verified here.
 
 - **Sub-goals, in the plan above** — each names what it depends on, and is ready once everything it depends on is done and no open question blocks it.
   When a sub-goal's commit is made, mark it done with the commit's subject, not its SHA, which a rebase rewrites.
 
+- **`re-split:`** — what changed inside an approved plan, and which sub-goals it superseded or reopened; those are marked, not deleted.
+  A harness re-splits its sub-goals without leaving the plan, so a re-split never re-enters plan mode.
+
 - **`replan:`** — what changed, and which sub-goals and decisions it invalidated; those are marked, not deleted.
+  Only a replan re-enters plan mode, per [the harness exits](#when-an-implementation-harness-exits).
+
+**An entry keyed by a commit's subject follows the subject**: a step that rewrites a subject — a gate, a review-unit pass, a weed — updates the entries keyed by it.
 
 **Cutting scope and accepting a risk MUST be recorded**; they leave no other trace.
 
@@ -97,7 +104,10 @@ At any point it holds the current tree's open leaves; it is what the user sees o
   Anything worth adding to a task belongs in the plan first.
 
 - **Approving a plan that implements creates a task per open leaf.**
-- **A `replan:` removes the tasks of the leaves it drops, and creates those of the leaves it adds.**
+- **A sub-goal recorded after approval adds its task**; one that refines a leaf replaces the leaf's task.
+- **A `replan:` or `re-split:` removes the tasks of the leaves it drops, and creates those of the leaves it adds.**
+- **A sub-goal superseded or thrown away removes its task.**
+- **A sub-goal interrupted by another has its task marked blocked by the other's.**
 - **A sub-goal marked done completes its task.**
 - **An implementation harness keeps it current as sub-goals move**, through the same rules.
 
@@ -112,7 +122,7 @@ Those are the host's defaults for a plan; where they conflict with this skill, t
 
 ### 1. Read the problem and its neighbourhood
 
-- **With a card: the issue, its parent, its sub-issues, what blocks it and what it blocks, and its linked PRs.**
+- **With a card: the issue, its parent, its sub-issues, what blocks it and what it blocks, and its linked PRs**, via the github agent's reads.
   Ground it in the repo, not the transcript: the branch, `git log` and linked PRs say what has landed.
 
 - **Without one: what the user asked, and the existing cards it might duplicate or belong under**, via the github agent's search.
@@ -137,6 +147,7 @@ Ask where the user hasn't said and the request doesn't settle it.
 - **The implementation** — the plan is what has to land, as a goal tree (`chalk:goal-tree`): the goal at the root, what lands at the leaves.
   With a card, its description is read and its gaps resolved through `chalk:issue`, not redrafted in the plan.
   Test each node for sufficiency, mark `check:` where unsure, and say where sufficiency leans on what the user already knows about the system.
+  The leaves are provisional until the harness has exercised them: one that builds its route, as a-star's darts do, refines each leaf it walked into sub-goals.
 
 - **Either way, the plan says what has to be true, not which files to touch.**
   Where the change reshapes the design, what has to be true is the target model, stated as a model diff at the goal tree's root ([`chalk:voice`'s models reference](../voice/references/models.md)).
@@ -149,6 +160,7 @@ Approving the plan approves the prediction.
 
 **A route that implements names its implementation harness, and that is `a-star:a-star` where a-star is installed and the user hasn't stated another preference.**
 Where a-star isn't installed, or the user prefers another harness or none, the plan says that instead.
+The plan MAY name the harness's first move — for a-star, a dart, or a drive of a named sub-goal — and approving the plan then approves that move.
 
 ### 3. Close the gaps while planning
 
@@ -157,10 +169,11 @@ Where a-star isn't installed, or the user prefers another harness or none, the p
 - **Ask the user what they can answer now**, rather than parking it in the plan.
 - **Open questions keep only what nobody can answer yet** — needing investigation, or deliberately deferred.
 
-### 4. The plan's first step updates the card's metadata
+### 4. The plan's first step updates the card's metadata and its branch
 
-**On a route that implements, the plan MUST open with the tracker update**: the user as assignee, then status and board as the project's tracker conventions say for a card being picked up.
+**On a route that implements, the plan MUST open with the tracker update**: the user as assignee, then status and board as the project's tracker conventions say for a card being picked up, through the github agent.
 Where they don't say, ask.
+**Then it creates or checks out the card's feature branch**, off the project's base branch — or the session's own, implementing unfiled.
 
 - **It is a step in the plan, not something done while planning.**
   Plan mode is read-only, and until the plan is approved nobody has agreed to do the work.
@@ -198,7 +211,6 @@ Once approved, take the route:
 - **Finish where the sub-goals complete the goal, opening a PR or not as the plan predicted.**
   A PR exists to share what the commit doesn't, so the prediction follows where that knowledge lives.
   - **Ask the user only where the work reverses the prediction.**
-    Whether the implementation turned out counter-intuitive, or changed what the issue should say, is only known at the end; a prediction those leave standing needs no question.
   - **The prediction is one of three outcomes, each selected by its condition.**
     - **No PR, where the commit carries it all, or an issue carries the knowledge and nothing in the implementation is counter-intuitive** — offer a `chalk:issue` update first where the work changed what the issue should say.
       The finish then hands to nothing: it ends with a report naming the branch and its head sha.

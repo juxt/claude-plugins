@@ -27,7 +27,7 @@ Load `a-star:a-star` first.
 
 - **Take each move out of choosing without offering it** — the offered state is bypassed — and record what you'd have offered or handed over.
 
-- **Push a drive's branch where the project's answers allow**, so CI backstops what nobody is watching — never a dart's.
+- **Push a drive's branch after each frame's gate, wherever the project's answers allow**, so CI backstops what nobody is watching — never a dart's.
 
 - **Merging stays the user's.**
 

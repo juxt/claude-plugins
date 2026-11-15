@@ -1,7 +1,7 @@
 ---
 name: sitrep
 description: >
-  Report where the current session has got to as a mindmap — what has landed, what is still open as ID'd ideas, decisions and questions, and a tl;dr.
+  Report where the current session has got to as a mindmap — what has landed, what is still open as ID'd ideas, forks and questions, and a tl;dr.
   Use when the user says "/sitrep", "where are we", "where were we", "recap the session", "what's still open", or is picking a session back up after a break, a compaction or a handover.
 user-invocable: true
 argument-hint: "[optional focus, e.g. a subsystem, or \"just the open questions\"]"
@@ -61,7 +61,7 @@ This is the section that earns the sitrep — answering by reference is how the 
 
 - **`I<n>` — idea**: raised, not adopted. Nobody is committed to it.
 
-- **`D<n>` — decision**: a fork the work is standing at. Say what the options are and which way you lean, per the voting scale.
+- **`F<n>` — fork**: a decision the work is standing at, not yet made — the journal's `D<n>` is one made. Say what the options are and which way you lean, per the voting scale.
 
 - **`Q<n>` — question**: needs the user's answer, and the work is blocked or guessing without it.
 

@@ -1,7 +1,7 @@
 ---
 name: primary
 description: >
-  Put this a-star session in primary mode: the user is actively watching its progress, so they steer as it goes. Sessions start primary; use this to switch back from secondary.
+  Put this a-star session in primary mode: the user is actively watching its progress, so they steer as it goes. A session starts primary, unless it runs headless or scheduled, when it starts secondary; use this to switch back from secondary.
   Use when the user says "/a-star:primary", "I'm back" or "switch to primary".
 user-invocable: true
 ---
