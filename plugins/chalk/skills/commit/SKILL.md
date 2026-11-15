@@ -102,7 +102,18 @@ You MUST load these skills first:
      > The full suite just increases thread contention enough to trigger a race in TemporalBounds.intersect(), which reads validFrom and validTo non-atomically.
 
    **The tell, where the diff is itself prose** — a skill, a README, a spec: the sentence appears in substance in a line the diff *adds*.
+   The review notes below are the exception: an invariant a code comment already states still belongs in them, with what the comment can't hold.
    Read the added lines against the body before you call the draft finished. "Self-evident from the diff" is a judgement you cannot make about your own text, but this is a comparison you can run, and here restating the diff is the default failure rather than an occasional one — both sides argue the same rules in the same words.
+
+   **Where correctness rests on an argument the diff doesn't show locally, the body carries it**, because the code is reviewed commit by commit and this is where the reviewer is when they need it.
+   Concurrency and ordering, algorithms, on-disk formats and resource lifetimes are the usual cases.
+   - **What checking this commit means** — for a tidy, what to look at to answer "could this change anything?"; for an advance, the invariants below.
+   - **The invariants it rests on**, each with where it is made true, what test pins it, and what change would break it; one no test pins is marked unpinned.
+     - **A pin sits on the invariant it pins**, never on a parent: there it reads as pinning every child.
+     - **Where a code comment states the invariant, the note may restate it**, and adds what the comment can't: where it is made true across files, what pins it, what breaks it.
+   - **The journal's `review:` entry for the commit is its raw material**, where `chalk:chalk` keeps one.
+   - **What was run and what wasn't is not the body's**: it dates, and belongs to the PR's Reviewing this.
+   The same entries serve the reader from `git blame`: an invariant with what breaks it is what stops them breaking it.
 
    **Check every `→` in the body reads as "therefore"** — a sequence, a "stacked on" or two independent premises are not one.
 

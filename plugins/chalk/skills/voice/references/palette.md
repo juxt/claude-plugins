@@ -190,22 +190,22 @@ It surfaces in three places, and MUST be carried in each.
   **Where the diff doesn't settle it, ask rather than guess** — a missing rollback note sends someone to find out, and a wrong one doesn't.
 
 - **Reviewing this** — **show and ask PRs, where correctness rests on an argument the diff doesn't show locally.**
-  For `chalk:pr`'s reader 0: what they need to check each commit and come away owning the change.
+  For `chalk:pr`'s reader 0, at the branch's level: they review the code commit by commit, and each commit's body carries what checking that commit means and the invariants it rests on (`chalk:commit`).
+  This section carries what no single commit can.
   Concurrency and ordering, algorithms, on-disk formats, cross-cutting invariants and resource lifetimes are the usual cases; a change checkable line by line doesn't need it.
 
-  - **A map of the commits, each with what checking it means.**
-    A tidy is checked by asking "could this change anything?", so its entry names what to look at to answer that; an advance is checked against the invariants below.
-    Commits are named by their subject — a SHA is rewritten by a rebase or a squash.
-
-  - **The invariants the change's correctness rests on, each with where it is made true, what test pins it, and what change would break it.**
-    Stated, they turn review from simulating the code into checking an argument.
-    The test is what alarms when an invariant decays; one no test pins is marked unpinned, so nobody assumes it is held.
-
-  - **Where to spend attention, and what is mechanical.**
+  - **Which commits carry the subtle argument, and which parts are mechanical** — whole commits, or hunks where the commits are mixed — each commit named by its subject; a SHA is rewritten by a rebase or a squash.
     A reviewer's attention is the scarce resource; uniform scrutiny spends as little on the subtle part as on the plumbing.
+    **Nothing a commit's body argues or pins is mechanical, nor a test whose assertion changes meaning.**
 
-  - **The evidence, and where it runs out** — what was verified and how, what wasn't run, what was reasoned rather than measured.
+  - **The invariants that span commits**, each with where it is made true, what test pins it, and what change would break it.
+    One commit's invariants are its body's; an invariant one commit sets up and a later one relies on has no single body to live in.
+    One no test pins is marked unpinned, so nobody assumes it is held.
+
+  - **The evidence, and where it runs out** — what was run to check correctness and how, what wasn't run, what was reasoned rather than measured.
+    A benchmark is a measurement, and goes in Consequences; this cites it where correctness leans on it.
     This is not a test-plan checklist: CI renders that. It is what the reviewer can't see from CI — which properties the tests actually exercise, and which they don't.
+    It stays here rather than in a commit body because it dates: true at review, and stale to the reader who arrives from `git blame`.
 
   - **How certain the motivation is**, where it is in doubt — a reviewer weighing urgency and blast radius needs to know whether the problem it fixes is confirmed.
 
@@ -222,6 +222,7 @@ It surfaces in three places, and MUST be carried in each.
     "Be careful of Z" with no reason is an unlabelled fence.
 
   - **Measurements**, where one exists nowhere else — "p99 340ms → 40ms on the 10M-row fixture", "verified the rolling deploy by hand on staging".
+    A benchmark belongs here, once; the tl;dr may quote its headline.
     **A test-plan checklist does not belong anywhere in the description** — CI renders it.
     The measurement is what survives; what the tests do and don't exercise, where it matters to review, is Reviewing this.
 

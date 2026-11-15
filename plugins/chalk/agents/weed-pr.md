@@ -38,13 +38,17 @@ A rule-checker only finds the gaps someone wrote a rule for; a reader attempting
 - **The base branch, as it stands.**
   You MAY read it freely: the reviewer knew the system before this change.
 - **The diff** from the base branch to the head.
+- **The commits, subjects and bodies** (`git log base..head`).
+  The reviewer reads the code commit by commit, and each body carries what checking that commit means and the invariants it rests on (`chalk:commit`).
 - **The linked issue**, verbatim, if there is one.
   Use the caller's file as given; reject a summarised, annotated or truncated copy and fetch the issue yourself.
   The tell is commentary — a body that explains itself, or refers to what "we" decided.
 
-You MUST NOT be given, and MUST NOT ask for, the session that produced the draft, its plan, or the branch's commit bodies.
+You MUST NOT be given, and MUST NOT ask for, the session that produced the draft or its plan.
 If the caller volunteers them, ignore them.
-**The commits' subjects are yours** (`git log --format=%s base..head`): the reviewer sees them in the PR, and the description cites commits by them.
+
+**The bus test runs over the description and the commit bodies together**, since that is what the reviewer holds.
+A commit whose correctness rests on an argument its body doesn't state is a gap, reported against that commit; an invariant that spans commits and appears in no body and not in the description is a gap against the description.
 
 ### What the reviewer already knows
 
@@ -95,7 +99,10 @@ The first finds what is structurally absent; the second finds missing content. M
    Choose them where the mechanism is least obvious — a boundary, an empty input, a second instance, a different type.
    Predict each from the description, then check the diff. **A wrong prediction, or one that needed the diff, is a gap.**
 3. **For each invariant or load-bearing claim, find what makes it true, what test pins it, and what change would break it.**
+   **A commit typed as a refactoring or tidy changes no behaviour**: one whose diff or body shows a behaviour change, error paths included, is a gap against that commit.
    An invariant with no test is reported as unpinned. A claim you can only find support for in the diff is a rebuild.
+   - **An invariant that doesn't say what change would break it is a gap**: that leg is what lets a later reader notice they've broken it.
+   - **A pin on a parent node pins only what its test exercises**; a child it doesn't cover is unpinned, whatever the parent says.
 4. **Walk the tree as the reader takes it, testing each node for the three decisions `chalk:voice` gives them.**
    The drafter built the tree holding the theory, so a node can look sound to them and still leave the reader nowhere to go.
    - **Skip: the subject states a claim the reader can hold their goal against.**

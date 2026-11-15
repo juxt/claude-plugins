@@ -82,7 +82,7 @@ The first `##` in the body is the section after it.
 
 - Read the session's plan journal, all of it, where `chalk:chalk` started one.
   It's material, not a draft: what reaches the description is what *Your readers* and the palette call for — a decision because it matters to them, whoever made it.
-  Its `review:` entries are Reviewing this's raw material.
+  Its `review:` entries are already in the commit bodies; Reviewing this takes from them only what spans commits, and the evidence.
 
 - Review the conversation history for context that isn't in the commits or the plan.
 
@@ -155,8 +155,8 @@ It reads the description cold, as the reviewer, attempts the reviewer's job from
 **Pass the linked issue as a file, written verbatim** (`gh issue view <n> --json body -q .body`), with no summary, no annotation and no comments.
 A body you have described rather than copied tells the agent what you think the issue says, which is the session leaking in through the one input that was meant to keep it out.
 
-- **You MUST NOT give it the session, the plan or the branch's commit bodies.**
-  It holds what the reviewer holds: the base branch, the diff, the linked issue and the description.
+- **You MUST NOT give it the session or the plan.**
+  It holds what the reviewer holds: the base branch, the diff, the commits with their bodies, the linked issue and the description.
   The author can't see what the description leaves out, because the author holds the theory it was meant to carry.
 
 - **Where there is no linked issue, say so**, so it reads the description as carrying the problem too.
