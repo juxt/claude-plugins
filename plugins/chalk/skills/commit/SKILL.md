@@ -41,7 +41,7 @@ You MUST load these skills first:
      - **The test: could a reviewer be told what checking this commit means, apart from its neighbours?**
        A tidy is checked by "could this change anything?", an advance against its invariants; a commit with no check of its own completes the one whose check it shares.
      - **It never folds a refactoring into a behaviour change**, however closely they belong together: they are checked differently, so they are two units.
-     - **Amending rewrites the branch**, so it needs the project's answer that its feature branches may be rewritten, and a force-with-lease push where they're pushed; without one, ask.
+     - **Amending rewrites the branch**, which `chalk:chalk` allows on a feature branch the session owns, pushed with force-with-lease; never on the base branch.
 
 2. **Weed the staged comments.**
 

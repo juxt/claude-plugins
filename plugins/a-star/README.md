@@ -78,7 +78,8 @@ They're stated as state machines in [`spec/a-star.allium`](spec/a-star.allium): 
   - ship/show/ask, and code review;
   - writing commit messages, PR descriptions and issue updates.
 
-- **Four choices are A⭐'s own, and your project answers them**: where a tidy is committed, where an advance is committed, whether feature branches may be rewritten, and branch cleanup.
+- **Three choices are A⭐'s own, and your project answers them**: where a tidy is committed, where an advance is committed, and branch cleanup.
+  Rewriting a feature branch the session owns, and force-with-lease pushing it, is always allowed; the base branch never is.
   Where it doesn't answer one, A⭐ asks rather than guessing.
 
 ## Usage

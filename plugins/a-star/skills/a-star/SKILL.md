@@ -100,7 +100,7 @@ In primary, a move is first offered, and only the user's yes takes it; in second
   **The test is the `review:` entries**: a commit whose entry can't say what checking it means apart from its neighbours' is a slice of one of them, and an entry that needs two different checks is two units.
   **A tidy and an advance stay separate**, however closely they belong together — they are checked differently.
   It catches what the frame gate and triage missed, and merging two commits merges their `review:` entries.
-  It rewrites the branch, so it needs the project's answer that feature branches may be rewritten; without one, it is a question for the user, and done waits on it.
+  It rewrites the branch, which `chalk:chalk` allows on a feature branch the session owns, pushed with force-with-lease.
 
 **A structure change and a behaviour change never share a commit**: a tidy changes structure, an advance changes behaviour, and `a-star:drive` commits either.
 
@@ -138,7 +138,7 @@ In whatever the session tracks its work with — the outer harness's journal, wh
    **Agreed here, it goes on the tracker issue before you move on**: every decision that bears on the problem or the agreed scope, not only the root.
    In secondary, record the questions and park instead.
 
-2. **Check the project's readiness conventions hold**, load its answers to the [four choices](#what-the-project-says), and check no open question bears on the card itself.
+2. **Check the project's readiness conventions hold**, load its answers to the [three choices](#what-the-project-says), and check no open question bears on the card itself.
    Look for the answers in the project's skills and agent instructions first; only a choice answered nowhere there becomes a question.
 
 3. **Choose the first move**: the one the approved plan names, taken directly; otherwise a dart where the card has no sub-goals yet or part of its goal is still unwalked, else a drive.
@@ -150,13 +150,12 @@ What goes in a commit is a-star's: one atomic unit of change.
 
 **A commit has landed once it reaches the project's base branch, and not before.**
 A frame is committed, not landed: pushing the feature branch, or opening a PR on it, lands nothing.
-Until it lands, a commit is amendable, wherever the project lets its feature branches be rewritten.
+Until it lands, a commit is amendable: a feature branch the session owns may always be rewritten, and pushed with force-with-lease, and the base branch never is (`chalk:chalk`).
 
-**The project MUST answer four choices of a-star's own**:
+**The project MUST answer three choices of a-star's own**:
 
 - **Where a tidy is committed** — feature branch or main; what to verify before committing; when to push; whether it's done at commit or once CI is green.
 - **Where an advance is committed** — what to verify before committing, and whether to push the feature branch as each is committed.
-- **Whether its feature branches may be rewritten** — which an amend, a prequel or a revert needs; and a force-with-lease push where they're pushed.
 - **Branch cleanup** — what happens to a branch once its work has landed.
 
 **Raise an unanswered one as a question; don't fill it with a default.**

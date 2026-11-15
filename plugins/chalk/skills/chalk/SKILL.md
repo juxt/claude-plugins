@@ -36,6 +36,15 @@ Only the main session writes it; a sub-agent MAY be given its path to read, told
 
 - **It links an issue rather than copying it.**
 
+## Feature branches
+
+**A feature branch the session owns may always be rewritten, and pushed with force-with-lease.**
+Amending, reordering and rewording unlanded commits is how a branch reaches review as review units, so it is not left to the project.
+
+- **The session owns a branch it created for its work**, or one the user handed it.
+  A branch someone else is working on, or a PR someone else opened, is theirs.
+- **The project's base branch is never rewritten or force-pushed.**
+
 ## The journal
 
 **The record kinds are the interface an implementation harness records through**; a harness names what to record, and records it here in these kinds.

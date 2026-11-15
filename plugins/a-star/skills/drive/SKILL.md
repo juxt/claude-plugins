@@ -56,8 +56,7 @@ The user reviews the branch commit by commit, so its order is the order a review
 - **An amend is committed inside the commit it amends.**
 - **Anything else is committed at the top.**
 
-**Anywhere but the top rewrites the branch**, so it needs the project's answer to whether its feature branches may be rewritten, and a force-with-lease push where they're pushed.
-Without that answer, it's a question for the user.
+**Anywhere but the top rewrites the branch**, which a feature branch the session owns always allows, pushed with force-with-lease (`chalk:chalk`).
 
 **The branch reads as though each commit was right first time.**
 An intermediate shape and its correction are two things for the reviewer to page in where one would do.
