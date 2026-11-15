@@ -56,7 +56,7 @@ It reports what it turns up and makes the commit; you triage, choose, record, an
    Where `chalk:commit`'s completion test finds the frame completes an earlier unlanded commit, fold it in as an amend rather than taking it on top.
    A tidy is never folded into an advance, or an advance into a tidy.
    A rewrite that changes a commit's subject updates the journal entries keyed by it.
-   **Then push, where the project's answer says to**, and in secondary wherever its answers allow, per `a-star:secondary`; the drive agent never pushes.
+   **Then push, where the project's answer says to**, and in secondary wherever its answers allow, per `chalk:secondary` and `a-star:a-star`'s Primary and secondary; the drive agent never pushes.
 
 7. **Record the sub-goal done**, with its commits, and complete its task; record what its report taught, and add a task for any sub-goal it turned up.
    **Record the gate's notes as the commit's `review:` entry**, against its subject, with what your own review added — the PR's Reviewing this takes what spans commits and what was verified from these.

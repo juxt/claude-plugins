@@ -23,6 +23,7 @@ external entity Commit {
 -- Enumerations
 ------------------------------------------------------------
 
+-- Whether the user is watching: the chalk session's mode, which a-star reads rather than owns.
 enum Mode { primary | secondary }
 
 enum Move { dart | drive | revert | replan | park | done }
@@ -53,6 +54,7 @@ enum Placement {
 
 entity Session {
     plan: Plan
+    -- The chalk session's mode, read from it; it changes only by chalk's SwitchMode.
     mode: Mode
     -- The unlanded commits read as review units: each independently acceptable, none a slice of another.
     in_review_units: Boolean
@@ -196,6 +198,7 @@ entity Yield {
 -- Rules
 ------------------------------------------------------------
 
+-- The mode is the chalk session's at hand-in.
 rule Enter {
     when: Start(plan, mode)
     requires: plan.goal_approved
@@ -239,12 +242,7 @@ rule TakeUnoffered {
     ensures: Recorded(session: session, entry: would_have_offered)
 }
 
--- The mode changes only on an explicit switch; any other message from the user leaves it.
-rule SwitchMode {
-    when: UserSwitchesMode(session, mode)
-    ensures: session.mode = mode
-    ensures: Recorded(session: session, entry: mode_change)
-}
+-- The mode changes only by chalk's SwitchMode, which records the switch; session.mode follows it.
 
 -- dart: part of the goal not yet walked, or a sub-goal no dart has exercised, that nothing in flight covers.
 rule TakeDart {

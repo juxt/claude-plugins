@@ -69,7 +69,7 @@ They're stated as state machines in [`spec/a-star.allium`](spec/a-star.allium): 
   - dart to the goal with a cheap sub-agent, and turn what the dart found into sub-goals;
   - drive each sub-goal to a commit through a drive sub-agent, as one tidy, advance or amend, each at the lowest point in the branch it can sit;
   - triage what darts and drives turn up, and choose each move — dart, drive, revert, replan, park or done;
-  - adjust to whether you're watching the session (primary or secondary).
+  - adjust its moves to whether you're watching the session, as the session records it.
 
 - **It doesn't, and leaves to your project's conventions:**
   - picking a card up and putting it down, and the tracker;
@@ -87,8 +87,6 @@ They're stated as state machines in [`spec/a-star.allium`](spec/a-star.allium): 
 - `/a-star <card>` — start or resume work on a card, once its plan is approved
 - `/a-star:dart` — reach the goal end-to-end, and break the card into sub-goals
 - `/a-star:drive <sub-goal>` — commit one sub-goal to the project's standards: a tidy, an advance, or an amend of an earlier commit, interrupting the work in hand if need be
-- `/a-star:primary`, `/a-star:secondary` — say whether you're watching this session.
-  A session starts primary, unless it runs headless or scheduled, when it starts secondary.
 
 ## Setup
 

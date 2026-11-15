@@ -26,6 +26,8 @@ Unpushed commits go with the session's checkout, and what the session learned, t
 - **Load `chalk:chalk`, and read the session's plan, where it started one.**
   What the issue's next reader needs from it — open questions, and decisions that bear on the problem — reaches the issue through `chalk:issue`'s own path below.
 
+- **In secondary, per `chalk:secondary`: wherever a step below would ask the user, decide and record.**
+
 ## 1. Ensure the description is correct and up-to-date.
 
 **Through `chalk:issue`'s own path: Correcting the description, Open questions, then Weed the draft.**

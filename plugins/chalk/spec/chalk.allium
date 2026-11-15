@@ -1,6 +1,6 @@
 -- allium: 3
 -- The skills say how each artefact is written; this says when each step of a session is open, and what it records.
--- Scope: chalk's session lifecycle — planning, approval, the route, the plan file and journal, the task list, feature branches, the hand-off to and from an implementation harness, the finish, the weed loop, and put-down.
+-- Scope: chalk's session lifecycle — the session's mode, planning, approval, the route, the plan file and journal, the task list, feature branches, the hand-off to and from an implementation harness, the finish, the weed loop, and put-down.
 -- Excludes: the writing rules (chalk:voice, the palette, chalk:code-comments, chalk:goal-tree's sufficiency test), explicate and rubber-duck, and the harness's own process, which a-star.allium specifies for a-star.
 
 ------------------------------------------------------------
@@ -175,6 +175,9 @@ enum DraftArtefact { pr_description | issue_body | commit_messages }
 
 enum PrPath { resolves_issue | part_of_issue | standalone }
 
+-- Whether the user is watching: primary while they are, secondary while they aren't.
+enum Mode { primary | secondary }
+
 ------------------------------------------------------------
 -- Entities and Variants
 ------------------------------------------------------------
@@ -183,6 +186,8 @@ entity Session {
     user: User
     card: Issue?
     status: planning | approved | filing | implementing | finishing | putting_down | ended
+    -- Set at the start, and changed only by an explicit switch; an implementation harness reads it.
+    mode: Mode
 
     -- Planning: the scan of the card's neighbourhood, or of the cards the request might duplicate or belong under.
     scanned: Boolean
@@ -229,6 +234,8 @@ entity Session {
 
     transitions status {
         planning -> approved
+        -- A secondary session parks a plan nobody has approved.
+        planning -> putting_down
         approved -> filing
         approved -> implementing
         filing -> ended
@@ -346,6 +353,7 @@ entity Draft {
 
     questions: WeedQuestion with draft = this
     commit_findings: CommitFinding with draft = this
+    -- A carried question is in the draft, marked for the user, so it holds nothing up.
     open_questions: questions where status = open or status = relayed
     pending_findings: commit_findings where status = open
 
@@ -361,8 +369,8 @@ entity Draft {
 -- A question the weeder raised; only the draft answering it closes it.
 entity WeedQuestion {
     draft: Draft
-    status: open | relayed | answered
-    -- Only the user holds the answer; it is relayed as written.
+    status: open | relayed | carried | answered
+    -- Only the user holds the answer: relayed as written in primary, carried into the artefact as an open question marked for the user in secondary.
     user_only: Boolean
     -- The node it raised couldn't be decided on, so it closes by restructuring that node rather than by adding.
     needs_restructure: Boolean
@@ -372,6 +380,7 @@ entity WeedQuestion {
 
     transitions status {
         open -> relayed
+        open -> carried
         relayed -> answered
         open -> answered
         answered -> open
@@ -415,6 +424,8 @@ entity PrQuestion {
     blocking: Boolean
     -- Has a route to an answer, as opposed to provenance.
     actionable: Boolean
+    -- Only the user can settle it: a weed question a secondary session carried into the description, marked for the user.
+    for_user: Boolean
     status: open | settled | moved_to_issue | filed_as_issue | provenance
 
     transitions status {
@@ -440,8 +451,9 @@ entity IssueQuestion {
 -- What the next session resumes from: a comment on the issue, since it moves with the work.
 entity ResumeRecord {
     issue: Issue
-    branch: Branch
-    head_subject: String
+    -- Null where a secondary session parked an unapproved plan, before any branch existed.
+    branch: Branch?
+    head_subject: String?
     -- The stack of sub-goals being worked, innermost first.
     in_hand: List<SubGoal>
 }
@@ -470,11 +482,14 @@ entity PutDown {
 ------------------------------------------------------------
 
 -- /chalk [issue]: enter plan mode first, unless already in it — exploring the problem is the planning.
+-- A session starts primary, unless it runs headless or scheduled, when it starts secondary.
 rule Invoke {
-    when: UserInvokesChalk(user, card?)
+    when: UserInvokesChalk(user, card?, headless)
     ensures:
         let session = Session.created(
-            user: user, card: card, status: planning, scanned: false,
+            user: user, card: card, status: planning,
+            mode: if headless: secondary else: primary,
+            scanned: false,
             awaiting_picture_agreement: false, awaiting_piece: false, gaps_closed: false,
             plan_holds_a_guess: false, acknowledgement_taken_as_agreement: false,
             unsurfaced_decision: false, alignment_uncertain: false, approval_requested: false,
@@ -484,6 +499,18 @@ rule Invoke {
     @guidance
         -- The plan this describes replaces the host's plan-mode template: no file lists, and sub-agents only where the exploration wants them.
         -- Only the main session writes the plan file; a sub-agent may be given its path to read, never a weed agent.
+        -- The journal records the mode the session starts in, and each switch.
+}
+
+-- The mode changes only on an explicit switch — chalk:primary or chalk:secondary; any other message from the user leaves it.
+rule SwitchMode {
+    when: UserSwitchesMode(session, mode)
+    requires: session.status != ended
+    ensures: session.mode = mode
+
+    @guidance
+        -- The switch is recorded in the journal.
+        -- Switching to primary refreshes the user's context with a sitrep, leading with the decisions made while they were away and the questions left for them.
 }
 
 -- Step 1: with a card, its issue, parent, sub-issues, blockers, what it blocks and its linked PRs; without one, the cards it might duplicate or belong under.
@@ -590,6 +617,7 @@ rule AlignmentChecked {
 rule SeekApproval {
     when: ApprovalSought(session)
     requires: session.status = planning
+    requires: session.mode = primary
     requires: session.scanned
     requires: not session.awaiting_picture_agreement
     requires: not session.awaiting_piece
@@ -598,6 +626,20 @@ rule SeekApproval {
     requires: session.route != null
     requires: session.implements implies (session.predicted_finish != null and session.harness != null)
     ensures: session.approval_requested = true
+}
+
+-- Plan approval is always the user's: a secondary session never approves its own plan.
+-- Where it would seek approval, it records its questions and parks, the draft plan recorded.
+rule ParkUnapprovedPlan {
+    when: ApprovalSought(session)
+    requires: session.status = planning
+    requires: session.mode = secondary
+    ensures: Journalled(session: session, kind: question, bears_on: null)
+    ensures: StartPutDown(session: session)
+
+    @guidance
+        -- What it would have asked the user while planning is recorded as a question rather than asked.
+        -- Put-down records the draft plan on the issue, so the user approves or revises it when they're back.
 }
 
 -- Approving the plan approves the goal, the route, the predicted finish and any first move it names.
@@ -812,12 +854,28 @@ rule FinishReversed {
     when: FinishEvidenceRead(session, evidence)
     requires: session.status = finishing
     requires: session.finish = null
+    requires: session.mode = primary
     requires: evidence.selected != session.predicted_finish
     ensures: session.awaiting_finish_choice = true
     ensures: UserAsked(session: session)
 
     @guidance
         -- Where no condition holds on the evidence, the user is asked too.
+}
+
+-- In secondary, the session decides a reversed finish itself, records the reversal and its grounds, and takes it.
+rule FinishReversedInSecondary {
+    when: FinishDecided(session, evidence, outcome)
+    requires: session.status = finishing
+    requires: session.finish = null
+    requires: session.mode = secondary
+    requires: evidence.selected != session.predicted_finish
+    requires: evidence.selected != null implies outcome = evidence.selected
+    ensures: session.finish = outcome
+    ensures: Journalled(session: session, kind: decision, bears_on: null)
+
+    @guidance
+        -- Opening a PR the plan predicted, or one the reversal calls for, is allowed; merging it is not.
 }
 
 rule UserChoosesFinish {
@@ -873,11 +931,13 @@ rule PrIsPartOf {
 }
 
 -- The session that owns the PR settles its blocking questions before the finish ends; merging stays the user's.
+-- In secondary, a blocking question marked for the user is left open on the PR for them.
 rule PrFinishEnds {
     when: PrFinishReported(pr)
     requires: pr.status = open
     requires: pr.session.status = finishing
-    requires: pr.questions.all(q => not q.blocking or q.status != open)
+    requires: pr.questions.all(q =>
+        not q.blocking or q.status != open or (q.for_user and pr.session.mode = secondary))
     ensures: pr.session.status = ended
 }
 
@@ -1152,7 +1212,8 @@ rule CommitFindingRaised {
         status: if commit.on_base and commit.pushed: not_applied else: open)
 }
 
--- The round ends cleared only with no question left; a question only the user can answer, and the branch can't, is relayed as written.
+-- The round ends cleared only with no question left; a question only the user can answer, and the branch can't, is relayed as written in primary.
+-- In secondary it is carried: recorded, and written into the artefact as an open question marked for the user, so the loop ends once only such questions remain.
 rule WeedRoundEnded {
     when: WeedRoundEnded(draft)
     requires: draft.status = weeding
@@ -1163,11 +1224,16 @@ rule WeedRoundEnded {
         else:
             draft.status = answering
             for q in draft.questions where status = open and user_only and not answerable_from_branch:
-                q.status = relayed
-                UserAsked(session: draft.session)
+                if draft.session.mode = primary:
+                    q.status = relayed
+                    UserAsked(session: draft.session)
+                else:
+                    q.status = carried
+                    Journalled(session: draft.session, kind: question, bears_on: null)
 
     @guidance
         -- The weeder reports questions, never answers; it may cut, but writes no new sentence into the draft.
+        -- A carried question on a PR's description goes into its Open questions as a question for the user; the weeder reads one so marked as answered.
 }
 
 rule UserAnswersWeedQuestion {
@@ -1274,9 +1340,11 @@ rule OpenPr {
 }
 
 rule PrQuestionRecorded {
-    when: PrQuestionRecorded(pr, blocking, actionable)
+    when: PrQuestionRecorded(pr, blocking, actionable, for_user)
     requires: pr.status = drafting or pr.status = open
-    ensures: PrQuestion.created(pull_request: pr, blocking: blocking, actionable: actionable, status: open)
+    requires: for_user implies pr.session.mode = secondary
+    ensures: PrQuestion.created(
+        pull_request: pr, blocking: blocking, actionable: actionable, for_user: for_user, status: open)
 }
 
 -- A PR freezes at merge, so its open questions are resolved before it.
@@ -1301,6 +1369,7 @@ rule ResolvePrQuestion {
         -- A question moved onto the issue continues the issue's numbering, so an ID the issue published and deleted is never reused.
 }
 
+-- Merging is the user's, in either mode.
 rule PrMerged {
     when: PullRequestMerged(pr)
     requires: pr.status = open
@@ -1342,7 +1411,7 @@ rule PutDownCorrectsDescription {
     ensures: put_down.status = raising_cards
 }
 
--- 2: each piece of work the session found but didn't do is filed through chalk:issue unless one exists, confirmed with the user where unclear.
+-- 2: each piece of work the session found but didn't do is filed through chalk:issue unless one exists, confirmed with the user where unclear — in secondary, decided and recorded instead.
 -- Parent/child and blocked-by are wired in the tracker, and a dependency is written onto the card waited on.
 rule PutDownRaisesCards {
     when: PutDownCardsRaised(put_down)
@@ -1351,13 +1420,17 @@ rule PutDownRaisesCards {
 }
 
 -- 3: assignee, status and labels as the project's conventions say for a card being put down; where they don't say, the user is asked, never guessed for.
+-- In secondary, where it would ask, the session decides and records the decision.
 rule PutDownSortsMetadata {
     when: PutDownMetadataSorted(put_down, conventions_known)
     requires: put_down.status = sorting_metadata
+    let decided = put_down.session.mode = secondary
     ensures:
-        if conventions_known:
+        if conventions_known or decided:
             put_down.status = pushing
             Draft.created(session: put_down.session, artefact: commit_messages, status: drafting, rounds: 0)
+            if not conventions_known:
+                Journalled(session: put_down.session, kind: decision, bears_on: null)
         else:
             UserAsked(session: put_down.session)
 }
@@ -1373,13 +1446,13 @@ rule PutDownWeedsCommitMessages {
 
 -- 4: the feature branch pushed, WIP commits included, if the session owns it; then where the work stands recorded on the issue as a comment.
 rule PutDownPushesAndRecords {
-    when: PutDownPushed(put_down, head_subject, in_hand)
+    when: PutDownPushed(put_down, head_subject?, in_hand)
     requires: put_down.status = pushing
     requires: put_down.commit_messages_weeded
-    requires: put_down.session.branch != null
+    requires: (put_down.session.branch = null) = (head_subject = null)
     let branch = put_down.session.branch
     ensures:
-        if branch.owned:
+        if branch != null and branch.owned:
             BranchPushed(branch: branch)
     ensures: ResumeRecord.created(
         issue: put_down.issue, branch: branch, head_subject: head_subject, in_hand: in_hand)
@@ -1388,6 +1461,7 @@ rule PutDownPushesAndRecords {
     @guidance
         -- A branch the session doesn't own is left as it is, and the report says so.
         -- The record names the head commit by subject; it goes in a comment, not the description, because it moves with the work.
+        -- A secondary session parking an unapproved plan has no branch yet; its record carries the draft plan instead.
 }
 
 -- 5: the issue, each card raised, what changed on each, and the branch pushed.
@@ -1493,6 +1567,7 @@ surface HarnessBoundary {
     exposes:
         session.plan_file
         session.first_move
+        session.mode
         session.sub_goals
         session.entries
 
@@ -1515,6 +1590,21 @@ surface HarnessBoundary {
 
     @guarantee OnlyAReplanReEntersPlanning
         -- A finding that leaves the goal standing — a re-split, a revert, a question — stays inside the harness.
+}
+
+-- The user says whether they are watching; the session's other stages read the mode.
+surface ModeSwitch {
+    facing user: User
+    context session: Session where status != ended
+
+    exposes:
+        session.mode
+
+    provides:
+        UserSwitchesMode(session, mode)
+
+    @guarantee OnlyAnExplicitSwitch
+        -- A message from the user while the session runs leaves the mode as it is.
 }
 
 -- The cold read: the weeder holds what the draft's readers hold, and nothing of the session.
@@ -1570,10 +1660,4 @@ surface Sitrep {
     @guarantee StableIds
         -- An open item's ID is stable for the session, a carried-over item is restated in full, and a closed one drops out.
 }
-
-------------------------------------------------------------
--- Open Questions
-------------------------------------------------------------
-
-open question "What ends the weed loop when a relayed user-only question goes unanswered — in secondary mode, say, where the user isn't watching? cold-read.md says the redraft goes back 'until it has no question left' and 'Where only the user can answer, relay the question as written'."
 

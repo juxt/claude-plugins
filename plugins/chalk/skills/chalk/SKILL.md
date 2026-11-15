@@ -115,6 +115,11 @@ At any point it holds the current tree's open leaves; it is what the user sees o
 - **A sub-goal marked done completes its task.**
 - **An implementation harness keeps it current as sub-goals move**, through the same rules.
 
+## Primary and secondary
+
+**Whether the user is watching is the session's mode**: primary while they are, secondary while they aren't (`chalk:primary`, `chalk:secondary`).
+A session starts primary, unless it runs headless or scheduled, when it starts secondary; the journal records the mode and each switch.
+
 ## `/chalk [issue]`
 
 **Enter plan mode first** — `EnterPlanMode`, or the host's equivalent — unless the session is already in it.
@@ -188,6 +193,7 @@ Where they don't say, ask.
 ### 5. Exiting plan mode is the user approving the goal and the route
 
 **`ExitPlanMode`, or the host's equivalent, asks for that approval**; you MUST NOT ask for it any other way.
+In secondary, per `chalk:secondary`: the session never approves its own plan.
 A rejection with comments is planning continuing: revise the plan, journal what changed as decisions, each one it replaces marked `superseded by D<m>`, and ask again.
 
 **Asking is a claim that the plan is aligned, not that it is finished**, so you MUST answer three questions first:
@@ -217,6 +223,7 @@ Once approved, take the route:
 - **Finish where the sub-goals complete the goal, opening a PR or not as the plan predicted.**
   A PR exists to share what the commit doesn't, so the prediction follows where that knowledge lives.
   - **Ask the user only where the work reverses the prediction.**
+    In secondary, per `chalk:secondary`: decide, record the reversal and its grounds, and take it.
   - **The prediction is one of three outcomes, the first whose condition holds, in the order listed**; where none holds, ask the user.
     - **No PR, where the commit carries it all, or an issue carries the knowledge and nothing in the implementation is counter-intuitive** — first update the issue through `chalk:issue` where the work changed what it should say.
       The finish then hands to nothing: it ends with a report naming the branch and its head sha.

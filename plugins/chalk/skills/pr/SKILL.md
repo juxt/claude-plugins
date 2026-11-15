@@ -141,6 +141,7 @@ It reads the description cold, as the reviewer, attempts the reviewer's job from
 - **Where there is no linked issue, say so**, so it reads the description as carrying the problem too.
 
 - **Where only the user can answer, answer from the branch where the branch genuinely has it**, naming the commit you draw on so the user can correct you.
+  In secondary, per `chalk:secondary`: one the branch can't answer goes into Open questions, marked for the user.
 
 **It weeds the branch's commit messages in the same pass**, so commits can be made at the pace of the work and still be weeded before anyone reviews them.
 

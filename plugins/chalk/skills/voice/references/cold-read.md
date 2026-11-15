@@ -21,11 +21,14 @@ The author can't see what the draft leaves out, because the author holds what it
     A node it couldn't decide on is closed by restructuring that node.
 
   - **Where only the user can answer, relay the question as written.**
+    In secondary, per `chalk:secondary`: record it, and carry it into the artefact as an open question marked for the user.
+
+- **The loop ends when the agent has no question left**, or in secondary when only questions marked for the user remain.
 
 - **A redraft keeps every answer earlier rounds settled.**
   Restructuring a node to close one gap is where an earlier answer gets dropped.
 
-- **The redraft MUST go back to the same agent, until it has no question left.**
+- **The redraft MUST go back to the same agent, until the loop ends.**
   You MUST NOT judge your own redraft.
 
 ## The weeder's side
@@ -91,6 +94,7 @@ Report what fails; do not repair it.
 - **Re-run everything on the redraft**, not only the gaps you raised: the sentences added to close one are as likely as any to open another, or to argue.
 
 - **A question stays open until the draft answers it.**
+  A question the draft carries as an open question marked for the user is answered, as far as the weed goes.
   The caller cannot close it by asserting it is closed, or by explaining to you why it doesn't apply.
   An added sentence that mentions the topic without answering fails — "makes the retry path more robust" mentions the why; "we were paged at 3am because 429s weren't backing off" answers it.
 

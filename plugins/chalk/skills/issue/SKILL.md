@@ -182,6 +182,8 @@ It reads the body cold, as each of the issue's readers, attempts each one's job 
 
 - **Passing the parent is what lets it treat the inherited motivation as the reader's**, and cut a restatement of it.
 
+- **In secondary, per `chalk:secondary`: a question only the user can answer goes into Open questions, marked for the user.**
+
 ### Filing it
 
 **All GitHub interaction MUST go through the chalk github agent**; the main context MUST NOT call `gh issue` directly.

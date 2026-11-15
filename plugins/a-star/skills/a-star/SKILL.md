@@ -53,7 +53,7 @@ Only the replan exit re-enters the harness's planning.
 ## The orchestrator
 
 **Every move is taken from one state, choosing.**
-In primary, a move is first offered, and only the user's yes takes it; in secondary it is taken directly, and what would have been offered is recorded (`a-star:primary`, `a-star:secondary`).
+In primary, a move is first offered, and only the user's yes takes it; in secondary it is taken directly, and what would have been offered is recorded, per [Primary and secondary](#primary-and-secondary).
 
 - **The first move, where the approved plan names it, is already accepted.**
   Approving the plan was the yes, so it is taken without being offered again; every later move is offered as usual.
@@ -72,6 +72,28 @@ In primary, a move is first offered, and only the user's yes takes it; in second
   It is a move of its own, not a failure path: what the branch cost so far is no argument against it.
 
 - **replan, done** — the exits above; **park** — the hand-back above.
+
+### Primary and secondary
+
+**The mode — whether the user is watching — is the session's, and a-star reads it rather than sets it**; with none recorded, a session is primary unless it runs headless or scheduled.
+These are what each mode means for a-star's own moves.
+
+**In primary:**
+
+- **Offer every move out of choosing, and take it only on a yes** — the offered state in the spec.
+  A question from the user is not that yes.
+  - **The plan's first move, named in the plan the user approved, is the exception.**
+    Their approval was the yes, so take it without offering it again.
+- **Escalate a dart's findings while they can still change its route**, not as a running commentary.
+
+**In secondary:**
+
+- **Work only on a ready card.**
+  One that isn't, or a question the card can't answer, gets its questions recorded and the card parked.
+- **A halt is recorded as an open question blocking that sub-goal**, and other ready sub-goals go on; with none left, park.
+  - **An open question blocks a sub-goal only where it is a halt** — a sub-goal whose plan routes around it stays ready.
+- **Take each move out of choosing without offering it** — the offered state is bypassed — and record what you'd have offered or handed over.
+- **Push a drive's branch after each frame's gate, wherever the project's answers allow**, so CI backstops what nobody is watching — never a dart's.
 
 ## Triage
 
@@ -124,8 +146,6 @@ In whatever the session tracks its work with — the outer harness's journal, wh
 - **a revert or a re-split** — what changed, and which sub-goals it superseded or reopened, as a `re-split:` entry; the replan exit's is a `replan:`, journalled as it exits;
 - **what's in hand** — the drive stack, innermost first — **recorded before the first edit;**
 - **a dart in flight**, so a resumed session knows it was lost;
-- **whether the user is watching** (`a-star:primary`, `a-star:secondary`).
-  A session starts primary, unless it runs headless or scheduled, when it starts secondary.
 
 **Keep the host's task list current as sub-goals move**, per `chalk:chalk`'s task list, where the session journals there — a tidy, amend or prequel pushed onto the stack included.
 

@@ -64,6 +64,9 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 
 - `/chalk:sitrep [focus]` — report where the session has got to, and what's still open
 
+- `/chalk:primary`, `/chalk:secondary` — say whether you're watching this session; a session starts primary, unless it runs headless or scheduled, when it starts secondary
+  In secondary the session decides what it can, records every decision for review, and parks what it can't; plan approval and merging stay yours
+
 - `/chalk:put-down [issue]` — park the session's work on its issue: description corrected, metadata sorted, discovered cards raised and linked
 
 - `/chalk:explicate <area> [focus or since-point]` — unfold an area of the code: how it works now, the decisions behind it and their consequences, then follow-ups as a depth-first walk
@@ -81,6 +84,8 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 - **Skill** (`pr`): Pull requests with intent-driven descriptions
 
 - **Skill** (`sitrep`): Where the session has got to — what landed, and what's still open as ID'd ideas, forks and questions
+
+- **Skill** (`primary`, `secondary`): Whether the user is watching the session — primary, they steer; secondary, the session decides, records and parks rather than waiting
 
 - **Skill** (`put-down`): Parks the session's work on its issue, so the next session resumes from the issue and its links alone
 
