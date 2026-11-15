@@ -98,6 +98,9 @@ A confident, wrong problem statement with a PR that silently disagrees is worse 
 Do it first because the description is drafted against the issue and passed to `weed-pr` beside it: a stale issue makes the description either repeat the error or look as though it contradicts the problem.
 Where there is no linked issue, there is nothing to correct and this step is empty.
 
+**Where the work answers one of the issue's open questions, move the answer onto the issue**, through `chalk:issue`, deleting the question there; the description cites the issue rather than answering it in a section of its own.
+The issue outlives the PR as the problem's living record, and a "Part of" PR leaves the issue open with its questions still reading as live.
+
 ## Draft the title
 
 The user MAY pass one as an argument (`/chalk:pr feat: read-only secondaries`); use it if they did.

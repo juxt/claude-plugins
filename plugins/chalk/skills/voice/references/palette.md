@@ -267,7 +267,10 @@ It surfaces in three places, and MUST be carried in each.
     A closed issue still carrying live questions reads as unfinished work, and `chalk:issue`'s reader 3 can't tell that it isn't.
 
   - **On a PR** — what this change did not settle.
-    A PR freezes at merge, so it has no mechanism for resolving one: **anything actionable MUST become an issue the PR links**, and what stays is provenance.
+    A PR freezes at merge, so it has no mechanism for resolving one: **by merge, anything actionable MUST have become an issue the PR links**, and what stays is provenance.
+    - **A question that blocks merging is marked so**, and is settled on the PR before it merges, not filed.
+    - **Where the PR is "Part of" an issue that stays open, an actionable question moves onto that issue**, rather than a new one.
+      The PR's own questions continue the issue's numbering, so an ID the issue published and has since deleted is never reused.
     "Nobody measured this" stops the next reader assuming somebody did.
 
 ## Interleavings for sequencing bugs
