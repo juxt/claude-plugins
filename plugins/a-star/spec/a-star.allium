@@ -303,7 +303,7 @@ rule RevertDone {
             TaskAdded(sub_goal: sub_goal)
 }
 
--- replan: the goal itself is invalidated. Exits to the outer harness, which re-plans with the user.
+-- replan: the goal itself is invalidated. Exits to the outer harness, which re-plans with the user; the replan entry is journalled here, as it exits.
 rule TakeReplan {
     when: Take(session, move)
     requires: move = replan
@@ -322,7 +322,7 @@ rule TakeReplan {
 }
 
 -- park: nothing is ready, and what is blocked waits on the user or someone else.
--- Hands back to the outer harness; the session stays parked, its stack intact, until resumed.
+-- Hands back to the outer harness, which puts the work down: its stack recorded on the issue, its branch pushed.
 rule TakePark {
     when: Take(session, move)
     requires: move = park
@@ -344,7 +344,7 @@ rule Stop {
             frame.status = parked
 }
 
--- A resumed session picks its stack back up.
+-- A later session resumes the parked work from that record on the issue, and picks its stack back up.
 rule Resume {
     when: SessionResumed(session)
     requires: session.status = parked

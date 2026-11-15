@@ -173,7 +173,7 @@ The description is the source of truth, so it MUST be corrected as the facts cha
 - **Transitions MUST NOT appear in the description.**
   "We originally thought X" MAY belong in a comment, which is timestamped and append-only.
 
-- **Where a PR is coming or open, `chalk:pr`'s *Correct the issue* corrects it before the PR closes.**
+- **Where a PR is coming or open, `chalk:pr`'s *Correct the issue* corrects it before the PR description is drafted.**
 
 ### Weed the draft
 

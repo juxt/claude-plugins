@@ -23,7 +23,7 @@ Where two entries below overlap, put the material in one of them and don't split
 **The issue is a living document; the PR freezes at merge.**
 That is why an issue MAY hold marked speculation — it has a mechanism for resolving it — and a PR mostly may not.
 
-**In `issue + PR`, the issue is the artefact that goes stale**, and `chalk:pr`'s *Correct the issue* corrects it before the PR closes.
+**In `issue + PR`, the issue is the artefact that goes stale**, and `chalk:pr`'s *Correct the issue* corrects it before the PR description is drafted.
 
 ## State the confidence, not just the content
 
@@ -245,6 +245,7 @@ It surfaces in three places, and MUST be carried in each.
   - **On a PR** — what this change did not settle.
     A PR freezes at merge, so it has no mechanism for resolving one: **by merge, anything actionable MUST have become an issue the PR links**, and what stays is provenance.
     - **A question that blocks merging is marked so**, and is settled on the PR before it merges, not filed.
+      The session that owns the PR settles it; merging stays the user's.
     - **Where the PR is "Part of" an issue that stays open, an actionable question moves onto that issue**, rather than a new one.
       The PR's own questions continue the issue's numbering, so an ID the issue published and has since deleted is never reused.
 

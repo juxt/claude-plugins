@@ -21,6 +21,8 @@ Unpushed commits go with the session's checkout, and what the session learned, t
 - **Ground it in the repo, not the transcript.**
   `git status`, `git log` and the branch say what landed; the transcript only says what was attempted.
 
+- **Unfiled work is filed first**, through `chalk:issue`, and the steps below record on that issue; its filing is step 1.
+
 - **Load `chalk:chalk`, and read the session's plan, where it started one.**
   What the issue's next reader needs from it — open questions, and decisions that bear on the problem — reaches the issue through `chalk:issue`'s own path below.
 
@@ -54,6 +56,9 @@ If it is in any way unclear, you MUST confirm with the user which ones they want
 Where they don't say, ask; MUST NOT guess.
 
 ## 4. Push the branch, and record where the work stands
+
+**Before pushing, weed the commit messages**: run `weed-pr`'s commit-message pass alone, and apply its findings by rewording each commit through `chalk:commit`.
+The branch is handed over without a PR, so nothing else weeds them.
 
 **Push the feature branch, WIP commits included**, with force-with-lease where it was rewritten — a branch the session owns, per `chalk:chalk`'s Feature branches.
 A branch the session doesn't own is left as it is, and the report says so.

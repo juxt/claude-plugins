@@ -44,10 +44,12 @@ Amending, reordering and rewording unlanded commits is how a branch reaches revi
 - **The session owns a branch it created for its work**, one the user handed it, or one an earlier session created for the same card.
   A branch someone else is working on, or a PR someone else opened, is theirs.
 - **The project's base branch is never rewritten or force-pushed.**
+  A commit not yet pushed to it is still local, and MAY be reworded.
 
 ## The journal
 
-**The record kinds are the interface an implementation harness records through**; a harness names what to record, and records it here in these kinds.
+**The record kinds are the interface an implementation harness records through**; a harness names what to record, and records it here.
+A harness records through these kinds, and MAY keep entries of its own besides.
 
 **Write each entry when it happens, not at the end and not from memory.**
 Each is one claim in `chalk:voice`'s register, terse; an entry that would mean nothing in a commit body, a PR or the issue doesn't belong.
@@ -86,12 +88,14 @@ Each is one claim in `chalk:voice`'s register, terse; an entry that would mean n
 
 - **`replan:`** — what changed, and which sub-goals and decisions it invalidated; those are marked, not deleted.
   Only a replan re-enters plan mode, per [the harness exits](#when-an-implementation-harness-exits).
+  The harness journals it as it exits; chalk journals one only where no harness did.
 
 **An entry keyed by a commit's subject follows the subject**: a step that rewrites a subject — a gate, a review-unit pass, a weed — updates the entries keyed by it.
 
 **Cutting scope and accepting a risk MUST be recorded**; they leave no other trace.
 
 **A decision that changes the problem or the agreed scope goes to the issue now**, through `chalk:issue`; the journal records that it went.
+On an unfiled route it goes into the standalone PR where there is one, and otherwise stays in the journal.
 **So does a dependency the session discovers**, onto the card it depends on rather than this one, per `chalk:issue`.
 Everything else stays in the journal, naming the sub-goal it bears on only where the entry doesn't make that obvious.
 
@@ -153,6 +157,7 @@ Ask where the user hasn't said and the request doesn't settle it.
   Where the change reshapes the design, what has to be true is the target model, stated as a model diff at the goal tree's root ([`chalk:voice`'s models reference](../voice/references/models.md)).
 
 **The route is part of the plan**: file and stop, implement an existing card, file and implement, or implement unfiled.
+With an existing card, file and stop corrects that card through `chalk:issue` rather than filing a new one.
 Implement unfiled where a card would carry nothing the commit or a standalone PR can't: a PR, where there is one, takes the standalone path in `chalk:pr` and carries the problem itself.
 
 **A route that implements predicts whether its finish opens a PR**, by the rules under [the finish](#when-an-implementation-harness-exits).
@@ -171,9 +176,9 @@ The plan MAY name the harness's first move — for a-star, a dart, or a drive of
 
 ### 4. The plan's first step updates the card's metadata and its branch
 
-**On a route that implements, the plan MUST open with the tracker update**: the user as assignee, then status and board as the project's tracker conventions say for a card being picked up, through the github agent.
+**On an implementing route with a card, the plan MUST open with the tracker update**: the user as assignee, then status and board as the project's tracker conventions say for a card being picked up, through the github agent.
 Where they don't say, ask.
-**Then it creates or checks out the card's feature branch**, off the project's base branch — or the session's own, implementing unfiled.
+**Every implementing route's first step creates or checks out the feature branch**, after the tracker update where there is one, off the project's base branch, and named by the project's convention.
 
 - **It is a step in the plan, not something done while planning.**
   Plan mode is read-only, and until the plan is approved nobody has agreed to do the work.
@@ -183,7 +188,7 @@ Where they don't say, ask.
 ### 5. Exiting plan mode is the user approving the goal and the route
 
 **`ExitPlanMode`, or the host's equivalent, asks for that approval**; you MUST NOT ask for it any other way.
-A rejection with comments is planning continuing: revise the plan, journal what changed, and ask again.
+A rejection with comments is planning continuing: revise the plan, journal what changed as decisions, each one it replaces marked `superseded by D<m>`, and ask again.
 
 **Asking is a claim that the plan is aligned, not that it is finished**, so you MUST answer three questions first:
 
@@ -197,22 +202,23 @@ A rejection with comments is planning continuing: revise the plan, journal what 
 
 Once approved, take the route:
 
-- **File and stop** — file through `chalk:issue`.
-- **Implement**, filed first or not — hand the plan to the implementation harness, or implement it directly where the session has none.
+- **File and stop** — file through `chalk:issue`, or with an existing card, correct it there.
+- **Implement**, filed first or not — hand the plan to the implementation harness, or implement it directly where the session has none, taking the same exits as a harness's hand-back: finish, replan and park.
 
 ## When an implementation harness exits
 
-**A harness hands back to chalk when it can't continue on the plan as approved.**
+**A harness hands back to chalk when it can't continue on the plan as approved**, and a session implementing without one takes the same exits.
 
 - **Re-plan where the goal is invalidated — re-enter plan mode first**, with `EnterPlanMode` or the host's equivalent, before any other step.
   The approved plan no longer holds, so nothing more is built until the user approves the revised one.
-  Journal a `replan:` entry naming what it invalidated, revise the plan, and ask for approval as in step 5.
-- **Park where the work can't continue** — `chalk:put-down`.
+  The harness journalled the `replan:` entry as it exited; implementing without one, journal it here, naming what it invalidated.
+  Revise the plan, and ask for approval as in step 5.
+- **Park where the work can't continue** — `chalk:put-down`, which ends the session.
 - **Finish where the sub-goals complete the goal, opening a PR or not as the plan predicted.**
   A PR exists to share what the commit doesn't, so the prediction follows where that knowledge lives.
   - **Ask the user only where the work reverses the prediction.**
-  - **The prediction is one of three outcomes, each selected by its condition.**
-    - **No PR, where the commit carries it all, or an issue carries the knowledge and nothing in the implementation is counter-intuitive** — offer a `chalk:issue` update first where the work changed what the issue should say.
+  - **The prediction is one of three outcomes, the first whose condition holds, in the order listed**; where none holds, ask the user.
+    - **No PR, where the commit carries it all, or an issue carries the knowledge and nothing in the implementation is counter-intuitive** — first update the issue through `chalk:issue` where the work changed what it should say.
       The finish then hands to nothing: it ends with a report naming the branch and its head sha.
     - **A standalone PR, where there is no issue and something to share beyond the commit** — `chalk:pr`'s standalone path.
-    - **A PR resolving the issue, where the implementation is worth sharing in its own right** — `chalk:pr`.
+    - **A PR on the issue — Resolves or Part of — where the implementation is worth sharing in its own right** — `chalk:pr`.

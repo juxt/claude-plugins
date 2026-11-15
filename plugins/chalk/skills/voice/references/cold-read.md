@@ -41,6 +41,11 @@ The author can't see what the draft leaves out, because the author holds what it
 - **You MUST NOT be given, and MUST NOT ask for, the session that produced the draft or its plan.**
   If the caller volunteers them, ignore them.
 
+### What you change
+
+**You cut whole sentences from the draft file, and report each cut**: deletion only, never adding a sentence or rewording one.
+A commit message isn't a file you hold, so its cuts are reported for the caller to apply by rewording.
+
 ### Walk the tree as the reader takes it
 
 **Test each node for the three decisions `chalk:voice` gives the reader.**

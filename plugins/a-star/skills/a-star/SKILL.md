@@ -44,8 +44,8 @@ How the goal gets understood and agreed is that harness's; a-star only checks it
 - **replan** — the goal itself is invalidated, and the harness re-plans with the user;
 - **done** — the done sub-goals complete the card, and the branch has had its review-unit pass.
 
-**park hands the work back without exiting** — nothing is ready, and what's blocked waits on the user or someone else.
-The session stays parked, its stack intact, until it is resumed.
+**park hands the work back to that harness** — nothing is ready, and what's blocked waits on the user or someone else.
+Parked work is resumed by a later session, from what `chalk:put-down` recorded on the issue — its stack recorded there, its branch pushed — or the project's equivalent.
 
 **A finding that leaves the goal standing is never an exit**: a revert, a re-split of sub-goals, or a question, all inside a-star.
 Only the replan exit re-enters the harness's planning.
@@ -121,7 +121,7 @@ In whatever the session tracks its work with — the outer harness's journal, wh
 - **a decision** — a call you aren't sure of is an open question instead;
 - **an open question, and what it blocks;**
 - **a sub-goal done**, with its commits;
-- **a revert or a re-split** — what changed, and which sub-goals it superseded or reopened, as a `re-split:` entry; the replan exit's is a `replan:`;
+- **a revert or a re-split** — what changed, and which sub-goals it superseded or reopened, as a `re-split:` entry; the replan exit's is a `replan:`, journalled as it exits;
 - **what's in hand** — the drive stack, innermost first — **recorded before the first edit;**
 - **a dart in flight**, so a resumed session knows it was lost;
 - **whether the user is watching** (`a-star:primary`, `a-star:secondary`).

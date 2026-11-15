@@ -121,7 +121,8 @@ You MUST load these skills first:
      The subject line is the body's tl;dr, so most bodies would only repeat it. A body long enough that its argument needs summarising MAY open with one, per `chalk:voice`, in place of the lead-in line.
 
    **The body is weeded cold when the branch is raised**, by `weed-pr` from `chalk:pr`, so a commit doesn't wait on a weed of its own.
-   Where the branch never reaches a PR — a no-PR finish, a park, a tidy committed straight to the base branch — the messages are weeded by running `weed-pr`'s commit-message pass on its own before the branch is handed over.
+   Where the branch never reaches a PR — a no-PR finish, a park — the messages are weeded by running `weed-pr`'s commit-message pass on its own before the branch is handed over.
+   A commit going straight to the base branch is weeded the same way before it is pushed, while it is still local; once it is pushed, findings are not applied.
 
 5. **Make the commit.**
 

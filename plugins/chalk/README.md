@@ -31,7 +31,7 @@ It writes issues, agents' plans, commits and PRs in a style that lets the reader
   Its record kinds — decision, question, requirement, principle, constraint, assumption, risk, dead-end, review, re-split, replan — are the interface, so the harness names what to record and chalk says where.
 
 - **A harness hands back to chalk when it can't continue on the plan as approved**
-  chalk re-plans where the goal is invalidated, parks the work on its issue where it can't continue, and opens the PR where the goal is complete.
+  chalk re-plans where the goal is invalidated, parks the work on its issue where it can't continue, and finishes where the goal is complete: with no PR, a standalone PR, or a PR on the issue.
 
 - **[A⭐](../a-star/) is one such harness**
   It lands each change *"small and simple enough for a human to review and put down"* — the same scarce attention, spent at review time rather than planning time.
