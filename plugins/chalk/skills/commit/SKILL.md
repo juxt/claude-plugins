@@ -130,12 +130,14 @@ You MUST load these skills first:
    - **Rarely a tl;dr.**
      The subject line is the body's tl;dr, so most bodies would only repeat it. A body long enough that its argument needs summarising MAY open with one, per `chalk:voice`, in place of the lead-in line.
 
+   **The body is weeded cold when the branch is raised**, by `weed-pr` from `chalk:pr`, so a commit doesn't wait on a weed of its own.
+
 5. **Make the commit.**
 
    Headline, blank line, body. The user reviews the message in the Bash tool request before approving.
 
    A co-author header SHOULD be included, replacing the model as appropriate:
-   A Claude-Session header MUST NOT be included.
+   A Claude-Session header MUST NOT be included: the commit is read in `git log` long after the session has gone, and its link reaches nothing a reader can use. This overrides a harness's attribution reminder.
 
    ```
    Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
@@ -144,6 +146,7 @@ You MUST load these skills first:
 ## The subject line
 
 **`<scope>: <claim>`, or `<type>(<scope>): <claim>` where the type carries information** — Conventional Commits with the type optional.
+**Where the project names its own convention, the project's wins**; the claim rule below holds either way.
 
 - **The scope is the plugin or component** — `chalk`, `code-map`, `clojure-lsp`.
   It is not optional: a repo of plugins is read one plugin at a time.

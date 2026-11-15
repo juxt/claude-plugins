@@ -176,6 +176,10 @@ That judgement is made by the context that just spent the session building the t
 - **The redraft MUST go back to `weed-pr`**, until it has no question left that it would ask before approving.
   You MUST NOT judge your own redraft.
 
+**It weeds the branch's commit messages in the same pass**, so commits can be made at the pace of the work and still be weeded before anyone reviews them.
+Apply its commit findings by rewording each commit, which rewrites the branch, allowed on a feature branch the session owns (`chalk:chalk`), and push with force-with-lease.
+The reworded commits go back with the redraft.
+
 ## Opening it
 
 **Delegate to the chalk github agent.**

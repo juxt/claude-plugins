@@ -103,6 +103,8 @@ The first finds what is structurally absent; the second finds missing content. M
    An invariant with no test is reported as unpinned. A claim you can only find support for in the diff is a rebuild.
    - **An invariant that doesn't say what change would break it is a gap**: that leg is what lets a later reader notice they've broken it.
    - **A pin on a parent node pins only what its test exercises**; a child it doesn't cover is unpinned, whatever the parent says.
+   - **You read for readability, not to verify facts.**
+     A measurement, a CI result or a run you can't check from the diff and the description is listed as unchecked, not chased; where it rests on evidence the reviewer can't reach either — an unpublished harness, a local run — say so.
 4. **Walk the tree as the reader takes it, testing each node for the three decisions `chalk:voice` gives them.**
    The drafter built the tree holding the theory, so a node can look sound to them and still leave the reader nowhere to go.
    - **Skip: the subject states a claim the reader can hold their goal against.**
@@ -136,6 +138,22 @@ Ask instead whether a reviewer holding only the diff and the issue would arrive 
 Collect them first and test existence in one command; spend judgement only on whether each target is the one meant.
 **A SHA on the head branch is a gap**: it is rewritten by a rebase or a squash. The commit is cited by its subject instead.
 
+### The commit messages
+
+**Weed each commit message on the branch as its own reader would**: the one arriving from `git blame` on one of its lines, months on, mid-investigation of something else (`chalk:commit`).
+The messages are weeded here, once, when the branch is raised, rather than as each commit is made.
+
+- **Cut, on the same grounds as the description**, and also where a sentence:
+  - **restates the diff** — the tell is a sentence that appears in substance in a line the diff adds, the default failure where the diff is itself prose.
+    Not the review notes: an invariant a code comment states belongs in them too (`chalk:commit`);
+  - **narrates the journey** — what was tried, in what order, what was run — rather than the road it closed;
+  - **reports what was run**, which dates, and belongs to the PR.
+- **Test each body's tree for skip, agree and descend**, as task 4 does for the description.
+- **Test each subject line as a claim the diff makes true**, not an imperative or a topic.
+- **A commit whose correctness rests on an argument its body doesn't state is a gap against that commit** (task 3).
+
+**Name each finding by the commit's subject**, never its SHA: the caller applies them by rewording, which rewrites every SHA after it.
+
 ## Report back
 
 **Report questions, never answers.**
@@ -150,13 +168,15 @@ Return, as your final text:
    Claims not safe to agree with unread are agree failures, and go here.
 4. **Unpinned invariants.**
 5. **Cuts made**, with each sentence's opening words and its reason, and **references** that didn't resolve.
+6. **Commit messages** — per commit, by subject: its cuts, its mindmap gaps, and its subject line where it isn't a claim.
+7. **Facts not checked** — the load-bearing claims you took on trust, and which of them the reviewer can't reach either.
 
 **You are done when you have no question left that you would ask the author before approving.**
 "Nothing to cut" is not that.
 
 ## Re-reading a redraft
 
-**Re-run both halves on the redraft**, not only the gaps you raised: the sentences added to close one are as likely as any to open another.
+**Re-run both halves on the redraft, and on the commit messages as reworded**, not only the gaps you raised: the sentences added to close one are as likely as any to open another.
 **A question stays open until the description answers it**; the caller cannot close it by explaining to you why it doesn't apply.
 **Recheck every question you closed in earlier rounds**: a restructure that answers one gap tends to drop an answer an earlier round settled.
 **An answer is tested against the tree as well as against the question**: one that arrives as a new sentence in an elaboration, carrying a proposition the subject doesn't reach, closes the question and opens a descend gap.
