@@ -12,17 +12,14 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 This skill owns the issue description — drafting it, filing the issue, and correcting the description afterwards.
 **Which sections the body gets comes from `chalk:voice`'s `references/palette.md`**; this skill covers what an issue is for, and how it gets filed.
 
-**An issue is a living document.**
+**An issue is a living document**, per the palette.
 It states the problem as it is now, written as if it had always been that way.
-A PR freezes at merge; an issue has a mechanism for resolving what it doesn't yet know, which is why it MAY hold marked speculation and MUST be corrected as facts change.
 
 ## Your readers
 
 `chalk:voice` says who they are; here they are doing one of three things, and **none of them is deciding whether the work is worth doing**.
-Any one reader is doing one of the three; you are writing for all three at once, so the body MUST serve each of them and satisfying one is not a licence to drop another.
 
 - **Reader 1 has decided to pick this up**, and needs to understand the problem in enough detail to solve it.
-  Your primary success metric is therefore whether this knowledge can be accurately and efficiently conveyed.
 
 - **Reader 2 is checking whether this issue is what they're hitting right now** — usually a bug.
   They are **matching, not reading**: an error string, a version or a triggering condition either matches theirs or it doesn't.
@@ -38,7 +35,6 @@ They draw different palette sections because one converges on a fact and the oth
 - **Fork on what the issue converges on, not on the label.**
   "Queries got 10x slower" converges on a fact — bug.
   "Make queries faster" converges on a choice — feature.
-  Evaluation criteria and prior art are dead weight where there is a correct answer; symptoms and root cause are dead weight where nothing is broken.
 
 - **A task, chore or refactor is the feature path with sections empty**, and an epic is a feature large enough to have children.
   There is no third path.
@@ -49,18 +45,16 @@ They draw different palette sections because one converges on a fact and the oth
 
 ## Before you draft
 
-An issue description is an **explanation** artefact, and it MUST be drafted against the chalk voice.
 Load, via the Skill tool:
 
 - **`chalk:voice`** — the register, the audience, the mindmap shape, the line-format rule.
 
-- **`chalk:voice`'s `references/palette.md`** — the sections on your path. Not every issue needs every section.
+- **`chalk:voice`'s `references/palette.md`** — the sections on your path.
 
 - **`chalk:goal-tree`** — wherever a section's children *accomplish* their parent rather than argue for it.
 
-**You MUST write each section as a mindmap** — a short tl;dr opening it, then the tree.
+**Write each section as a mindmap**, per `chalk:voice`.
 Reader 1 arrives with a question and reader 2 with a symptom, so each of them is skipping most of what you write: every subject line MUST let them discard the bullet against that goal, or agree with it and move on without reading the body.
-You SHOULD NOT write a wall of undifferentiated prose.
 
 **The body MUST open with a tl;dr**, per `chalk:voice` — the summary sentence, then the mindmap, with no heading over it.
 The first `##` in the body is the section after it.
@@ -68,7 +62,8 @@ The first `##` in the body is the section after it.
 ## Establish the why
 
 **An issue MUST NOT be filed without a clear and concise *why*.**
-Where the motivation isn't recoverable, ask — and treat "I can reconstruct it" as the answer that needs checking.
+There is no diff here to recover it from in six months, so a missing one is blocking, wherever it surfaces — `weed-issue` included.
+Where the motivation isn't recoverable, ask — "I can reconstruct it" is the answer that needs checking, per `chalk:voice`.
 
 - **The issue is the one place a *why now* lives.**
   Commits and PRs link the issue rather than carrying their own, so whatever prompts the work belongs here.
@@ -95,7 +90,7 @@ The user MAY pass one as an argument (`/chalk:issue flaky expression_test under 
 Otherwise state the behaviour you want to be true — "the replica log should elect its own leader", "a restarted node should not reset the leader term".
 
 **Success: a reader recognises the issue from the title alone**, without opening it.
-It is the first stage of the filter the tl;dr's abstract then runs — someone scanning thirty titles must be able to discard this one confidently, or open it. An acceptance test is usually the shape that manages it.
+Someone scanning thirty titles must be able to discard this one confidently, or open it. An acceptance test is usually the shape that manages it.
 
 - **A title MUST say whether it states the desired behaviour or the current defect**, and **on the bug path that needs deliberate care.**
   A bug's natural phrasing is its symptom, and a symptom reads identically on a card that wants it fixed and one that wants it kept: "leader election borrows Kafka's consumer group" sits equally well above a plan to replace it and a plan to harden it.
@@ -116,17 +111,6 @@ Each section's content is in the palette, and not every bug needs every section 
 
 - **Gather the concrete material before drafting** — the error text, failing test names, log excerpts with timestamps, the types and files involved, links to CI runs.
   Reaching for these mid-sentence is how placeholders get in.
-
-- **Raw evidence MUST be annotated.**
-  A stack trace or log dump with no statement of what the reader is looking at is noise.
-
-- **Symptoms MUST carry the literal strings** — the exact error text, the stack trace, the version, the condition that triggers it.
-  Reader 2 is matching their failure against this section, so it is the one part of the body written for search rather than for understanding.
-  `chalk:voice`'s cut-what's-obvious rule does not license paraphrasing an error message, and its mindmap default does not license turning a trace into prose.
-
-- **An unconfirmed root cause MUST be tagged `assumption:` or `idea:`** (`chalk:voice`).
-  *Possible* root cause is the normal state for most of a bug's life, so the marking is the default and not the exception.
-  Unmarked, the next reader builds on a guess with no way to tell it from a finding.
 
 - **Current state comes before Root cause**, so the mechanism is read against the behaviour it breaks.
   Its essential couplings are what a fix must preserve.
@@ -163,7 +147,6 @@ Each section's content is in the palette, and not every feature needs every sect
 An issue that is neither leaves whoever picks it up to redo the decomposition from the description alone, with less context than you have while filing it.
 
 - **Wire the relationships in the same session the issue is created** — parent/sub-issue where work nests, blocked-by where order matters.
-  A link deferred is a link never made.
   A sub-issue inherits its parent's motivation, so its own description stays on its slice.
   The github agent has the GraphQL recipes (`addSubIssue`, `addBlockedBy`).
 
@@ -173,14 +156,7 @@ An issue that is neither leaves whoever picks it up to redo the decomposition fr
 
 ### Open questions
 
-**What the session left unanswered goes in Open questions**, one entry each, tagged `Q<n>` (`chalk:voice`) so it can be answered by reference.
-A decision still owed or a hypothesis nobody verified has no other home in the plugin: a commit body explains a change that exists and a PR explains a branch that exists, so a question left out here is one the next person rediscovers from scratch.
-
-- **Say what would settle each.**
-  A question with no route to an answer is a complaint.
-
-- **An entry MUST be deleted once it's answered**, with the answer moved to wherever it now belongs.
-  Reader 3 is what gives this teeth: a closed issue carrying live questions reads as unfinished work, and nobody outside the session can tell that it isn't.
+**What the session left unanswered goes in Open questions**, one entry each — what each carries, and when it is deleted, is the palette's.
 
 ### Correcting the description
 
@@ -197,36 +173,14 @@ The description is the source of truth, so it MUST be corrected as the facts cha
 - **Transitions MUST NOT appear in the description.**
   "We originally thought X" MAY belong in a comment, which is timestamped and append-only.
 
-- **Where a PR is coming/open, the issue MUST be corrected before the PR closes.**
-  If the work contradicted a constraint the issue asserted, or the prior art didn't transfer, the later reader otherwise finds a confident, wrong problem statement and a PR that silently disagrees with it.
+- **Where a PR is coming or open, `chalk:pr`'s *Correct the issue* corrects it before the PR closes.**
 
 ### Weed the draft
 
-Write the drafted body to a file and **delegate to the `weed-issue` agent**, passing the path, plus the parent issue if there is one.
+**Delegate to the `weed-issue` agent** as the caller's side of `chalk:voice`'s `references/cold-read.md` sets out, passing the body's path, plus the parent issue if there is one.
 It reads the body cold, as each of the issue's readers, attempts each one's job from it, and reports where they get stuck.
 
-**Pass the parent as a file, written verbatim** (`gh issue view <n> --json body -q .body`) — body only, no comments, no summary and no annotation.
-A parent you have described rather than copied tells the agent what you think it says, which is the session leaking in through the one input that was meant to keep it out.
-
-- **You MUST NOT give it the session or the plan.**
-  It holds what the issue's readers hold: the parent issue and the codebase. The filer can't see what the body leaves out, because the filer holds what it was meant to carry.
-
 - **Passing the parent is what lets it treat the inherited motivation as the reader's**, and cut a restatement of it.
-
-**Its questions are for you to answer in the body, not to judge.**
-That judgement is made by the context that just built the *why*, and it always comes back confident.
-
-- **A question MUST be closed by adding what answers it.**
-  You MUST NOT close one by deciding it doesn't apply.
-  A node it couldn't decide on is closed by restructuring that node.
-
-- **Where only the user can answer, relay the question as written.**
-
-- **A redraft keeps every answer earlier rounds settled.**
-- **The redraft MUST go back to `weed-issue`**, until no reader has a question left they would ask the filer.
-  You MUST NOT judge your own redraft.
-
-- **A missing *why* is blocking** and MUST be resolved before the issue is filed. There is no diff here to recover it from in six months.
 
 ### Filing it
 

@@ -14,7 +14,7 @@ description: >
 model: sonnet
 effort: low
 color: green
-tools: Skill, Read, Edit, Bash(git diff *), Bash(git log *), Bash(gh issue view *)
+tools: Skill, Read, Edit, Bash(git diff *), Bash(git log *), Bash(gh issue view *), Bash(git cat-file *), Bash(test *)
 ---
 
 # Weed Prose
@@ -23,13 +23,13 @@ tools: Skill, Read, Edit, Bash(git diff *), Bash(git log *), Bash(gh issue view 
 
 **Load `chalk:voice` first.** It defines who a chalk reader is and the register you are checking against.
 Do not reconstruct it from this file.
+Then read `chalk:voice`'s `references/cold-read.md`: its weeder's side — what you hold, the reference check, the redraft rules — applies to you.
 
 The caller gives you the path to the draft, names its reader and their aim, and passes anything the draft points at that the reader would open — a linked page, a parent document.
 **You hold exactly what that reader holds — no more.**
 Where the caller names no reader, take `chalk:voice`'s.
 
-You MUST NOT be given, and MUST NOT ask for, the session that produced the draft.
-If the caller volunteers it, ignore it.
+You MUST NOT be given the session that produced the draft, per `cold-read.md`.
 
 ## Two jobs, and the second is the one that gets skipped
 
@@ -92,29 +92,12 @@ The drafter applied those rules from a context that can't see what it takes for 
 
 ## Re-checking a redraft
 
-The caller MUST send you a redraft that answers any gap you reported.
-
-- **Check whether the added sentence answers the question you asked**, not whether the draft now mentions the topic.
-  "Makes the retry path more robust" mentions the why and does not answer it; "we were paged at 3am because 429s weren't backing off" answers it.
-- **A gap stays open until it is answered.** The caller cannot close one by asserting it is closed, or by explaining to you why it doesn't apply.
-- **Re-run the cuts as well**, since the redraft is new prose and the sentence added to close a gap is as likely to argue as any other.
+The caller MUST send you a redraft that answers any gap you reported; re-check it per `cold-read.md`.
 
 ## Check the draft's own references
 
-Where the draft points at something — an issue number, a commit SHA, a file path, a named step or section — **check that the target exists and is the one the sentence implies.**
+**Check every reference**, per `cold-read.md`.
 A reference that no longer resolves is a deletion, and a reference that resolves to the wrong thing is a gap.
-Report both; do not repair them.
-
-**Collect every reference first, then test existence in a single command.**
-Whether a target exists is mechanical, and one lookup per reference is the slowest thing you do — a `gh issue view` is a network round-trip on its own. Build the list from the draft, then run one `Bash` call:
-
-```bash
-git cat-file -e <sha>^{commit} && echo "sha ok"
-test -e <path> && echo "path ok"
-gh issue view <n> --json number,title
-```
-
-**Spend judgement only on what that command says exists**, on the half it cannot answer: is this the target the sentence implies?
 
 ## Report back
 
