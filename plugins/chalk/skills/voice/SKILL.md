@@ -24,24 +24,20 @@ They settle what goes in, and every rule below is judged against the answers; th
 - **What do they need to reach that aim?**
   Only what they can't supply from the artefact and their own context.
   Each artefact skill names its readers, what each is doing, and what success looks like for each.
+  **You write for all of them at once; satisfying one is no licence to drop another.**
 
 Your overriding success metric is whether the reader reaches that aim — the knowledge accurately and succinctly transferred, or the decision made on what it needed.
 
 ## The register
 
-Three claims, and every rule under one is a way of failing it.
-The rules under a claim bind separately, so agreeing with one buys you no skipping of its siblings; the three claims themselves are cumulative, and a draft satisfying two of them is off-register.
-This section carries what the rules mean; the `weed-prose` agent carries the phrase inventories that detect them, and `weed-pr` and `weed-issue` apply them.
-
 ### Every sentence serves the reader, not you
 
 - **You MUST NOT write to impress anyone.**
   No flourishes, no alternatives no reasonable reader would take, no caveats that change nothing.
-  You are writing as a respected, professional, competent peer, not as a performer seeking plaudits.
 
 - **You MUST NOT write to persuade anyone.**
   State the capability and let the reader draw the conclusion.
-  **The test is deletion**: where a sentence carries the same fact with its evaluative words removed, those words were doing persuasion.
+  **The test is deletion**: cover the evaluative words, or a clause; where what remains says the same thing about the system, what you covered was doing persuasion, or was about the writing.
 
 - **You MUST NOT write to flatter the reader.**
   The reader knows an AI wrote it, so it decreases trust.
@@ -61,11 +57,7 @@ This section carries what the rules mean; the `weed-prose` agent carries the phr
     Appended to a sentence that has already made its point, so the sentence passes and the clause rides in.
     "…, and that's the gap". "…, which is the point". "…, and that's what makes it work".
 
-  - **The test is deletion.**
-    Cover the clause; if what remains says the same thing about the system, the clause was about the writing.
-
   - **What goes there instead is a consequence, or nothing.**
-    The pull is to supply connective tissue; there is usually nothing to connect.
 
 - **You MUST NOT use filler in a heading or a lead-in.**
   Every sentence carries a fact, a constraint or a decision; none exists to convey that a person is delivering it.
@@ -83,18 +75,18 @@ This section carries what the rules mean; the `weed-prose` agent carries the phr
 
 - **You SHOULD NOT include anything obvious to that reader.**
   Cut what any reasonable senior developer on the project would know, and any option none of them would consider.
-  Assume they have a great deal else to hold in mind, and focus on what might surprise them.
 
 - **You MUST NOT assume the reader has any of your session's context.**
   A sentence that only parses if you know which files were touched, which commit came before, or what was said in chat is a sentence the audience can't use.
+  **The branch's own history is session context too** — "the two amends", "before the interrupt fix": the reader sees the branch as it stands, not how it moved.
+
+  - **Whether a draft leaves something out is not the drafter's to judge.**
+    That judgement is made by the context that just built the artefact, and it always comes back confident: "I can reconstruct it" and "it's self-evident" are the answers that need checking, by asking or by a cold reader.
 
 ### Word choice costs the reader a re-read
 
 - **You SHOULD use technically precise terms rather than a restricted vocabulary.**
   "Sufficient" and "necessary" each carry an exact meaning that a paraphrase spends a clause on and still blurs.
-
-  - **Precision beats simplicity where the two conflict.**
-    What gets cut is the decorative metaphor, not the exact term.
 
   - **A design is described in the model taxonomy** — objects, their roles, the state each owns, lifetimes, and who waits on whom, per [references/models.md](references/models.md).
 
@@ -109,14 +101,15 @@ A sequence of events, a multi-step rationale, a set of conditions, a race betwee
 
 **Route it by this chain, taking the first that applies:**
 
-- **Concurrent, distributed or multi-actor → it MUST be an interleaving.**
+- **Concurrent, distributed or multi-actor → it MUST be an interleaving**, per [references/interleaving.md](references/interleaving.md).
   **An actor has independent control flow** — a thread, a process, a node, a human.
   Not an object, a module or a function, or every call chain would owe one.
 
 - **Otherwise → it MUST be a nested bullet-tree**, a mindmap.
 
+  - **A code comment takes a mindmap only past the threshold in `chalk:code-comments`.**
+
 **A relation between propositions MUST NOT be written as prose.**
-A single chain of cause is not a third form: it is a tree whose children are consequents, and `A → B → C` is its compressed spelling, licensed below.
 
 ### The tree
 
@@ -125,9 +118,6 @@ Every node they read is context they hold while reading the next, their capacity
 *Paging in* a node costs them that capacity and evicts something else, so the tree exists to let them page in what their goal needs and nothing more.
 
 - **Every node is a conclusion stated in its subject line.**
-
-  - **It recurses.**
-    A child becomes a conclusion in its own right the moment it takes children, and every rule here applies to it unchanged.
 
 - **At each node the reader takes one of three decisions, and the subject line is what they take it from.**
 
@@ -162,7 +152,6 @@ Every node they read is context they hold while reading the next, their capacity
 
     - **A deduction MUST NOT be prose, inside an elaboration or anywhere else.**
       Two or more steps joined by *therefore* take the `A → B → C` form, or become consequent children.
-      The licence above is to develop one proposition at whatever length that takes; it never extends to carrying an argument in sentences.
 
   - **A node the reader cannot simply agree with MUST say so** — `assumption:`, `idea:`, `check:`, below.
     Decision 2 assumes every subject is **decidable** — the reader can understand it and judge whether to accept it — and a tag is what withdraws that assumption for one node instead of forcing decision 3 on the whole tree.
@@ -180,7 +169,6 @@ Every node they read is context they hold while reading the next, their capacity
 
     - **A narrowing MUST be a case of its parent, not a neighbour of it.**
       The test is whether the parent, applied to this situation, gives you the child.
-      Association readmits the related-items list below, wearing this vocabulary.
 
     - **An exception is where the parent does not hold.**
       It is the one relation that takes scope away instead of adding to it, so it MUST say what falls outside and what applies there instead.
@@ -194,18 +182,15 @@ Every node they read is context they hold while reading the next, their capacity
 
   - **A node MUST be decidable from its ancestors alone.**
     They hold the path they descended, not the tree, so a node leaning on a sibling they were invited to skip is one they cannot decide — and they will not know that is why.
-    The consequent is the declared exception below, and the extra context it demands is what it costs.
 
   - **Depth needs no bound.**
     A node goes deeper while it still has grounds to give or cases to narrow to, and stops when it runs out, so depth that is doing work is self-limiting.
-    Depth from nested topics has already failed the rules above.
 
 - **The relation among siblings is the reader's skip rights over the set, so the parent MUST make it clear.**
-  It is what tells them how many of the siblings their goal obliges them to page in, which is a larger saving than anything a single subject line buys.
+  It is what tells them how many of the siblings their goal obliges them to page in.
 
   - **An example, a clarification or a restatement is not one of these relations.**
     Each develops a single proposition instead of standing beside it, so each is that proposition's elaboration.
-    Promoting one is how a tree acquires siblings that turn out not to be siblings.
 
   - **A ground**, combining with its siblings to justify the parent, in one of three ways.
     All three look identical on the page, and a reader who takes one for another misreads what the argument rests on.
@@ -263,9 +248,12 @@ Asked for by name, it takes this form, not a table or a run of prose.
   It is also what withdraws decision 2 from one node, per the tree above: a reader who cannot agree from the subject alone needs telling before they do it anyway.
 
 - **Every node a reader might want to discuss MUST have a typed ID**, prefixing the subject line.
-  **D1** for a decision, **Q1** for a question, **I1** for an idea, **C1** for a constraint, **A1** for an assumption, **D2.1** for its first child.
+  **D1** for a decision, **Q1** for a question, **I1** for an idea, **C1** for a constraint, **A1** for an assumption, **F1** for a fork still open, **D2.1** for its first child.
   Discussion happens by reference: without an ID the reader quotes or paraphrases the node, and a reply can't be checked against what it answers.
   IDs beat numbered lists, which renumber silently when a sibling is inserted.
+
+  - **An ID MUST NOT collide with a name the artefact's domain already uses** — TPC-H's Q1–Q22, a ticket scheme, a version.
+    Lengthen the prefix where it would: **OQ1** for an open question beside query names.
 
   - **Plan files and conversation output are covered as well as published artefacts** — a plan is discussed before it is approved, and a reply is discussed in the next turn.
 
@@ -281,65 +269,11 @@ Asked for by name, it takes this form, not a table or a run of prose.
 
   - **The ID's stability is what makes restating it cheap**, not what excuses omitting it.
 
-### The interleaving
-
-**A trace of one interleaving, in columns: the shared state, then one per actor.**
-The rules below are linked — a trace missing any one of them is not readable as a trace — so the set is read whole rather than sampled.
-
-- **The shared state the actors contend for MUST take the leftmost column.**
-  A row that changes it MUST carry the new state there, and a row that does not MUST leave it blank.
-
-  - **Append-only state accumulates**, so the column reads downwards as the medium itself — `@20 BlockBoundary(4, b7)`, `@21 NoOp(5)`.
-
-  - **Mutable state replaces**, so it reads downwards as a timeline — `held(A)`, `free`, `held(B)`.
-
-- **Where the medium addresses its entries, the address MUST sit in that column beside them.**
-  An LSN for anything log-backed, otherwise a sequence number or a lock acquisition.
-  It MUST NOT be wall-clock.
-
-- **Each actor MUST take a column, headed with its identity and its initial state.**
-  `[A] leading at 4`, `[B] following, fence=4`.
-  Its cells carry the local reasoning behind each operation — `poll empty → w`, `5 > 4 → leads@5`.
-
-- **A row MUST hold one operation**, and vertical position carries happens-before.
-
-- **A read MUST cite what it observed** — `r(@20)` against a log, `r(free)` against a lock, `r(x=0)` against a field.
-  A read citing anything but the column's latest is a stale read.
-
-- **A row SHOULD carry a label** — `a1`, `b2`: one letter per actor, then a counter.
-  Prose MUST cite a row by its label rather than paraphrasing it.
-
-- **An outcome block below the trace SHOULD attribute each resulting field to the row that produced it**, with `←`.
-  `termId = 5 ← b4, B's term`, `boundaryReplicaMsgId = 20 ← a1, A's cut`.
-
-- **An actor leaving MUST be a row** — `a3  crash` — changing no shared state.
-
-- **`→` and `:=` MUST keep their meanings inside a cell.**
-  `5 > 4 → admitted` is *therefore*; `fence := 5` is a state change.
-
-A promotion finishing a block the previous leader left open:
-
-```
-      log                      A (leading@4)      B (following, fence=4)
-a1    @20 BlockBoundary(4,b7)  cutting b7 → w
-a2                             writes b7's files
-b1                                                r(@20) → holds b7's boundary
-b2    @21 NoOp(5)                                 poll empty → w
-b3                                                r(@21); 5>4 → leads@5
-b4    @22 BlockUploaded(b7,5)                     produces b7 → w
-a3                             crash
-b5                                                r(@22) → adopts b7
-
-persisted b7:  termId               = 5   ← b4, B's term
-               boundaryReplicaMsgId = 20  ← a1, A's cut
-```
-
 ### Layout
 
 - **A blank line marks a block boundary** — between one bullet and the next, and between paragraphs of an elaboration.
 
 - **A subject and its elaboration are one block**, so no blank line falls between them and the elaboration begins on the line immediately below.
-  A strict CommonMark renderer takes that single newline as a *soft* break and merges the subject into the first line under it; the destinations Chalk publishes to take it as `<br>`, and the skill files are read as source.
 
 - **The line format is the one thing the destination decides**, according to whether the artefact is read rendered or reviewed as a diff.
 
@@ -364,7 +298,6 @@ persisted b7:  termId               = 5   ← b4, B's term
 ## The hourglass
 
 **An explanation descends from the highest level to the lowest, and MAY then climb back up.**
-The tree orders a node above its children; the hourglass orders the artefact's sections the same way, and adds the return.
 
 - **It opens at the level the reader arrives at** — what is being done, and why, in the context it sits in.
   That opening is where the reader decides whether the detail is worth their attention, so it has to win that before any detail arrives.
@@ -378,7 +311,7 @@ The tree orders a node above its children; the hourglass orders the artefact's s
   Mechanism, then the decisions inside it, then the specifics a reader needs only to act on it.
 
 - **In an artefact whose sections are a mindmap, their order can carry the climb.**
-  Where each section leans only on those above it, the reader reaches the last holding what it is the consequence of, and an explicit conclusion repeats it — a PR differs from an essay here.
+  Where each section leans only on those above it, the reader reaches the last holding what it is the consequence of, and an explicit conclusion repeats it.
 
 - **Where the details answer the higher-level problems, it climbs back up, lowest level first.**
   Each detail is tied to the problem it resolves, in the reverse of the order the descent took, so the reader leaves at the level they arrived at, holding the answer to the question they came with.
@@ -397,17 +330,13 @@ The tree orders a node above its children; the hourglass orders the artefact's s
     It says what is true now, in the terms the reader arrives with.
     **It MUST NOT argue the change**: the grounds are the body's, and a summary that starts giving them is the body arriving early.
 
-  - **Avoiding the flat row of one-liners walks into a paragraph of prose.**
-    The flat row has the shape and no argument; the paragraph has the argument and no shape, and it is the one that looks finished.
-
 - **It summarises the artefact for its reader, not the session for its author**, and MUST be readable by someone who did not see the session, the branch or the prior state.
   Provenance goes down into the body, where whoever wants it will find it.
 
 - **It opens the artefact by default, and takes no heading there.**
-  Nothing else can be in that position, so a heading only labels what the reader has already worked out — the body starts with the summary sentence, then the mindmap, then the first real section.
+  The body starts with the summary sentence, then the mindmap, then the first real section.
 
   - **Displaced from the opening, it MUST carry a `tl;dr` heading.**
-    The position was what marked it; once something else holds that position, only the heading tells the reader they are looking at the summary and not at more body.
     Chat is the case: `chalk:sitrep` and the chalk output style put it at the bottom, because a terminal scrolls upward.
 
 - **A destination MAY override the placement, and whether one appears at all, by saying so itself.**
@@ -419,7 +348,7 @@ The tree orders a node above its children; the hourglass orders the artefact's s
 Verify before publishing rather than from memory: `git cat-file -e <sha>^{commit}`, and read the subject.
 
 - **A SHA is quotable only once it has landed on the target branch.**
-  A commit on the branch you are on can still be rebased, amended or squashed, and a PR that lands as a single squashed commit destroys every SHA in it — so a body citing one ages into a reference to nothing, in the artefact whose whole job is to still be readable in six months.
+  A commit on the branch you are on can still be rebased, amended or squashed, and a PR that lands as a single squashed commit destroys every SHA in it — so a body citing one ages into a reference to nothing.
 
 - **Refer to an unlanded commit by a shortened form of its subject line instead.**
   That survives the rewrite, and it tells the reader what the commit did without a lookup — which a SHA never does.

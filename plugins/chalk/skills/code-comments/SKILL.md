@@ -16,7 +16,6 @@ Everything below this section is the narrow set of cases where that cost is wort
 
 - **Where a comment is tempting, change the code instead.**
   Kernighan and Plauger's rule from *The Elements of Programming Style* is still the first move: don't comment bad code — rewrite it.
-  The [Linux kernel coding style](https://www.kernel.org/doc/html/latest/process/coding-style.html) puts the same thing as a prohibition — never explain in a comment how your code works, because it is better to write code whose working is obvious.
 
 - **The reader already assumes you chose this deliberately and with care.**
   They apply Chesterton's fence before they touch it, so you MUST NOT spend a comment defending the code against a reader who was never sceptical.
@@ -27,21 +26,11 @@ Everything below this section is the narrow set of cases where that cost is wort
 
 ## Interface comments are the standing exception
 
-**An interface comment says what a caller needs in order to use the thing without reading its body.
-An implementation comment says what the code inside it doesn't already say.**
-
-The default above is about implementation comments, and so is everything below unless it says otherwise.
-
-- **An interface comment on a public surface exists by default**, and is judged on completeness rather than on necessity.
-  Parameters, return, errors, preconditions, units, ownership, thread-safety — Diátaxis *reference*, held to the standard of Javadoc's own doc-comment conventions.
-  A caller who has to read the body to find one of those has been failed.
-  You SHOULD NOT document what the signature already expresses.
+**Interface and implementation comments split as Ousterhout splits them in *A Philosophy of Software Design*, ch. 13.**
+On a public surface an interface comment exists by default and is judged on completeness rather than on necessity; the default above, and everything below unless it says otherwise, is about implementation comments.
 
 - **A non-public surface takes the implementation rules whatever its markup.**
   A comment on a private function still has to earn its place.
-
-- **An obligation the signature can't express belongs here and nowhere else.**
-  A precondition, a required close, an ordering between two calls.
 
 ## Three moves that dissolve a comment
 

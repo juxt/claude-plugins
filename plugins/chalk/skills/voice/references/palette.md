@@ -7,9 +7,6 @@ Nothing reads the headings but a person, so a section's *existence* buys the rea
 The headings are the artefact's top-level skip structure, per `chalk:voice`: a reader with a goal discards whole sections on the heading alone, which is the largest single saving the artefact offers them.
 Where two entries below overlap, put the material in one of them and don't split it.
 
-`chalk:voice` carries the register and the shape; `chalk:issue` and `chalk:pr` carry what each artefact is for, who reads it, and **which sections its path takes, in order**.
-This file carries what goes in each section.
-
 ## The three modes
 
 - **issue, no PR expected** — nothing about the implementation is interesting enough to warrant one.
@@ -26,9 +23,7 @@ This file carries what goes in each section.
 **The issue is a living document; the PR freezes at merge.**
 That is why an issue MAY hold marked speculation — it has a mechanism for resolving it — and a PR mostly may not.
 
-**In `issue + PR`, the issue is the artefact that goes stale.**
-Where the work contradicted a constraint the issue asserted, or the prior art didn't transfer, the issue MUST be corrected before the PR closes.
-Otherwise the later reader finds a confident, wrong problem statement and a PR that silently disagrees with it.
+**In `issue + PR`, the issue is the artefact that goes stale**, and `chalk:pr`'s *Correct the issue* corrects it before the PR description is drafted.
 
 ## State the confidence, not just the content
 
@@ -49,9 +44,8 @@ It surfaces in three places, and MUST be carried in each.
 - **tl;dr** — **compulsory on every path.**
   It fills the two slots `chalk:voice` gives a tl;dr: the opening summary sentence, then the mindmap.
 
-  - **It is the one section with no heading**, per `chalk:voice`.
+  - **It is the one section with no heading**, per `chalk:voice` — its name here is its place in the ordering, not text that appears on the page.
     The body opens with the summary sentence and the mindmap, and the first `##` in the artefact is the section after it.
-    Its name here is its place in the ordering, not text that appears on the page.
 
   - **The abstract is that sentence, and it works like a bloom filter.**
     A reader scanning a list gets a definite *no* from it, or a *maybe*, without opening anything else.
@@ -59,7 +53,6 @@ It surfaces in three places, and MUST be carried in each.
     So it names the problem in the terms the reader arrives with — "queries not performing" — not the mechanism they don't yet know about.
 
   - **The mindmap carries context and motivation as one tree, not two labelled groups.**
-    The motivation is only legible against the context, and splitting them makes the reader hold one half while they go looking for the other.
     **Context SHOULD come first in the tree**, because that is the order a reader processes them in.
 
     - **What the work unblocks is context, as much as where it sits is.**
@@ -69,8 +62,7 @@ It surfaces in three places, and MUST be carried in each.
     - **A named downstream is the strongest form of *why now*, because it is checkable.**
       "The replica log work can't start until this lands" can be confirmed or refuted; "this is important" can't.
 
-    - **It MUST be objective, not persuasive.**
-      The tell is a sentence that carries the same fact with its evaluative words deleted: if "seriously degrades" and "degrades" say the same thing, the adverb was doing persuasion.
+    - **It MUST be objective, not persuasive**, per `chalk:voice`'s deletion test.
       **"Unblocks future work" fails that test by surviving deletion entirely** — name the work, or cut the claim.
 
     - **Where the unblocking is a graph edge, wire the edge.**
@@ -96,7 +88,7 @@ It surfaces in three places, and MUST be carried in each.
 
 - **Current state** — **only where today's behaviour holds details the reader needs to see the problem or bound its solution.**
   A `###` under Problem on a feature; its own section on a bug.
-  Where the before is obvious to a senior engineer on the project, or the work is greenfield, it is cut: it would spend the reader's attention on nothing they lacked.
+  Where the before is obvious to a senior engineer on the project, or the work is greenfield, it is cut.
 
   **How the system behaves today, as states and the events that change them** — what each reader needs, which events change which state, which changes happen together, what is retained and for how long.
   Describing it is where the constraints surface: each coupling it shows either bounds the solution or is one the change may remove.
@@ -118,7 +110,7 @@ It surfaces in three places, and MUST be carried in each.
 - **Symptoms**
   Observable behaviour, error messages, affected conditions ("multi-writer only", "under chaos monkey testing"), and the repro.
 
-  - **It MUST carry the literal strings** — the exact error text, the version, the condition that triggers it.
+  - **It MUST carry the literal strings** — the exact error text, the stack trace, the version, the condition that triggers it.
     `chalk:issue`'s reader 2 is matching their failure against this section rather than reading it, so this is the one section written for search.
 
   - **Neither of `chalk:voice`'s defaults applies here.**
@@ -139,9 +131,6 @@ It surfaces in three places, and MUST be carried in each.
   Unnecessary where the change is uncontroversial.
   It is an **input**: written before the choice, it constrains it, and it is what stops Potential approach being argued in a vacuum.
 
-  *Known failure mode, accepted:* written after choosing, it retrofits criteria the chosen approach happens to satisfy and reads as persuasion.
-  There is deliberately no machinery here to police that.
-
 - **Prior art** — **contested changes only, and never on a bug**; where there is a correct answer, or nobody would push back on the direction, there is no constraint left to discover.
   Who has done this before, why, and **what constraints they had that we also do or don't**.
 
@@ -151,7 +140,6 @@ It surfaces in three places, and MUST be carried in each.
 
 - **Potential approach**
   One **goal tree** (`chalk:goal-tree`) of what has to be true when this is done — not which files to touch.
-  **Named "potential" deliberately**: it is a direction nobody has walked yet, and the heading is the one place a reader can't skip that.
   **Future state** and **Implementation** both land here; neither is a section of its own.
   **Constraints and assumptions annotate the node they bound** (`C<n>`, `A<n>`, per `chalk:goal-tree`), card-wide ones on the root; there is no separate Invariants section.
   Where the issue has a Current state, the future state is written in its vocabulary — the same states and events — so the reader sees the difference rather than reconstructing it.
@@ -161,21 +149,16 @@ It surfaces in three places, and MUST be carried in each.
 
 - **What changes** — **compulsory.**
   Written to PEP's **"How to Teach This"** test: how would you explain this to someone who already knows the old system?
-  A drafter can *fail* that question, where "state the delta" is satisfiable vacuously.
 
   **It opens with the model, in a sentence, before any type name**, then descends: the mechanism — walked through, where it is new — then the specifics.
   Where the change introduces an algorithm or a process, it carries a worked example aimed at the path that isn't obvious.
 
   **It MUST name the fact that was true and is no longer**, stated objectively and never as a belief attributed to the reader: "the watermark wasn't being replicated", not "you believed the watermark was replicated".
   **Where the old fact is just the negation of the new one, the new one names it**: "group-by now spills" says what was true before, and a second sentence saying so is surplus.
-  **Compulsory rather than palette-optional, because it is invisible from the author's side** — the author holds the new model, so the delta reads as obvious.
-  Palette-optional and reliably-dropped are the same outcome.
 
   - **For an equivalence change: "Behaviour is unchanged."**
     Three words.
     Usage / migration is then omitted, and this section is an implementation-model delta — `chalk:pr`'s reader 1 holds a model of the code, not only of the behaviour.
-
-  Kept as one section deliberately: split into a delta and a compatibility note, the drafter writes it twice and the second copy decays into the first.
 
 - **Usage / migration** — **where the change is user-visible, or needs a step that isn't in the diff.**
   A worked example or a before/after, concrete — SQL with realistic output, a CLI invocation, a config snippet.
@@ -190,22 +173,22 @@ It surfaces in three places, and MUST be carried in each.
   **Where the diff doesn't settle it, ask rather than guess** — a missing rollback note sends someone to find out, and a wrong one doesn't.
 
 - **Reviewing this** — **show and ask PRs, where correctness rests on an argument the diff doesn't show locally.**
-  For `chalk:pr`'s reader 0: what they need to check each commit and come away owning the change.
+  For `chalk:pr`'s reader 0, at the branch's level: they review the code commit by commit, and each commit's body carries what checking that commit means and the invariants it rests on (`chalk:commit`).
+  This section carries what no single commit can.
   Concurrency and ordering, algorithms, on-disk formats, cross-cutting invariants and resource lifetimes are the usual cases; a change checkable line by line doesn't need it.
 
-  - **A map of the commits, each with what checking it means.**
-    A tidy is checked by asking "could this change anything?", so its entry names what to look at to answer that; an advance is checked against the invariants below.
-    Commits are named by their subject — a SHA is rewritten by a rebase or a squash.
-
-  - **The invariants the change's correctness rests on, each with where it is made true, what test pins it, and what change would break it.**
-    Stated, they turn review from simulating the code into checking an argument.
-    The test is what alarms when an invariant decays; one no test pins is marked unpinned, so nobody assumes it is held.
-
-  - **Where to spend attention, and what is mechanical.**
+  - **Which commits carry the subtle argument, and which parts are mechanical** — whole commits, or hunks where the commits are mixed — each commit named by its subject, per `chalk:voice`.
     A reviewer's attention is the scarce resource; uniform scrutiny spends as little on the subtle part as on the plumbing.
+    **Nothing a commit's body argues or pins is mechanical, nor a test whose assertion changes meaning.**
 
-  - **The evidence, and where it runs out** — what was verified and how, what wasn't run, what was reasoned rather than measured.
-    This is not a test-plan checklist: CI renders that. It is what the reviewer can't see from CI — which properties the tests actually exercise, and which they don't.
+  - **The invariants that span commits**, each with where it is made true, what test pins it, and what change would break it.
+    One commit's invariants are its body's; an invariant one commit sets up and a later one relies on has no single body to live in.
+    One no test pins is marked unpinned, so nobody assumes it is held.
+
+  - **The evidence, and where it runs out** — what was run to check correctness and how, what wasn't run, what was reasoned rather than measured.
+    A benchmark is a measurement, and goes in Consequences; this cites it where correctness leans on it.
+    **A test-plan checklist belongs nowhere in the description**, since CI renders it: this is what the reviewer can't see from CI — which properties the tests actually exercise, and which they don't.
+    It stays here rather than in a commit body because it dates: true at review, and stale to the reader who arrives from `git blame`.
 
   - **How certain the motivation is**, where it is in doubt — a reviewer weighing urgency and blast radius needs to know whether the problem it fixes is confirmed.
 
@@ -222,17 +205,14 @@ It surfaces in three places, and MUST be carried in each.
     "Be careful of Z" with no reason is an unlabelled fence.
 
   - **Measurements**, where one exists nowhere else — "p99 340ms → 40ms on the 10M-row fixture", "verified the rolling deploy by hand on staging".
-    **A test-plan checklist does not belong anywhere in the description** — CI renders it.
+    A benchmark belongs here, once; the tl;dr may quote its headline.
     The measurement is what survives; what the tests do and don't exercise, where it matters to review, is Reviewing this.
-
-  - **Why not Rust's "Drawbacks":** theirs prices a cost so a reviewer can weigh it before saying yes, and it disappears once the answer is yes.
-    This is a handover section — the cost is already accepted, and the reader needs to know they inherited it.
 
 - **Out of scope**
   **Only the counter-intuitive exclusions**: what would a reasonable reader think is in scope here, and isn't?
   A list of corrected expectations, not an inventory of everything adjacent.
 
-  - **It carries as much weight as what the change does include**, because a wrong expectation is the one that gets acted on — someone builds on a behaviour that isn't there, or re-opens a decision that was never made.
+  - **A wrong expectation is the one that gets acted on** — someone builds on a behaviour that isn't there, or re-opens a decision that was never made.
 
   - **The test is `chalk:voice`'s cut-what's-obvious rule run in the other direction**: cut what a reasonable senior engineer already knows, and *keep* what they would reasonably get wrong.
     An exclusion nobody would have expected here isn't out of scope, it is just absent.
@@ -251,11 +231,8 @@ It surfaces in three places, and MUST be carried in each.
 
   **Alternatives considered, Decision rationale and Dead ends all land here**, because one entry per road covers both the reasoned-against and the tried-and-abandoned, and *State the confidence* above requires the entry to say which.
   **Name what ruled a road out; do not argue that the chosen one is good.**
-  The reader has the diff and can check, so argument where evidence would do reads as something you couldn't show.
   Implementation-strategy choices — refactor-in-place versus parallel implementation, big-bang versus incremental — aren't alternatives at this level; they are Potential approach.
   **Name the rule you split on**, for the same reason as Out of scope.
-
-  **The position is deliberate**: a reader arrives here by searching for a road, not by reading forward.
 
 - **Open questions**
   What is still unanswered, and **what would settle each** — a decision owed, a hypothesis nobody verified, a measurement not taken.
@@ -266,13 +243,16 @@ It surfaces in three places, and MUST be carried in each.
     A closed issue still carrying live questions reads as unfinished work, and `chalk:issue`'s reader 3 can't tell that it isn't.
 
   - **On a PR** — what this change did not settle.
-    A PR freezes at merge, so it has no mechanism for resolving one: **anything actionable MUST become an issue the PR links**, and what stays is provenance.
-    "Nobody measured this" stops the next reader assuming somebody did.
+    A PR freezes at merge, so it has no mechanism for resolving one: **by merge, anything actionable MUST have become an issue the PR links**, and what stays is provenance.
+    - **A question that blocks merging is marked so**, and is settled on the PR before it merges, not filed.
+      The session that owns the PR settles it; merging stays the user's.
+    - **Where the PR is "Part of" an issue that stays open, an actionable question moves onto that issue**, rather than a new one.
+      The PR's own questions continue the issue's numbering, so an ID the issue published and has since deleted is never reused.
 
 ## Interleavings for sequencing bugs
 
 Where the bug *is* an ordering — a race, a leadership transition, a distributed-log divergence — the trace goes inside Root cause.
-**Its form is the interleaving in `chalk:voice`**, which the routing chain there already requires of anything multi-actor.
+**Its form is the interleaving**, per `chalk:voice`'s [references/interleaving.md](interleaving.md).
 
 - **It MUST be distilled from a real trace** — a captured log, a debugger session — down to the rows that carry the causality.
   A sequence reconstructed from reasoning asserts an ordering nobody observed.

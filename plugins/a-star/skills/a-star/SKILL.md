@@ -32,21 +32,29 @@ The dart is the try, the revert is the revert, and each drive commits a leaf.
 
 ## Entry and exit
 
-**a-star starts from a plan whose goal the user has approved**, handed in by whatever harness surrounds it — chalk's planning is one.
+**a-star starts from a plan whose goal the user has approved**, handed in by whatever harness surrounds it — for example, chalk's planning.
 How the goal gets understood and agreed is that harness's; a-star only checks it is.
+
+- **A card is ready once its goal, its constraints and what's out of scope are agreed with the user, and no open question bears on it.**
+- **A card's goal is what it is for; its target is what its branch is to contain — the commit plan.**
+  The target changes as darts and drives teach; the goal changes only with the user.
 
 **a-star exits back to that harness**, and doesn't care what it is:
 
-- **replan** — the goal itself is invalidated;
-- **park** — nothing is ready, and what's blocked waits on the user or someone else;
+- **replan** — the goal itself is invalidated, and the harness re-plans with the user;
 - **done** — the done sub-goals complete the card, and the branch has had its review-unit pass.
 
-**A finding that leaves the goal standing is never an exit**: a revert, a replan of sub-goals, or a question, all inside a-star.
+**park hands the work back to that harness** — nothing is ready, and what's blocked waits on the user or someone else.
+**A park leaves what a later session needs to resume**: the branch pushed — with `--force-with-lease`, per [Feature branches](#feature-branches) — and its head, the drive stack and any WIP commits recorded where the project tracks the card.
+Resuming starts from that record.
+
+**A finding that leaves the goal standing is never an exit**: a revert, a re-split of sub-goals, or a question, all inside a-star.
+Only the replan exit re-enters the harness's planning.
 
 ## The orchestrator
 
 **Every move is taken from one state, choosing.**
-In primary, a move is first offered, and only the user's yes takes it; in secondary it is taken directly, and what would have been offered is recorded (`a-star:primary`, `a-star:secondary`).
+In primary, a move is first offered, and only the user's yes takes it; in secondary it is taken directly, and what would have been offered is recorded, per [Primary and secondary](#primary-and-secondary).
 
 - **The first move, where the approved plan names it, is already accepted.**
   Approving the plan was the yes, so it is taken without being offered again; every later move is offered as usual.
@@ -64,15 +72,38 @@ In primary, a move is first offered, and only the user's yes takes it; in second
   Frames in hand are thrown away; a done sub-goal whose commit isn't replayed is outstanding again, or superseded where the new target doesn't need it.
   It is a move of its own, not a failure path: what the branch cost so far is no argument against it.
 
-- **replan, park, done** — the exits above.
+- **replan, done** — the exits above; **park** — the hand-back above.
 
-**The commit plan is revised whenever new information arrives**; replanning sub-goals is a move inside a-star, not only failure handling.
+### Primary and secondary
+
+**The mode — whether the user is watching — is the session's, as the session records it, and a-star reads it rather than sets it**; with none recorded, a session is primary unless it runs headless or scheduled.
+These are what each mode means for a-star's own moves.
+
+**In primary:**
+
+- **Offer every move out of choosing, and take it only on a yes** — the offered state in the spec.
+  A question from the user is not that yes.
+  - **The plan's first move, named in the plan the user approved, is the exception.**
+    Their approval was the yes, so take it without offering it again.
+- **Escalate a dart's findings while they can still change its route**, not as a running commentary.
+
+**In secondary:**
+
+- **Work only on a ready card.**
+  One that isn't, or a question the card can't answer, gets its questions recorded and the card parked.
+- **A halt is recorded as an open question blocking that sub-goal**, and other ready sub-goals go on; with none left, park.
+  - **An open question blocks a sub-goal only where it is a halt** — a sub-goal whose plan routes around it stays ready.
+- **Take each move out of choosing without offering it** — the offered state is bypassed — and record what you'd have offered or handed over.
+- **Push a drive's branch after each frame's gate, wherever the project's answers allow**, so CI backstops what nobody is watching — never a dart's.
 
 ## Triage
 
+**The completion test: where an unlanded commit's claim — its subject line — still holds with new scope inside it, that scope is an amend of the commit, not a new commit on top.**
+A tidy never folds into an advance, or an advance into a tidy.
+
 **Darts and drives turn up the same kinds of thing, and you triage each:**
 
-- **an increment ready to commit, or a new or better-split sub-goal** — first apply `chalk:commit`'s completion test against the unlanded commits: where one's subject still holds with the new scope inside it, the scope completes that commit and is an amend of it, below.
+- **an increment ready to commit, or a new or better-split sub-goal** — first apply the completion test against the unlanded commits; scope that completes one is an amend of it, below.
   Otherwise record it as a sub-goal, with its kind and where it would be committed, what it depends on, and whether a dart exercised it.
   This holds for scope the user adds mid-card and for findings from your own review of a frame alike;
 - **a stretch of the route not yet walked** — a dart;
@@ -87,20 +118,20 @@ In primary, a move is first offered, and only the user's yes takes it; in second
 ## Sub-goals
 
 - **Sub-goals come from darts, not from reading the code.**
+  The approved plan's leaves are provisional until a dart has exercised them: harvesting a dart refines each leaf it walked into sub-goals, and the leaf's task is replaced by theirs.
 - **A sub-goal is one tidy, one advance or one amend**, committed by a drive.
 - **Each sub-goal is atomic, and goes from green to green.**
-  One unit of change, its own tests and docs included: the user reviews a branch commit by commit, agreeing with each before the next, and a commit whose tests or docs arrive later, or that leaves the suite red for a later one to fix, can't be agreed with on its own.
+  One unit of change, its own tests and docs included.
   A sub-goal that can't be committed green wants another ordered before it; that's a question to ask when it's recorded, not one for its drive to discover.
 - **Together, a card's sub-goals MUST complete it.**
 - **The code a drive commits keeps the data structures a dart got right**, and leaves out what it built around the ones it didn't.
-- **The branch is shaped for its reviewer, not kept in the order the work happened.**
-  Reordering, merging or splitting unlanded commits so the branch is easier to review is encouraged.
-- **Before the done exit, a review-unit pass over the unlanded branch.**
+- **Before the done exit, a review-unit pass shapes the unlanded branch for its reviewer, not the order the work happened in.**
   Reorder, merge or split its commits until each is independently acceptable and none is a slice of another, leaving the final tree unchanged.
   **The test is the `review:` entries**: a commit whose entry can't say what checking it means apart from its neighbours' is a slice of one of them, and an entry that needs two different checks is two units.
   **A tidy and an advance stay separate**, however closely they belong together — they are checked differently.
-  It catches what the frame gate and triage missed, and merging two commits merges their `review:` entries.
-  It rewrites the branch, so it needs the project's answer that feature branches may be rewritten; without one, it is a question for the user, and done waits on it.
+  Merging two commits merges their `review:` entries, and redrafts the merged body to the project's commit conventions.
+  A rewritten subject updates the journal entries keyed by it.
+  It rewrites the branch, per [Feature branches](#feature-branches).
 
 **A structure change and a behaviour change never share a commit**: a tidy changes structure, an advance changes behaviour, and `a-star:drive` commits either.
 
@@ -116,48 +147,49 @@ In whatever the session tracks its work with — the outer harness's journal, wh
 - **a decision** — a call you aren't sure of is an open question instead;
 - **an open question, and what it blocks;**
 - **a sub-goal done**, with its commits;
+- **a commit's `review:` entry**, against its subject — the review notes its body also carries: what checking the commit means; the invariants it rests on, each with where it is made true, what pins it and what would break it; and what was verified and what wasn't;
+- **a revert or a re-split** — what changed, and which sub-goals it superseded or reopened, as a `re-split:` entry; the replan exit's is a `replan:`, journalled as it exits;
 - **what's in hand** — the drive stack, innermost first — **recorded before the first edit;**
 - **a dart in flight**, so a resumed session knows it was lost;
-- **whether the user is watching** (`a-star:primary`, `a-star:secondary`).
-  A session starts primary, unless nobody can watch it — headless, cloud or scheduled — when it starts secondary.
 
-**Keep the host's task list current as sub-goals move**, as a view of the plan per `chalk:chalk`, where the session journals there:
-
-- **a sub-goal recorded adds its task** — harvested from a dart, or reported by a drive, a tidy, amend or prequel to push onto the stack included — carrying its ID and subject line;
-- **done completes it**;
-- **superseded or thrown away removes it**, as a re-plan's dropped leaves are removed;
-- **a frame interrupting a drive marks the drive's task blocked by its own.**
+**Keep the host's task list current as sub-goals move**: a sub-goal recorded adds its task — a tidy, amend or prequel pushed onto the stack included — one done completes it, one superseded or thrown away removes it, and a frame interrupting a drive marks the drive's task blocked by its own.
 
 ## `/a-star <card>`
 
-1. **Check the plan is approved** — the card's goal, its constraints and out of scope agreed with the user, by the outer harness or on the tracker issue.
+1. **Check the plan is approved, and the card [ready](#entry-and-exit)**, by the outer harness or on the tracker issue.
    Where it isn't, choose how to make it ready, taking the first that applies:
    1. the user has said how to ready it — do that;
-   2. `chalk:chalk` is installed — hand to it to plan the card;
+   2. the project has a planning skill — hand to it to plan the card;
    3. otherwise ask the user how, agreeing the root with them — what the card is for, never how it gets there.
    **Agreed here, it goes on the tracker issue before you move on**: every decision that bears on the problem or the agreed scope, not only the root.
    In secondary, record the questions and park instead.
+   **Resuming a card from an earlier session**, start from the record its park left, per [Entry and exit](#entry-and-exit) — the branch, its head and the stack in hand.
 
-2. **Check the project's readiness conventions hold**, load its answers to the [four choices](#what-the-project-says), and check no open question bears on the card itself.
+2. **Load the project's answers to the [three choices](#what-the-project-says)**, and check no open question bears on the card itself.
    Look for the answers in the project's skills and agent instructions first; only a choice answered nowhere there becomes a question.
 
 3. **Choose the first move**: the one the approved plan names, taken directly; otherwise a dart where the card has no sub-goals yet or part of its goal is still unwalked, else a drive.
+
+## Feature branches
+
+**A feature branch the session owns MAY be rewritten, and pushed with `--force-with-lease`; the project's base branch never is.**
+The session owns a branch it created for the card, one the user handed it, or one an earlier session created for the same card.
+
+**A commit has landed once it reaches the project's base branch, and not before.**
+A frame is committed, not landed: pushing the feature branch, or opening a PR on it, lands nothing.
+Until it lands, a commit is amendable.
 
 ## What the project says
 
 **Everything not here follows the project's conventions** — writing, tracking, planning, picking a card up and putting it down, the base branch, ship/show/ask, the definition of done, coding standards, and how a commit is written.
 What goes in a commit is a-star's: one atomic unit of change.
 
-**A commit has landed once it reaches the project's base branch, and not before.**
-A frame is committed, not landed: pushing the feature branch, or opening a PR on it, lands nothing.
-Until it lands, a commit is amendable, wherever the project lets its feature branches be rewritten.
-
-**The project MUST answer four choices of a-star's own**:
+**The project MUST answer three choices of a-star's own**:
 
 - **Where a tidy is committed** — feature branch or main; what to verify before committing; when to push; whether it's done at commit or once CI is green.
 - **Where an advance is committed** — what to verify before committing, and whether to push the feature branch as each is committed.
-- **Whether its feature branches may be rewritten** — which an amend, a prequel or a revert needs; and a force-with-lease push where they're pushed.
 - **Branch cleanup** — what happens to a branch once its work has landed.
 
 **Raise an unanswered one as a question; don't fill it with a default.**
 The exception is branch cleanup: absent an answer, delete local branches and worktrees whose work has fully landed, and only offer to delete remote ones.
+A spent dart's branch and worktree are removed whatever the answer, since its code never lands.

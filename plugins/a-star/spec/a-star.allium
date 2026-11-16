@@ -5,7 +5,7 @@
 -- External Entities
 ------------------------------------------------------------
 
--- The plan the outer harness hands in, its goal approved by the user — chalk's planning is one such harness.
+-- The plan the outer harness hands in, its goal approved by the user — whatever harness surrounds a-star, for example chalk's planning.
 -- a-star records into it and exits back to it; it never approves a plan itself.
 external entity Plan {
     goal_approved: Boolean
@@ -14,7 +14,7 @@ external entity Plan {
 
 -- A commit on the card's feature branch.
 -- It has landed once it reaches the project's base branch; until then it is unlanded,
--- and amendable where the project lets its feature branches be rewritten.
+-- and amendable, per a-star:a-star's Feature branches.
 external entity Commit {
     landed: Boolean
 }
@@ -23,6 +23,7 @@ external entity Commit {
 -- Enumerations
 ------------------------------------------------------------
 
+-- Whether the user is watching: the session's mode, as the session records it, which a-star reads rather than sets.
 enum Mode { primary | secondary }
 
 enum Move { dart | drive | revert | replan | park | done }
@@ -53,6 +54,7 @@ enum Placement {
 
 entity Session {
     plan: Plan
+    -- The session's mode, read rather than set: a-star never changes it.
     mode: Mode
     -- The unlanded commits read as review units: each independently acceptable, none a slice of another.
     in_review_units: Boolean
@@ -176,7 +178,7 @@ entity Yield {
     from_frame: Frame?
     changes_goal: Boolean
     changes_target: Boolean
-    -- The kind of frame that would commit it, and where; a report without them is a route question back to its author.
+    -- The kind of frame that would commit it, and where: a dart's or drive's sub-goal carries its kind, and the orchestrator assigns its placement at triage.
     frame_kind: FrameKind when kind = sub_goal | increment
     placement: Placement when kind = sub_goal | increment
     commit: Commit when kind = earlier_commit
@@ -196,6 +198,7 @@ entity Yield {
 -- Rules
 ------------------------------------------------------------
 
+-- The mode is the session's at hand-in, as the session records it.
 rule Enter {
     when: Start(plan, mode)
     requires: plan.goal_approved
@@ -239,12 +242,7 @@ rule TakeUnoffered {
     ensures: Recorded(session: session, entry: would_have_offered)
 }
 
--- The mode changes only on an explicit switch; any other message from the user leaves it.
-rule SwitchMode {
-    when: UserSwitchesMode(session, mode)
-    ensures: session.mode = mode
-    ensures: Recorded(session: session, entry: mode_change)
-}
+-- The mode changes only outside a-star, where the session records it; session.mode follows it.
 
 -- dart: part of the goal not yet walked, or a sub-goal no dart has exercised, that nothing in flight covers.
 rule TakeDart {
@@ -280,7 +278,7 @@ rule TakeRevert {
     requires: move = revert
     requires: session.status = choosing
     ensures: session.status = reverting
-    ensures: Recorded(session: session, entry: replan)
+    ensures: Recorded(session: session, entry: re_split)
     ensures:
         for frame in session.open_frames:
             frame.status = failed
@@ -289,6 +287,7 @@ rule TakeRevert {
     @guidance
         -- Tag the old head, restart from the base, and replay the commits that still hold.
         -- Frames in hand are thrown away with it: their WIP sits on the old head, kept by the tag as evidence.
+        -- A revert stays inside a-star, so it is journalled as a re-split; only the replan exit re-enters the harness's planning.
 }
 
 -- A done sub-goal whose commit was not replayed is outstanding again; one the new target no longer needs is then superseded.
@@ -302,7 +301,7 @@ rule RevertDone {
             TaskAdded(sub_goal: sub_goal)
 }
 
--- replan: the goal itself is invalidated. Exits to the outer harness, which re-plans with the user.
+-- replan: the goal itself is invalidated. Exits to the outer harness, which re-plans with the user; the replan entry is journalled here, as it exits.
 rule TakeReplan {
     when: Take(session, move)
     requires: move = replan
@@ -321,7 +320,7 @@ rule TakeReplan {
 }
 
 -- park: nothing is ready, and what is blocked waits on the user or someone else.
--- Hands back to the outer harness; the session stays parked, its stack intact, until resumed.
+-- Hands back to the outer harness, which puts the work down: its stack recorded on the issue, its branch pushed.
 rule TakePark {
     when: Take(session, move)
     requires: move = park
@@ -343,7 +342,7 @@ rule Stop {
             frame.status = parked
 }
 
--- A resumed session picks its stack back up.
+-- A later session resumes the parked work from that record on the issue, and picks its stack back up.
 rule Resume {
     when: SessionResumed(session)
     requires: session.status = parked
@@ -363,7 +362,7 @@ rule DartLost {
 }
 
 -- Before the done exit, a pass over the unlanded branch reorders, merges or splits its commits into review units,
--- leaving the final tree unchanged; it needs the project's answer that feature branches may be rewritten.
+-- leaving the final tree unchanged; it rewrites the branch, per a-star:a-star's Feature branches.
 rule ShapeForReview {
     when: ReviewUnitsChecked(session)
     requires: session.status = choosing
@@ -374,8 +373,7 @@ rule ShapeForReview {
     @guidance
         -- The test is the review entries: one that can't say what checking its commit means apart from its neighbours' is a slice; one needing two checks is two units.
         -- A tidy and an advance are never merged: a structure change and a behaviour change never share a commit.
-        -- It catches what the frame gate and TriageCompletion missed; merging two commits merges their review entries.
-        -- Rewriting without the project's answer is a question for the user, and done waits on it.
+        -- Merging two commits merges their review entries and redrafts the merged body to the project's commit conventions; a rewritten subject updates the journal entries keyed by it.
 }
 
 rule TakeDone {
@@ -482,6 +480,7 @@ rule TriageCompletion {
     @guidance
         -- The amend keeps the completed commit's kind and its subject line; one that would change the subject is a new sub-goal after all.
         -- Findings from the orchestrator's own review of a frame are yields like any other, so they meet this test too.
+        -- An amend raised by that review may be driven undarted: the orchestrator records it as judged straightforward.
 }
 
 rule TriageSupersedingChange {
@@ -594,7 +593,7 @@ rule Supersede {
     requires: sub_goal.status = pending or sub_goal.status = ready
     ensures: sub_goal.status = superseded
     ensures: TaskRemoved(sub_goal: sub_goal)
-    ensures: Recorded(session: sub_goal.session, entry: replan)
+    ensures: Recorded(session: sub_goal.session, entry: re_split)
 }
 
 -- A failed drive's sub-goal stays pending until the orchestrator readies it again, or a re-split supersedes it (Supersede).
@@ -612,6 +611,7 @@ rule DartRuns {
 }
 
 -- The dart is waiting before its question or finding is triaged, so the answer always finds it waiting.
+-- A question the card itself can't answer is a gap in the plan, raised as an invalidating_finding: the user's to settle.
 rule DartAsks {
     when: DartEndsTurn(dart, yield_kind, changes_goal, changes_target)
     requires: dart.status = running
@@ -646,6 +646,7 @@ rule DartHarvested {
             dart.status = cleared
 }
 
+-- A cleared dart's branch and worktree are always removed: its code never lands.
 rule DartCleared {
     when: dart: Dart.still_needed becomes false
     requires: dart.status = evidence
@@ -721,14 +722,13 @@ rule Committed {
 
     @guidance
         -- Verified includes the orchestrator's review of the frame's diff, code and comments, before it takes the commit.
-        -- Before taking it, the orchestrator writes its review entry; where it only repeats an earlier unlanded commit's, the frame completes that commit and is folded in as an amend, never a tidy into an advance or the reverse.
+        -- The drive agent writes the review notes into the commit's body and reports them; at the gate the orchestrator checks they stand apart from the unlanded commits' review entries, rewriting the message only where they fall short, and records them as the commit's review entry.
+        -- Where the completion test in a-star:a-star's Triage finds the frame completes an earlier unlanded commit, it is folded in as an amend, never a tidy into an advance or the reverse; the brief's placement otherwise holds.
         -- A finding inside the frame's scope sends the drive agent back to fix it; anything else is triaged like any other report.
         -- A finding that traces to something the drive agent reads being silent or wrong is also fixed where it belongs — the project, the record, a skill or the setup — not only in the commit.
-        -- A step the project's conventions run through a sub-agent, which the drive agent can't spawn, is the orchestrator's, run before the commit is taken.
-        -- The review entry is what a reviewer has to check the commit, by its subject; the PR's Reviewing this is written from it.
-        -- The drive agent makes the commit; the orchestrator may rewrite that commit's place or message.
-        -- Anything but branch_top rewrites the branch, so it needs the project's answer to whether
-        -- its feature branches may be rewritten, and a force-with-lease push where they are pushed.
+        -- A step the project's conventions run through a sub-agent the drive agent can't spawn — a comment weed, a test-log reader — it asks the orchestrator for by ending its turn, and is resumed with the results; the orchestrator's review is the code review, so it asks for no other.
+        -- The drive agent makes the commit and never pushes; the orchestrator may rewrite that commit's place or message, and pushes after the gate where the project's answer says to.
+        -- Anything but branch_top rewrites the branch, per a-star:a-star's Feature branches.
         -- An amended commit's message describes its final shape; the PR mentions it only where it
         -- leaves a consequence the reader bears.
 }

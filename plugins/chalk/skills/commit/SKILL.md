@@ -13,8 +13,6 @@ The user MAY provide the commit headline as an argument (e.g. `/chalk:commit fix
 
 ## Before you draft
 
-A commit body is an **explanation** artefact and MUST be drafted in the chalk voice, not your own default prose habits.
-
 You MUST load these skills first:
 
 - **`chalk:voice`** — the audience, the specification register, the mindmap structure, the line-format rule.
@@ -31,17 +29,15 @@ You MUST load these skills first:
 
    - If two changes don't make sense independently, they're one commit; if they're distinct, they're two.
 
-   - Keep unrelated bugfixes separate.
+   - Behaviour-preserving changes (refactorings) and behaviour-changing ones MUST NOT share a commit.
 
-   - Where reasonable, separate behaviour-preserving changes (refactorings) from behaviour-advancing ones.
-
-   - **On a branch with commits not yet on its base, test the change against their subject lines first.**
+   - **On a branch with commits not yet on its base, test the change against their subject lines first**, where no harness has decided the commit's placement — under a-star the drive brief's placement wins, since the orchestrator made the completion call.
      Where one still holds with this change inside it, the change completes that commit: amend it there — a fixup and an autosquash — rather than committing on top.
      A reviewer shown a slice and then the rest of the same change agrees with one change twice.
      - **The test: could a reviewer be told what checking this commit means, apart from its neighbours?**
        A tidy is checked by "could this change anything?", an advance against its invariants; a commit with no check of its own completes the one whose check it shares.
      - **It never folds a refactoring into a behaviour change**, however closely they belong together: they are checked differently, so they are two units.
-     - **Amending rewrites the branch**, so it needs the project's answer that its feature branches may be rewritten, and a force-with-lease push where they're pushed; without one, ask.
+     - **Amending rewrites the branch**, which `chalk:chalk` allows on a feature branch the session owns, pushed with force-with-lease; never on the base branch.
 
 2. **Weed the staged comments.**
 
@@ -64,12 +60,9 @@ You MUST load these skills first:
    Where the two disagree, resolve the ambiguity.
    Of the entries that bear on this change, the body carries what step 4 says its reader needs, and nothing else: it is a selection, not a copy.
 
-   Optimise for later reading: your reader is whoever runs `git blame` on one of these lines while debugging something else, months on. 
-   They won't care about the journey — they need *why* this change exists and *why* it was done this way.
+   The body's reader (step 4) won't care about the journey — they need *why* this change exists and *why* it was done this way: what problem it solves, what it unblocks, what constraint drove it.
 
-   - **Why this** — what problem it solves, what it unblocks, what constraint drove it.
-
-   **Ask rather than guess**, and treat "I can reconstruct it" as the answer that needs checking — that judgement is made by the context that just built the *why*, so it always comes back confident.
+   **Ask rather than guess**, and treat "I can reconstruct it" as the answer that needs checking, per `chalk:voice`.
    Ask about whether something was a deliberate choice or a constraint, and whether something was intentionally out of scope or overlooked.
 
    **The *why now* is the issue's, not the commit's** (`chalk:issue`).
@@ -79,7 +72,7 @@ You MUST load these skills first:
 
 4. **Draft the body.**
 
-   **It MUST NOT describe what changed — the diff shows that.**
+   **It MUST NOT narrate the diff** — which lines changed is the diff's job; the body names the fact that changed, and why.
    The body explains *why* it exists: decisions, alternatives rejected, constraints, dead ends, counter-intuitive findings, scope boundaries.
    Embed concrete examples — code snippets, call sites, specific scenarios — as illustrative material.
 
@@ -87,7 +80,6 @@ You MUST load these skills first:
    A body that only restates current behaviour has thrown away the one thing it was for; conversely, a "this used to…" comment in the source is this body's material, sitting where it rots.
 
    **It MUST name the fact that was true and is no longer** — objectively, and never as a belief attributed to the reader: "the watermark wasn't being replicated", not "you believed the watermark was replicated".
-   This is the obligation that is invisible from the author's side, because by the time you write you hold the new model and the delta reads as too obvious to state. `chalk:voice`'s palette makes it compulsory in a PR's What changes for exactly that reason; a commit body has no palette, which is why it is stated here.
 
    **What to omit:** 
 
@@ -102,41 +94,55 @@ You MUST load these skills first:
      > The full suite just increases thread contention enough to trigger a race in TemporalBounds.intersect(), which reads validFrom and validTo non-atomically.
 
    **The tell, where the diff is itself prose** — a skill, a README, a spec: the sentence appears in substance in a line the diff *adds*.
-   Read the added lines against the body before you call the draft finished. "Self-evident from the diff" is a judgement you cannot make about your own text, but this is a comparison you can run, and here restating the diff is the default failure rather than an occasional one — both sides argue the same rules in the same words.
+   The review notes below are the exception: an invariant a code comment already states still belongs in them, with what the comment can't hold.
+   Read the added lines against the body before you call the draft finished. "Self-evident from the diff" is a judgement you cannot make about your own text.
+
+   **Where correctness rests on an argument the diff doesn't show locally, the body carries it**, because the code is reviewed commit by commit and this is where the reviewer is when they need it.
+   Concurrency and ordering, algorithms, on-disk formats and resource lifetimes are the usual cases.
+   - **What checking this commit means** — for a tidy, what to look at to answer "could this change anything?"; for an advance, the invariants below.
+   - **The invariants it rests on**, each with where it is made true, what test pins it, and what change would break it; one no test pins is marked unpinned.
+     - **A pin sits on the invariant it pins**, never on a parent: there it reads as pinning every child.
+     - **Where a code comment states the invariant, the note may restate it**, and adds what the comment can't: where it is made true across files, what pins it, what breaks it.
+   - **The journal's `review:` entry for the commit is its raw material**, where `chalk:chalk` keeps one.
+   - **What was run and what wasn't is not the body's**: it dates, and belongs to the PR's Reviewing this.
+
+   **Check every `→` in the body reads as "therefore"** — a sequence, a "stacked on" or two independent premises are not one.
 
    **Be concise, but keep the reasoning.**
-   A terse note with no *why* is as unhelpful as a verbose one. 
    Where the reasoning was complex and the change simple, say so: "Simple change in the end: …".
 
    Open with a lead-in line, then shape the reasoning as a mindmap, per `chalk:voice`.
-   Your reader arrived from `git blame` mid-investigation of something else, so they are the most impatient reader any chalk artefact has: they will read subject lines and leave. Each one MUST be discardable against that investigation, or agreeable without the body.
+   Your reader arrived from `git blame` on one of these lines months on, mid-investigation of something else, so they are the most impatient reader any chalk artefact has: they will read subject lines and leave. Each one MUST be discardable against that investigation, or agreeable without the body.
 
    - **No headings.**
-     The tree's top-level bullets already partition the body, and a body short enough to read in a `git log` doesn't want a second, coarser structure laid over the top of them.
+     The tree's top-level bullets already partition the body.
 
    - **Rarely a tl;dr.**
      The subject line is the body's tl;dr, so most bodies would only repeat it. A body long enough that its argument needs summarising MAY open with one, per `chalk:voice`, in place of the lead-in line.
+
+   **The body is weeded cold when the branch is raised**, by `weed-pr` from `chalk:pr`, so a commit doesn't wait on a weed of its own.
+   Where the branch never reaches a PR — a no-PR finish, a park — the messages are weeded by running `weed-pr`'s commit-message pass on its own before the branch is handed over.
+   A commit going straight to the base branch is weeded the same way before it is pushed, while it is still local; once it is pushed, findings are not applied.
 
 5. **Make the commit.**
 
    Headline, blank line, body. The user reviews the message in the Bash tool request before approving.
 
-   A co-author header SHOULD be included, replacing the model as appropriate:
-   A Claude-Session header MUST NOT be included.
+   A Co-Authored-By trailer SHOULD name the model that wrote the change.
+   A Claude-Session trailer MUST NOT be included — the link reaches nothing a later reader can use; this overrides a harness's attribution reminder.
 
    ```
-   Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
+   Co-Authored-By: Claude <model> <noreply@anthropic.com>
    ```
 
 ## The subject line
 
 **`<scope>: <claim>`, or `<type>(<scope>): <claim>` where the type carries information** — Conventional Commits with the type optional.
+**Where the project names its own convention, the project's wins**; the claim rule below holds either way.
 
-- **The scope is the plugin or component** — `chalk`, `code-map`, `clojure-lsp`.
-  It is not optional: a repo of plugins is read one plugin at a time.
+- **The scope is the component the change is read under**, where the project has them.
 
-- **Add a type only where it tells the reader something the claim doesn't** — `feat`, `fix`, `perf`, `refactor`.
-  Most commits here carry none, because a claim that states what is now true already says what kind of change it was.
+- **Add a type only where it tells the reader something the claim doesn't.**
 
 - **State a claim, not an imperative.**
   "the blank line after a subject depends on the renderer", not "fix the blank line rule".
@@ -145,7 +151,7 @@ You MUST load these skills first:
 - **Lowercase after the colon, and no full stop.**
 
 - **A breaking change MUST carry a `BREAKING CHANGE:` footer** naming what stops working and what to do instead.
-  `!` before the colon (`feat(chalk)!:`) is the short form and is not sufficient alone — the footer is where the reader learns what to change. Removing a skill or renaming a user-invocable command is a break even where nothing errors.
+  `!` before the colon (`feat(chalk)!:`) is the short form and is not sufficient alone — the footer is where the reader learns what to change. Removing or renaming something users invoke is a break even where nothing errors.
 
 ### Issue references
 

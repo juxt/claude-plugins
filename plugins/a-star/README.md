@@ -69,7 +69,7 @@ They're stated as state machines in [`spec/a-star.allium`](spec/a-star.allium): 
   - dart to the goal with a cheap sub-agent, and turn what the dart found into sub-goals;
   - drive each sub-goal to a commit through a drive sub-agent, as one tidy, advance or amend, each at the lowest point in the branch it can sit;
   - triage what darts and drives turn up, and choose each move — dart, drive, revert, replan, park or done;
-  - adjust to whether you're watching the session (primary or secondary).
+  - adjust its moves to whether you're watching the session, as the session records it.
 
 - **It doesn't, and leaves to your project's conventions:**
   - picking a card up and putting it down, and the tracker;
@@ -78,15 +78,15 @@ They're stated as state machines in [`spec/a-star.allium`](spec/a-star.allium): 
   - ship/show/ask, and code review;
   - writing commit messages, PR descriptions and issue updates.
 
-- **Four choices are A⭐'s own, and your project answers them**: where a tidy is committed, where an advance is committed, whether feature branches may be rewritten, and branch cleanup.
-  Where it doesn't answer one, A⭐ asks rather than guessing.
+- **Three choices are A⭐'s own, and your project answers them**: where a tidy is committed, where an advance is committed, and branch cleanup.
+  Rewriting a feature branch the session owns, and force-with-lease pushing it, is always allowed; the base branch never is.
+  Where it doesn't answer one, A⭐ asks rather than guessing — except branch cleanup, where it deletes local branches and worktrees whose work has fully landed, and only offers to delete remote ones.
 
 ## Usage
 
 - `/a-star <card>` — start or resume work on a card, once its plan is approved
 - `/a-star:dart` — reach the goal end-to-end, and break the card into sub-goals
 - `/a-star:drive <sub-goal>` — commit one sub-goal to the project's standards: a tidy, an advance, or an amend of an earlier commit, interrupting the work in hand if need be
-- `/a-star:primary`, `/a-star:secondary` — say whether you're watching this session; it starts primary
 
 ## Setup
 
@@ -96,7 +96,8 @@ They're stated as state machines in [`spec/a-star.allium`](spec/a-star.allium): 
 
 ## Recommended alongside
 
-**[chalk](../chalk/) is the harness A⭐ runs inside: chalk plans the session and keeps its journal, and A⭐ implements the plan.**
+**A⭐ needs three things from whatever surrounds it: a plan whose goal the user has approved, a place to record its work, and the project's commit conventions.**
+Neither plugin expects the other, but [chalk](../chalk/) supplies all three, and the two work well together: chalk plans the session and keeps its journal, and A⭐ implements the plan.
 
 - **chalk gets the goal agreed before A⭐ starts**
   `/chalk` plans in plan mode, and the user leaving plan mode is their approval of the goal and the route.
@@ -110,5 +111,3 @@ They're stated as state machines in [`spec/a-star.allium`](spec/a-star.allium): 
 
 - **When A⭐ can't continue on the plan as approved, chalk re-plans, parks or finishes**
   Re-plan where the goal is invalidated; park the work on its issue with `chalk:put-down`; finish once the sub-goals complete the card, opening a PR with `chalk:pr` where the plan predicted one.
-
-A⭐'s skills name no planning tool or store, so it runs on whatever your project's conventions load in chalk's place.

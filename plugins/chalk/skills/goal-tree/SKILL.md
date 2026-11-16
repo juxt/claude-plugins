@@ -9,7 +9,7 @@ user-invocable: true
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 A goal tree is a mindmap whose relation is **serves**, not **supports**.
-Load `chalk:voice` first — subject lines, bolding, shallow nesting, tags and typed IDs all apply here unchanged.
+Load `chalk:voice` first — its tree rules, tags and typed IDs apply here unchanged.
 
 ## The shape
 
@@ -117,4 +117,4 @@ The issue answers what has to be true for this to be done; the session's plan an
   Include it when the session genuinely worked the direction; leave it out when the session was about noticing the problem. A speculative tree reads as a decision the next person can't distinguish from a settled one — the rule is `chalk:issue`'s.
 
 - **Done-ness is not the tree's job.**
-  A node is tested for sufficiency — whether its children accomplish it — and that question is unchanged by whether anyone has started. Tracking state belongs to GitHub's own: issue state, blocked-by, and the linked PRs. See "An issue either lands in one piece, or it has children" in `chalk:issue`.
+  A node is tested for sufficiency — whether its children accomplish it — and that question is unchanged by whether anyone has started. Tracking state belongs to GitHub's own: issue state, blocked-by, and the linked PRs. See "One piece, or it has children" in `chalk:issue`.

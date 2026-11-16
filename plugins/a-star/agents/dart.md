@@ -28,7 +28,7 @@ Its shape is what you are there to find, and reading the code only guesses at it
 
 ## The brief
 
-**The card is the whole spec** — its goal, invariants, out of scope, sub-goals already found, and the decisions in force.
+**The card is the whole spec** — its goal, invariants, out of scope, sub-goals already found, the decisions in force, and the principles the user set for how the work is done.
 Where it's silent, note a question; don't look for a spec elsewhere.
 
 **It names the branch to start from and its head.**
