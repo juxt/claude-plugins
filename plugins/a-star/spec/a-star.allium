@@ -726,7 +726,7 @@ rule Committed {
         -- Where the completion test in a-star:a-star's Triage finds the frame completes an earlier unlanded commit, it is folded in as an amend, never a tidy into an advance or the reverse; the brief's placement otherwise holds.
         -- A finding inside the frame's scope sends the drive agent back to fix it; anything else is triaged like any other report.
         -- A finding that traces to something the drive agent reads being silent or wrong is also fixed where it belongs — the project, the record, a skill or the setup — not only in the commit.
-        -- A step the project's conventions run through a sub-agent the drive agent can't spawn — a comment weed, a test-log reader — it asks the orchestrator for by ending its turn, and is resumed with the results; the orchestrator's review is the code review, so it asks for no other.
+        -- A step the project's conventions run through a sub-agent — a comment weed, a test-log reader — the drive agent spawns itself; where it has no Agent tool, as in a Claude Code cloud session, it asks the orchestrator for it by ending its turn, and is resumed with the results; the orchestrator's review is the code review, so it asks for no other.
         -- The drive agent makes the commit and never pushes; the orchestrator may rewrite that commit's place or message, and pushes after the gate where the project's answer says to.
         -- Anything but branch_top rewrites the branch, per a-star:a-star's Feature branches.
         -- An amended commit's message describes its final shape; the PR mentions it only where it

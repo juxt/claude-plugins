@@ -37,7 +37,8 @@ It reports what it turns up and makes the commit; you triage, choose, record, an
 
 3. **Triage what it reports as it goes**, per `a-star:a-star` — a stretch of route nobody darted, a better split of a later sub-goal, a constraint, an earlier commit that wants amending but doesn't block the frame — without stopping the frame.
    The amend is recorded as a sub-goal, driven after the frame in hand is committed.
-   **The drive agent can't spawn the sub-agents the project's conventions call for — a comment weeder, a test-log reader — so it asks you for them**: spawn each with exactly the inputs it names, and resume it with the results.
+   **The drive agent spawns the sub-agents the project's conventions call for — a comment weeder, a test-log reader — itself, and hands back a frame they have already run over.**
+   Where it has no Agent tool, as in a Claude Code cloud session, it asks you for them instead: spawn each with exactly the inputs it names, and resume it with the results.
    Your review in step 5 is the frame's code review, so it doesn't ask for another.
    **It asks you, too, the questions the project's commit conventions would put to the user**: it has none of the session's history, and the user doesn't see its calls, so answer from the record, or in primary escalate.
 

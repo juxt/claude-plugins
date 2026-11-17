@@ -48,7 +48,7 @@ Where it isn't, end your turn and say so — you MUST NOT reset, as the checkout
 
 - **What doesn't stop the frame** — a stretch of route nobody darted, a better split of a later sub-goal, a constraint, assumption or risk, or an earlier, unlanded commit that wants amending but that this frame can be committed correctly on as it stands: `SendMessage` it to `main`, and carry on.
 - **What does** — end your turn with it, having WIP-committed the work in hand where there is any; you are resumed with the answer:
-  - **a step the project's conventions run through a sub-agent you can't spawn** — a comment weeder, a test-log reader, not a code reviewer: name the agent and exactly what to pass it — the paths, the log, nothing of your reasoning;
+  - **a step the project's conventions run through a sub-agent, where you have no Agent tool to spawn it** — as in a Claude Code cloud session; with one, you spawn it yourself and carry on. A comment weeder, a test-log reader, not a code reviewer: name the agent and exactly what to pass it — the paths, the log, nothing of your reasoning;
   - **a question the project's commit conventions have you ask rather than guess** — you have none of the session's history, and the user doesn't see your calls;
   - **a decision that is the user's** — a tidy's now, later or never; the sub-goal's scope;
   - **an earlier, unlanded commit this frame can't be committed correctly on, because it is unfit or incomplete** — say what it lacks; the orchestrator decides whether to amend it first;
