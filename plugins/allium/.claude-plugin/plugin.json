@@ -1,6 +1,6 @@
 {
   "name": "allium",
-  "version": "3.16.0",
+  "version": "3.17.0",
   "description": "Velocity through clarity.",
   "author": {
     "name": "JUXT",
@@ -18,13 +18,6 @@
     "./skills/tend",
     "./skills/weed",
     "./skills/witness"
-  ],
-  "agents": [
-    "./agents/distill.md",
-    "./agents/propagate.md",
-    "./agents/tend.md",
-    "./agents/weed.md",
-    "./agents/witness.md"
   ],
   "lspServers": {
     "allium": {
