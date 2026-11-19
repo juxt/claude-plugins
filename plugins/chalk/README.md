@@ -85,7 +85,7 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 
 - **Skill** (`sitrep`): Where the session has got to — what landed, and what's still open as ID'd ideas, forks and questions
 
-- **Skill** (`primary`, `secondary`): Whether the user is watching the session — primary, they steer; secondary, the session decides, records and parks rather than waiting
+- **Skill** (`primary`, `secondary`): Whether the user is watching the session — primary, they steer, and what arrives in the background waits for the close of their current thread; secondary, the session decides, records and parks rather than waiting
 
 - **Skill** (`put-down`): Parks the session's work on its issue, so the next session resumes from the issue and its links alone
 

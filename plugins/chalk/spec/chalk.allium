@@ -1,6 +1,6 @@
 -- allium: 3
 -- The skills say how each artefact is written; this says when each step of a session is open, and what it records.
--- Scope: chalk's session lifecycle — the session's mode, planning, approval, the route, the plan file and journal, the task list, feature branches, the hand-off to and from an implementation harness, the finish, the weed loop, and put-down.
+-- Scope: chalk's session lifecycle — the session's mode and, in primary, the user's context, planning, approval, the route, the plan file and journal, the task list, feature branches, the hand-off to and from an implementation harness, the finish, the weed loop, and put-down.
 -- Excludes: the writing rules (chalk:voice, the palette, chalk:code-comments, chalk:goal-tree's sufficiency test), explicate and rubber-duck, and the harness's own process, which a-star.allium specifies for a-star.
 
 ------------------------------------------------------------
@@ -162,6 +162,8 @@ enum RecordKind {
     review
     re_split
     replan
+    -- In primary, an arrival held for the user until their current thread closes.
+    inbox
 }
 
 enum BranchOrigin {
@@ -188,6 +190,9 @@ entity Session {
     status: planning | approved | filing | implementing | finishing | putting_down | ended
     -- Set at the start, and changed only by an explicit switch; an implementation harness reads it.
     mode: Mode
+    -- The user's current thread: the topic their last message engages with, open until it resolves —
+    -- a decision is reached, they drop it, or they change the subject. Its close is the breakpoint.
+    thread_open: Boolean
 
     -- Planning: the scan of the card's neighbourhood, or of the cards the request might duplicate or belong under.
     scanned: Boolean
@@ -226,6 +231,7 @@ entity Session {
 
     implements: route = implement_card or route = file_and_implement or route = implement_unfiled
     in_plan_mode: status = planning
+    inbox: entries where kind = inbox and status = live
     open_leaves: sub_goals where is_open_leaf
     aligned: not plan_holds_a_guess and not acknowledgement_taken_as_agreement
         and not unsurfaced_decision and not alignment_uncertain
@@ -488,6 +494,7 @@ rule Invoke {
         let session = Session.created(
             user: user, card: card, status: planning,
             mode: if headless: secondary else: primary,
+            thread_open: false,
             scanned: false,
             awaiting_picture_agreement: false, awaiting_piece: false, gaps_closed: false,
             plan_holds_a_guess: false, acknowledgement_taken_as_agreement: false,
@@ -510,6 +517,39 @@ rule SwitchMode {
     @guidance
         -- The switch is recorded in the journal.
         -- Switching to primary refreshes the user's context with a sitrep, leading with the decisions made while they were away and the questions left for them.
+}
+
+-- Primary: the user's message opens a thread.
+rule ThreadOpens {
+    when: UserEngages(session)
+    requires: session.status != ended
+    ensures: session.thread_open = true
+}
+
+-- In primary, an arrival mid-thread that doesn't materially affect the thread waits in the inbox.
+-- The session judges materiality, never the user: asking would itself interrupt.
+rule HoldArrival {
+    when: Arrived(session, material)
+    requires: session.mode = primary
+    requires: session.thread_open
+    requires: not material
+    ensures: Journalled(session: session, kind: inbox, bears_on: null)
+
+    @guidance
+        -- An arrival is anything that reaches the session in the background: a sub-agent's report, a gate, a test run, CI, a weeder's output, a move to offer.
+        -- With no thread open, or where it is material, it is raised as it lands; in secondary it is recorded as anything else is.
+}
+
+rule ThreadCloses {
+    when: ThreadResolved(session)
+    requires: session.thread_open
+    ensures: session.thread_open = false
+    ensures:
+        for entry in session.inbox:
+            entry.status = settled
+
+    @guidance
+        -- Raised triaged, not in the order it arrived, per chalk:primary.
 }
 
 -- Step 1: with a card, its issue, parent, sub-issues, blockers, what it blocks and its linked PRs; without one, the cards it might duplicate or belong under.
@@ -1607,6 +1647,23 @@ surface ModeSwitch {
 
     @guarantee OnlyAnExplicitSwitch
         -- A message from the user while the session runs leaves the mode as it is.
+}
+
+-- Primary: the session manages the user's context — what their current thread needs now, everything else at its close.
+surface UserContext {
+    facing user: User
+    context session: Session where mode = primary
+
+    exposes:
+        session.inbox when not session.thread_open
+
+    provides:
+        UserEngages(session)
+        ThreadResolved(session) when session.thread_open
+
+    @guarantee OnlyWhatTheThreadNeeds
+        -- Mid-thread, an arrival reaches the user only where it materially affects the thread — breaks a premise they are reasoning from, or answers the question under discussion — framed as what it changes for the thread.
+        -- Otherwise a turn woken by it writes at most one short line, never its content, and a reply inside the thread carries no word of it.
 }
 
 -- The cold read: the weeder holds what the draft's readers hold, and nothing of the session.

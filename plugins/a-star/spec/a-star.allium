@@ -34,7 +34,7 @@ enum YieldKind {
     unwalked_route        -- a stretch of the goal nobody has darted
     earlier_commit        -- an unlanded commit superseded, or needing completion
     constraint            -- a constraint, assumption or risk, recorded on the node it bounds
-    route_question        -- answered or escalated, then the agent resumes
+    route_question        -- answered, or put to the user, then the agent resumes
     invalidating_finding  -- changes the card's target or its goal
     user_decision         -- a tidy's first, later or never; scope
 }
@@ -224,6 +224,9 @@ rule OfferMove {
     requires: session.mode = primary
     ensures: session.status = offered
     ensures: session.offered_move = move
+
+    @guidance
+        -- The offer waits for the close of the user's current thread, batched with any others pending, per chalk:primary.
 }
 
 -- Only the user's yes takes the offered move. A question from the user is not a yes.
@@ -536,10 +539,10 @@ rule TriageRouteQuestion {
             OrchestratorResumes(dart: y.from_dart)
 
     @guidance
-        -- Answered by the orchestrator, or in primary escalated to the user first; the answer is recorded as a decision.
+        -- Answered by the orchestrator where it is its to answer; otherwise, in primary, it waits for the user like any other arrival, per chalk:primary. The answer is recorded as a decision.
 }
 
--- The user's to settle, in either mode: asked in primary; in secondary recorded as an open question, and other ready work goes on.
+-- The user's to settle, in either mode: asked in primary, when chalk:primary raises it; in secondary recorded as an open question, and other ready work goes on.
 rule TriageForUser {
     when: Triage(y)
     requires: y.kind = user_decision or y.kind = invalidating_finding

@@ -40,9 +40,9 @@ It reports what it turns up and makes the commit; you triage, choose, record, an
    **The drive agent spawns the sub-agents the project's conventions call for — a comment weeder, a test-log reader — itself, and hands back a frame they have already run over.**
    Where it has no Agent tool, as in a Claude Code cloud session, it asks you for them instead: spawn each with exactly the inputs it names, and resume it with the results.
    Your review in step 5 is the frame's code review, so it doesn't ask for another.
-   **It asks you, too, the questions the project's commit conventions would put to the user**: it has none of the session's history, and the user doesn't see its calls, so answer from the record, or in primary escalate.
+   **It asks you, too, the questions the project's commit conventions would put to the user**: it has none of the session's history, and the user doesn't see its calls, so answer from the record, or put it to the user per `a-star:a-star`'s Primary and secondary.
 
-4. **When it ends its turn**, decide: a sub-agent request is spawned and answered, per step 3; a user's decision is offered in primary; an earlier commit this frame can't be committed on is an amend frame, pushed first; a better drive is a pre-emption; a failure is [Handling Drive Failure](#handling-drive-failure).
+4. **When it ends its turn**, decide: a sub-agent request is spawned and answered, per step 3; a user's decision is offered in primary, per `a-star:a-star`'s Primary and secondary; an earlier commit this frame can't be committed on is an amend frame, pushed first; a better drive is a pre-emption; a failure is [Handling Drive Failure](#handling-drive-failure).
    Then resume it with `SendMessage`, or push the new frame.
 
 5. **Review the frame's diff from the head you recorded, before taking its commit**, with the review the project's conventions call for, over its code and its comments.

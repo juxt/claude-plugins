@@ -78,12 +78,12 @@ In primary, a move off the approved route is first offered, and only the user's 
 **The mode — whether the user is watching — is the session's, as the session records it, and a-star reads it rather than sets it**; with none recorded, a session is primary unless it runs headless or scheduled.
 These are what each mode means for a-star's own moves.
 
-**In primary:**
+**In primary, the user's context is managed per `chalk:primary`**: what darts and drives turn up waits for the close of the user's current thread, unless it materially affects that thread.
 
 - **Offer a move off the approved route, and take it only on a yes** — the offered state in the spec.
-  A move on the route is taken without one, per [The orchestrator](#the-orchestrator).
+  The offer waits for the breakpoint, batched with any others pending; a move on the route is taken without one, per [The orchestrator](#the-orchestrator).
   A question from the user is not that yes.
-- **Escalate a dart's findings while they can still change its route**, not as a running commentary.
+- **A dart's route question waits for the user like any other arrival, unless it's yours to answer.**
 
 **In secondary:**
 
@@ -107,9 +107,9 @@ These are what each mode means for a-star's own moves.
 - **an earlier, unlanded commit superseded or incomplete** — an amend, per `a-star:drive`; pushed ahead of the frame in hand only if that frame can't be committed correctly on the commit as it stands, otherwise recorded to drive after it;
 - **a change that would replace the approach of an unlanded commit, anywhere in the branch** — an amend of that commit, or a revert, per `a-star:drive`'s [frame rules](../drive/references/frame.md#frames);
 - **a constraint, assumption or risk** — recorded on the goal-tree node it bounds;
-- **a question about the route** — answer it, or in primary escalate it, then resume;
+- **a question about the route** — answer it where it's yours, and otherwise it's the user's, per [Primary and secondary](#primary-and-secondary); then resume;
 - **a finding that changes the card's target** — revert; **one that changes its goal** — replan;
-- **a decision that is the user's** — offer it in primary; in secondary, record it and move to other ready work;
+- **a decision that is the user's** — offer it in primary, per [Primary and secondary](#primary-and-secondary); in secondary, record it and move to other ready work;
 - **two reports that conflict** — you settle it, by your own check where one is cheap, and record the decision.
 
 ## Sub-goals

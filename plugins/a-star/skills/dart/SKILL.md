@@ -36,14 +36,14 @@ You MAY point it at where the card's work is recorded instead, to read and never
 **The dart agent only reports; you triage what it reports**, per `a-star:a-star`'s Triage, and it acts on nothing it found.
 Record it as in flight, so a session resumed after this one ends knows it was lost, and darts again where it is still needed.
 
-- **An increment ready to commit** — record it as a sub-goal, and tell the user.
-  In primary it is committed only on their go-ahead; in secondary, per `a-star:a-star`'s Primary and secondary.
+- **An increment ready to commit** — record it as a sub-goal.
+  Driving it is a move like any other, offered or taken per `a-star:a-star`'s Primary and secondary.
 
 - **A finding that invalidates the plan** — the card's contract, a decision already made, an invariant, or the cost of the agreed route.
   It is the user's to settle, in either mode: in secondary, record it as an open question, halt the line of work it bears on, and move to other ready work.
   One that changes the card's target is a revert; one that changes its goal, a replan.
 
-- **A question about the route** — answer it, or in primary escalate it; record the decision and resume the dart agent with `SendMessage`.
+- **A question about the route** — answer it, or put it to the user, per `a-star:a-star`'s Triage; record the decision and resume the dart agent with `SendMessage`.
   A question the card itself can't answer means the plan has a gap, and is the user's, like a finding that invalidates the plan: the dart waits on the answer, and it is a replan where the answer changes the goal.
 
 ## Harvest

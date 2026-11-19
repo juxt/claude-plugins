@@ -81,6 +81,9 @@ Each is one claim in `chalk:voice`'s register, terse; an entry that would mean n
 
 - **`dead-end:`** — a road that closed, and what closed it, where that constrains what comes next.
 
+- **`inbox:`** — in primary, an arrival held for the user until their current thread closes, per `chalk:primary`.
+  It is cleared once raised.
+
 - **`review:`** — what a reviewer needs to check a commit, by its subject: what checking it means, the invariants it rests on with where each is made true, what pins it and what would break it, and what was verified and what wasn't.
   Whoever knows it writes it when the commit is made — before `chalk:commit`, which carries it into the commit's body, or, where a harness's agent made the commit, from the review notes that agent wrote into the body and reported.
   `chalk:pr`'s Reviewing this finds what spans commits and what was verified here.
