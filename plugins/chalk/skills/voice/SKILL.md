@@ -1,6 +1,6 @@
 ---
 name: voice
-description: Shared Chalk writing voice — the audience for Chalk artefacts, the specification register, the mindmap structure that two propositions in a relation MUST take, and the layout rules. The chalk:issue, chalk:commit, chalk:pr and chalk:sitrep skills load this before drafting any prose, and the weed-pr, weed-issue and weed-prose agents load it to review one.
+description: Shared Chalk writing voice — the audience for Chalk artefacts, the specification register, the mindmap structure that two propositions in a relation MUST take (Minto's pyramid, with argument diagramming's linked, convergent and conductive grounds), and the layout rules. The chalk:issue, chalk:commit, chalk:pr and chalk:sitrep skills load this before drafting any prose, and the weed-pr, weed-issue and weed-prose agents load it to review one.
 ---
 
 # Chalk Voice — Writing Principles
@@ -116,11 +116,16 @@ A sequence of events, a multi-step rationale, a set of conditions, a race betwee
 
 ### The tree
 
+**A mindmap is the pyramid of Minto's *The Pyramid Principle*, its grounds combining as argument diagramming says they do.**
+Minto gives the shape: a governing thought at the top, and every node a summary of the group below it, raising the question that group answers.
+Argument diagramming gives how grounds combine: linked and convergent support (Freeman, Walton), and the conductive argument (Wellman, Govier).
+The rules below follow from one model of the reader, and name the rule each takes from these; the rest are chalk's own.
+
 **Your job is the reader's working memory.**
 Every node they read is context they hold while reading the next, their capacity is small, and it is already spoken for.
 *Paging in* a node costs them that capacity and evicts something else, so the tree exists to let them page in what their goal needs and nothing more.
 
-- **Every node is a conclusion stated in its subject line.**
+- **Every node is a conclusion stated in its subject line** — in Minto's terms, the summary of the group below it.
 
 - **At each node the reader takes one of three decisions, and the subject line is what they take it from.**
 
@@ -162,10 +167,11 @@ Every node they read is context they hold while reading the next, their capacity
   - **Where the point only lands three sentences in, rewrite the subject line** rather than expanding it.
 
 - **Decision 3 needs children worth what they cost to page in.**
+  Descending is the reader asking the question the subject raised, and the children are its answer — Minto's vertical relationship.
 
   - **A child grounds its parent, narrows it, or excepts it.**
-    Grounds read upwards as an argument, and are what a bug report or a root-cause analysis is made of.
-    A narrowing is the same rule applied to a narrower case, which is how a specification reads downwards — most of what a rules document holds, this file included.
+    Grounds are Minto's answer to *why?*: they read upwards as an argument, and are what a bug report or a root-cause analysis is made of.
+    Narrowing and exception are chalk's, answering *where does it apply?*: a narrowing is the same rule applied to a narrower case, which is how a specification reads downwards — most of what a rules document holds, this file included.
 
     - **Narrowing is not inference, which is why the parent stays the conclusion.**
       A child that *follows from* its parent would make the child the consequence and the parent a premise, and the subject rule would then be pointing at the wrong end of the tree.
@@ -177,11 +183,11 @@ Every node they read is context they hold while reading the next, their capacity
       It is the one relation that takes scope away instead of adding to it, so it MUST say what falls outside and what applies there instead.
       A reader who meets the uncovered case with no replacement is worse off than before they read the parent.
 
-  - **A child MUST sit at a different level of detail from its parent** — Ousterhout's rule, from *A Philosophy of Software Design*.
+  - **A child MUST sit at a different level of detail from its parent**, which summarises it, per Minto.
     A child at the parent's own level is restatement wearing a bullet, and the reader pays to page in something they already hold.
 
-  - **A list whose items are merely *related* to their parent is not a mindmap.**
-    The reader gets no argument out of it, and you MUST restructure it.
+  - **A list whose items are merely *related* to their parent is not a mindmap, and you MUST restructure it.**
+    It answers no question the parent raised, so the reader gets no argument out of it.
 
   - **A node MUST be decidable from its ancestors alone.**
     They hold the path they descended, not the tree, so a node leaning on a sibling they were invited to skip is one they cannot decide — and they will not know that is why.
@@ -195,17 +201,14 @@ Every node they read is context they hold while reading the next, their capacity
   - **An example, a clarification or a restatement is not one of these relations.**
     Each develops a single proposition instead of standing beside it, so each is that proposition's elaboration.
 
-  - **A ground**, combining with its siblings to justify the parent, in one of three ways.
+  - **A ground**, combining with its siblings to justify the parent, as one of argument diagramming's three structures.
     All three look identical on the page, and a reader who takes one for another misreads what the argument rests on.
 
-    - **Linked** — they reach the parent only together, so the reader must take all of them, and a gap is fatal.
-      The set MUST be complete or say that it is not.
+    - **Linked** — they reach the parent only together, so the reader must take all of them and a gap is fatal: the set MUST be complete or say that it is not.
 
-    - **Convergent** — each reaches the parent alone, so the reader may stop at the first they accept.
-      Each MUST therefore stand without its siblings, and they SHOULD run strongest first.
+    - **Convergent** — each reaches it alone, so the reader may stop at the first they accept: each MUST stand without its siblings, and they SHOULD run strongest first.
 
-    - **Cumulative** — the parent rests on the balance of them, none sufficient alone, and dropping one weakens the conclusion without destroying it.
-      The reader must weigh all of them, so this is the mode that buys them no skipping at all.
+    - **Conductive** — it rests on their balance, none sufficient alone, so the reader must weigh all of them, and this structure buys them no skipping at all.
       A decision rationale is usually this, and it MUST say so: a reader who takes it for convergent comes away believing a single ground carried the decision.
 
   - **A disjunct** — one of a set of alternatives, of which the reader takes the one their circumstances select.
@@ -215,8 +218,7 @@ Every node they read is context they hold while reading the next, their capacity
     **Succession is not consequence**: a stage follows the one above it in time, not from it, which is why `→` is wrong here and a plain ordered list is right.
     A short process MAY stay in a sentence where no stage needs anything of its own, and that licence lapses on the first stage carrying a precondition, a branch, or a way to get it wrong alone.
 
-  - **A consequent** — what follows from the siblings above it, where two or more combine into a step neither gives alone.
-    A derivation would nest it, with the siblings it follows from as its children. The reader arrives at it already carrying those, so nesting would send them down a level to collect a conclusion they had just earned.
+  - **A consequent** — what follows from the siblings above it, where two or more combine into a step neither gives alone: the conclusion of Minto's deductive grouping, a sibling of its premises rather than their parent.
     It is the one relation that obliges the reader to hold its prior siblings, which is why it MUST come after them.
 
     - **A run of consequents MAY be compressed inline to `A → B → C`.**
@@ -225,7 +227,7 @@ Every node they read is context they hold while reading the next, their capacity
       **`→` MUST mean *therefore* and nothing else**: sequence without causation is a list, and a state change is `:=`.
 
 - **Siblings are read in order, and dependency fixes it.**
-  A proposition that depends on an earlier sibling MUST come after it; strength, frequency or severity only break ties among siblings that do not depend on each other.
+  A proposition that depends on an earlier sibling MUST come after it; strength, frequency or severity — Minto's order of degree — only break ties among siblings that do not depend on each other.
 
 ### The walkthrough
 
