@@ -9,7 +9,7 @@
 -- a-star records into it and exits back to it; it never approves a plan itself.
 external entity Plan {
     goal_approved: Boolean
-    first_move: Move?
+    route: List<Move>
 }
 
 -- A commit on the card's feature branch.
@@ -204,11 +204,18 @@ rule Enter {
     requires: plan.goal_approved
     ensures:
         let session = Session.created(plan: plan, mode: mode, status: choosing)
-        if plan.first_move != null:
-            Take(session: session, move: plan.first_move)
+        if plan.route.count > 0:
+            Take(session: session, move: plan.route.first)
 
     @guidance
-        -- Per a-star:a-star's The orchestrator: approving the plan was the yes to its first move.
+        -- Per a-star:a-star's The orchestrator: approving the plan was the yes to its route; TakeOnRoute takes the rest.
+}
+
+-- A move the approved plan's route names is taken in the route's order without being offered: approving the plan was the yes.
+rule TakeOnRoute {
+    when: ChooseOnRoute(session, move)
+    requires: session.status = choosing
+    ensures: Take(session: session, move: move)
 }
 
 rule OfferMove {

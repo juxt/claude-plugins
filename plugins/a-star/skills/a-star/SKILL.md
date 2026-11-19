@@ -54,10 +54,9 @@ Only the replan exit re-enters the harness's planning.
 ## The orchestrator
 
 **Every move is taken from one state, choosing.**
-In primary, a move is first offered, and only the user's yes takes it; in secondary it is taken directly, and what would have been offered is recorded, per [Primary and secondary](#primary-and-secondary).
+In primary, a move off the approved route is first offered, and only the user's yes takes it; in secondary it is taken directly, and what would have been offered is recorded, per [Primary and secondary](#primary-and-secondary).
 
-- **The first move, where the approved plan names it, is already accepted.**
-  Approving the plan was the yes, so it is taken without being offered again; every later move is offered as usual.
+- **The approved route, the moves the approved plan names, is already accepted in its order**, per the outer harness's approval — `chalk:chalk`'s step 2, where chalk planned it.
 
 - **dart** — part of the goal is still unwalked, or a sub-goal no dart has exercised, and nothing in flight covers it.
   Darts run in parallel, with each other and with a drive. `a-star:dart`.
@@ -81,8 +80,9 @@ These are what each mode means for a-star's own moves.
 
 **In primary:**
 
-- **Offer every move out of choosing, and take it only on a yes** — the offered state in the spec.
-  A question from the user is not that yes; the plan's first move is the exception, per [The orchestrator](#the-orchestrator).
+- **Offer a move off the approved route, and take it only on a yes** — the offered state in the spec.
+  A move on the route is taken without one, per [The orchestrator](#the-orchestrator).
+  A question from the user is not that yes.
 - **Escalate a dart's findings while they can still change its route**, not as a running commentary.
 
 **In secondary:**
@@ -164,7 +164,7 @@ In whatever the session tracks its work with — the outer harness's journal, wh
 2. **Load the project's answers to the [three choices](#what-the-project-says)**, and check no open question bears on the card itself.
    Look for the answers in the project's skills and agent instructions first; only a choice answered nowhere there becomes a question.
 
-3. **Choose the first move**: the one the approved plan names, taken directly; otherwise a dart where the card has no sub-goals yet or part of its goal is still unwalked, else a drive.
+3. **Choose the first move**: the first the approved plan names, taken directly; otherwise a dart where the card has no sub-goals yet or part of its goal is still unwalked, else a drive.
 
 ## Feature branches
 

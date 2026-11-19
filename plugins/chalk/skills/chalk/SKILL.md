@@ -175,7 +175,8 @@ Approving the plan approves the prediction.
 
 **A route that implements names its implementation harness, and that is `a-star:a-star` where a-star is installed and the user hasn't stated another preference.**
 Where a-star isn't installed, or the user prefers another harness or none, the plan says that instead.
-The plan MAY name the harness's first move — for a-star, a dart, or a drive of a named sub-goal — and approving the plan then approves that move.
+The plan MAY name the harness's moves, in order — for a-star, darts and drives of named sub-goals — and approving the plan then approves them.
+The harness takes each in that order without offering it again; a move off them is offered as usual.
 
 ### 3. Close the gaps while planning
 

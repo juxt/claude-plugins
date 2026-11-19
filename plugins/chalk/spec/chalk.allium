@@ -82,11 +82,11 @@ value FinishEvidence {
 
 -- What chalk demands of whichever implementation harness the approved plan names.
 contract ImplementationHarness {
-    start: (plan: PlanFile, first_move: HarnessMove?) -> HarnessRun
+    start: (plan: PlanFile, moves: List<HarnessMove>) -> HarnessRun
 
     @invariant StartsOnlyFromApproval
         -- A run starts only from a plan whose goal and route the user approved.
-        -- A first move named in the plan is already approved, and is taken without being offered again.
+        -- The moves named in the plan are already approved, and are taken in its order without being offered again; a move off them is offered as usual.
 
     @invariant RecordsThroughTheJournal
         -- The harness names what to record, and records it in the journal's record kinds, into the session's plan file.
@@ -201,7 +201,7 @@ entity Session {
     route: Route?
     predicted_finish: FinishOutcome?
     harness: Harness?
-    first_move: HarnessMove?
+    moves: List<HarnessMove>
 
     -- The three questions asked before approval is sought.
     plan_holds_a_guess: Boolean
@@ -557,18 +557,18 @@ rule UserNamesPiece {
 -- Step 2: the session produces an issue or the implementation, and the plan takes that output's shape; the route is part of the plan.
 -- A route that implements predicts its finish, and names its harness: a-star where installed and the user hasn't stated another, else what the user prefers, or none.
 rule ChooseRoute {
-    when: RouteChosen(session, route, estimate, harness, first_move?)
+    when: RouteChosen(session, route, estimate, harness, moves)
     requires: session.status = planning
     ensures: session.route = route
     ensures:
         if route = file_and_stop:
             session.predicted_finish = null
             session.harness = null
-            session.first_move = null
+            session.moves = []
         else:
             session.predicted_finish = estimate.selected
             session.harness = harness
-            session.first_move = if harness = none: null else: first_move
+            session.moves = if harness = none: [] else: moves
             if estimate.selected = null:
                 UserAsked(session: session)
 
@@ -641,7 +641,7 @@ rule ParkUnapprovedPlan {
         -- Put-down records the draft plan on the issue, so the user approves or revises it when they're back.
 }
 
--- Approving the plan approves the goal, the route, the predicted finish and any first move it names.
+-- Approving the plan approves the goal, the route, the predicted finish and any moves it names, in order.
 rule UserApprovesPlan {
     when: UserApproves(session)
     requires: session.status = planning
@@ -749,7 +749,7 @@ rule HandToHarness {
     requires: session.status = implementing
     requires: session.harness != none
     requires: session.run = null
-    ensures: HandedToHarness(session: session, plan: session.plan_file, first_move: session.first_move)
+    ensures: HandedToHarness(session: session, plan: session.plan_file, moves: session.moves)
 }
 
 -- A plan re-approved after a replan goes back to the harness on a card already picked up.
@@ -758,7 +758,7 @@ rule HandBackToHarness {
     requires: session.picked_up
     requires: session.harness != none
     requires: session.run = null
-    ensures: HandedToHarness(session: session, plan: session.plan_file, first_move: session.first_move)
+    ensures: HandedToHarness(session: session, plan: session.plan_file, moves: session.moves)
 }
 
 rule HarnessRunStarted {
@@ -1524,7 +1524,7 @@ invariant MergedPrHasNoOpenQuestion {
 -- Surfaces
 ------------------------------------------------------------
 
--- Plan mode: the user sees the plan, and approving it is the only yes to the goal, the route, the predicted finish and a named first move.
+-- Plan mode: the user sees the plan, and approving it is the only yes to the goal, the route, the predicted finish and the moves it names.
 surface PlanApproval {
     facing user: User
     context session: Session where status = planning
@@ -1534,7 +1534,7 @@ surface PlanApproval {
         session.route
         session.predicted_finish
         session.harness
-        session.first_move
+        session.moves
 
     provides:
         UserAgreesPicture(session) when session.awaiting_picture_agreement
@@ -1568,7 +1568,7 @@ surface HarnessBoundary {
 
     exposes:
         session.plan_file
-        session.first_move
+        session.moves
         session.mode
         session.sub_goals
         session.entries
