@@ -91,7 +91,7 @@ A confident, wrong problem statement with a PR that silently disagrees is worse 
 Do it first because the description is drafted against the issue and passed to `weed-pr` beside it: a stale issue makes the description either repeat the error or look as though it contradicts the problem.
 Where there is no linked issue, there is nothing to correct and this step is empty.
 
-**Where the work answers one of the issue's open questions, move the answer onto the issue**, through `chalk:issue`, deleting the question there; the description cites the issue rather than answering it in a section of its own.
+**Where the work answers one of the issue's open questions, move the answer onto the issue**, through `chalk:issue`, per the palette's Open questions; the description cites the issue rather than answering it in a section of its own.
 The issue outlives the PR as the problem's living record, and a "Part of" PR leaves the issue open with its questions still reading as live.
 
 ## Draft the title
@@ -143,9 +143,9 @@ It reads the description cold, as the reviewer, attempts the reviewer's job from
 - **Where only the user can answer, answer from the branch where the branch genuinely has it**, naming the commit you draw on so the user can correct you.
   In secondary, per `chalk:secondary`: one the branch can't answer goes into Open questions, marked for the user.
 
-**It weeds the branch's commit messages in the same pass**, so commits can be made at the pace of the work and still be weeded before anyone reviews them.
+**It weeds the branch's commit messages in the same pass**, per `chalk:commit`.
 
-- **Apply its commit findings by rewording each commit through `chalk:commit`**, which rewrites the branch, allowed on a feature branch the session owns (`chalk:chalk`), and push with force-with-lease.
+- **Apply its commit findings by rewording each commit through `chalk:commit`**, a rewrite of the branch, per `chalk:chalk`'s Feature branches.
 
 - **Update the journal entries keyed by any subject that changed**, so they still name the commit.
 

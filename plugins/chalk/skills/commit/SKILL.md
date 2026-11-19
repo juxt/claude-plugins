@@ -37,7 +37,7 @@ You MUST load these skills first:
      - **The test: could a reviewer be told what checking this commit means, apart from its neighbours?**
        A tidy is checked by "could this change anything?", an advance against its invariants; a commit with no check of its own completes the one whose check it shares.
      - **It never folds a refactoring into a behaviour change**, however closely they belong together: they are checked differently, so they are two units.
-     - **Amending rewrites the branch**, which `chalk:chalk` allows on a feature branch the session owns, pushed with force-with-lease; never on the base branch.
+     - **Amending rewrites the branch**, per `chalk:chalk`'s Feature branches.
 
 2. **Weed the staged comments.**
 
@@ -79,7 +79,7 @@ You MUST load these skills first:
    **A commit is a change-log artefact, so the body carries the *transition*** — why it changed from X to Y, and how to migrate.
    A body that only restates current behaviour has thrown away the one thing it was for; conversely, a "this used to…" comment in the source is this body's material, sitting where it rots.
 
-   **It MUST name the fact that was true and is no longer** — objectively, and never as a belief attributed to the reader: "the watermark wasn't being replicated", not "you believed the watermark was replicated".
+   **It MUST name the fact that was true and is no longer**, per `chalk:voice`.
 
    **What to omit:** 
 

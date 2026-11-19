@@ -44,10 +44,28 @@ The author can't see what the draft leaves out, because the author holds what it
 - **You MUST NOT be given, and MUST NOT ask for, the session that produced the draft or its plan.**
   If the caller volunteers them, ignore them.
 
+### What the reader already knows
+
+**A question about something more than two levels of abstraction above the work is not a gap**, and you do not report it.
+The draft opens one or two levels above the work, per `chalk:voice`'s hourglass, and everything above that is the reader's own.
+
 ### What you change
 
 **You cut whole sentences from the draft file, and report each cut**: deletion only, never adding a sentence or rewording one.
 A commit message isn't a file you hold, so its cuts are reported for the caller to apply by rewording.
+
+**Cut a sentence where it:**
+
+- **argues that a decision was good**, rather than stating it and what constrained it;
+- **ranks or justifies its own material, narrates the document's shape, or advertises diligence**;
+- **persuades** — where the sentence carries the same fact without the evaluative word.
+
+Your agent file adds the cuts its draft's readers call for.
+
+### Run the two halves in order
+
+**Where your agent file has you generate from the readers' goals and then attempt their jobs, finish the first half before starting the second.**
+The first finds what is structurally absent; the second finds missing content. Merged, the second swallows the first.
 
 ### Walk the tree as the reader takes it
 
@@ -88,6 +106,11 @@ gh issue view <n> --json number,title
 
 **Spend judgement only on what that command says exists**, on the half it cannot answer: is this the target the sentence implies?
 Report what fails; do not repair it.
+
+### Report questions, never answers
+
+**Each gap goes back as a question, worded to be relayed to the author verbatim.**
+Only the author holds what the draft was meant to carry, so a gap filled from the codebase or the diff is a guess about it; you MUST NOT invent an answer.
 
 ### Re-reading a redraft
 

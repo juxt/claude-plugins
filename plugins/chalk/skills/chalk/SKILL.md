@@ -18,7 +18,7 @@ How the work gets implemented is a separate concern, left to whichever implement
 **Success: nothing is built before the user has agreed the goal, and every commit, PR and issue update the session drafts finds its reasoning already written in the plan.**
 
 - **Load `chalk:voice`.**
-- **Skills that load this one take the plan file and the journal from it**, and nothing from `/chalk` below, which only runs when the user invokes it.
+- **Skills that load this one take the plan file, the journal and the other sections above `/chalk` from it**, and nothing from `/chalk` itself, which only runs when the user invokes it.
 
 ## The plan file
 
@@ -45,6 +45,11 @@ Amending, reordering and rewording unlanded commits is how a branch reaches revi
   A branch someone else is working on, or a PR someone else opened, is theirs.
 - **The project's base branch is never rewritten or force-pushed.**
   A commit not yet pushed to it is still local, and MAY be reworded.
+
+## What has landed
+
+**What has landed is the repo's to say, not the transcript's.**
+The branch, `git status`, `git log` and the linked PRs say what happened; the transcript records only what was attempted.
 
 ## The journal
 
@@ -132,7 +137,7 @@ Those are the host's defaults for a plan; where they conflict with this skill, t
 ### 1. Read the problem and its neighbourhood
 
 - **With a card: the issue, its parent, its sub-issues, what blocks it and what it blocks, and its linked PRs**, via the github agent's reads.
-  Ground it in the repo, not the transcript: the branch, `git log` and linked PRs say what has landed.
+  Ground it in the repo, not the transcript, per [What has landed](#what-has-landed).
 
 - **Without one: what the user asked, and the existing cards it might duplicate or belong under**, via the github agent's search.
 

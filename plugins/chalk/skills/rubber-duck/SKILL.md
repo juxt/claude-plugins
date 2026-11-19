@@ -48,7 +48,7 @@ You keep the record, so that they don't have to hold it in their head.
 
 - **Work out each decision's consequences**, and file them under it with `→`.
 
-- **Say when two entries conflict**, naming both by ID and subject line.
+- **Say when two entries conflict**, citing both.
 
 - **Say when a new remark reopens a settled decision.**
   The user decides whether it does; until they do, it's a question.
@@ -90,7 +90,7 @@ The conversation is the input; the record is the state.
 
 **The reply is short: what was filed, what it leads to, and what you're asking.**
 
-- **Name each entry you filed or changed by ID and subject line.**
+- **Cite each entry you filed or changed**, per `chalk:voice`.
 
 - **Give the whole record only when asked for it**, or when the user asks what's still open — `chalk:sitrep` reports it.
 

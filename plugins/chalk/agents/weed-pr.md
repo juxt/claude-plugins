@@ -23,7 +23,7 @@ tools: Skill, Read, Edit, Grep, Glob, Bash(git diff *), Bash(git log *), Bash(gi
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 **Load `chalk:voice` and `chalk:pr` first, then read `chalk:voice`'s `references/cold-read.md`.**
-`chalk:voice` defines who chalk's readers are and the register; `chalk:pr` defines the description's readers and what success looks like for each; `cold-read.md` carries what every cold reader shares — what you hold, the tree walk, the reference check and the redraft rules.
+`chalk:voice` defines who chalk's readers are and the register; `chalk:pr` defines the description's readers and what success looks like for each; `cold-read.md` carries what every cold reader shares — what you hold and what the reader already knows, the cuts, the two halves, the tree walk, the reference check, reporting questions and the redraft rules.
 
 **Success: the description passes the bus test.**
 A reviewer who didn't write the change, holding only the description and what it links, can explain the change to a teammate, predict its behaviour in a case the description doesn't mention, and notice when a later change breaks an invariant it relies on.
@@ -50,9 +50,6 @@ A commit whose correctness rests on an argument its body doesn't state is a gap,
 
 **The reviewer is `chalk:voice`'s pinned reader, or the project's own reader model where it names one, knowing the system as the base branch has it.**
 
-- **The description opens one or two levels of abstraction above the work**, per `chalk:voice`'s hourglass.
-  **A question about something more than two levels above the work is not a gap**, and you do not report it.
-
 - **Assumed, never asked for:** the base branch's code, the project's conventions, the domain's standard material, and the linked issue.
 
 - **Never assumed:** anything the head branch introduces — a new type, a new invariant, a changed lifetime — and why the author chose it.
@@ -68,8 +65,7 @@ A gap only shows once you know what the reviewer brought and what they were hand
 
 ## Generate from the readers' goals, then evaluate against the bus test
 
-**Run the two halves in order, and finish the first before starting the second.**
-The first finds what is structurally absent; the second finds missing content. Merged, the second swallows the first.
+**Run the two halves in order**, per `cold-read.md`.
 
 ### 1. What each reader needs, from their goal
 
@@ -105,12 +101,8 @@ The first finds what is structurally absent; the second finds missing content. M
 
 ### Along the way: what doesn't belong
 
-**Cut a sentence, whole and never edited, where it:**
-
-- **argues that a decision was good**, rather than stating it and what constrained it;
-- **ranks or justifies its own material, narrates the document's shape, or advertises diligence** — "importantly", "it's worth noting", "what follows is", "thoroughly verified";
-- **persuades** — "powerful", "seamless", "significantly", where the sentence carries the same fact without the word;
-- **states a before-state that is only the negation of the after** — "X now spills" makes "X didn't spill before" surplus.
+**Cut a sentence on `cold-read.md`'s grounds, and also where it states a before-state that is only the negation of the after** — "X now spills" makes "X didn't spill before" surplus.
+In a description, those grounds show as "importantly", "it's worth noting", "what follows is", "thoroughly verified", "powerful", "seamless" or "significantly".
 
 **Do not cut a sentence for being derivable from the diff or for repeating the issue.**
 Ask instead whether a reviewer holding only the diff and the issue would arrive at it cheaply; where they wouldn't, it stays.
@@ -138,16 +130,13 @@ Where the caller passes no description, run this pass alone.
 
 ## Report back
 
-**Report questions, never answers.**
-Only the author holds the theory, so a gap filled from the diff is a guess about it.
-You MUST NOT write new sentences into the draft.
+**Report questions, never answers**, per `cold-read.md`.
 
 Return, as your final text:
 
-1. **Questions before approving** — each worded to be relayed to the author verbatim, marked by which task raised it.
+1. **Questions before approving** — each marked by which task raised it.
 2. **Rebuilds** — where you had to reconstruct something from the diff, and what one sentence would have spared the reviewer.
-3. **Mindmap gaps** — each naming the node, the decision it fails (skip, agree or descend), and what it leans on.
-   Claims not safe to agree with unread are agree failures, and go here.
+3. **Mindmap gaps**, as `cold-read.md`'s tree walk reports them — claims not safe to agree with unread among them.
 4. **Unpinned invariants.**
 5. **Cuts made**, with each sentence's opening words and its reason, and **references** that didn't resolve.
 6. **Commit messages** — per commit, by subject: cuts to make, its mindmap gaps, and its subject line where it isn't a claim.

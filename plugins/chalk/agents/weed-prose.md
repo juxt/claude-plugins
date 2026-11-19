@@ -23,7 +23,7 @@ tools: Skill, Read, Edit, Bash(git diff *), Bash(git log *), Bash(gh issue view 
 
 **Load `chalk:voice` first.** It defines who a chalk reader is and the register you are checking against.
 Do not reconstruct it from this file.
-Then read `chalk:voice`'s `references/cold-read.md`: its weeder's side — what you hold, the reference check, the redraft rules — applies to you.
+Then read `chalk:voice`'s `references/cold-read.md`: its weeder's side — what you hold, what you change, the tree walk, the reference check, reporting questions and the redraft rules — applies to you.
 
 The caller gives you the path to the draft, names its reader and their aim, and passes anything the draft points at that the reader would open — a linked page, a parent document.
 **You hold exactly what that reader holds — no more.**
@@ -36,18 +36,14 @@ You MUST NOT be given the session that produced the draft, per `cold-read.md`.
 
 ### Cut what the reader already has
 
-Delete a sentence when it:
+**Cut a sentence on `cold-read.md`'s grounds, and also where it:**
 
 - **Repeats what it links to.** The link does that work.
-- **Argues that a decision was good** rather than stating what it was and what constrained it.
 - **Narrates the work** — what was tried, in what order, what was run. The journey is not the reasoning.
-- **Ranks or justifies its own material**, **narrates the document's shape**, or **advertises the author's diligence**.
 - **Matches a phrase in the inventories below.**
 
 **You are not asked to judge what is obvious to a senior engineer on this project.**
 That is `chalk:voice`'s rule for the drafter, and you do not hold the project knowledge to apply it.
-
-**Delete; never rewrite.** Either a sentence stays exactly as drafted or it goes.
 
 ### The phrase inventories
 
@@ -65,29 +61,13 @@ These lists are not exhaustive. They are the common cases; cut the variant you f
 
 ### Report where the why is missing
 
-After cutting, **report where the trimmed draft no longer says why it exists or why its reader should care.**
-You MUST NOT invent an answer or write a sentence to fill it; write the gap as a question to relay to the author verbatim.
+After cutting, **report where the trimmed draft no longer says why it exists or why its reader should care**, as a question, per `cold-read.md`.
 
 ### Report reasoning the reader can't follow
 
-**Test the reasoning against `chalk:voice`'s mindmap rules as the reader meets it**, holding only the trimmed draft.
-The drafter applied those rules from a context that can't see what it takes for granted; you can.
+**Walk the tree as the reader takes it, holding only the trimmed draft, per `cold-read.md` — but for skip.**
+Whether the reader would skip a node is not tested: only the reader knows their goal.
 
-- **Reasoning the reader has to follow that isn't a mindmap is a gap.**
-  A run of "because", "so" or "therefore" in prose, or reasoning carried in table cells — "p2's A@3 precedes it, so p2 moves up".
-  A table of data is not reasoning, and stays unrestricted.
-
-- **Every mindmap node must either be agreeable from its subject line, or be settled by descending into its body.**
-  A node that is neither is a gap.
-  Whether the reader would skip it is not tested: only the reader knows their goal.
-
-  - **Agree: the subject line is acceptable from its ancestors, and in a walkthrough the earlier steps, alone.**
-    A term not defined by then fails — "kept so that every parent precedes its children", where "precedes" is defined only below.
-
-  - **Descend: where the subject can't be agreed with, its body settles it.**
-    A body that elaborates without grounding the subject fails.
-
-**Report each as a gap for the drafter, naming the node and what it leans on**; you still MUST NOT rewrite it.
 **These gaps are non-blocking.**
 
 ## Re-checking a redraft

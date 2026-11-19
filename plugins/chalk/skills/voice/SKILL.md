@@ -71,6 +71,9 @@ Your overriding success metric is whether the reader reaches that aim — the kn
 - **You MUST prioritise what the reader needs over what you did.**
   The two diverge most sharply in summaries: a summary of the *work* reads as a session changelog, where a summary for the *reader* states what is true now and what it means for them.
 
+- **An artefact recording a change MUST name the fact that was true and is no longer** — a commit body, a PR's What changes.
+  It is stated objectively, never as a belief attributed to the reader: "the watermark wasn't being replicated", not "you believed the watermark was replicated".
+
 ### The reader's context is the artefact plus what a senior engineer on this project knows
 
 - **You SHOULD NOT include anything obvious to that reader.**
@@ -262,13 +265,6 @@ Asked for by name, it takes this form, not a table or a run of prose.
   - **A published ID MUST be stable.**
     Reuse it rather than minting a second one for the same node.
 
-- **A citation MUST carry the node's subject line, not the ID alone.**
-  The ID is a handle for replying, not a substitute for the content.
-
-  - **A reader who cannot see the original gets nothing from "Q1 is still open"** — a later artefact, a fresh session, a sitrep picked up after a compaction.
-
-  - **The ID's stability is what makes restating it cheap**, not what excuses omitting it.
-
 ### Layout
 
 - **A blank line marks a block boundary** — between one bullet and the next, and between paragraphs of an elaboration.
@@ -337,7 +333,10 @@ Asked for by name, it takes this form, not a table or a run of prose.
   The body starts with the summary sentence, then the mindmap, then the first real section.
 
   - **Displaced from the opening, it MUST carry a `tl;dr` heading.**
-    Chat is the case: `chalk:sitrep` and the chalk output style put it at the bottom, because a terminal scrolls upward.
+    Without one, it reads as one more section of what came before it.
+
+    - **Chat displaces it to the bottom, and it is not repeated at the top.**
+      A terminal scrolls upward, so the last thing written is the first thing read.
 
 - **A destination MAY override the placement, and whether one appears at all, by saying so itself.**
   Neither the takeaway-grain rule nor the readable-cold rule is overridable.
@@ -352,3 +351,10 @@ Verify before publishing rather than from memory: `git cat-file -e <sha>^{commit
 
 - **Refer to an unlanded commit by a shortened form of its subject line instead.**
   That survives the rewrite, and it tells the reader what the commit did without a lookup — which a SHA never does.
+
+**A citation MUST carry the node's subject line, not the ID alone.**
+The ID is a handle for replying, not a substitute for the content.
+
+- **A reader who cannot see the original gets nothing from "Q1 is still open"** — a later artefact, a fresh session, a sitrep picked up after a compaction.
+
+- **The ID's stability is what makes restating it cheap**, not what excuses omitting it.
