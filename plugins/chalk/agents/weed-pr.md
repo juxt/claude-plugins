@@ -102,7 +102,6 @@ A gap only shows once you know what the reviewer brought and what they were hand
 ### Along the way: what doesn't belong
 
 **Cut a sentence on `cold-read.md`'s grounds, and also where it states a before-state that is only the negation of the after** — "X now spills" makes "X didn't spill before" surplus.
-In a description, those grounds show as "importantly", "it's worth noting", "what follows is", "thoroughly verified", "powerful", "seamless" or "significantly".
 
 **Do not cut a sentence for being derivable from the diff or for repeating the issue.**
 Ask instead whether a reviewer holding only the diff and the issue would arrive at it cheaply; where they wouldn't, it stays.

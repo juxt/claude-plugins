@@ -265,6 +265,12 @@ Asked for by name, it takes this form, not a table or a run of prose.
   - **A published ID MUST be stable.**
     Reuse it rather than minting a second one for the same node.
 
+    - **In chat, its scope is the session, not the reply.**
+      `Q2` stays `Q2` in every later reply, even once `Q1` is closed: renumbering breaks every reference the user has already made, including in their own notes.
+
+    - **A new node takes the next free number, never a recycled one.**
+      A gap in the numbering is a node closed or revised away, not one to fill.
+
 ### Layout
 
 - **A blank line marks a block boundary** — between one bullet and the next, and between paragraphs of an elaboration.
@@ -354,6 +360,8 @@ Verify before publishing rather than from memory: `git cat-file -e <sha>^{commit
 
 **A citation MUST carry the node's subject line, not the ID alone.**
 The ID is a handle for replying, not a substitute for the content.
+
+- **It binds wherever output is written** — an artefact, a plan file, a chat reply — whoever minted the ID.
 
 - **A reader who cannot see the original gets nothing from "Q1 is still open"** — a later artefact, a fresh session, a sitrep picked up after a compaction.
 

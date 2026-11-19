@@ -68,13 +68,6 @@ This is the section that earns the sitrep — answering by reference is how the 
 Per item, children say **why it is still open and what would settle it** — the missing fact, the answer needed, the experiment to run.
 Where an item blocks something in flight, say which.
 
-- **An ID's scope is the session, not the sitrep.**
-  `chalk:voice` requires a published ID to be stable; here that means `Q2` stays `Q2` across every sitrep in the session, even once `Q1` is closed. Renumbering breaks every reference the user has already made, including in their own notes.
-
-- **A carried-over item is cited in every sitrep that carries it**, per `chalk:voice`.
-
-- **Newly-raised items take the next free number**, never a recycled one.
-
 - **A closed item drops out silently.**
   Don't keep a struck-through graveyard; if resolving it changed the state, that shows up in Done.
 

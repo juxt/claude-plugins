@@ -62,6 +62,16 @@ A commit message isn't a file you hold, so its cuts are reported for the caller 
 
 Your agent file adds the cuts its draft's readers call for.
 
+**A match in the phrase inventories below is grounds to cut the sentence, not the phrase.**
+`chalk:voice` states what each rule means; these are the strings that betray it.
+They are the common cases, not exhaustive: cut the variant you find on the same grounds.
+
+- **Persuasion** — "powerful", "seamless", "blazing-fast", "robust", "elegant", "revolutionary", "significantly", "dramatically", "seriously".
+  The deletion test decides the borderline cases: where the sentence carries the same fact without the word, the word was persuading.
+- **Self-ranking** — "the key change here", "importantly", "notably", "crucially", "it's worth noting", "the single most", "critically".
+- **Diligence advertising** — "checked carefully", "thoroughly reviewed", "thoroughly verified", "I verified that", "as expected".
+- **Shape narration** — "what follows is", "this section exists to", "in this PR we will".
+
 ### Run the two halves in order
 
 **Where your agent file has you generate from the readers' goals and then attempt their jobs, finish the first half before starting the second.**

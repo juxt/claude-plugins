@@ -40,24 +40,10 @@ You MUST NOT be given the session that produced the draft, per `cold-read.md`.
 
 - **Repeats what it links to.** The link does that work.
 - **Narrates the work** — what was tried, in what order, what was run. The journey is not the reasoning.
-- **Matches a phrase in the inventories below.**
+- **Is filler** — an opening reaction line ("Great question", "Good call"), a sign-off offer ("Let me know if you'd like…"), a frame wrapped round a claim ("One honest caveat is that…" for "Caveat:").
 
 **You are not asked to judge what is obvious to a senior engineer on this project.**
 That is `chalk:voice`'s rule for the drafter, and you do not hold the project knowledge to apply it.
-
-### The phrase inventories
-
-`chalk:voice` states what each rule means; these are the strings that betray it.
-**A match is grounds to cut the sentence, not the phrase** — you delete whole sentences, never edit them.
-
-- **Persuasion** — "powerful", "seamless", "blazing-fast", "robust", "elegant", "revolutionary", "significantly", "dramatically", "seriously".
-  The deletion test decides the borderline cases: where the sentence carries the same fact without the word, the word was persuading.
-- **Self-ranking** — "the key change here", "importantly", "notably", "crucially", "it's worth noting", "the single most", "critically".
-- **Filler lead-ins** — an opening reaction line ("Great question", "Good call"), a sign-off offer ("Let me know if you'd like…"), a frame wrapped round a claim ("One honest caveat is that…" for "Caveat:").
-- **Diligence advertising** — "checked carefully", "thoroughly reviewed", "I verified that", "as expected".
-- **Shape narration** — "what follows is", "this section exists to", "in this PR we will".
-
-These lists are not exhaustive. They are the common cases; cut the variant you find on the same grounds.
 
 ### Report where the why is missing
 
