@@ -55,7 +55,7 @@ The one arriving after it closed can tell why it mattered and what became of it.
 
 **Take each of `chalk:issue`'s readers in turn, and ask what they need and whether the body has it.**
 
-- **The one picking it up**: the problem as a deficiency, not a mechanism; why now, or that it is opportunistic; the constraints, marked essential or accidental; on the feature path, what a good solution has to satisfy and the direction, as a goal tree; what is out of scope that they'd otherwise assume is in.
+- **The one picking it up**: the problem as a deficiency, not a mechanism; the *why now*, where there is one; the constraints, marked essential or accidental; on the feature path, what a good solution has to satisfy and the direction, as a goal tree; what is out of scope that they'd otherwise assume is in.
 - **The one matching a symptom**: an abstract in the terms they arrive with; on the bug path, the literal error text, version and triggering condition.
 - **The one arriving after it closed**: why it mattered, and no question left open that reads as unfinished work.
 
@@ -69,7 +69,8 @@ The one arriving after it closed can tell why it mattered and what became of it.
 3. **As the one matching a symptom, invent two near-misses** — the same error in another subsystem, the same subsystem with a different error.
    Could you rule each in or out from the abstract and symptoms alone? Is the error text verbatim, or described?
 4. **Check every speculative claim is tagged** — "probably", "likely", "seems", "I think" in a root cause with no `assumption:` or `idea:` is a guess the next reader can't tell from a finding.
-5. **Check every claimed downstream is named.** "Unblocks future work" is a gap; an issue claiming none is opportunistic, which is not.
+5. **Check every claimed downstream is named.** "Unblocks future work" is a gap; an issue claiming none is not, and needs no line saying so.
+   A body that says it is opportunistic is a cut, not a gap.
 6. **Walk the tree as the reader takes it**, per `cold-read.md`.
    A root cause argued in sentences is the common deduction-in-prose gap.
 

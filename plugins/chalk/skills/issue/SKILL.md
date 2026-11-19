@@ -72,7 +72,8 @@ Where the motivation isn't recoverable, ask — "I can reconstruct it" is the an
   2. unblocking downstream dependencies
 
   - **An issue with no *why now* is opportunistic, and that is a valid state.**
-    It needs no tag and blocks nothing; you MUST NOT invent one to fill the line.
+    It blocks nothing and the body says nothing about it: you MUST NOT write that it is opportunistic, nor invent a *why now* to fill the line.
+    The reader takes silence as opportunistic; a *why now* is written only where one is explicit.
 
   - **A session that finds its work waits on another card writes that onto the other card**, through this skill: the named downstream in its context, and the blocked-by edge in the tracker.
     The session that learns of the dependency is the only one holding it, so it is the one that records it.
