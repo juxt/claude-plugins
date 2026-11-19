@@ -9,7 +9,7 @@
 -- a-star records into it and exits back to it; it never approves a plan itself.
 external entity Plan {
     goal_approved: Boolean
-    first_move: Move?
+    route: List<Move>
 }
 
 -- A commit on the card's feature branch.
@@ -34,9 +34,9 @@ enum YieldKind {
     unwalked_route        -- a stretch of the goal nobody has darted
     earlier_commit        -- an unlanded commit superseded, or needing completion
     constraint            -- a constraint, assumption or risk, recorded on the node it bounds
-    route_question        -- answered or escalated, then the agent resumes
+    route_question        -- answered, or put to the user, then the agent resumes
     invalidating_finding  -- changes the card's target or its goal
-    user_decision         -- a tidy's now, later or never; scope
+    user_decision         -- a tidy's first, later or never; scope
 }
 
 enum FrameKind { tidy | advance | amend }
@@ -145,7 +145,7 @@ entity Frame {
     kind: FrameKind
     placement: Placement
     status: in_hand | writing | verifying | interrupted | pre_empted | parked | committed | failed
-    -- The frame this one interrupted, set aside as a WIP commit (never `git stash`).
+    -- The frame this one interrupted, set aside as a WIP commit.
     interrupts: Frame?
 
     transitions status {
@@ -204,12 +204,18 @@ rule Enter {
     requires: plan.goal_approved
     ensures:
         let session = Session.created(plan: plan, mode: mode, status: choosing)
-        if plan.first_move != null:
-            Take(session: session, move: plan.first_move)
+        if plan.route.count > 0:
+            Take(session: session, move: plan.route.first)
 
     @guidance
-        -- Approving a plan that names its first move is the user's yes to that move, so it is taken without being offered.
-        -- Only the first: every later move is offered in primary as usual.
+        -- Per a-star:a-star's The orchestrator: approving the plan was the yes to its route; TakeOnRoute takes the rest.
+}
+
+-- A move the approved plan's route names is taken in the route's order without being offered: approving the plan was the yes.
+rule TakeOnRoute {
+    when: ChooseOnRoute(session, move)
+    requires: session.status = choosing
+    ensures: Take(session: session, move: move)
 }
 
 rule OfferMove {
@@ -218,6 +224,9 @@ rule OfferMove {
     requires: session.mode = primary
     ensures: session.status = offered
     ensures: session.offered_move = move
+
+    @guidance
+        -- The offer waits for the close of the user's current thread, batched with any others pending, per chalk:primary.
 }
 
 -- Only the user's yes takes the offered move. A question from the user is not a yes.
@@ -251,9 +260,6 @@ rule TakeDart {
     requires: session.status = choosing
     ensures: Dart.created(session: session, status: briefed, still_needed: true)
     ensures: Recorded(session: session, entry: dart_in_flight)
-
-    @guidance
-        -- The brief asks for the route built, not analysed. Darts run in parallel with each other and with a drive.
 }
 
 -- drive: one drivable sub-goal, recorded as in hand before the first edit.
@@ -320,7 +326,7 @@ rule TakeReplan {
 }
 
 -- park: nothing is ready, and what is blocked waits on the user or someone else.
--- Hands back to the outer harness, which puts the work down: its stack recorded on the issue, its branch pushed.
+-- Hands back to the outer harness, leaving what a-star:a-star's Entry and exit says a park leaves.
 rule TakePark {
     when: Take(session, move)
     requires: move = park
@@ -361,19 +367,13 @@ rule DartLost {
         ensures: Recorded(session: session, entry: dart_lost)
 }
 
--- Before the done exit, a pass over the unlanded branch reorders, merges or splits its commits into review units,
--- leaving the final tree unchanged; it rewrites the branch, per a-star:a-star's Feature branches.
+-- Before the done exit, the review-unit pass of a-star:a-star's Sub-goals shapes the unlanded branch into review units.
 rule ShapeForReview {
     when: ReviewUnitsChecked(session)
     requires: session.status = choosing
     requires: session.open_frames.count = 0
     ensures: session.in_review_units = true
     ensures: Recorded(session: session, entry: review_units)
-
-    @guidance
-        -- The test is the review entries: one that can't say what checking its commit means apart from its neighbours' is a slice; one needing two checks is two units.
-        -- A tidy and an advance are never merged: a structure change and a behaviour change never share a commit.
-        -- Merging two commits merges their review entries and redrafts the merged body to the project's commit conventions; a rewritten subject updates the journal entries keyed by it.
 }
 
 rule TakeDone {
@@ -478,7 +478,7 @@ rule TriageCompletion {
         TaskAdded(sub_goal: sub_goal)
 
     @guidance
-        -- The amend keeps the completed commit's kind and its subject line; one that would change the subject is a new sub-goal after all.
+        -- The completion test is a-star:a-star's, in its Triage; what an amend may change, a-star:drive's frame rules.
         -- Findings from the orchestrator's own review of a frame are yields like any other, so they meet this test too.
         -- An amend raised by that review may be driven undarted: the orchestrator records it as judged straightforward.
 }
@@ -539,10 +539,10 @@ rule TriageRouteQuestion {
             OrchestratorResumes(dart: y.from_dart)
 
     @guidance
-        -- Answered by the orchestrator, or in primary escalated to the user first; the answer is recorded as a decision.
+        -- Answered by the orchestrator where it is its to answer; otherwise, in primary, it waits for the user like any other arrival, per chalk:primary. The answer is recorded as a decision.
 }
 
--- The user's to settle, in either mode: asked in primary; in secondary recorded as an open question, and other ready work goes on.
+-- The user's to settle, in either mode: asked in primary, when chalk:primary raises it; in secondary recorded as an open question, and other ready work goes on.
 rule TriageForUser {
     when: Triage(y)
     requires: y.kind = user_decision or y.kind = invalidating_finding
@@ -646,7 +646,7 @@ rule DartHarvested {
             dart.status = cleared
 }
 
--- A cleared dart's branch and worktree are always removed: its code never lands.
+-- A cleared dart's branch and worktree are always removed, per a-star:a-star's What the project says.
 rule DartCleared {
     when: dart: Dart.still_needed becomes false
     requires: dart.status = evidence
@@ -660,9 +660,9 @@ rule StartWriting {
     ensures: frame.status = writing
 }
 
--- A tidy needed now, an amend, or a prequel interrupts the frame in hand: it is set aside as a WIP commit,
+-- A tidy needed first, an amend, or a prequel interrupts the frame in hand: it is set aside as a WIP commit,
 -- the new frame goes on the stack, and the interrupted frame's task is blocked by it.
--- The pushed sub-goal was recorded, and its task added, when triage created it — a tidy needed now arrives as a sub_goal yield.
+-- The pushed sub-goal was recorded, and its task added, when triage created it — a tidy needed first arrives as a sub_goal yield.
 rule Interrupt {
     when: PushFrame(frame, sub_goal)
     requires: frame.status = writing
@@ -677,11 +677,7 @@ rule Interrupt {
     ensures: TaskBlocked(task: frame.sub_goal, by: sub_goal)
 
     @guidance
-        -- An amend makes an unlanded commit fit for the drive's purpose, or completes it.
-        -- It keeps the kind of the commit it amends: an amended tidy still changes no behaviour,
-        -- an amended advance keeps its subject line true. It may change the mechanism while the subject still holds;
-        -- one that would change the subject is a new sub-goal, or a revert.
-        -- Once that commit has landed on the base branch, a change to it is an ordinary tidy or advance.
+        -- What an amend may change: a-star:drive's frame rules.
 }
 
 -- A better drive found mid-drive pre-empts the one in hand: the original is kept, not failed.
@@ -722,15 +718,7 @@ rule Committed {
 
     @guidance
         -- Verified includes the orchestrator's review of the frame's diff, code and comments, before it takes the commit.
-        -- The drive agent writes the review notes into the commit's body and reports them; at the gate the orchestrator checks they stand apart from the unlanded commits' review entries, rewriting the message only where they fall short, and records them as the commit's review entry.
-        -- Where the completion test in a-star:a-star's Triage finds the frame completes an earlier unlanded commit, it is folded in as an amend, never a tidy into an advance or the reverse; the brief's placement otherwise holds.
-        -- A finding inside the frame's scope sends the drive agent back to fix it; anything else is triaged like any other report.
-        -- A finding that traces to something the drive agent reads being silent or wrong is also fixed where it belongs — the project, the record, a skill or the setup — not only in the commit.
-        -- A step the project's conventions run through a sub-agent — a comment weed, a test-log reader — the drive agent spawns itself; where it has no Agent tool, as in a Claude Code cloud session, it asks the orchestrator for it by ending its turn, and is resumed with the results; the orchestrator's review is the code review, so it asks for no other.
-        -- The drive agent makes the commit and never pushes; the orchestrator may rewrite that commit's place or message, and pushes after the gate where the project's answer says to.
-        -- Anything but branch_top rewrites the branch, per a-star:a-star's Feature branches.
-        -- An amended commit's message describes its final shape; the PR mentions it only where it
-        -- leaves a consequence the reader bears.
+        -- The review, the gate on the review notes, and pushing are a-star:drive's Doing it; the commit's place and message, its frame rules.
 }
 
 -- A drive has failed once its change is no longer atomic, or no longer comprehensible: thrown away, re-split.

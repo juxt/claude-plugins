@@ -17,7 +17,7 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 The skills say how a move is carried out; where a skill and the spec disagree, the spec governs, and the disagreement is a question for the user.
 
 **Its inspiration is the Mikado Method** (Ellnestam & Brolund, 2014): try the goal, revert, work the graph of prerequisites backwards, commit the leaves.
-The dart is the try, the revert is the revert, and each drive commits a leaf.
+The dart is the naive attempt, the revert is the revert, and each drive commits a leaf.
 
 ## Roles
 
@@ -54,10 +54,9 @@ Only the replan exit re-enters the harness's planning.
 ## The orchestrator
 
 **Every move is taken from one state, choosing.**
-In primary, a move is first offered, and only the user's yes takes it; in secondary it is taken directly, and what would have been offered is recorded, per [Primary and secondary](#primary-and-secondary).
+In primary, a move off the approved route is first offered, and only the user's yes takes it; in secondary it is taken directly, and what would have been offered is recorded, per [Primary and secondary](#primary-and-secondary).
 
-- **The first move, where the approved plan names it, is already accepted.**
-  Approving the plan was the yes, so it is taken without being offered again; every later move is offered as usual.
+- **The approved route, the moves the approved plan names, is already accepted in its order**, per the outer harness's approval — `chalk:chalk`'s step 2, where chalk planned it.
 
 - **dart** — part of the goal is still unwalked, or a sub-goal no dart has exercised, and nothing in flight covers it.
   Darts run in parallel, with each other and with a drive. `a-star:dart`.
@@ -79,13 +78,12 @@ In primary, a move is first offered, and only the user's yes takes it; in second
 **The mode — whether the user is watching — is the session's, as the session records it, and a-star reads it rather than sets it**; with none recorded, a session is primary unless it runs headless or scheduled.
 These are what each mode means for a-star's own moves.
 
-**In primary:**
+**In primary, the user's context is managed per `chalk:primary`**: what darts and drives turn up waits for the close of the user's current thread, unless it materially affects that thread.
 
-- **Offer every move out of choosing, and take it only on a yes** — the offered state in the spec.
+- **Offer a move off the approved route, and take it only on a yes** — the offered state in the spec.
+  The offer waits for the breakpoint, batched with any others pending; a move on the route is taken without one, per [The orchestrator](#the-orchestrator).
   A question from the user is not that yes.
-  - **The plan's first move, named in the plan the user approved, is the exception.**
-    Their approval was the yes, so take it without offering it again.
-- **Escalate a dart's findings while they can still change its route**, not as a running commentary.
+- **A dart's route question waits for the user like any other arrival, unless it's yours to answer.**
 
 **In secondary:**
 
@@ -98,8 +96,7 @@ These are what each mode means for a-star's own moves.
 
 ## Triage
 
-**The completion test: where an unlanded commit's claim — its subject line — still holds with new scope inside it, that scope is an amend of the commit, not a new commit on top.**
-A tidy never folds into an advance, or an advance into a tidy.
+**The completion test: where an unlanded commit's claim — its subject line — still holds with new scope inside it, that scope is an amend of the commit — a `fixup!` autosquashed into it — not a new commit on top** — never across kinds, per [Sub-goals](#sub-goals).
 
 **Darts and drives turn up the same kinds of thing, and you triage each:**
 
@@ -108,11 +105,11 @@ A tidy never folds into an advance, or an advance into a tidy.
   This holds for scope the user adds mid-card and for findings from your own review of a frame alike;
 - **a stretch of the route not yet walked** — a dart;
 - **an earlier, unlanded commit superseded or incomplete** — an amend, per `a-star:drive`; pushed ahead of the frame in hand only if that frame can't be committed correctly on the commit as it stands, otherwise recorded to drive after it;
-- **a change that would replace the approach of an unlanded commit, anywhere in the branch** — never a sub-goal on top: an amend of the commit that introduced the approach, or a revert where the approach spans several commits;
+- **a change that would replace the approach of an unlanded commit, anywhere in the branch** — an amend of that commit, or a revert, per `a-star:drive`'s [frame rules](../drive/references/frame.md#frames);
 - **a constraint, assumption or risk** — recorded on the goal-tree node it bounds;
-- **a question about the route** — answer it, or in primary escalate it, then resume;
+- **a question about the route** — answer it where it's yours, and otherwise it's the user's, per [Primary and secondary](#primary-and-secondary); then resume;
 - **a finding that changes the card's target** — revert; **one that changes its goal** — replan;
-- **a decision that is the user's** — offer it in primary; in secondary, record it and move to other ready work;
+- **a decision that is the user's** — offer it in primary, per [Primary and secondary](#primary-and-secondary); in secondary, record it and move to other ready work;
 - **two reports that conflict** — you settle it, by your own check where one is cheap, and record the decision.
 
 ## Sub-goals
@@ -127,8 +124,7 @@ A tidy never folds into an advance, or an advance into a tidy.
 - **The code a drive commits keeps the data structures a dart got right**, and leaves out what it built around the ones it didn't.
 - **Before the done exit, a review-unit pass shapes the unlanded branch for its reviewer, not the order the work happened in.**
   Reorder, merge or split its commits until each is independently acceptable and none is a slice of another, leaving the final tree unchanged.
-  **The test is the `review:` entries**: a commit whose entry can't say what checking it means apart from its neighbours' is a slice of one of them, and an entry that needs two different checks is two units.
-  **A tidy and an advance stay separate**, however closely they belong together — they are checked differently.
+  **The test is the `review:` entries**: a commit whose entry can't say what checking it means apart from its neighbours' is a slice of one of them, and an entry that needs two different checks is two units — so a tidy and an advance never merge, however closely they belong together.
   Merging two commits merges their `review:` entries, and redrafts the merged body to the project's commit conventions.
   A rewritten subject updates the journal entries keyed by it.
   It rewrites the branch, per [Feature branches](#feature-branches).
@@ -168,7 +164,7 @@ In whatever the session tracks its work with — the outer harness's journal, wh
 2. **Load the project's answers to the [three choices](#what-the-project-says)**, and check no open question bears on the card itself.
    Look for the answers in the project's skills and agent instructions first; only a choice answered nowhere there becomes a question.
 
-3. **Choose the first move**: the one the approved plan names, taken directly; otherwise a dart where the card has no sub-goals yet or part of its goal is still unwalked, else a drive.
+3. **Choose the first move**: the first the approved plan names, taken directly; otherwise a dart where the card has no sub-goals yet or part of its goal is still unwalked, else a drive.
 
 ## Feature branches
 

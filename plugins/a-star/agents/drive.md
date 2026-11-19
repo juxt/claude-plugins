@@ -36,11 +36,10 @@ Where it isn't, end your turn and say so — you MUST NOT reset, as the checkout
 - **Verify it** against the project's definition of done and its answer to where this kind is committed.
   The code review is the orchestrator's, when it takes your commit.
 - **Commit it, to the project's commit conventions, at the placement in the brief.**
-  An amend is committed inside the commit it amends; a prequel at the branch's base.
+  An amend is autosquashed into the commit it amends; a prequel goes at the branch's base.
   **Its body carries the review notes** — what a `review:` entry holds, per `a-star:a-star`'s [What to record](../skills/a-star/SKILL.md#what-to-record): you know the invariants the change rests on, and nobody after you does.
   The orchestrator may rewrite your commit — its place, or its message — so write it as the brief's sub-goal reads, and move on.
 - **You MUST NOT push.** The orchestrator pushes, once it has taken your commit.
-- **You MUST NOT use `git stash`**: it's shared across worktrees.
 
 ## Talking to the orchestrator
 
@@ -50,7 +49,7 @@ Where it isn't, end your turn and say so — you MUST NOT reset, as the checkout
 - **What does** — end your turn with it, having WIP-committed the work in hand where there is any; you are resumed with the answer:
   - **a step the project's conventions run through a sub-agent, where you have no Agent tool to spawn it** — as in a Claude Code cloud session; with one, you spawn it yourself and carry on. A comment weeder, a test-log reader, not a code reviewer: name the agent and exactly what to pass it — the paths, the log, nothing of your reasoning;
   - **a question the project's commit conventions have you ask rather than guess** — you have none of the session's history, and the user doesn't see your calls;
-  - **a decision that is the user's** — a tidy's now, later or never; the sub-goal's scope;
+  - **a decision that is the user's** — a tidy's first, later or never; the sub-goal's scope;
   - **an earlier, unlanded commit this frame can't be committed correctly on, because it is unfit or incomplete** — say what it lacks; the orchestrator decides whether to amend it first;
   - **a better drive that should come first**, which would pre-empt this one;
   - **a finding that invalidates the plan**, or a test you'd have to weaken to get past;
@@ -59,7 +58,7 @@ Where it isn't, end your turn and say so — you MUST NOT reset, as the checkout
 ## Report
 
 1. **The commit**, its placement, branch and head — or the WIP commit, where you stopped.
-2. **The review notes you wrote into the commit's body**, and what you verified and what you didn't — what a `review:` entry holds, per `a-star:a-star`'s What to record.
+2. **The review notes you wrote into the commit's body** — what a `review:` entry holds, per `a-star:a-star`'s What to record.
    Write them for a reviewer who never sees this report; the orchestrator checks them, and records them as the commit's `review:` entry.
    **Name each sub-agent step, who ran it — you or the orchestrator —** and what you did with its results.
 3. **What you reported along the way**, as one list.

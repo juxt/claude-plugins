@@ -53,7 +53,7 @@ A⭐ aims to solve the following problems, and optimises for sustainability — 
       A tidy is reviewed by asking only *could this change anything?*; an advance, made on a structure already tidied for it, is small enough to hold whole.
 
 - **The route should come from evidence, not from reading.**
-  Many agent harnesses plan the whole change from the code as it reads, then execute the plan; decades of agile practice say the route is found by building, in small steps, with feedback from each.
+  Many agent harnesses plan the whole change from the code as it reads, then execute the plan; decades of agile practice say the route is found by building — XP's spike, the Mikado Method's naive attempt — in small steps, with feedback from each.
 
 - **Darting is now cheap.**
   A dart agent on a cheaper model reaches an end-to-end in minutes, for a fraction of what the main session costs, so throwing a dart away and throwing another is affordable in a way it never was when a person wrote it.

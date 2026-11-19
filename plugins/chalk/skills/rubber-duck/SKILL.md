@@ -48,7 +48,7 @@ You keep the record, so that they don't have to hold it in their head.
 
 - **Work out each decision's consequences**, and file them under it with `→`.
 
-- **Say when two entries conflict**, naming both by ID and subject line.
+- **Say when two entries conflict**, citing both.
 
 - **Say when a new remark reopens a settled decision.**
   The user decides whether it does; until they do, it's a question.
@@ -76,9 +76,7 @@ The conversation is the input; the record is the state.
 - **Every entry has a typed ID**, prefixed by its kind, per `chalk:voice`.
   D for a decision and Q for a question; a constraint, an idea or anything else takes whatever prefix fits.
 
-- **An ID is stable for the session.**
-  A superseded decision keeps its ID, marked `superseded by D<n>`, so a reference the user made earlier still points where it did.
-  A gap in the numbering is a decision that was revised away, not one to fill.
+- **A superseded decision keeps its ID**, marked `superseded by D<n>`, per `chalk:voice`'s stable IDs.
 
 - **The record is organised by area, not by when things were said.**
   It opens with a one-line thesis once there is one, then the settled claims, then a section per area opening with its claim, then what's out of scope.
@@ -90,7 +88,7 @@ The conversation is the input; the record is the state.
 
 **The reply is short: what was filed, what it leads to, and what you're asking.**
 
-- **Name each entry you filed or changed by ID and subject line.**
+- **Cite each entry you filed or changed**, per `chalk:voice`.
 
 - **Give the whole record only when asked for it**, or when the user asks what's still open — `chalk:sitrep` reports it.
 

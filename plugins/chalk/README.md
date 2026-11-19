@@ -85,7 +85,7 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 
 - **Skill** (`sitrep`): Where the session has got to — what landed, and what's still open as ID'd ideas, forks and questions
 
-- **Skill** (`primary`, `secondary`): Whether the user is watching the session — primary, they steer; secondary, the session decides, records and parks rather than waiting
+- **Skill** (`primary`, `secondary`): Whether the user is watching the session — primary, they steer, and what arrives in the background waits for the close of their current thread; secondary, the session decides, records and parks rather than waiting
 
 - **Skill** (`put-down`): Parks the session's work on its issue, so the next session resumes from the issue and its links alone
 
@@ -103,7 +103,8 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 
 - **Agent** (`weed-comments`): Deletes code comments that don't earn their place, arriving without the context that wrote them
 
-- **Agent** (`weed-pr`): Reads a drafted PR description and the branch's commit messages and bodies cold, as the reviewer who has to own the change, and reports where it gets stuck — questions, never answers
+- **Agent** (`weed-pr`): Reads a drafted PR description cold, as the reviewer who has to own the change, and reports where it gets stuck — questions, never answers
+- **Agent** (`weed-commits`): Reads a branch's commit messages cold, as the reader arriving from blame and the reviewer going commit by commit, and reports where each gets stuck — questions, never answers
 - **Agent** (`weed-issue`): Reads a drafted issue body cold, as each of its readers, and reports where each gets stuck — questions, never answers
 - **Agent** (`weed-prose`): Weeds prose no chalk artefact skill owns — docs, READMEs, blog posts — cutting what serves the writer rather than the reader
 

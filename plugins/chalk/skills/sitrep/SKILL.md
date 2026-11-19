@@ -26,8 +26,8 @@ It is the state the session has reached, and what still needs a decision.
 
 ## Ground the report before writing it
 
-**A sitrep that trusts the transcript reports intentions as achievements.**
-The transcript records what was attempted; the repo records what happened.
+**Ground the report in the repo, per `chalk:chalk`'s What has landed.**
+A sitrep that trusts the transcript reports intentions as achievements.
 
 - **Check the working tree** — `git status`, `git diff --stat`, and `git log` back to where the session started.
   This is what settles the Done/Open boundary for anything touching code.
@@ -68,14 +68,6 @@ This is the section that earns the sitrep — answering by reference is how the 
 Per item, children say **why it is still open and what would settle it** — the missing fact, the answer needed, the experiment to run.
 Where an item blocks something in flight, say which.
 
-- **An ID's scope is the session, not the sitrep.**
-  `chalk:voice` requires a published ID to be stable; here that means `Q2` stays `Q2` across every sitrep in the session, even once `Q1` is closed. Renumbering breaks every reference the user has already made, including in their own notes.
-
-- **A carried-over item is restated in full, never referenced by ID alone.**
-  A sitrep is most often read after a compaction or a break, which is exactly when the earlier reply that introduced `Q2` is no longer on screen. Every live item gets its subject line in every sitrep that carries it.
-
-- **Newly-raised items take the next free number**, never a recycled one.
-
 - **A closed item drops out silently.**
   Don't keep a struck-through graveyard; if resolving it changed the state, that shows up in Done.
 
@@ -84,12 +76,7 @@ Where an item blocks something in flight, say which.
 
 ## Section 3: tl;dr
 
-**Per `chalk:voice`, but at the bottom rather than the top, and not duplicated at the top.**
-A terminal scrolls upward, so in a chat reply the last thing written is the first thing read.
-The placement is the only thing this overrides.
-
-- **It MUST carry a `tl;dr` heading**, which is the displaced case `chalk:voice` names rather than a second override.
-  Voice drops the heading where the tl;dr opens the artefact, because the position is what marks it; here Done and Open hold that position, so without a heading the summary reads as a third section of the report.
+**Per `chalk:voice`'s placement for chat: at the bottom, under a `tl;dr` heading.**
 
 - **Readable cold still binds, and it's the one voice rule chat otherwise relaxes.**
   Someone who did not see the session should get where the work stands and what it is waiting on.

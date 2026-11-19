@@ -40,9 +40,9 @@ It reports what it turns up and makes the commit; you triage, choose, record, an
    **The drive agent spawns the sub-agents the project's conventions call for — a comment weeder, a test-log reader — itself, and hands back a frame they have already run over.**
    Where it has no Agent tool, as in a Claude Code cloud session, it asks you for them instead: spawn each with exactly the inputs it names, and resume it with the results.
    Your review in step 5 is the frame's code review, so it doesn't ask for another.
-   **It asks you, too, the questions the project's commit conventions would put to the user**: it has none of the session's history, and the user doesn't see its calls, so answer from the record, or in primary escalate.
+   **It asks you, too, the questions the project's commit conventions would put to the user**: it has none of the session's history, and the user doesn't see its calls, so answer from the record, or put it to the user per `a-star:a-star`'s Primary and secondary.
 
-4. **When it ends its turn**, decide: a sub-agent request is spawned and answered, per step 3; a user's decision is offered in primary; an earlier commit this frame can't be committed on is an amend frame, pushed first; a better drive is a pre-emption; a failure is [Handling Drive Failure](#handling-drive-failure).
+4. **When it ends its turn**, decide: a sub-agent request is spawned and answered, per step 3; a user's decision is offered in primary, per `a-star:a-star`'s Primary and secondary; an earlier commit this frame can't be committed on is an amend frame, pushed first; a better drive is a pre-emption; a failure is [Handling Drive Failure](#handling-drive-failure).
    Then resume it with `SendMessage`, or push the new frame.
 
 5. **Review the frame's diff from the head you recorded, before taking its commit**, with the review the project's conventions call for, over its code and its comments.
@@ -55,7 +55,6 @@ It reports what it turns up and makes the commit; you triage, choose, record, an
    **The gate first: check the review notes the drive agent wrote into the commit's body, and reported, stand apart from the unlanded commits' `review:` entries.**
    Rewrite the message, to the project's commit conventions, only where the notes fall short of what a `review:` entry holds, per `a-star:a-star`'s What to record.
    Where `a-star:a-star`'s completion test, in its Triage, finds the frame completes an earlier unlanded commit, fold it in as an amend rather than taking it on top.
-   A tidy is never folded into an advance, or an advance into a tidy.
    A rewrite that changes a commit's subject updates the journal entries keyed by it.
    **Then push, where the project's answer says to**, and in secondary wherever its answers allow, per `a-star:a-star`'s Primary and secondary; the drive agent never pushes.
 
@@ -66,7 +65,7 @@ It reports what it turns up and makes the commit; you triage, choose, record, an
 
 8. **Clear the darts this drive superseded** — each whose code no longer holds evidence a remaining sub-goal needs.
    First record what it taught that the record doesn't yet hold: what it found, and where the road departed from its route.
-   Then remove its branch and worktree: a dart's code never lands, so a spent dart's are always removed, whatever the project's branch cleanup says.
+   Then remove its branch and worktree, per `a-star:a-star`'s [What the project says](../a-star/SKILL.md#what-the-project-says).
 
 **Hand over** the branch, its head, and what the reviewer has to check — the decisions and assumptions the change rests on, as the `review:` entries record them.
 In secondary, the handover goes in the session's record and doesn't end the turn.
@@ -75,9 +74,8 @@ Merging is the user's; once they have, remove what only served it per the projec
 
 ## Interrupting the frame in hand
 
-**A tidy needed now, an amend of a commit the frame in hand can't be committed on, or a prequel pushes a frame on top of the one in hand**, committed by a drive agent of its own.
+**A tidy needed first, an amend of a commit the frame in hand can't be committed on, or a prequel pushes a frame on top of the one in hand**, committed by a drive agent of its own.
 The agent in hand has WIP-committed its work before ending its turn; rebase that afterwards — or discard it to redo on the new structure, whichever is cheaper — and mark its task blocked by the new frame's.
-You MUST NOT use `git stash`: it's shared across worktrees.
 
 **A frame can itself be interrupted** — push another on top, and pop back the same way.
 
@@ -86,7 +84,7 @@ Set the original aside as a WIP commit, commit the pre-empting drive, then rebas
 A pre-empted drive is kept and resumed; a failed one is thrown away and re-split.
 
 **Stopping before it's done**: WIP-commit the work, leave it recorded as in hand, and park — whatever else is ready.
-With the stack unpopped, the next session resumes from what the park leaves, per `a-star:a-star`'s Entry and exit — the branch pushed with its WIP commits, and its head and the stack in hand recorded where the project tracks the card — not from this session's plan file.
+With the stack unpopped, the next session resumes from what the park leaves, per `a-star:a-star`'s Entry and exit, not from this session's plan file.
 
 ## Handling Drive Failure
 

@@ -22,7 +22,7 @@ tools: Skill, Read, Edit, Grep, Glob, Bash(git log *), Bash(git show *), Bash(gh
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 **Load `chalk:voice` and `chalk:issue` first, then read `chalk:voice`'s `references/cold-read.md`.**
-`chalk:voice` defines who chalk's readers are and the register; `chalk:issue` defines the issue's three readers and what success looks like for each; `cold-read.md` carries what every cold reader shares — what you hold, the tree walk, the reference check and the redraft rules.
+`chalk:voice` defines who chalk's readers are and the register; `chalk:issue` defines the issue's three readers and what success looks like for each; `cold-read.md` carries what every cold reader shares — what you hold and what the reader already knows, the cuts, the two halves, the tree walk, the reference check, reporting questions and the redraft rules.
 
 **Success: each reader can do their job from the body.**
 The one picking it up can state the problem, what done means and what constrains the solution, without asking the filer.
@@ -44,15 +44,12 @@ The one arriving after it closed can tell why it mattered and what became of it.
 
 **They are `chalk:voice`'s pinned reader, or the project's own reader model where it names one, knowing the system as its default branch has it.**
 
-- **The body opens one or two levels of abstraction above the work**, per `chalk:voice`'s hourglass.
-  A question about something more than two levels above the work is not a gap.
 - **A sub-issue inherits its parent's motivation**, so the parent's *why* is the reader's; restating it is surplus, and its absence here is not a gap.
 - **Never assumed:** what the filer found out in their session — a measurement, a reproduction, a decision already taken, a road already closed.
 
 ## Generate from the readers' goals, then attempt their jobs
 
-**Run the two halves in order, and finish the first before starting the second.**
-The first finds what is structurally absent; the second finds missing content.
+**Run the two halves in order**, per `cold-read.md`.
 
 ### 1. What each reader needs, from their goal
 
@@ -78,13 +75,10 @@ The first finds what is structurally absent; the second finds missing content.
 
 ### Along the way: what doesn't belong
 
-**Cut a sentence, whole and never edited, where it:**
+**Cut a sentence on `cold-read.md`'s grounds, and also where it:**
 
 - **repeats the parent issue** — the link does that work;
-- **argues that a decision was good**, rather than stating it and what constrained it;
-- **narrates the work** — what was tried, in what order, what was run — rather than the road it closed;
-- **ranks or justifies its own material, narrates the document's shape, or advertises diligence**;
-- **persuades** — where the sentence carries the same fact without the evaluative word.
+- **narrates the work** — what was tried, in what order, what was run — rather than the road it closed.
 
 ### References
 
@@ -92,15 +86,12 @@ The first finds what is structurally absent; the second finds missing content.
 
 ## Report back
 
-**Report questions, never answers.**
-Only the filer holds what they found out, so a gap filled from the codebase is a guess about it.
-You MUST NOT write new sentences into the draft.
+**Report questions, never answers**, per `cold-read.md`.
 
 Return, as your final text:
 
-1. **Questions for the filer** — each worded to be relayed verbatim, marked by which reader raised it. **A missing *why* is marked blocking**: there is no diff to recover it from later.
-2. **Mindmap gaps** — each naming the node, the decision it fails (skip, agree or descend), and what it leans on.
-   Claims not safe to agree with unread are agree failures, and go here.
+1. **Questions for the filer** — each marked by which reader raised it. **A missing *why* is marked blocking**: there is no diff to recover it from later.
+2. **Mindmap gaps**, as `cold-read.md`'s tree walk reports them — claims not safe to agree with unread among them.
 3. **Cuts made**, with each sentence's opening words and its reason, and **references** that didn't resolve.
 
 **You are done when no reader has a question left they would ask the filer.**

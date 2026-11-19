@@ -18,7 +18,7 @@ How the work gets implemented is a separate concern, left to whichever implement
 **Success: nothing is built before the user has agreed the goal, and every commit, PR and issue update the session drafts finds its reasoning already written in the plan.**
 
 - **Load `chalk:voice`.**
-- **Skills that load this one take the plan file and the journal from it**, and nothing from `/chalk` below, which only runs when the user invokes it.
+- **Skills that load this one take the plan file, the journal and the other sections above `/chalk` from it**, and nothing from `/chalk` itself, which only runs when the user invokes it.
 
 ## The plan file
 
@@ -45,6 +45,11 @@ Amending, reordering and rewording unlanded commits is how a branch reaches revi
   A branch someone else is working on, or a PR someone else opened, is theirs.
 - **The project's base branch is never rewritten or force-pushed.**
   A commit not yet pushed to it is still local, and MAY be reworded.
+
+## What has landed
+
+**What has landed is the repo's to say, not the transcript's.**
+The branch, `git status`, `git log` and the linked PRs say what happened; the transcript records only what was attempted.
 
 ## The journal
 
@@ -75,6 +80,9 @@ Each is one claim in `chalk:voice`'s register, terse; an entry that would mean n
 - **A constraint or assumption sits on the goal-tree node it bounds** (`chalk:goal-tree`), so it carries into the issue's tree under the same ID.
 
 - **`dead-end:`** — a road that closed, and what closed it, where that constrains what comes next.
+
+- **`inbox:`** — in primary, an arrival held for the user until their current thread closes, per `chalk:primary`.
+  It is cleared once raised.
 
 - **`review:`** — what a reviewer needs to check a commit, by its subject: what checking it means, the invariants it rests on with where each is made true, what pins it and what would break it, and what was verified and what wasn't.
   Whoever knows it writes it when the commit is made — before `chalk:commit`, which carries it into the commit's body, or, where a harness's agent made the commit, from the review notes that agent wrote into the body and reported.
@@ -132,7 +140,7 @@ Those are the host's defaults for a plan; where they conflict with this skill, t
 ### 1. Read the problem and its neighbourhood
 
 - **With a card: the issue, its parent, its sub-issues, what blocks it and what it blocks, and its linked PRs**, via the github agent's reads.
-  Ground it in the repo, not the transcript: the branch, `git log` and linked PRs say what has landed.
+  Ground it in the repo, not the transcript, per [What has landed](#what-has-landed).
 
 - **Without one: what the user asked, and the existing cards it might duplicate or belong under**, via the github agent's search.
 
@@ -170,7 +178,8 @@ Approving the plan approves the prediction.
 
 **A route that implements names its implementation harness, and that is `a-star:a-star` where a-star is installed and the user hasn't stated another preference.**
 Where a-star isn't installed, or the user prefers another harness or none, the plan says that instead.
-The plan MAY name the harness's first move — for a-star, a dart, or a drive of a named sub-goal — and approving the plan then approves that move.
+The plan MAY name the harness's moves, in order — for a-star, darts and drives of named sub-goals — and approving the plan then approves them.
+The harness takes each in that order without offering it again; a move off them is offered as usual.
 
 ### 3. Close the gaps while planning
 

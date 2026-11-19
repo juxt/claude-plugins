@@ -6,38 +6,34 @@ They bind whoever is writing the frame — the `drive` agent, and the orchestrat
 ## Frames
 
 **A drive is a stack of frames, and every frame is a tidy, an advance or an amend, decided before it starts.**
-No two kinds share a commit — `a-star:a-star`'s rule that a structure change and a behaviour change never do.
+No two kinds share a commit, per `a-star:a-star`'s [Sub-goals](../../a-star/SKILL.md#sub-goals).
 
 - **Tidy** — changes structure, never behaviour.
   **Success: an equivalence change that gives us options**, reviewable by asking only *could this change anything?*
 
 - **Advance** — changes behaviour, moving the base a step towards the goal.
-  **A structure change turning up mid-advance is a tidy**, never part of this commit: decide [now, later or never](#a-tidy-now-later-or-never), and if now, it interrupts the advance.
+  **A structure change turning up mid-advance is a tidy**, never part of this commit: decide [first, later or never](#a-tidy-first-later-or-never), and if first, it interrupts the advance.
 
-- **Amend** — makes an unlanded commit on the branch fit for the drive's purpose, or completes it, and is committed inside that commit.
-  It keeps the kind of the commit it amends: an amended tidy still changes no behaviour, and an amended advance keeps its subject line true.
-  - **An advance's scope is its commit's claim, its subject line.**
-    An amend may change the mechanism completely while the subject still holds.
-    One that would change the subject is a new sub-goal, or a revert.
-  Once that commit has landed on the project's base branch, a change to its code is an ordinary tidy or advance.
-  - **A new approach to an unlanded commit is an amend of that commit, wherever it sits in the branch, and never a later commit on top.**
-    A reviewer would otherwise read an approach and then its replacement, agreeing with a commit the branch goes on to undo.
-    Where the approach spans several commits, it's a revert instead.
+- **Amend** — git's `fixup!` commit: it makes an unlanded commit on the branch fit for the drive's purpose, or completes it, and is autosquashed into it.
+  a-star's deltas:
+  - **It keeps the kind of the commit it amends**: an amended tidy still changes no behaviour, and an amended advance keeps its subject line true.
+    That subject is the advance's claim: an amend may change the mechanism completely while it still holds, and one that would change it is a new sub-goal, or a revert.
+  - **A new approach to an unlanded commit is an amend of that commit, wherever it sits in the branch, and never a later commit on top**; where the approach spans several commits, it's a revert instead.
+  - **Pushed is not landed**: a commit stays amendable until it reaches the project's base branch, per `a-star:a-star`'s [Feature branches](../../a-star/SKILL.md#feature-branches), and from then on a change to its code is an ordinary tidy or advance.
 
 ## Where a frame is committed
 
-**Every frame is committed at the lowest point in the branch its dependencies allow.**
-The user reviews the branch commit by commit, so its order is the order a reviewer is best shown, not the order the work happened in.
+**The branch is a stack of diffs, reviewed commit by commit, so its order is the order a reviewer is best shown, not the order the work happened in.**
+Every frame is committed at the lowest point in the branch its dependencies allow:
 
-- **A prequel — usually a tidy depending on nothing in the branch — is committed at the branch's base.**
+- **A prequel — usually a tidy depending on nothing in the branch — goes at the branch's base.**
   It can then be cherry-picked onto main, and drops out of the PR once the branch is rebased.
-- **An amend is committed inside the commit it amends.**
-- **Anything else is committed at the top.**
+- **An amend is autosquashed into the commit it amends.**
+- **Anything else goes on top.**
 
 **Anywhere but the top rewrites the branch**, per `a-star:a-star`'s [Feature branches](../../a-star/SKILL.md#feature-branches).
 
-**The branch reads as though each commit was right first time.**
-An intermediate shape and its correction are two things for the reviewer to page in where one would do.
+**The branch reads as though each commit was right first time**, as autosquash leaves it.
 An amended commit's message describes its final shape, the PR mentions an amend only where it leaves a consequence the reader bears, and the journey stays in the session's record.
 
 ## In every frame
@@ -55,16 +51,17 @@ An amended commit's message describes its final shape, the PR mentions an amend 
   Complexity the problem doesn't impose has to earn its place — performance is the usual reason — and the commit says what it buys.
 - **Illegal states unrepresentable** — Minsky, *Effective ML*.
   A field guarded at every use wants a type, not another check.
-- **No generality the sub-goal didn't ask for.**
+- **YAGNI**: no generality the sub-goal didn't ask for.
 - **No dead code.** Everything the commit adds has a caller outside the tests in this commit; a new abstraction nothing yet calls is committed with the first change that calls it.
   A tidy reshapes code that already runs.
 - **The suite stays green.** A test weakened or disabled to get past it is a broken invariant: report it, don't commit it.
+- **Work set aside is a WIP commit, never `git stash`**: the stash is shared across worktrees.
 
-## A tidy: now, later or never
+## A tidy: first, later or never
 
-**A structure change to code this branch introduced, before that code has landed, is not a tidy: it is an amend of the commit that introduced it.**
+**When to tidy is *Tidy First?*'s first, later or never; its *after* is an amend here**: a structure change to code this branch introduced, before that code has landed, is not a tidy but an amend of the commit that introduced it.
 
-- **Now** — it's worth having however the rest of the card turns out, or the work in hand needs it.
+- **First** — it's worth having however the rest of the card turns out, or the work in hand needs it.
 - **Later** — whether it's worth having depends on the behaviour change: record it as a sub-goal, and carry on.
 - **Never** — it opens no option; don't record it.
 

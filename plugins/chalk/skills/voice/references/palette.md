@@ -153,7 +153,7 @@ It surfaces in three places, and MUST be carried in each.
   **It opens with the model, in a sentence, before any type name**, then descends: the mechanism — walked through, where it is new — then the specifics.
   Where the change introduces an algorithm or a process, it carries a worked example aimed at the path that isn't obvious.
 
-  **It MUST name the fact that was true and is no longer**, stated objectively and never as a belief attributed to the reader: "the watermark wasn't being replicated", not "you believed the watermark was replicated".
+  **It MUST name the fact that was true and is no longer**, per `chalk:voice`.
   **Where the old fact is just the negation of the new one, the new one names it**: "group-by now spills" says what was true before, and a second sentence saying so is surplus.
 
   - **For an equivalence change: "Behaviour is unchanged."**

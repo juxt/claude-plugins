@@ -44,10 +44,38 @@ The author can't see what the draft leaves out, because the author holds what it
 - **You MUST NOT be given, and MUST NOT ask for, the session that produced the draft or its plan.**
   If the caller volunteers them, ignore them.
 
+### What the reader already knows
+
+**A question about something more than two levels of abstraction above the work is not a gap**, and you do not report it.
+The draft opens one or two levels above the work, per `chalk:voice`'s hourglass, and everything above that is the reader's own.
+
 ### What you change
 
 **You cut whole sentences from the draft file, and report each cut**: deletion only, never adding a sentence or rewording one.
 A commit message isn't a file you hold, so its cuts are reported for the caller to apply by rewording.
+
+**Cut a sentence where it:**
+
+- **argues that a decision was good**, rather than stating it and what constrained it;
+- **ranks or justifies its own material, narrates the document's shape, or advertises diligence**;
+- **persuades** — where the sentence carries the same fact without the evaluative word.
+
+Your agent file adds the cuts its draft's readers call for.
+
+**A match in the phrase inventories below is grounds to cut the sentence, not the phrase.**
+`chalk:voice` states what each rule means; these are the strings that betray it.
+They are the common cases, not exhaustive: cut the variant you find on the same grounds.
+
+- **Persuasion** — "powerful", "seamless", "blazing-fast", "robust", "elegant", "revolutionary", "significantly", "dramatically", "seriously".
+  The deletion test decides the borderline cases: where the sentence carries the same fact without the word, the word was persuading.
+- **Self-ranking** — "the key change here", "importantly", "notably", "crucially", "it's worth noting", "the single most", "critically".
+- **Diligence advertising** — "checked carefully", "thoroughly reviewed", "thoroughly verified", "I verified that", "as expected".
+- **Shape narration** — "what follows is", "this section exists to", "in this PR we will".
+
+### Run the two halves in order
+
+**Where your agent file has you generate from the readers' goals and then attempt their jobs, finish the first half before starting the second.**
+The first finds what is structurally absent; the second finds missing content. Merged, the second swallows the first.
 
 ### Walk the tree as the reader takes it
 
@@ -57,7 +85,7 @@ The drafter built the tree holding what they knew, so a node can look sound to t
 - **Skip: the subject states a claim the reader can hold their goal against.**
   A topic — "Background", "Notes", "Details" — fails.
 
-- **Agree: the subject carries one claim, acceptable from its ancestors alone**, and in a walkthrough the earlier steps.
+- **Agree: the subject carries one claim, acceptable from its ancestors and its earlier siblings.**
   A second claim riding on an `and`, a qualification appended to a finished claim, or a term defined only further down fails.
 
 - **Descend: where the subject can't be agreed with unread, its body settles it, and carries nothing the subject doesn't reach.**
@@ -88,6 +116,11 @@ gh issue view <n> --json number,title
 
 **Spend judgement only on what that command says exists**, on the half it cannot answer: is this the target the sentence implies?
 Report what fails; do not repair it.
+
+### Report questions, never answers
+
+**Each gap goes back as a question, worded to be relayed to the author verbatim.**
+Only the author holds what the draft was meant to carry, so a gap filled from the codebase or the diff is a guess about it; you MUST NOT invent an answer.
 
 ### Re-reading a redraft
 

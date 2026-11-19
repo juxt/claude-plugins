@@ -98,18 +98,15 @@ Depth is the user's to ask for, so the overview stops at subjects they can agree
 - **Every node of the overview carries a typed ID**, per `chalk:voice`: `M` the model, `D` a decision, `C` a consequence, `S` a change since, `A` an angle.
   A node opened by a follow-up takes children under its own ID — `D2.1` — numbered from the next free one.
 
-- **An ID is stable for the session.**
-  The user replies "down D2" or "back to C1", and every reference they've made has to keep pointing where it did.
+- **Each answer opens with its path from the overview**, citing every step per `chalk:voice`.
 
-- **Each answer opens with its path from the overview**, every step by ID and subject line.
-
-- **Each answer closes with the unvisited branches along that path**, by ID and subject line, so stepping back up is one reply.
+- **Each answer closes with the unvisited branches along that path**, cited the same way, so stepping back up is one reply.
 
 - **The map is the overview and what has been opened under it, in the chat.**
   It has no other store.
 
-- **The path and the unvisited branches restate each node in full, never by ID alone.**
-  After a compaction the latest answer is what carries the walk on, and a new node numbers past the highest ID it shows.
+- **A new node numbers past the highest ID the latest answer shows.**
+  After a compaction, the latest answer is what carries the walk on.
 
 ## 6. A gap in the record is a finding
 
@@ -122,6 +119,6 @@ Depth is the user's to ask for, so the overview stops at subjects they can agree
 
 **Chat, per `chalk:voice`.**
 
-- **The overview ends with a tl;dr under a `tl;dr` heading**, as `chalk:sitrep`'s does: a terminal scrolls upward.
+- **The overview ends with a tl;dr**, per `chalk:voice`'s placement for chat.
 
 - **A follow-up ends with its unvisited branches instead**, which are what the user reads first when choosing where to go next.

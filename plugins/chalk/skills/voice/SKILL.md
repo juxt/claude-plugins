@@ -1,6 +1,6 @@
 ---
 name: voice
-description: Shared Chalk writing voice — the audience for Chalk artefacts, the specification register, the mindmap structure that two propositions in a relation MUST take, and the layout rules. The chalk:issue, chalk:commit, chalk:pr and chalk:sitrep skills load this before drafting any prose, and the weed-pr, weed-issue and weed-prose agents load it to review one.
+description: Shared Chalk writing voice — the audience for Chalk artefacts, the specification register, the mindmap structure that two propositions in a relation MUST take (Minto's pyramid, with argument diagramming's linked, convergent and conductive grounds), and the layout rules. The chalk:issue, chalk:commit, chalk:pr and chalk:sitrep skills load this before drafting any prose, and the weed-pr, weed-commits, weed-issue and weed-prose agents load it to review one.
 ---
 
 # Chalk Voice — Writing Principles
@@ -71,6 +71,9 @@ Your overriding success metric is whether the reader reaches that aim — the kn
 - **You MUST prioritise what the reader needs over what you did.**
   The two diverge most sharply in summaries: a summary of the *work* reads as a session changelog, where a summary for the *reader* states what is true now and what it means for them.
 
+- **An artefact recording a change MUST name the fact that was true and is no longer** — a commit body, a PR's What changes.
+  It is stated objectively, never as a belief attributed to the reader: "the watermark wasn't being replicated", not "you believed the watermark was replicated".
+
 ### The reader's context is the artefact plus what a senior engineer on this project knows
 
 - **You SHOULD NOT include anything obvious to that reader.**
@@ -113,11 +116,16 @@ A sequence of events, a multi-step rationale, a set of conditions, a race betwee
 
 ### The tree
 
+**A mindmap is the pyramid of Minto's *The Pyramid Principle*, its grounds combining as argument diagramming says they do.**
+Minto gives the shape: a governing thought at the top, and every node a summary of the group below it, raising the question that group answers.
+Argument diagramming gives how grounds combine: linked and convergent support (Freeman, Walton), and the conductive argument (Wellman, Govier).
+The rules below follow from one model of the reader, and name the rule each takes from these; the rest are chalk's own.
+
 **Your job is the reader's working memory.**
 Every node they read is context they hold while reading the next, their capacity is small, and it is already spoken for.
 *Paging in* a node costs them that capacity and evicts something else, so the tree exists to let them page in what their goal needs and nothing more.
 
-- **Every node is a conclusion stated in its subject line.**
+- **Every node is a conclusion stated in its subject line** — in Minto's terms, the summary of the group below it.
 
 - **At each node the reader takes one of three decisions, and the subject line is what they take it from.**
 
@@ -159,10 +167,11 @@ Every node they read is context they hold while reading the next, their capacity
   - **Where the point only lands three sentences in, rewrite the subject line** rather than expanding it.
 
 - **Decision 3 needs children worth what they cost to page in.**
+  Descending is the reader asking the question the subject raised, and the children are its answer — Minto's vertical relationship.
 
   - **A child grounds its parent, narrows it, or excepts it.**
-    Grounds read upwards as an argument, and are what a bug report or a root-cause analysis is made of.
-    A narrowing is the same rule applied to a narrower case, which is how a specification reads downwards — most of what a rules document holds, this file included.
+    Grounds are Minto's answer to *why?*: they read upwards as an argument, and are what a bug report or a root-cause analysis is made of.
+    Narrowing and exception are chalk's, answering *where does it apply?*: a narrowing is the same rule applied to a narrower case, which is how a specification reads downwards — most of what a rules document holds, this file included.
 
     - **Narrowing is not inference, which is why the parent stays the conclusion.**
       A child that *follows from* its parent would make the child the consequence and the parent a premise, and the subject rule would then be pointing at the wrong end of the tree.
@@ -174,14 +183,15 @@ Every node they read is context they hold while reading the next, their capacity
       It is the one relation that takes scope away instead of adding to it, so it MUST say what falls outside and what applies there instead.
       A reader who meets the uncovered case with no replacement is worse off than before they read the parent.
 
-  - **A child MUST sit at a different level of detail from its parent** — Ousterhout's rule, from *A Philosophy of Software Design*.
+  - **A child MUST sit at a different level of detail from its parent**, which summarises it, per Minto.
     A child at the parent's own level is restatement wearing a bullet, and the reader pays to page in something they already hold.
 
-  - **A list whose items are merely *related* to their parent is not a mindmap.**
-    The reader gets no argument out of it, and you MUST restructure it.
+  - **A list whose items are merely *related* to their parent is not a mindmap, and you MUST restructure it.**
+    It answers no question the parent raised, so the reader gets no argument out of it.
 
-  - **A node MUST be decidable from its ancestors alone.**
-    They hold the path they descended, not the tree, so a node leaning on a sibling they were invited to skip is one they cannot decide — and they will not know that is why.
+  - **A node MUST be decidable from its ancestors and its previous siblings.**
+    They hold the path they descended and the siblings they passed on the way, not the tree, so a node leaning on a later sibling, or on the body of an earlier one they were invited to skip, is one they cannot decide — and they will not know that is why.
+    It preferably leans on those siblings' subject lines only, not their bodies.
 
   - **Depth needs no bound.**
     A node goes deeper while it still has grounds to give or cases to narrow to, and stops when it runs out, so depth that is doing work is self-limiting.
@@ -192,17 +202,14 @@ Every node they read is context they hold while reading the next, their capacity
   - **An example, a clarification or a restatement is not one of these relations.**
     Each develops a single proposition instead of standing beside it, so each is that proposition's elaboration.
 
-  - **A ground**, combining with its siblings to justify the parent, in one of three ways.
+  - **A ground**, combining with its siblings to justify the parent, as one of argument diagramming's three structures.
     All three look identical on the page, and a reader who takes one for another misreads what the argument rests on.
 
-    - **Linked** — they reach the parent only together, so the reader must take all of them, and a gap is fatal.
-      The set MUST be complete or say that it is not.
+    - **Linked** — they reach the parent only together, so the reader must take all of them and a gap is fatal: the set MUST be complete or say that it is not.
 
-    - **Convergent** — each reaches the parent alone, so the reader may stop at the first they accept.
-      Each MUST therefore stand without its siblings, and they SHOULD run strongest first.
+    - **Convergent** — each reaches it alone, so the reader may stop at the first they accept: each MUST stand without its siblings, and they SHOULD run strongest first.
 
-    - **Cumulative** — the parent rests on the balance of them, none sufficient alone, and dropping one weakens the conclusion without destroying it.
-      The reader must weigh all of them, so this is the mode that buys them no skipping at all.
+    - **Conductive** — it rests on their balance, none sufficient alone, so the reader must weigh all of them, and this structure buys them no skipping at all.
       A decision rationale is usually this, and it MUST say so: a reader who takes it for convergent comes away believing a single ground carried the decision.
 
   - **A disjunct** — one of a set of alternatives, of which the reader takes the one their circumstances select.
@@ -212,9 +219,8 @@ Every node they read is context they hold while reading the next, their capacity
     **Succession is not consequence**: a stage follows the one above it in time, not from it, which is why `→` is wrong here and a plain ordered list is right.
     A short process MAY stay in a sentence where no stage needs anything of its own, and that licence lapses on the first stage carrying a precondition, a branch, or a way to get it wrong alone.
 
-  - **A consequent** — what follows from the siblings above it, where two or more combine into a step neither gives alone.
-    A derivation would nest it, with the siblings it follows from as its children. The reader arrives at it already carrying those, so nesting would send them down a level to collect a conclusion they had just earned.
-    It is the one relation that obliges the reader to hold its prior siblings, which is why it MUST come after them.
+  - **A consequent** — what follows from the siblings above it, where two or more combine into a step neither gives alone: the conclusion of Minto's deductive grouping, a sibling of its premises rather than their parent.
+    It obliges the reader to hold its prior siblings, which is why it MUST come after them.
 
     - **A run of consequents MAY be compressed inline to `A → B → C`.**
       The licence is that no step needs children of its own — a short derivation, a state transition with its trigger.
@@ -222,7 +228,7 @@ Every node they read is context they hold while reading the next, their capacity
       **`→` MUST mean *therefore* and nothing else**: sequence without causation is a list, and a state change is `:=`.
 
 - **Siblings are read in order, and dependency fixes it.**
-  A proposition that depends on an earlier sibling MUST come after it; strength, frequency or severity only break ties among siblings that do not depend on each other.
+  A proposition that depends on an earlier sibling MUST come after it; strength, frequency or severity — Minto's order of degree — only break ties among siblings that do not depend on each other.
 
 ### The walkthrough
 
@@ -236,8 +242,7 @@ Asked for by name, it takes this form, not a table or a run of prose.
 - **Each step's subject line is the state change it makes**; its reasons are its children.
   "p2 moves above p1", grounded by "p2's A@3 precedes p1's A@5" below it — not the reason carried in the step's own line, or in a table cell beside it.
 
-- **Each step MUST be decidable from its ancestors plus the steps before it.**
-  A term a later step defines is not available yet; define it in the anchor, or at the step that first needs it.
+- **A term a later step defines is not available yet**, per the tree's decidability rule: define it in the anchor, or at the step that first needs it.
 
 - **A table of states MAY sit alongside, as data**: the state after each step, citing the step, carrying no reasoning.
 
@@ -262,12 +267,11 @@ Asked for by name, it takes this form, not a table or a run of prose.
   - **A published ID MUST be stable.**
     Reuse it rather than minting a second one for the same node.
 
-- **A citation MUST carry the node's subject line, not the ID alone.**
-  The ID is a handle for replying, not a substitute for the content.
+    - **In chat, its scope is the session, not the reply.**
+      `Q2` stays `Q2` in every later reply, even once `Q1` is closed: renumbering breaks every reference the user has already made, including in their own notes.
 
-  - **A reader who cannot see the original gets nothing from "Q1 is still open"** — a later artefact, a fresh session, a sitrep picked up after a compaction.
-
-  - **The ID's stability is what makes restating it cheap**, not what excuses omitting it.
+    - **A new node takes the next free number, never a recycled one.**
+      A gap in the numbering is a node closed or revised away, not one to fill.
 
 ### Layout
 
@@ -337,7 +341,10 @@ Asked for by name, it takes this form, not a table or a run of prose.
   The body starts with the summary sentence, then the mindmap, then the first real section.
 
   - **Displaced from the opening, it MUST carry a `tl;dr` heading.**
-    Chat is the case: `chalk:sitrep` and the chalk output style put it at the bottom, because a terminal scrolls upward.
+    Without one, it reads as one more section of what came before it.
+
+    - **Chat displaces it to the bottom, and it is not repeated at the top.**
+      A terminal scrolls upward, so the last thing written is the first thing read.
 
 - **A destination MAY override the placement, and whether one appears at all, by saying so itself.**
   Neither the takeaway-grain rule nor the readable-cold rule is overridable.
@@ -352,3 +359,12 @@ Verify before publishing rather than from memory: `git cat-file -e <sha>^{commit
 
 - **Refer to an unlanded commit by a shortened form of its subject line instead.**
   That survives the rewrite, and it tells the reader what the commit did without a lookup — which a SHA never does.
+
+**A citation MUST carry the node's subject line, not the ID alone.**
+The ID is a handle for replying, not a substitute for the content.
+
+- **It binds wherever output is written** — an artefact, a plan file, a chat reply — whoever minted the ID.
+
+- **A reader who cannot see the original gets nothing from "Q1 is still open"** — a later artefact, a fresh session, a sitrep picked up after a compaction.
+
+- **The ID's stability is what makes restating it cheap**, not what excuses omitting it.

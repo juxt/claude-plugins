@@ -18,8 +18,7 @@ Unpushed commits go with the session's checkout, and what the session learned, t
 
 - **Load `chalk:issue`**, which loads `chalk:voice` and carries the description's palette, the correction rules, the weeding loop and the filing mechanics.
 
-- **Ground it in the repo, not the transcript.**
-  `git status`, `git log` and the branch say what landed; the transcript only says what was attempted.
+- **Ground it in the repo, not the transcript**, per `chalk:chalk`'s What has landed.
 
 - **Unfiled work is filed first**, through `chalk:issue`, and the steps below record on that issue; its filing is step 1.
 
@@ -34,7 +33,6 @@ Unpushed commits go with the session's checkout, and what the session learned, t
 Put-down adds no second shape for the description.
 
 - **Every open note goes in, IDs unchanged**, whatever types the session holds.
-  A note answered this session is deleted, its answer moved to wherever it now belongs.
 
 ## 2. Raise and link cards the session discovered as appropriate
 
@@ -59,10 +57,9 @@ Where they don't say, ask; MUST NOT guess.
 
 ## 4. Push the branch, and record where the work stands
 
-**Before pushing, weed the commit messages**: run `weed-pr`'s commit-message pass alone, and apply its findings by rewording each commit through `chalk:commit`.
-The branch is handed over without a PR, so nothing else weeds them.
+**Before pushing, weed the commit messages**, as `chalk:commit` says for a branch handed over without a PR, and apply the findings by rewording each commit through it.
 
-**Push the feature branch, WIP commits included**, with force-with-lease where it was rewritten — a branch the session owns, per `chalk:chalk`'s Feature branches.
+**Push the feature branch, WIP commits included**, per `chalk:chalk`'s Feature branches.
 A branch the session doesn't own is left as it is, and the report says so.
 
 **Then record on the issue, as a comment through `chalk:issue`, what the next session resumes from**: the branch, its head commit's subject, and what was in hand — the stack of sub-goals being worked, innermost first.
