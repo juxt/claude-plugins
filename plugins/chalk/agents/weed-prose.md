@@ -10,7 +10,7 @@ description: >
   and what it points at; told what the author was thinking, it can no longer tell which
   sentences the draft is carrying and which the reader was going to supply anyway.
 
-  Issue bodies go to `weed-issue`, PR descriptions to `weed-pr`.
+  Issue bodies go to `weed-issue`, PR descriptions to `weed-pr`, commit messages to `weed-commits`.
 model: sonnet
 effort: low
 color: green

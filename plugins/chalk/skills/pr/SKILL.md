@@ -143,13 +143,13 @@ It reads the description cold, as the reviewer, attempts the reviewer's job from
 - **Where only the user can answer, answer from the branch where the branch genuinely has it**, naming the commit you draw on so the user can correct you.
   In secondary, per `chalk:secondary`: one the branch can't answer goes into Open questions, marked for the user.
 
-**It weeds the branch's commit messages in the same pass**, per `chalk:commit`.
+**Delegate the branch's commit messages to the `weed-commits` agent beside it**, per `chalk:commit`, passing the base branch and the head.
 
-- **Apply its commit findings by rewording each commit through `chalk:commit`**, a rewrite of the branch, per `chalk:chalk`'s Feature branches.
+- **Apply its findings by rewording each commit through `chalk:commit`**, a rewrite of the branch, per `chalk:chalk`'s Feature branches.
 
 - **Update the journal entries keyed by any subject that changed**, so they still name the commit.
 
-- **The reworded commits go back with the redraft.**
+- **The reworded commits go back to `weed-commits`**, until it has no question left.
 
 ## Opening it
 
