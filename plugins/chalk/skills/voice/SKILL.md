@@ -189,8 +189,9 @@ Every node they read is context they hold while reading the next, their capacity
   - **A list whose items are merely *related* to their parent is not a mindmap, and you MUST restructure it.**
     It answers no question the parent raised, so the reader gets no argument out of it.
 
-  - **A node MUST be decidable from its ancestors alone.**
-    They hold the path they descended, not the tree, so a node leaning on a sibling they were invited to skip is one they cannot decide — and they will not know that is why.
+  - **A node MUST be decidable from its ancestors and its previous siblings.**
+    They hold the path they descended and the siblings they passed on the way, not the tree, so a node leaning on a later sibling, or on the body of an earlier one they were invited to skip, is one they cannot decide — and they will not know that is why.
+    It preferably leans on those siblings' subject lines only, not their bodies.
 
   - **Depth needs no bound.**
     A node goes deeper while it still has grounds to give or cases to narrow to, and stops when it runs out, so depth that is doing work is self-limiting.
@@ -219,7 +220,7 @@ Every node they read is context they hold while reading the next, their capacity
     A short process MAY stay in a sentence where no stage needs anything of its own, and that licence lapses on the first stage carrying a precondition, a branch, or a way to get it wrong alone.
 
   - **A consequent** — what follows from the siblings above it, where two or more combine into a step neither gives alone: the conclusion of Minto's deductive grouping, a sibling of its premises rather than their parent.
-    It is the one relation that obliges the reader to hold its prior siblings, which is why it MUST come after them.
+    It obliges the reader to hold its prior siblings, which is why it MUST come after them.
 
     - **A run of consequents MAY be compressed inline to `A → B → C`.**
       The licence is that no step needs children of its own — a short derivation, a state transition with its trigger.
@@ -241,8 +242,7 @@ Asked for by name, it takes this form, not a table or a run of prose.
 - **Each step's subject line is the state change it makes**; its reasons are its children.
   "p2 moves above p1", grounded by "p2's A@3 precedes p1's A@5" below it — not the reason carried in the step's own line, or in a table cell beside it.
 
-- **Each step MUST be decidable from its ancestors plus the steps before it.**
-  A term a later step defines is not available yet; define it in the anchor, or at the step that first needs it.
+- **A term a later step defines is not available yet**, per the tree's decidability rule: define it in the anchor, or at the step that first needs it.
 
 - **A table of states MAY sit alongside, as data**: the state after each step, citing the step, carrying no reasoning.
 

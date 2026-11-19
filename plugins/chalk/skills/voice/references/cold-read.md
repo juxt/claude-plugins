@@ -85,7 +85,7 @@ The drafter built the tree holding what they knew, so a node can look sound to t
 - **Skip: the subject states a claim the reader can hold their goal against.**
   A topic — "Background", "Notes", "Details" — fails.
 
-- **Agree: the subject carries one claim, acceptable from its ancestors alone**, and in a walkthrough the earlier steps.
+- **Agree: the subject carries one claim, acceptable from its ancestors and its earlier siblings.**
   A second claim riding on an `and`, a qualification appended to a finished claim, or a term defined only further down fails.
 
 - **Descend: where the subject can't be agreed with unread, its body settles it, and carries nothing the subject doesn't reach.**
