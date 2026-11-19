@@ -6,7 +6,7 @@ They bind whoever is writing the frame — the `drive` agent, and the orchestrat
 ## Frames
 
 **A drive is a stack of frames, and every frame is a tidy, an advance or an amend, decided before it starts.**
-No two kinds share a commit — `a-star:a-star`'s rule that a structure change and a behaviour change never do.
+No two kinds share a commit, per `a-star:a-star`'s [Sub-goals](../../a-star/SKILL.md#sub-goals).
 
 - **Tidy** — changes structure, never behaviour.
   **Success: an equivalence change that gives us options**, reviewable by asking only *could this change anything?*
@@ -59,6 +59,7 @@ An amended commit's message describes its final shape, the PR mentions an amend 
 - **No dead code.** Everything the commit adds has a caller outside the tests in this commit; a new abstraction nothing yet calls is committed with the first change that calls it.
   A tidy reshapes code that already runs.
 - **The suite stays green.** A test weakened or disabled to get past it is a broken invariant: report it, don't commit it.
+- **Work set aside is a WIP commit, never `git stash`**: the stash is shared across worktrees.
 
 ## A tidy: now, later or never
 

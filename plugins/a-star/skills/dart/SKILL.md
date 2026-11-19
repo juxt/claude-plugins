@@ -11,7 +11,7 @@ argument-hint: "[card, if not already in session]"
 
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
-**Success is the `dart` agent's, as it states it: enough information back to decide the next steps, as soon as it can be had**, with nothing landed.
+**Success is the `dart` agent's, as it states it: enough information back to decide the next steps, as soon as it can be had**.
 
 Load `a-star:a-star` first.
 
@@ -28,11 +28,8 @@ You MAY point it at where the card's work is recorded instead, to read and never
 - **Pass `isolation: "worktree"`, and run it in the background**, so it can message you as it goes.
 - **`.claude/worktrees/` MUST be ignored by git**; add it to `.git/info/exclude` where it isn't.
 - **Every dart starts fresh from the current base**; an old dart is evidence, never resumed.
-- **A dart branch is local: it MUST NOT be pushed**, by the dart agent or by you.
-  Its code never lands, so nothing outside this session needs it.
-- **Darts run in parallel — with each other, and with a drive; drives run one at a time.**
-  Dart whatever is ready that nothing in flight already covers.
-  A dart MAY start from another dart's branch instead of the base, where what it needs hasn't been committed yet.
+- **A dart branch is local: it MUST NOT be pushed**, by the dart agent or by you, since nothing outside this session needs it.
+- **A dart MAY start from another dart's branch instead of the base**, where what it needs hasn't been committed yet.
 
 ## While it runs
 
@@ -62,6 +59,6 @@ Record it as in flight, so a session resumed after this one ends knows it was lo
 - **the data structures that matched the problem**, and the dart's branch and head.
 
 **Keep the dart branch only while its code is still evidence a drive needs.**
-Once the sub-goals it informed have been committed, or what it found is recorded well enough that nothing needs its code, whichever comes first, record what it taught that the record doesn't yet hold, then remove it and its worktree — always, since its code never lands.
+Once the sub-goals it informed have been committed, or what it found is recorded well enough that nothing needs its code, whichever comes first, record what it taught that the record doesn't yet hold, then remove it and its worktree, per `a-star:a-star`'s [What the project says](../a-star/SKILL.md#what-the-project-says).
 
 **Then you are back to choosing, per `a-star:a-star`.**

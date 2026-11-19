@@ -40,7 +40,6 @@ Where it isn't, end your turn and say so — you MUST NOT reset, as the checkout
   **Its body carries the review notes** — what a `review:` entry holds, per `a-star:a-star`'s [What to record](../skills/a-star/SKILL.md#what-to-record): you know the invariants the change rests on, and nobody after you does.
   The orchestrator may rewrite your commit — its place, or its message — so write it as the brief's sub-goal reads, and move on.
 - **You MUST NOT push.** The orchestrator pushes, once it has taken your commit.
-- **You MUST NOT use `git stash`**: it's shared across worktrees.
 
 ## Talking to the orchestrator
 
@@ -59,7 +58,7 @@ Where it isn't, end your turn and say so — you MUST NOT reset, as the checkout
 ## Report
 
 1. **The commit**, its placement, branch and head — or the WIP commit, where you stopped.
-2. **The review notes you wrote into the commit's body**, and what you verified and what you didn't — what a `review:` entry holds, per `a-star:a-star`'s What to record.
+2. **The review notes you wrote into the commit's body** — what a `review:` entry holds, per `a-star:a-star`'s What to record.
    Write them for a reviewer who never sees this report; the orchestrator checks them, and records them as the commit's `review:` entry.
    **Name each sub-agent step, who ran it — you or the orchestrator —** and what you did with its results.
 3. **What you reported along the way**, as one list.

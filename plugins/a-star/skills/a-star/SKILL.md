@@ -82,9 +82,7 @@ These are what each mode means for a-star's own moves.
 **In primary:**
 
 - **Offer every move out of choosing, and take it only on a yes** — the offered state in the spec.
-  A question from the user is not that yes.
-  - **The plan's first move, named in the plan the user approved, is the exception.**
-    Their approval was the yes, so take it without offering it again.
+  A question from the user is not that yes; the plan's first move is the exception, per [The orchestrator](#the-orchestrator).
 - **Escalate a dart's findings while they can still change its route**, not as a running commentary.
 
 **In secondary:**
@@ -98,8 +96,7 @@ These are what each mode means for a-star's own moves.
 
 ## Triage
 
-**The completion test: where an unlanded commit's claim — its subject line — still holds with new scope inside it, that scope is an amend of the commit, not a new commit on top.**
-A tidy never folds into an advance, or an advance into a tidy.
+**The completion test: where an unlanded commit's claim — its subject line — still holds with new scope inside it, that scope is an amend of the commit, not a new commit on top** — never across kinds, per [Sub-goals](#sub-goals).
 
 **Darts and drives turn up the same kinds of thing, and you triage each:**
 
@@ -108,7 +105,7 @@ A tidy never folds into an advance, or an advance into a tidy.
   This holds for scope the user adds mid-card and for findings from your own review of a frame alike;
 - **a stretch of the route not yet walked** — a dart;
 - **an earlier, unlanded commit superseded or incomplete** — an amend, per `a-star:drive`; pushed ahead of the frame in hand only if that frame can't be committed correctly on the commit as it stands, otherwise recorded to drive after it;
-- **a change that would replace the approach of an unlanded commit, anywhere in the branch** — never a sub-goal on top: an amend of the commit that introduced the approach, or a revert where the approach spans several commits;
+- **a change that would replace the approach of an unlanded commit, anywhere in the branch** — an amend of that commit, or a revert, per `a-star:drive`'s [frame rules](../drive/references/frame.md#frames);
 - **a constraint, assumption or risk** — recorded on the goal-tree node it bounds;
 - **a question about the route** — answer it, or in primary escalate it, then resume;
 - **a finding that changes the card's target** — revert; **one that changes its goal** — replan;
@@ -127,8 +124,7 @@ A tidy never folds into an advance, or an advance into a tidy.
 - **The code a drive commits keeps the data structures a dart got right**, and leaves out what it built around the ones it didn't.
 - **Before the done exit, a review-unit pass shapes the unlanded branch for its reviewer, not the order the work happened in.**
   Reorder, merge or split its commits until each is independently acceptable and none is a slice of another, leaving the final tree unchanged.
-  **The test is the `review:` entries**: a commit whose entry can't say what checking it means apart from its neighbours' is a slice of one of them, and an entry that needs two different checks is two units.
-  **A tidy and an advance stay separate**, however closely they belong together — they are checked differently.
+  **The test is the `review:` entries**: a commit whose entry can't say what checking it means apart from its neighbours' is a slice of one of them, and an entry that needs two different checks is two units — so a tidy and an advance never merge, however closely they belong together.
   Merging two commits merges their `review:` entries, and redrafts the merged body to the project's commit conventions.
   A rewritten subject updates the journal entries keyed by it.
   It rewrites the branch, per [Feature branches](#feature-branches).
