@@ -74,7 +74,7 @@ Merging is the user's; once they have, remove what only served it per the projec
 
 ## Interrupting the frame in hand
 
-**A tidy needed now, an amend of a commit the frame in hand can't be committed on, or a prequel pushes a frame on top of the one in hand**, committed by a drive agent of its own.
+**A tidy needed first, an amend of a commit the frame in hand can't be committed on, or a prequel pushes a frame on top of the one in hand**, committed by a drive agent of its own.
 The agent in hand has WIP-committed its work before ending its turn; rebase that afterwards — or discard it to redo on the new structure, whichever is cheaper — and mark its task blocked by the new frame's.
 
 **A frame can itself be interrupted** — push another on top, and pop back the same way.

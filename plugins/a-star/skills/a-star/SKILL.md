@@ -17,7 +17,7 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 The skills say how a move is carried out; where a skill and the spec disagree, the spec governs, and the disagreement is a question for the user.
 
 **Its inspiration is the Mikado Method** (Ellnestam & Brolund, 2014): try the goal, revert, work the graph of prerequisites backwards, commit the leaves.
-The dart is the try, the revert is the revert, and each drive commits a leaf.
+The dart is the naive attempt, the revert is the revert, and each drive commits a leaf.
 
 ## Roles
 
@@ -96,7 +96,7 @@ These are what each mode means for a-star's own moves.
 
 ## Triage
 
-**The completion test: where an unlanded commit's claim — its subject line — still holds with new scope inside it, that scope is an amend of the commit, not a new commit on top** — never across kinds, per [Sub-goals](#sub-goals).
+**The completion test: where an unlanded commit's claim — its subject line — still holds with new scope inside it, that scope is an amend of the commit — a `fixup!` autosquashed into it — not a new commit on top** — never across kinds, per [Sub-goals](#sub-goals).
 
 **Darts and drives turn up the same kinds of thing, and you triage each:**
 

@@ -20,8 +20,8 @@ Load `a-star:a-star` first.
 **Spawn the `dart` agent with the card as its whole brief** — the goal, invariants and out of scope from the tracker issue, the sub-goals already found, the decisions in force, the record's `principle:` entries — plus the branch to start from and its head: the card's feature branch, else the project's base branch.
 You MAY point it at where the card's work is recorded instead, to read and never write.
 
-- **The brief MUST ask for the route built, not analysed.**
-  A dart's value is what building teaches; analysis of a sub-goal is a guess about it, and the constraints it would have surfaced turn up at drive time instead, after the sub-goals before it have been committed.
+- **The brief MUST ask for a spike: the route built, not analysed.**
+  Constraints that analysis misses turn up at drive time, after the sub-goals before them have been committed.
 
 - **The brief MUST NOT ask for a green suite, the project's definition of done, or proof of the end-to-end**, which sets the bar the dart then aims for.
   It MUST ask the dart to report as soon as the next steps are decidable.

@@ -36,7 +36,7 @@ enum YieldKind {
     constraint            -- a constraint, assumption or risk, recorded on the node it bounds
     route_question        -- answered or escalated, then the agent resumes
     invalidating_finding  -- changes the card's target or its goal
-    user_decision         -- a tidy's now, later or never; scope
+    user_decision         -- a tidy's first, later or never; scope
 }
 
 enum FrameKind { tidy | advance | amend }
@@ -650,9 +650,9 @@ rule StartWriting {
     ensures: frame.status = writing
 }
 
--- A tidy needed now, an amend, or a prequel interrupts the frame in hand: it is set aside as a WIP commit,
+-- A tidy needed first, an amend, or a prequel interrupts the frame in hand: it is set aside as a WIP commit,
 -- the new frame goes on the stack, and the interrupted frame's task is blocked by it.
--- The pushed sub-goal was recorded, and its task added, when triage created it — a tidy needed now arrives as a sub_goal yield.
+-- The pushed sub-goal was recorded, and its task added, when triage created it — a tidy needed first arrives as a sub_goal yield.
 rule Interrupt {
     when: PushFrame(frame, sub_goal)
     requires: frame.status = writing
