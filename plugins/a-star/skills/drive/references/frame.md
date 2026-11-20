@@ -24,10 +24,12 @@ No two kinds share a commit, per `a-star:a-star`'s [Sub-goals](../../a-star/SKIL
 ## Where a frame is committed
 
 **The branch is a stack of diffs, reviewed commit by commit, so its order is the order a reviewer is best shown, not the order the work happened in.**
-Every frame is committed at the lowest point in the branch its dependencies allow:
+Every frame is committed as early in the branch as makes sense, which the orchestrator decides at triage and the user may override:
 
-- **A prequel — usually a tidy depending on nothing in the branch — goes at the branch's base.**
-  It can then be cherry-picked onto main, and drops out of the PR once the branch is rebased.
+- **A prequel — a tidy that would reasonably land on main by itself — goes at the branch's base.**
+  It's worth having however the advance turns out, so it can be cherry-picked onto main, and drops out of the PR once the branch is rebased.
+- **A tidy that only makes sense beside the advance it enables goes directly under that advance.**
+  A reviewer sees why it's there only with the advance beside it, so it isn't a candidate for main.
 - **An amend is autosquashed into the commit it amends.**
 - **Anything else goes on top.**
 
@@ -65,7 +67,7 @@ An amended commit's message describes its final shape, the PR mentions an amend 
 - **Later** — whether it's worth having depends on the behaviour change: record it as a sub-goal, and carry on.
 - **Never** — it opens no option; don't record it.
 
-**Where it is committed is per the project's answer to where a tidy is committed**; an unanswered one is a question, per `a-star:a-star`'s [What the project says](../../a-star/SKILL.md#what-the-project-says).
+**Which branch it is committed on is per the project's answer to where a tidy is committed**, per `a-star:a-star`'s [What the project says](../../a-star/SKILL.md#what-the-project-says):
 
-- **Feature branch** — it lands with the card's advances.
-- **Main** — a tidy branch off main, for the user to merge; rebase the feature branch onto it as soon as it's committed.
+- **Feature branch, the default** — it lands with the card's advances, at its place in the branch per [Where a frame is committed](#where-a-frame-is-committed).
+- **Main, where the project says so** — a tidy branch off main, for the user to merge; rebase the feature branch onto it as soon as it's committed.

@@ -19,7 +19,7 @@ Where they say to record something, you report it.
 
 ## The brief
 
-**It names the frame: its sub-goal, its kind, and its placement** — the branch's base, inside a named commit, or the top.
+**It names the frame: its sub-goal, its kind, and its placement** — the branch's base, directly under a named advance, inside a named commit, or the top.
 It points you at where the card's work is recorded — the decisions and principles in force, and the evidence from darts: read it, you MUST NOT write it.
 It carries nothing else: the project's conventions and the skills' rules are yours to load, not the brief's to retell, and where it dictates otherwise, what you load wins.
 **The exception is the placement: the brief's wins over the completion test in `a-star:a-star`'s [Triage](../skills/a-star/SKILL.md#triage)**, since the orchestrator made that call at triage and makes it again when it takes your commit.
@@ -36,7 +36,7 @@ Where it isn't, end your turn and say so — you MUST NOT reset, as the checkout
 - **Verify it** against the project's definition of done and its answer to where this kind is committed.
   The code review is the orchestrator's, when it takes your commit.
 - **Commit it, to the project's commit conventions, at the placement in the brief.**
-  An amend is autosquashed into the commit it amends; a prequel goes at the branch's base.
+  An amend is autosquashed into the commit it amends; a prequel goes at the branch's base; a tidy for a named advance goes directly under it.
   **Its body carries the review notes** — what a `review:` entry holds, per `a-star:a-star`'s [What to record](../skills/a-star/SKILL.md#what-to-record): you know the invariants the change rests on, and nobody after you does.
   The orchestrator may rewrite your commit — its place, or its message — so write it as the brief's sub-goal reads, and move on.
 - **You MUST NOT push.** The orchestrator pushes, once it has taken your commit.

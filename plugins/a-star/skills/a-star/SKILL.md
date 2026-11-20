@@ -182,10 +182,10 @@ What goes in a commit is a-star's: one atomic unit of change.
 
 **The project MUST answer three choices of a-star's own**:
 
-- **Where a tidy is committed** — feature branch or main; what to verify before committing; when to push; whether it's done at commit or once CI is green.
+- **Where a tidy is committed** — feature branch or main, the feature branch by default; what to verify before committing; when to push; whether it's done at commit or once CI is green.
 - **Where an advance is committed** — what to verify before committing, and whether to push the feature branch as each is committed.
 - **Branch cleanup** — what happens to a branch once its work has landed.
 
 **Raise an unanswered one as a question; don't fill it with a default.**
-The exception is branch cleanup: absent an answer, delete local branches and worktrees whose work has fully landed, and only offer to delete remote ones.
+The exceptions are a tidy's branch, which absent an answer is the feature branch, and branch cleanup: absent an answer, delete local branches and worktrees whose work has fully landed, and only offer to delete remote ones.
 A spent dart's branch and worktree are removed whatever the answer, since its code never lands.

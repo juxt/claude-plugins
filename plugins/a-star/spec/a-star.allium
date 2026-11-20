@@ -41,9 +41,10 @@ enum YieldKind {
 
 enum FrameKind { tidy | advance | amend }
 
--- Where a frame is committed: the lowest point its dependencies allow.
+-- Where a frame is committed: as early in the branch as makes sense, assigned at triage, the user's to override.
 enum Placement {
-    branch_base     -- a prequel: depends on nothing in the branch, cherry-pickable onto main
+    branch_base     -- a prequel: a tidy that would reasonably land on main by itself
+    under_advance   -- a tidy that only makes sense beside the advance it enables, directly under it
     inside_commit
     branch_top      -- everything else
 }

@@ -67,7 +67,7 @@ They're stated as state machines in [`spec/a-star.allium`](spec/a-star.allium): 
 - **It does:**
   - check the plan it's handed has an approved goal;
   - dart to the goal with a cheap sub-agent, and turn what the dart found into sub-goals;
-  - drive each sub-goal to a commit through a drive sub-agent, as one tidy, advance or amend, each at the lowest point in the branch it can sit;
+  - drive each sub-goal to a commit through a drive sub-agent, as one tidy, advance or amend, each as early in the branch as makes sense;
   - triage what darts and drives turn up, and choose each move — dart, drive, revert, replan, park or done;
   - adjust its moves to whether you're watching the session, as the session records it.
 
@@ -80,7 +80,7 @@ They're stated as state machines in [`spec/a-star.allium`](spec/a-star.allium): 
 
 - **Three choices are A⭐'s own, and your project answers them**: where a tidy is committed, where an advance is committed, and branch cleanup.
   Rewriting a feature branch the session owns, and force-with-lease pushing it, is always allowed; the base branch never is.
-  Where it doesn't answer one, A⭐ asks rather than guessing — except branch cleanup, where it deletes local branches and worktrees whose work has fully landed, and only offers to delete remote ones.
+  Where it doesn't answer one, A⭐ asks rather than guessing — except a tidy's branch, which defaults to the feature branch, and branch cleanup, where it deletes local branches and worktrees whose work has fully landed, and only offers to delete remote ones.
 
 ## Usage
 
