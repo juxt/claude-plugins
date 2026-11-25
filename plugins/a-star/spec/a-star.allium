@@ -58,6 +58,7 @@ entity Session {
     -- The session's mode, read rather than set: a-star never changes it.
     mode: Mode
     -- The unlanded commits read as review units: each independently acceptable, none a slice of another.
+    -- A commit whose additions only a later commit calls is a slice of that later commit, however checkable its own tests make it.
     in_review_units: Boolean
     status: choosing | offered | reverting | parked | exited
     offered_move: Move? when status = offered

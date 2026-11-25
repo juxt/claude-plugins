@@ -125,6 +125,8 @@ These are what each mode means for a-star's own moves.
 - **Before the done exit, a review-unit pass shapes the unlanded branch for its reviewer, not the order the work happened in.**
   Reorder, merge or split its commits until each is independently acceptable and none is a slice of another, leaving the final tree unchanged.
   **The test is the `review:` entries**: a commit whose entry can't say what checking it means apart from its neighbours' is a slice of one of them, and an entry that needs two different checks is two units — so a tidy and an advance never merge, however closely they belong together.
+  **A commit's own code calls everything it adds**, per the frame's [no dead code](../drive/references/frame.md#in-every-frame): a commit whose additions only a later commit calls is a slice of that later commit, however well its own tests let a reviewer check it.
+  A caller in another commit's tests doesn't count; a preparatory tidy passes, since it reshapes code that already runs.
   Merging two commits merges their `review:` entries, and redrafts the merged body to the project's commit conventions.
   A rewritten subject updates the journal entries keyed by it.
   It rewrites the branch, per [Feature branches](#feature-branches).
