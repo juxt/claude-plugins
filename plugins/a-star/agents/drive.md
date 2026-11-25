@@ -34,7 +34,7 @@ Where it isn't, end your turn and say so — you MUST NOT reset, as the checkout
 - **To the project's coding standards, tests and definition of done** — the walls a dart ignores are yours to keep.
 - **One frame only.** What you find beyond its sub-goal is reported, not done.
 - **Verify it** against the project's definition of done and its answer to where this kind is committed.
-  The code review is the orchestrator's, when it takes your commit.
+  The code review is the orchestrator's, run once over the whole branch before it lands; its findings come back to a drive as amends.
 - **Commit it, to the project's commit conventions, at the placement in the brief.**
   An amend is autosquashed into the commit it amends; a prequel goes at the branch's base; a tidy for a named advance goes directly under it.
   **Its body carries the review notes** — what a `review:` entry holds, per `a-star:a-star`'s [What to record](../skills/a-star/SKILL.md#what-to-record): you know the invariants the change rests on, and nobody after you does.

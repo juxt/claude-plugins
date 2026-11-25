@@ -61,6 +61,9 @@ entity Session {
     -- A commit whose additions only a later commit calls is a slice of that later commit, however checkable its own tests make it.
     -- A preparatory tidy stands alone only where it is worth landing without the change it prepares, or makes that change materially easier to review.
     in_review_units: Boolean
+    -- The code review has run over the whole unlanded branch, base to head, since its last commit changed:
+    -- once before landing, never frame by frame; its findings are yields, driven as amends.
+    code_reviewed: Boolean
     status: choosing | offered | reverting | parked | exited
     offered_move: Move? when status = offered
     exit: replan | done when status = exited
@@ -379,6 +382,17 @@ rule ShapeForReview {
     ensures: Recorded(session: session, entry: review_units)
 }
 
+-- After the review-unit pass, the code review runs once over the whole unlanded branch.
+-- The orchestrator runs it and triages its findings; a drive commits each as an amend, so a finding resets code_reviewed through Committed.
+rule ReviewBranch {
+    when: BranchCodeReviewed(session)
+    requires: session.status = choosing
+    requires: session.open_frames.count = 0
+    requires: session.in_review_units
+    ensures: session.code_reviewed = true
+    ensures: Recorded(session: session, entry: code_review)
+}
+
 rule TakeDone {
     when: Take(session, move)
     requires: move = done
@@ -386,6 +400,7 @@ rule TakeDone {
     requires: session.open_frames.count = 0
     requires: session.sub_goals.all(s => s.status = done or s.status = superseded)
     requires: session.in_review_units
+    requires: session.code_reviewed
     ensures: session.status = exited
     ensures: session.exit = done
     ensures: SessionEnded(session: session)
@@ -484,7 +499,7 @@ rule TriageCompletion {
 
     @guidance
         -- The completion test is a-star:a-star's, in its Triage; what an amend may change, a-star:drive's frame rules.
-        -- Findings from the orchestrator's own review of a frame are yields like any other, so they meet this test too.
+        -- Findings from the pre-landing code review are yields like any other, so they meet this test too.
         -- An amend raised by that review may be driven undarted: the orchestrator records it as judged straightforward.
 }
 
@@ -716,6 +731,7 @@ rule Committed {
     ensures: Recorded(session: frame.session, entry: done)
     ensures: Recorded(session: frame.session, entry: review)
     ensures: frame.session.in_review_units = false
+    ensures: frame.session.code_reviewed = false
     ensures: TaskCompleted(sub_goal: frame.sub_goal)
     ensures:
         if frame.interrupts != null:
@@ -723,8 +739,8 @@ rule Committed {
             Recorded(session: frame.session, entry: wip_rebased)
 
     @guidance
-        -- Verified includes the orchestrator's review of the frame's diff, code and comments, before it takes the commit.
-        -- The review, the gate on the review notes, and pushing are a-star:drive's Doing it; the commit's place and message, its frame rules.
+        -- Verified includes the orchestrator's gate on the frame's diff before it takes the commit — not the code review, which is ReviewBranch's.
+        -- The gate, the review notes, and pushing are a-star:drive's Doing it; the commit's place and message, its frame rules.
 }
 
 -- A drive has failed once its change is no longer atomic, or no longer comprehensible: thrown away, re-split.

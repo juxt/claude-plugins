@@ -24,7 +24,7 @@ It reports what it turns up and makes the commit; you triage, choose, record, an
 ## Doing it
 
 1. **Record it as what's in hand, before anything is edited.** Its task already exists, from when the sub-goal was recorded at triage — a tidy, amend or prequel pushed onto the stack included.
-   **An amend raised by your own review of a frame MAY be driven without a dart**, recorded as a decision that you judged it straightforward.
+   **An amend raised by the pre-landing code review MAY be driven without a dart**, recorded as a decision that you judged it straightforward, per `a-star:a-star`'s [Sub-goals](../a-star/SKILL.md#sub-goals).
 
 2. **Record the branch's head, then spawn the `drive` agent with the frame as its brief, and nothing else** — its sub-goal, its kind and placement, the branch to work from and its head, and where the card's work is recorded: for an advance, the card's feature branch off the project's base branch; for a tidy, where it is committed.
    The record carries the decisions, principles and darts' evidence, which it reads and never writes.
@@ -39,17 +39,16 @@ It reports what it turns up and makes the commit; you triage, choose, record, an
    The amend is recorded as a sub-goal, driven after the frame in hand is committed.
    **The drive agent spawns the sub-agents the project's conventions call for — a comment weeder, a test-log reader — itself, and hands back a frame they have already run over.**
    Where it has no Agent tool, as in a Claude Code cloud session, it asks you for them instead: spawn each with exactly the inputs it names, and resume it with the results.
-   Your review in step 5 is the frame's code review, so it doesn't ask for another.
+   The code review runs once over the whole branch before the done exit, per `a-star:a-star`'s [Sub-goals](../a-star/SKILL.md#sub-goals), so it doesn't ask for one.
    **It asks you, too, the questions the project's commit conventions would put to the user**: it has none of the session's history, and the user doesn't see its calls, so answer from the record, or put it to the user per `a-star:a-star`'s Primary and secondary.
 
 4. **When it ends its turn**, decide: a sub-agent request is spawned and answered, per step 3; a user's decision is offered in primary, per `a-star:a-star`'s Primary and secondary; an earlier commit this frame can't be committed on is an amend frame, pushed first; a better drive is a pre-emption; a failure is [Handling Drive Failure](#handling-drive-failure).
    Then resume it with `SendMessage`, or push the new frame.
 
-5. **Review the frame's diff from the head you recorded, before taking its commit**, with the review the project's conventions call for, over its code and its comments.
-   **The review checks that a tidy changes no behaviour**: a commit typed as one whose diff or body shows a behaviour change, error paths included, is split or retyped before it is taken.
-   A finding inside the frame's scope resumes the drive agent with `SendMessage` to fix it; anything else is triaged like any other report — including one that completes an earlier unlanded commit, which triage makes an amend of it.
-   A finding the drive agent could only have missed because something it reads was silent or wrong is also a gap: triage where its fix belongs — the project's instructions or skills, the record, a skill of a-star's own, or the session's setup — and fix it there, so the next frame doesn't repeat it.
-   A fresh drive's mistake is the signal that the plan or the project is missing something, and amending the commit alone leaves the miss in place.
+5. **Check the frame's diff from the head you recorded, before taking its commit — the gate, not the code review**, which runs once over the whole branch before the done exit.
+   - **A tidy changes no behaviour**: a commit typed as one whose diff or body shows a behaviour change, error paths included, is split or retyped before it is taken.
+   - **The diff is the brief's sub-goal, at its placement**, and the branch still reads in review units, per `a-star:a-star`'s [Sub-goals](../a-star/SKILL.md#sub-goals).
+   - **A miss inside the frame's scope resumes the drive agent with `SendMessage` to fix it**; anything else is triaged like any other report — including one that completes an earlier unlanded commit, which triage makes an amend of it.
 
 6. **Take its commit**, which is already on the feature branch at the frame's placement, rewriting its place or message where the branch should read otherwise.
    **The gate first: check the review notes the drive agent wrote into the commit's body, and reported, stand apart from the unlanded commits' `review:` entries.**
@@ -59,7 +58,7 @@ It reports what it turns up and makes the commit; you triage, choose, record, an
    **Then push, where the project's answer says to**, and in secondary wherever its answers allow, per `a-star:a-star`'s Primary and secondary; the drive agent never pushes.
 
 7. **Record the sub-goal done**, with its commits, and complete its task; record what its report taught, and add a task for any sub-goal it turned up.
-   **Record the gate's notes as the commit's `review:` entry**, against its subject, with what your own review added — the PR's Reviewing this takes what spans commits and what was verified from these.
+   **Record the gate's notes as the commit's `review:` entry**, against its subject, with what your check added — the PR's Reviewing this takes what spans commits and what was verified from these.
    A frame that interrupted another pops: rebase the WIP onto it, and resume what it interrupted.
    A dart branch under it is the dart agent's to rebase or redo.
 

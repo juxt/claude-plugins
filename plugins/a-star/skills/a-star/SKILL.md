@@ -25,6 +25,8 @@ The dart is the naive attempt, the revert is the revert, and each drive commits 
   You hold the state machine, the drive stack and triage, and nothing else.
 - **The dart agent reaches the goal end-to-end and reports.** Its code never lands.
 - **The drive agent commits one frame and reports.** You may rewrite that commit — its place in the branch, or its message.
+- **You never write code yourself: every code change, an amend included, is a drive's.**
+  Rewriting a commit's place or message is the only change you make to the branch.
 - **Agents only report; every decision about what happens next is yours, and only you update the plan, the journal and the task list.**
 
 **A user's question is a question, not a go-ahead.**
@@ -42,7 +44,7 @@ How the goal gets understood and agreed is that harness's; a-star only checks it
 **a-star exits back to that harness**, and doesn't care what it is:
 
 - **replan** — the goal itself is invalidated, and the harness re-plans with the user;
-- **done** — the done sub-goals complete the card, and the branch has had its review-unit pass.
+- **done** — the done sub-goals complete the card, and the branch has had its review-unit pass and its code review.
 
 **park hands the work back to that harness** — nothing is ready, and what's blocked waits on the user or someone else.
 **A park leaves what a later session needs to resume**: the branch pushed — with `--force-with-lease`, per [Feature branches](#feature-branches) — and its head, the drive stack and any WIP commits recorded where the project tracks the card.
@@ -102,7 +104,7 @@ These are what each mode means for a-star's own moves.
 
 - **an increment ready to commit, or a new or better-split sub-goal** — first apply the completion test against the unlanded commits; scope that completes one is an amend of it, below.
   Otherwise record it as a sub-goal, with its kind and where it would be committed, what it depends on, and whether a dart exercised it.
-  This holds for scope the user adds mid-card and for findings from your own review of a frame alike;
+  This holds for scope the user adds mid-card and for findings from the pre-landing code review alike;
 - **a stretch of the route not yet walked** — a dart;
 - **an earlier, unlanded commit superseded or incomplete** — an amend, per `a-star:drive`; pushed ahead of the frame in hand only if that frame can't be committed correctly on the commit as it stands, otherwise recorded to drive after it;
 - **a change that would replace the approach of an unlanded commit, anywhere in the branch** — an amend of that commit, or a revert, per `a-star:drive`'s [frame rules](../drive/references/frame.md#frames);
@@ -136,6 +138,12 @@ These are what each mode means for a-star's own moves.
   Merging two commits merges their `review:` entries, and redrafts the merged body to the project's commit conventions.
   A rewritten subject updates the journal entries keyed by it.
   It rewrites the branch, per [Feature branches](#feature-branches).
+- **Then the code review runs once, over the whole unlanded branch from its base to its head, before the done exit** — not frame by frame as the branch is built.
+  You run it, at the level the project's conventions set: the review its conventions name, or a code-review agent, over the code and its comments.
+  - **Its findings are triaged like any other report, and each is driven as an amend of the commit it belongs to**, never fixed by you.
+    An amend raised by this review MAY be driven without a dart, recorded as a decision that you judged it straightforward.
+  - **A finding a drive could only have missed because something it reads was silent or wrong is also a gap**: triage where its fix belongs — the project's instructions or skills, the record, a skill of a-star's own, or the session's setup — and fix it there, so the next card doesn't repeat it.
+  - **Amends reopen both passes**: rerun the review-unit pass, and the code review over what the amends changed, until a pass turns up nothing to drive.
 
 **A structure change and a behaviour change never share a commit**: a tidy changes structure, an advance changes behaviour, and `a-star:drive` commits either.
 
