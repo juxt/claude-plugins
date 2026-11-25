@@ -28,6 +28,9 @@ You MUST load these skills first:
    **Each commit MUST be an atomic, cohesive unit of change** — a transition from one valid state to another — and **unrelated changes MUST NOT be staged together**.
 
    - If two changes don't make sense independently, they're one commit; if they're distinct, they're two.
+     - **A commit's own code calls everything it adds, outside its tests.**
+       An addition that only a later commit calls doesn't make sense without it, however well its own tests let a reviewer check it, so it goes in with its first caller.
+       A preparatory refactoring passes: it reshapes code that already runs.
 
    - Behaviour-preserving changes (refactorings) and behaviour-changing ones MUST NOT share a commit.
 

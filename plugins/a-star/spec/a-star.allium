@@ -58,6 +58,7 @@ entity Session {
     -- The session's mode, read rather than set: a-star never changes it.
     mode: Mode
     -- The unlanded commits read as review units: each independently acceptable, none a slice of another.
+    -- A commit whose additions only a later commit calls is a slice of that later commit, however checkable its own tests make it.
     in_review_units: Boolean
     status: choosing | offered | reverting | parked | exited
     offered_move: Move? when status = offered
@@ -541,6 +542,7 @@ rule TriageRouteQuestion {
 
     @guidance
         -- Answered by the orchestrator where it is its to answer; otherwise, in primary, it waits for the user like any other arrival, per chalk:primary. The answer is recorded as a decision.
+        -- A report that the frame's brief breaks one of the frame's standards is one: answered by a re-brief within the standard, or put to the user, never by a decision waiving the standard.
 }
 
 -- The user's to settle, in either mode: asked in primary, when chalk:primary raises it; in secondary recorded as an open question, and other ready work goes on.

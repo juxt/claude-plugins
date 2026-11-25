@@ -108,6 +108,7 @@ These are what each mode means for a-star's own moves.
 - **a change that would replace the approach of an unlanded commit, anywhere in the branch** — an amend of that commit, or a revert, per `a-star:drive`'s [frame rules](../drive/references/frame.md#frames);
 - **a constraint, assumption or risk** — recorded on the goal-tree node it bounds;
 - **a question about the route** — answer it where it's yours, and otherwise it's the user's, per [Primary and secondary](#primary-and-secondary); then resume;
+- **a report that its brief breaks one of the frame's standards** — the brief is wrong: re-brief within the standard, or put the conflict to the user; never record the standard as waived for the brief's sake;
 - **a finding that changes the card's target** — revert; **one that changes its goal** — replan;
 - **a decision that is the user's** — offer it in primary, per [Primary and secondary](#primary-and-secondary); in secondary, record it and move to other ready work;
 - **two reports that conflict** — you settle it, by your own check where one is cheap, and record the decision.
@@ -125,6 +126,8 @@ These are what each mode means for a-star's own moves.
 - **Before the done exit, a review-unit pass shapes the unlanded branch for its reviewer, not the order the work happened in.**
   Reorder, merge or split its commits until each is independently acceptable and none is a slice of another, leaving the final tree unchanged.
   **The test is the `review:` entries**: a commit whose entry can't say what checking it means apart from its neighbours' is a slice of one of them, and an entry that needs two different checks is two units — so a tidy and an advance never merge, however closely they belong together.
+  **A commit's own code calls everything it adds**, per the frame's [no dead code](../drive/references/frame.md#in-every-frame): a commit whose additions only a later commit calls is a slice of that later commit, however well its own tests let a reviewer check it.
+  A caller in another commit's tests doesn't count; a preparatory tidy passes, since it reshapes code that already runs.
   Merging two commits merges their `review:` entries, and redrafts the merged body to the project's commit conventions.
   A rewritten subject updates the journal entries keyed by it.
   It rewrites the branch, per [Feature branches](#feature-branches).
