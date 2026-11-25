@@ -30,7 +30,8 @@ You MUST load these skills first:
    - If two changes don't make sense independently, they're one commit; if they're distinct, they're two.
      - **A commit's own code calls everything it adds, outside its tests.**
        An addition that only a later commit calls doesn't make sense without it, however well its own tests let a reviewer check it, so it goes in with its first caller.
-       A preparatory refactoring passes: it reshapes code that already runs.
+       A preparatory refactoring stands alone only where a reviewer would accept it without the change it prepares: it is worth landing even if that change never came, or it makes that change's diff materially easier to review.
+       One whose only reason to exist is the next commit, and that reads as easily inside it, is part of that commit.
 
    - Behaviour-preserving changes (refactorings) and behaviour-changing ones MUST NOT share a commit.
 
@@ -40,6 +41,7 @@ You MUST load these skills first:
      - **The test: could a reviewer be told what checking this commit means, apart from its neighbours?**
        A tidy is checked by "could this change anything?", an advance against its invariants; a commit with no check of its own completes the one whose check it shares.
      - **It never folds a refactoring into a behaviour change**, however closely they belong together: they are checked differently, so they are two units.
+       A structure change that fails the preparatory-refactoring test above isn't a refactoring here: it is part of the behaviour change's mechanism.
      - **Amending rewrites the branch**, per `chalk:chalk`'s Feature branches.
 
 2. **Weed the staged comments.**
