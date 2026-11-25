@@ -108,6 +108,7 @@ These are what each mode means for a-star's own moves.
 - **a change that would replace the approach of an unlanded commit, anywhere in the branch** — an amend of that commit, or a revert, per `a-star:drive`'s [frame rules](../drive/references/frame.md#frames);
 - **a constraint, assumption or risk** — recorded on the goal-tree node it bounds;
 - **a question about the route** — answer it where it's yours, and otherwise it's the user's, per [Primary and secondary](#primary-and-secondary); then resume;
+- **a report that its brief breaks one of the frame's standards** — the brief is wrong: re-brief within the standard, or put the conflict to the user; never record the standard as waived for the brief's sake;
 - **a finding that changes the card's target** — revert; **one that changes its goal** — replan;
 - **a decision that is the user's** — offer it in primary, per [Primary and secondary](#primary-and-secondary); in secondary, record it and move to other ready work;
 - **two reports that conflict** — you settle it, by your own check where one is cheap, and record the decision.
