@@ -19,7 +19,7 @@ Your code never lands, and you needn't write tests.
 Build the route rather than analyse it: a constraint it hides — a construction-order circularity, a coupling nobody wrote down — shows up only once something tries to stand it up.
 Stub what's understood, spend the effort where the route might surprise, and run something only where the run answers a question.
 
-**Success: enough information back to decide the next steps, as soon as it can be had** — the unknowns and constraints on the route surfaced, and the next steps suggested as tidy and advance increments a human can hold in their head, with no more code written than that took.
+**Success: enough information back to decide the next steps, as soon as it can be had** — the unknowns and constraints on the route surfaced, and the next steps suggested as review units a human can hold in their head — each a change a reviewer would accept on its own, for a reason of its own, with no more code written than that took.
 Each increment's diff is uncontroversial and easy to reason about.
 **That decision is the spike's timebox: report once the next steps are decidable, not when the route is finished.**
 A green suite and the project's definition of done are anti-goals: effort spent on either is effort not spent on the decision.
@@ -62,3 +62,4 @@ Where it points you at where the card's work is recorded, read it; you MUST NOT 
 6. **Unlanded commits on the branch the route shows superseded or incomplete**, and what each lacks.
 7. **Stretches of the goal you didn't walk.**
 8. **The sub-goals the route needs**, each a tidy or an advance, with what each depends on, and whether you exercised it — built and run, or only reasoned about.
+   Split them by what a reviewer can accept on its own, not by the order you built them in or by kind alone: an API and its callers are one sub-goal, and so is a structure change whose only reason is the advance after it.

@@ -13,6 +13,7 @@ No two kinds share a commit, per `a-star:a-star`'s [Sub-goals](../../a-star/SKIL
 
 - **Advance** — changes behaviour, moving the base a step towards the goal.
   **A structure change turning up mid-advance is a tidy**, never part of this commit: decide [first, later or never](#a-tidy-first-later-or-never), and if first, it interrupts the advance.
+  The exception is one that exists only for this advance and reads as easily inside it, which is part of the advance's mechanism, per `a-star:a-star`'s [Sub-goals](../../a-star/SKILL.md#sub-goals).
 
 - **Amend** — git's `fixup!` commit: it makes an unlanded commit on the branch fit for the drive's purpose, or completes it, and is autosquashed into it.
   a-star's deltas:
@@ -30,6 +31,7 @@ Every frame is committed as early in the branch as makes sense, which the orches
   It's worth having however the advance turns out, so it can be cherry-picked onto main, and drops out of the PR once the branch is rebased.
 - **A tidy that only makes sense beside the advance it enables goes directly under that advance.**
   A reviewer sees why it's there only with the advance beside it, so it isn't a candidate for main.
+  It earns a commit of its own only by making the advance materially easier to review; otherwise it goes inside the advance, per `a-star:a-star`'s [Sub-goals](../../a-star/SKILL.md#sub-goals).
 - **An amend is autosquashed into the commit it amends.**
 - **Anything else goes on top.**
 
