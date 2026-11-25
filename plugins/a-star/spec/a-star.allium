@@ -59,6 +59,7 @@ entity Session {
     mode: Mode
     -- The unlanded commits read as review units: each independently acceptable, none a slice of another.
     -- A commit whose additions only a later commit calls is a slice of that later commit, however checkable its own tests make it.
+    -- A preparatory tidy stands alone only where it is worth landing without the change it prepares, or makes that change materially easier to review.
     in_review_units: Boolean
     status: choosing | offered | reverting | parked | exited
     offered_move: Move? when status = offered
@@ -461,6 +462,8 @@ rule TriageSubGoal {
     @guidance
         -- A better split of the sub-goal a frame is driving is a pre-emption (PreEmpt), not a new sub-goal alongside it.
         -- New scope is tested against the unlanded commits' subject lines first; one it completes takes it as an amend (TriageCompletion).
+        -- A sub-goal is recorded already shaped as a review unit, by the same tests as in_review_units:
+        -- one that would be a slice of another is merged into it here, before it is offered or driven.
 }
 
 -- New scope that completes an unlanded commit is an amend of that commit, not a commit of its own:

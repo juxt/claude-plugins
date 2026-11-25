@@ -51,6 +51,7 @@ Record it as in flight, so a session resumed after this one ends knows it was lo
 **Record what you accept from the dart agent's report, in the plan and the journal, and add a task for each sub-goal recorded:**
 
 - **the sub-goals**, each with its kind, what it depends on, and whether the dart exercised it — together they MUST complete the card; you assign each where it would be committed.
+  **Shape them as review units before recording or offering them**, per `a-star:a-star`'s [Sub-goals](../a-star/SKILL.md#sub-goals): the dart agent's split is evidence of what the route needs, not the commit plan.
   Each refines the plan leaf it walked, whose task theirs replace.
   **One not exercised is darted before it is driven**, however confident its description — its shape is still an unknown — unless you judge it straightforward, and record that as a decision.
 - **the decisions** — the dart agent's you keep;

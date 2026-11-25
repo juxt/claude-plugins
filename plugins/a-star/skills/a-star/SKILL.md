@@ -121,13 +121,18 @@ These are what each mode means for a-star's own moves.
 - **Each sub-goal is atomic, and goes from green to green.**
   One unit of change, its own tests and docs included.
   A sub-goal that can't be committed green wants another ordered before it; that's a question to ask when it's recorded, not one for its drive to discover.
+- **A sub-goal is recorded already shaped as a review unit**, per the review-unit pass's tests below, before it is offered to the user or driven.
+  A proposed sub-goal that fails them is merged into the one it serves at harvest or triage, not at the done exit: by then the user has already been shown the split, and asked to agree with a slice.
+  A dart's proposed split is evidence of what the route needs, in the order it was built, and never the commit plan as it stands.
 - **Together, a card's sub-goals MUST complete it.**
 - **The code a drive commits keeps the data structures a dart got right**, and leaves out what it built around the ones it didn't.
 - **Before the done exit, a review-unit pass shapes the unlanded branch for its reviewer, not the order the work happened in.**
   Reorder, merge or split its commits until each is independently acceptable and none is a slice of another, leaving the final tree unchanged.
   **The test is the `review:` entries**: a commit whose entry can't say what checking it means apart from its neighbours' is a slice of one of them, and an entry that needs two different checks is two units — so a tidy and an advance never merge, however closely they belong together.
   **A commit's own code calls everything it adds**, per the frame's [no dead code](../drive/references/frame.md#in-every-frame): a commit whose additions only a later commit calls is a slice of that later commit, however well its own tests let a reviewer check it.
-  A caller in another commit's tests doesn't count; a preparatory tidy passes, since it reshapes code that already runs.
+  A caller in another commit's tests doesn't count.
+  **A preparatory tidy stands alone only where a reviewer would accept it without the change it prepares**: it is worth landing even if that change never came, or it makes that change's diff materially easier to review — a large mechanical move, a rename across many sites.
+  One whose only reason to exist is the next commit, and that a reviewer reads as easily inside it, is part of that commit, per [the structure/behaviour split](#sub-goals) below.
   Merging two commits merges their `review:` entries, and redrafts the merged body to the project's commit conventions.
   A rewritten subject updates the journal entries keyed by it.
   It rewrites the branch, per [Feature branches](#feature-branches).
@@ -137,6 +142,8 @@ These are what each mode means for a-star's own moves.
 - **Which one a change is, is judged against the commits in the branch, not against a dart's intermediate states.**
   A change that would be a tidy relative to a state no commit holds is part of the commit that reaches past that state.
   For example, a byte-identical rerouting that only exists on the way to a behaviour change goes in with that behaviour change.
+- **A structure change is a tidy only where it is worth reviewing on its own**, per the review-unit pass's preparatory-tidy test above.
+  One that exists only for the behaviour change after it, and reads as easily inside it, is part of that behaviour change's mechanism rather than a tidy beside it — moving a handful of consumers onto an API the behaviour change introduces, say.
 
 ## What to record
 
