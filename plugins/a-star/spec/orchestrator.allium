@@ -245,7 +245,7 @@ rule TakeDart {
         -- Darts run in parallel with each other and with a drive.
         -- Brief the dart agent with the card as its whole brief: the goal, invariants and out of scope from the tracker issue, the sub-goals already found, the decisions in force and the record's `principle:` entries, plus the branch to start from and its head — the card's feature branch, else the base — or point it at where the card's work is recorded, to read and never write.
         -- Ask for a spike: the route built, not analysed, reporting as soon as the next steps are decidable. Never ask for a green suite, the definition of done or proof of the end-to-end.
-        -- Spawn it with `isolation: "worktree"`, in the background so it can message you. `.claude/worktrees/` must be ignored by git; add it to `.git/info/exclude` where it isn't.
+        -- Spawn it with `isolation: "worktree"`, in the background so it can message you. `.claude/worktrees/` must be ignored by git; add it to `$(git rev-parse --git-common-dir)/info/exclude` where it isn't, as `.git` is a file in a linked worktree.
         -- Every dart starts fresh from the current base — or from another dart's branch where what it needs isn't committed yet. An old dart is evidence, never resumed.
         -- A dart branch is local: neither you nor the agent pushes it.
 }
