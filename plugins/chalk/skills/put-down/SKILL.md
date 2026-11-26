@@ -1,6 +1,6 @@
 ---
 name: put-down
-description: Park the session's work on its issue, so the next session can resume from the issue and its links alone — the description corrected, the metadata sorted, and cards the session discovered raised and linked as appropriate. Use when the user says "put this down", "park this", "/chalk:put-down", or is switching this session away from the issue's work.
+description: Put the work down on its issue, so the issue and its links say where the work stands — the description corrected, the metadata sorted, and cards the session discovered raised and linked as appropriate. Use when the user says "put this down", "park this", "/chalk:put-down", "put the work down on its issue", or is switching this session away from the issue's work.
 user-invocable: true
 argument-hint: "[issue, if the session hasn't named one]"
 ---
@@ -9,23 +9,23 @@ argument-hint: "[issue, if the session hasn't named one]"
 
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
-**Neither the code state nor the analysis state survives a session on its own.**
-Unpushed commits go with the session's checkout, and what the session learned, the questions it left open and the work it discovered all evaporate when it ends, unless they are on the issue.
+**What the session learned, the questions it left open and the work it discovered all evaporate when it ends, unless they are on the issue.**
 
-**The success criteria for this skill is that the next session can resume from the issue and its links alone.**
+**The success criterion for this skill is that the issue and its links hold all of that.**
+It writes the issue up; it neither pushes a branch nor rewrites one.
 
 ## Before you start
 
 - **Load `chalk:issue`**, which loads `chalk:voice` and carries the description's palette, the correction rules, the weeding loop and the filing mechanics.
 
-- **Ground it in the repo, not the transcript**, per `chalk:chalk`'s What has landed.
+- **Ground it in the repo, not the transcript**, per `chalk:journal`'s What has landed.
 
 - **Unfiled work is filed first**, through `chalk:issue`, and the steps below record on that issue; its filing is step 1.
 
-- **Load `chalk:chalk`, and read the session's plan, where it started one.**
+- **Load `chalk:journal`, and read the session's plan, where it started one.**
   What the issue's next reader needs from it — open questions, and decisions that bear on the problem — reaches the issue through `chalk:issue`'s own path below.
 
-- **In secondary, per `chalk:secondary`: wherever a step below would ask the user, decide and record.**
+- **Where a step below would ask the user and they can't be asked now, decide and record.**
 
 ## 1. Ensure the description is correct and up-to-date.
 
@@ -55,17 +55,6 @@ If it is in any way unclear, you MUST confirm with the user which ones they want
 **Assignee, status, labels — whatever the project's tracker conventions say for a card that is being put down**, through the github agent.
 Where they don't say, ask; MUST NOT guess.
 
-## 4. Push the branch, and record where the work stands
+## 4. Report back
 
-**Before pushing, weed the commit messages**, as `chalk:commit` says for a branch handed over without a PR, and apply the findings by rewording each commit through it.
-
-**Push the feature branch, WIP commits included**, per `chalk:chalk`'s Branches and commits, so the next session can resume from it.
-A branch the session doesn't own is left as it is, and the report says so.
-
-**Then record on the issue, as a comment through `chalk:issue`, what the next session resumes from**: the branch, its head commit's subject, and what was in hand — the stack of sub-goals being worked, innermost first.
-It goes in a comment, not the description: it moves with the work.
-A secondary session parking an unapproved plan has no branch yet: the comment carries the draft plan instead.
-
-## 5. Report back
-
-**The issue, each card raised, what changed on each, and the branch pushed.**
+**The issue, each card raised, and what changed on each.**

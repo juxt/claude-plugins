@@ -5,11 +5,14 @@
 -- Reads: the dart agent common and dart; the drive agent common and drive; the orchestrator all four. Where a skill and these specs disagree, the specs govern, and the disagreement is the user's.
 -- common: the types every reader acts on. Agents only report: `SendMessage` to `main` what doesn't stop you and carry on; end your turn with what does. Every decision about what happens next, and every update to the plan, journal and task list, is the orchestrator's.
 
--- The plan the outer harness hands in, its goal approved by the user — whatever harness surrounds a-star, for example chalk's planning.
--- a-star records into it and exits back to it; it never approves a plan itself.
-external entity Plan {
-    goal_approved: Boolean
+-- The plan: the goal and the route the user approves in plan mode, and nothing is built before they do.
+-- A session's output is an issue, or the implementation; an implementing plan predicts its finish.
+entity Plan {
+    status: drafting | approved
+    output: issue | implementation
+    ready: Boolean
     route: List<Move>
+    finish: Finish when output = implementation
 
     @guidance
         -- A card is ready once its goal, constraints and out-of-scope are agreed with the user and no open question bears on it.
@@ -28,8 +31,11 @@ external entity Commit {
         -- A commit has landed once it reaches the base branch: pushing the feature branch, or opening a PR on it, lands nothing.
 }
 
--- Whether the user is watching: the session's mode, as the session records it, which a-star reads rather than sets. With none recorded, a session is primary unless it runs headless or scheduled.
+-- Whether the user is watching: the session's mode. A session starts primary, unless it runs headless or scheduled, when it starts secondary.
 enum Mode { primary | secondary }
+
+-- How a finish ends: no PR; a PR carrying the problem itself, where there is no issue; a PR on the issue.
+enum Finish { no_pr | standalone_pr | pr_on_issue }
 
 enum Move { dart | drive | revert | replan | park | done }
 
@@ -56,15 +62,17 @@ enum Placement {
 
 entity Session {
     plan: Plan
-    -- The session's mode, read rather than set: a-star never changes it.
     mode: Mode
+    -- The tracker updated and the feature branch checked out: the approved plan's first step, done once per card.
+    picked_up: Boolean
     -- The unlanded commits read as review units, by the slicing rules in drive.allium.
     in_review_units: Boolean
     -- The code review has run over the whole unlanded branch since its last commit changed; its findings are yields.
     code_reviewed: Boolean
-    status: choosing | offered | reverting | parked | exited
+    status: planning | choosing | offered | reverting | finishing | parked | exited
     offered_move: Move? when status = offered
-    exit: replan | done when status = exited
+    exit: filed | done when status = exited
+    finish: Finish? when exit = done
 
     sub_goals: SubGoal with session = this
     darts: Dart with session = this
@@ -79,6 +87,13 @@ entity Session {
     open_frames: frames where status = in_hand | writing | verifying | interrupted | pre_empted | parked
 
     transitions status {
+        planning -> choosing
+        choosing -> planning
+        planning -> parked
+        parked -> planning
+        planning -> exited
+        choosing -> finishing
+        finishing -> exited
         choosing -> offered
         offered -> choosing
         choosing -> reverting
@@ -86,7 +101,6 @@ entity Session {
         choosing -> parked
         offered -> parked
         parked -> choosing
-        choosing -> exited
         terminal: exited
     }
 }

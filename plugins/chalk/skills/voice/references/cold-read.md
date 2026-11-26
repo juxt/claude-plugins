@@ -21,9 +21,9 @@ The author can't see what the draft leaves out, because the author holds what it
     A node it couldn't decide on is closed by restructuring that node.
 
   - **Where only the user can answer, relay the question as written.**
-    In secondary, per `chalk:secondary`: record it, and carry it into the artefact as an open question marked for the user.
+    Where the user can't be asked now, record it, and carry it into the artefact as an open question marked for them.
 
-- **The loop ends when the agent has no question left**, or in secondary when only questions marked for the user remain.
+- **The loop ends when the agent has no question left**, or when only questions marked for the user remain.
 
 - **A redraft keeps every answer earlier rounds settled.**
   Restructuring a node to close one gap is where an earlier answer gets dropped.

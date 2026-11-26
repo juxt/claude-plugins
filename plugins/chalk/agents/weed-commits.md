@@ -1,19 +1,19 @@
 ---
 name: weed-commits
 description: >
-  Reads a branch's commit messages cold, each as its own readers would — the one arriving
+  Weeds a branch's commit messages: reads them cold, each as its own readers would — the one arriving
   from `git blame` mid-investigation, the reviewer checking the change commit by commit —
   and reports where each gets stuck: sentences to cut, subject lines that aren't claims, the
   arguments a commit's correctness rests on that its body doesn't state. It reports
   questions and never writes answers.
 
-  DO NOT invoke this agent directly from the main conversation (except from an
-  implementation harness's agent, such as a-star's drive agent, or relayed for one by the main session), and DO NOT give it the
+  DO NOT invoke this agent directly from the main conversation (except from
+  an implementation harness's agent, or relayed for one by the main session), and DO NOT give it the
   session's reasoning. The author holds the theory of each commit and can't see what its
   body leaves out; this agent can, because it holds only what the commits' readers hold.
 
-  Reached from `chalk:pr` beside `weed-pr` when the branch is raised, and from `chalk:commit`
-  where the branch never reaches a PR.
+  Reached to weed a branch's commit messages: from `chalk:pr` beside `weed-pr` when the branch is
+  raised, and on its own before a branch with no PR is handed over, parked or pushed.
 model: sonnet
 color: green
 tools: Skill, Read, Grep, Glob, Bash(git diff *), Bash(git log *), Bash(git show *), Bash(gh issue view *), Bash(git cat-file *), Bash(test *)

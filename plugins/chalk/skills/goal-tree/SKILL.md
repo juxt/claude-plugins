@@ -1,6 +1,6 @@
 ---
 name: goal-tree
-description: Structure a goal as a tree whose children accomplish their parent rather than argue for it, and test each node for sufficiency. Load whenever writing something with a goal structure in it — the direction or target end state of a piece of work, an issue's Potential approach section, the shape of a problem, or a plan. Covers, in KAOS goal-modelling terms, the sufficiency test (complete refinement), the three kinds of leaf (requirement, expectation, domain property), and the obstacle-resolution tactics for closing a gap. The chalk:issue skill loads it alongside chalk:voice.
+description: Write a goal as a tree whose children accomplish their parent rather than argue for it — the notation of a KAOS goal model. Load whenever writing something with a goal structure in it — the direction or target end state of a piece of work, an issue's Potential approach section, the shape of a problem, or a plan. Covers the shape, the `C<n>`/`A<n>` annotations on the node they bound, where the tree sits in an issue, and linking a child to its issue. The chalk:issue skill loads it alongside chalk:voice.
 user-invocable: true
 ---
 
@@ -45,55 +45,19 @@ So it is an annotation on the node, not a child of it, and so is an assumption t
 
 - **A constraint this work creates is not an annotation** — it is inherited, and lives in the PR's Consequences.
 
-## The test at each node is sufficiency
+## Marks on the tree
 
-**Sufficiency is KAOS's complete refinement**: the children, plus the domain properties relied on, entail the parent — and do so within its annotations.
-A set of children that reaches the parent by breaking one of its constraints is not sufficient.
+- **A node whose children aren't clearly sufficient is marked `check:`**, per `chalk:voice`, rather than left to read as settled.
 
-- **Say the domain properties relied on out loud**, rather than leaning on them silently.
+- **A leaf declares its kind where that isn't obvious** — requirement (something we do), expectation (something expected of someone or something else) or domain property (a plain fact relied on) — so an expectation never reads as work.
+  `assumption:` marks a leaf as unverified; the kind is the separate question of who is on the hook.
 
-- **Each node MUST be tested for sufficiency explicitly** rather than assumed, and any node whose children are not clearly sufficient MUST be marked `check:` rather than left to read as settled.
-
-**To find a missing child, identify the parent's obstacles** — ask what would stop it, rather than what would achieve it.
-
-## Every leaf is a requirement, an expectation or a domain property — say which
-
-**A leaf MUST declare which kind it is wherever that isn't obvious.**
-
-- **Requirement** — something we do.
-
-- **Expectation** — something expected of someone or something else: the user, CI, another team, an upstream library, existing behaviour.
-
-- **Domain property** — a plain fact about the world we're relying on.
-
-**An expectation MUST NOT be written as though it were a requirement.**
-It reads as covered, it sits in the tree looking like work, and nothing happens until someone notices it was never assigned.
-
-`assumption:` covers whether a leaf has been *verified*; the kind is the separate question of who's *on the hook*.
-A leaf can be both — a verified fact about an upstream library is still someone else's to keep true.
-
-## A gap is an obstacle, and it invalidates everything above it
-
-**A gap MUST be surfaced rather than papered over.**
-
-**Closing a gap MUST be a deliberate choice of KAOS resolution tactic**, rather than reflexively adding a task:
-
-- **Goal substitution** — achieve the parent a different way.
-- **Agent substitution** — reassign it to someone or something that won't fail like that.
-- **Obstacle prevention** — add a step that prevents it.
-- **Obstacle reduction** — make it less likely without eliminating it.
-- **Goal restoration** — let it happen and recover afterwards.
-- **Obstacle mitigation** — let it happen and limit the damage.
-- **Goal weakening** — weaken the goal so the gap no longer matters.
-- **Obstacle tolerance** — accept the risk and move on.
-
-**Goal weakening and obstacle tolerance are real answers, and both MUST be recorded** in **Out of scope** or **Alternative approaches** — they are the two tactics that leave no trace in the tree itself.
-Scope that was deliberately cut is a decision someone will want the reasoning for later; scope that silently evaporated reads as an oversight, and a reader can't tell the two apart.
+- **Goal weakening and obstacle tolerance leave no trace in the tree**, so what was cut or accepted is written in **Out of scope** or **Alternative approaches**.
 
 ## In an issue description
 
 **An issue's goal tree sits higher than a plan's.**
-The issue answers what has to be true for this to be done; the session's plan answers what has to land to get there, and `chalk:chalk` says what it carries.
+The issue answers what has to be true for this to be done; the session's plan answers what has to land to get there.
 
 - **A child may be a link to another issue that owns that part.**
   `- [ ] Secondaries serve stale reads without blocking the primary — #412`

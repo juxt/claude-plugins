@@ -5,13 +5,13 @@ An agent produces more change than anyone can hold in their head, so what limits
 
 Chalk manages that context: what a person takes in, when they take it in, and what they can safely let go of.
 
-It writes issues, agents' plans, commits and PRs in a style that lets the reader focus on what's important to them at the time: drilling down into the details when they need them, and not getting bogged down in them when they don't.
+It keeps the session's journal, and writes issues, commits and PRs in a style that lets the reader focus on what's important to them at the time: drilling down into the details when they need them, and not getting bogged down in them when they don't.
 
 ## The intent stack
 
 **Each artefact carries the part of the reasoning its own reader needs, which is what keeps them from duplicating each other.**
 
-- **Plan** (`/chalk [issue]`) — the goal and the route, agreed in plan mode; then the session's journal of decisions, questions and constraints, written as they happen.
+- **Journal** — the session's decisions, questions and constraints, written into the plan file as they happen.
   Its reader is the session itself, and the next one after a compaction; it is what the issue, commits and PR are written from.
 
 - **Issue** (`/chalk:issue`) — the problem, the evidence, and *why now* where there is one, kept accurate as the facts change.
@@ -23,11 +23,14 @@ It writes issues, agents' plans, commits and PRs in a style that lets the reader
 - **Commit** (`/chalk:commit`) — why this change exists, and why it was done this way.
   Its reader arrived from `git blame` on one line, mid-investigation of something else.
 
-## With an implementation harness
+## The boundary
 
-**chalk plans and journals; how the work is implemented is left to a harness, or to none.**
-A harness records through chalk's journal kinds and hands back by replan, park or done, per `skills/chalk/SKILL.md`.
-[A⭐](../a-star/) is one such harness: it lands each change *"small and simple enough for a human to review and put down"* — the same scarce attention, spent at review time rather than planning time.
+**chalk owns the record and the writing; it doesn't run the work.**
+It plans nothing, picks nothing up, and never pushes or rewrites a branch.
+
+chalk is the adapter side of ports and adapters (Cockburn's hexagonal architecture).
+A process that needs something written or recorded names the need as a plain verb — write the commit message, raise a PR, weed the commit messages, record in the session's journal, put the work down on its issue — and chalk claims it through its skill and agent descriptions.
+The user's own instructions bind the two.
 
 ## Installation
 
@@ -47,20 +50,15 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 
 ## Usage
 
-- `/chalk [issue]` — plan the session's work in plan mode, with or without a card, until the goal and route are approved; then journal decisions in the plan as they happen
-
 - `/chalk:issue [title]` — file an issue, or update an existing issue's description
 
-- `/chalk:commit <headline>` — create a contextual commit
+- `/chalk:commit <headline>` — write a contextual commit message
 
 - `/chalk:pr [title]` — create a PR with an intent-driven description
 
 - `/chalk:sitrep [focus]` — report where the session has got to, and what's still open
 
-- `/chalk:primary`, `/chalk:secondary` — say whether you're watching this session; a session starts primary, unless it runs headless or scheduled, when it starts secondary
-  In secondary the session decides what it can, records every decision for review, and parks what it can't; plan approval and merging stay yours
-
-- `/chalk:put-down [issue]` — park the session's work on its issue: description corrected, metadata sorted, discovered cards raised and linked
+- `/chalk:put-down [issue]` — put the work down on its issue: description corrected, metadata sorted, discovered cards raised and linked
 
 - `/chalk:explicate <area> [focus or since-point]` — unfold an area of the code: how it works now, the decisions behind it and their consequences, then follow-ups as a depth-first walk
 
@@ -69,7 +67,7 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 ## Components
 
 Each skill and agent says what it is for in its own description.
-The writing skills (`voice`, `goal-tree`, and the `weed-*` agents behind `issue`, `commit` and `pr`) are loaded by the others rather than run directly.
+The writing skills (`voice`, `goal-tree`, `journal`, and the `weed-*` agents behind `issue`, `commit` and `pr`) are loaded by the others rather than run directly.
 `code-comments` is the exception: nothing else can know you're about to write a comment, so load it yourself.
 
 ## Permissions

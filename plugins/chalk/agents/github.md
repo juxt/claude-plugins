@@ -6,16 +6,18 @@ description: >
   descriptions, posting issue comments, creating PRs, reading and searching issue
   state, and managing sub-issue and blocked-by relationships.
 
-  DO NOT invoke this agent directly from the main conversation. It is an
-  implementation detail of the chalk skills and must only be reached via one of them:
+  DO NOT invoke this agent directly from the main conversation to post a body. It is an
+  implementation detail of the chalk skills and must only be reached via one of them to post:
 
     - `chalk:issue` skill — for creating issues, updating issue descriptions,
       posting issue comments, and issue relationship mutations.
     - `chalk:pr` skill — for opening pull requests.
-    - `chalk:chalk` skill — for reading an issue and its neighbourhood, searching
-      for existing issues, and the tracker update (assignee, status, board).
     - `chalk:put-down` skill — for the tracker update, and through `chalk:issue`
       for anything it posts.
+
+  Reads and tracker edits carry no body, so any caller MAY ask for them directly:
+  reading an issue and its neighbourhood (parent, sub-issues, blockers, linked PRs),
+  searching for existing issues, and updating the tracker (assignee, status, board).
 
   The skills that post a body carry the voice guidance it needs; they draft the
   body in the main context against that guidance, then hand it here to post

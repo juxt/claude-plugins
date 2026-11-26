@@ -1,6 +1,6 @@
 ---
 name: voice
-description: Shared Chalk writing voice — the audience for Chalk artefacts, the specification register, the mindmap structure that two propositions in a relation MUST take (Minto's pyramid, with argument diagramming's linked, convergent and conductive grounds), and the layout rules. The chalk:issue, chalk:commit, chalk:pr and chalk:sitrep skills load this before drafting any prose, and the weed-pr, weed-commits, weed-issue and weed-prose agents load it to review one.
+description: Shared Chalk writing voice — the audience for Chalk artefacts, the specification register, the mindmap structure that two propositions in a relation MUST take (Minto's pyramid, with argument diagramming's linked, convergent and conductive grounds), the layout rules, and the model taxonomy a design, or a model diff, is stated in. The chalk:issue, chalk:commit, chalk:pr and chalk:sitrep skills load this before drafting any prose, and the weed-pr, weed-commits, weed-issue and weed-prose agents load it to review one.
 ---
 
 # Chalk Voice — Writing Principles

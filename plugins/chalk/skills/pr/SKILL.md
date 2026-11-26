@@ -60,7 +60,7 @@ Load, via the Skill tool:
 
 - **`chalk:voice`'s `references/palette.md`** — the sections on your path.
 
-- **`chalk:chalk`** — the plan file's shape and the journal's record kinds, which the description is written from.
+- **`chalk:journal`** — the plan file's shape and the journal's record kinds, which the description is written from.
 
 **Write each section as a mindmap**, per `chalk:voice`.
 Reader 0 is working through the change in the order it can be checked, reader 1 is scanning for what touches their work, and reader 2 for one decision, so all three skip most of the body: every subject line MUST let them discard the bullet against that goal, or take it unread.
@@ -73,7 +73,7 @@ The first `##` in the body is the section after it.
 
 - Review the commits on this branch — all of them, not just the latest.
 
-- Read the session's plan journal, all of it, where `chalk:chalk` started one.
+- Read the session's plan journal, all of it, where `chalk:journal` started one.
   It's material, not a draft: what reaches the description is what *Your readers* and the palette call for — a decision because it matters to them, whoever made it.
   Its `review:` entries: their durable part is already in the commit bodies, and Reviewing this takes from them only what spans commits, and the evidence.
 
@@ -133,13 +133,11 @@ It reads the description cold, as the reviewer, attempts the reviewer's job from
 - **Where there is no linked issue, say so**, so it reads the description as carrying the problem too.
 
 - **Where only the user can answer, answer from the branch where the branch genuinely has it**, naming the commit you draw on so the user can correct you.
-  In secondary, per `chalk:secondary`: one the branch can't answer goes into Open questions, marked for the user.
+  Where the user can't be asked now, one the branch can't answer goes into Open questions, marked for them.
 
 **Delegate the branch's commit messages to the `weed-commits` agent beside it**, per `chalk:commit`, passing the base branch and the head.
 
-- **Apply its findings by rewording each commit through `chalk:commit`**, a rewrite of the branch, per `chalk:chalk`'s Branches and commits.
-
-- **Update the journal entries keyed by any subject that changed**, so they still name the commit.
+- **Its findings are applied by whoever owns the branch**, by rewording each commit through `chalk:commit`; this skill rewrites no history.
 
 - **The reworded commits go back to `weed-commits`**, until it has no question left.
 
@@ -148,8 +146,7 @@ It reads the description cold, as the reviewer, attempts the reviewer's job from
 **The PR opens only after both the description and the branch's commit messages are weeded**, each until its agent has no question left; neither weed stands in for the other.
 
 **Delegate to the chalk github agent.**
-
-- Push the branch if needed.
+The branch is already on the remote; this skill doesn't push it, and says so to its caller where it isn't.
 
 - Pass the title and the fully-drafted description, ready to post verbatim.
 
@@ -158,4 +155,4 @@ It reads the description cold, as the reviewer, attempts the reviewer's job from
 
 - The agent assigns the current user by default. Tell it to skip assignment only if the user has asked you to.
 
-**The finish doesn't end while a blocking question on the PR is unsettled**; in secondary, one marked for the user is left open on the PR, and the finish ends.
+**A blocking question on the PR stays unsettled only where the user can't be asked now**: it is left open on the PR, marked for them.

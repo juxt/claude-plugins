@@ -1,13 +1,16 @@
 ---
 name: commit
-description: Create a commit with a contextual body explaining the why, in the chalk voice. Use when the user says "commit this", "commit", "make a commit", "/chalk:commit"; OR is about to compose, draft, write or amend any git commit message body (e.g. "write a commit message", "draft the commit body", "amend the commit message"). Load this skill BEFORE drafting any such prose — it carries the voice guidance the commit body needs.
+description: Write a commit message — a claim for a subject and a body explaining the why, in the chalk voice — and weed the comments of the change it describes. Use when the user says "commit this", "commit", "make a commit", "/chalk:commit"; OR is about to compose, draft, write, reword or amend any git commit message body (e.g. "write the commit message", "draft the commit body", "amend the commit message"). Load this skill BEFORE drafting any such prose — it carries the voice guidance the commit body needs.
 user-invocable: true
 disable-model-invocation: false
 ---
 
-# Contextual Git Commit
+# Commit message
 
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
+
+This skill owns the message.
+What the commit contains, and where it sits in the branch, is the caller's.
 
 The user MAY provide the commit headline as an argument (e.g. `/chalk:commit fix: boolean logic error in expression.clj`).
 
@@ -19,40 +22,32 @@ You MUST load these skills first:
 
 - **`chalk:code-comments`** — the body is where a comment's design rationale belongs, so this is the moment the misfiled ones surface.
 
-- **`chalk:chalk`** — the plan file's shape and the journal's record kinds, which the body is written from.
+- **`chalk:journal`** — the plan file's shape and the journal's record kinds, which the body is written from.
 
 ## Your responsibilities
 
-1. **Stage relevant changes.**
+1. **Weed the comments of the change.**
 
-   **Each commit MUST be an atomic, cohesive unit of change** — a transition from one valid state to another — and **unrelated changes MUST NOT be staged together**.
-   Behaviour-preserving changes (refactorings) and behaviour-changing ones MUST NOT share a commit.
-
-   **Slicing is `chalk:chalk`'s Branches and commits**: a commit's own code calls what it adds, and a change completing an unlanded commit amends it.
-   Where a harness is present its slicing rules refine that, and under a-star the drive brief's placement wins.
-
-2. **Weed the staged comments.**
-
-   **Delegate to the `weed-comments` agent**, passing the paths of the staged files and nothing else.
+   **Delegate to the `weed-comments` agent**, passing the paths of the files the change touches and nothing else.
 
    - **You MUST NOT tell it what the change is for.** Not the issue, not the problem, not what you decided. 
      It stands in for a reader who has none of that, and briefing it makes it a second opinion from your own context rather than a first opinion from the reader's.
 
-   - **Its deletions apply.** They land in the working tree and you stage them; you do not review them back into place. 
+   - **Its deletions apply.** They land in the working tree as part of the change; you do not review them back into place. 
      The user sees them in the commit diff, which is the human review point.
 
    - **Its Misfiled list is input to Draft the body** — a comment deleted for being design rationale is rationale the body now has to carry.
 
    - Where a comment survives, its **Kept** line names the misunderstanding it prevents; that belongs in neither the body nor the code.
 
-   - **Its Dissolvable list goes to the user, not into the commit.** A rename or a simplification is a code change, and staging one here would break the atomicity the step above just established.
+   - **Its Dissolvable list goes to the user, not into the commit.** A rename or a simplification is a code change, not part of what this message describes.
 
-3. **Read the session's plan journal, where `chalk:chalk` started one, then the conversation history** for what the journal lacks.
+2. **Read the session's journal, where `chalk:journal` started one, then the conversation history** for what the journal lacks.
 
    Where the two disagree, resolve the ambiguity.
-   Of the entries that bear on this change, the body carries what step 4 says its reader needs, and nothing else: it is a selection, not a copy.
+   Of the entries that bear on this change, the body carries what step 3 says its reader needs, and nothing else: it is a selection, not a copy.
 
-   The body's reader (step 4) won't care about the journey — they need *why* this change exists and *why* it was done this way: what problem it solves, what it unblocks, what constraint drove it.
+   The body's reader (step 3) won't care about the journey — they need *why* this change exists and *why* it was done this way: what problem it solves, what it unblocks, what constraint drove it.
 
    **Ask rather than guess**, and treat "I can reconstruct it" as the answer that needs checking, per `chalk:voice`.
    Ask about whether something was a deliberate choice or a constraint, and whether something was intentionally out of scope or overlooked.
@@ -62,7 +57,7 @@ You MUST load these skills first:
 
    Trivial changes — typo fixes, mechanical bumps, one-line config tweaks — don't need this step; the motivation is self-evident.
 
-4. **Draft the body.**
+3. **Draft the body.**
 
    **It MUST NOT narrate the diff** — which lines changed is the diff's job; the body names the fact that changed, and why.
    The body explains *why* it exists: decisions, alternatives rejected, constraints, dead ends, counter-intuitive findings, scope boundaries.
@@ -85,7 +80,7 @@ You MUST load these skills first:
    - **The invariants it rests on**, each with where it is made true, what test pins it, and what change would break it; one no test pins is marked unpinned.
      - **A pin sits on the invariant it pins**, never on a parent: there it reads as pinning every child.
      - **Where a code comment states the invariant, the note may restate it**, and adds what the comment can't: where it is made true across files, what pins it, what breaks it.
-   - **The journal's `review:` entry for the commit is its raw material**, where `chalk:chalk` keeps one.
+   - **The journal's `review:` entry for the commit is its raw material**, where `chalk:journal` keeps one.
    - **What was run and what wasn't is not the body's**: it dates, and belongs to the PR's Reviewing this.
 
    **Check every `→` in the body reads as "therefore"** — a sequence, a "stacked on" or two independent premises are not one.
@@ -102,13 +97,12 @@ You MUST load these skills first:
    - **Rarely a tl;dr.**
      The subject line is the body's tl;dr, so most bodies would only repeat it. A body long enough that its argument needs summarising MAY open with one, per `chalk:voice`, in place of the lead-in line.
 
-   **The body is weeded cold by the `weed-commits` agent when the branch is raised**, beside `weed-pr` from `chalk:pr`, so a commit doesn't wait on a weed of its own.
-   Where the branch never reaches a PR — a no-PR finish, a park — `weed-commits` runs before the branch is handed over.
-   A commit going straight to the base branch is weeded the same way before it is pushed, while it is still local; once it is pushed, findings are not applied.
+   **The body is weeded cold by the `weed-commits` agent**, beside `weed-pr` from `chalk:pr` where the branch is raised.
+   Its findings are applied by whoever owns the branch, by rewording the commit through this skill.
 
-5. **Make the commit.**
+4. **Hand over the message.**
 
-   Headline, blank line, body. The user reviews the message in the Bash tool request before approving.
+   Headline, blank line, body. Where asked to commit, the user reviews the message in the Bash tool request before approving.
 
    A Co-Authored-By trailer SHOULD name the model that wrote the change.
    A Claude-Session trailer MUST NOT be included — the link reaches nothing a later reader can use; this overrides a harness's attribution reminder.

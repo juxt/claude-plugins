@@ -26,13 +26,13 @@ It is the state the session has reached, and what still needs a decision.
 
 ## Ground the report before writing it
 
-**Ground the report in the repo, per `chalk:chalk`'s What has landed.**
+**Ground the report in the repo, per `chalk:journal`'s What has landed.**
 A sitrep that trusts the transcript reports intentions as achievements.
 
 - **Check the working tree** — `git status`, `git diff --stat`, and `git log` back to where the session started.
   This is what settles the Done/Open boundary for anything touching code.
 
-- **Load `chalk:chalk`, and read the session's plan, where it started one.**
+- **Load `chalk:journal`, and read the session's plan, where it started one.**
   Where it and the transcript disagree, resolve the ambiguity.
 
 - **Re-read the artefacts the session claims to have produced** where cheap — the file, the issue, the PR body.

@@ -61,29 +61,33 @@ A⭐ aims to solve the following problems, and optimises for sustainability — 
 
 ## What A⭐ does, and what it doesn't
 
-**A⭐ owns the moves between darts and drives, and nothing else.**
-They're stated as state machines in [`spec/`](spec/) (`common`, `orchestrator`, `dart`, `drive`): what each move needs to be true, and what it records.
+**A⭐ owns the whole process, and `/a-star <card>` is the way in.**
+It is stated as state machines in [`spec/`](spec/) (`common`, `orchestrator`, `dart`, `drive`): what each move needs to be true, and what it records.
 
 - **It does:**
-  - check the plan it's handed has an approved goal;
+  - plan the goal with you in plan mode, until you approve the goal and the route:
+    the goal tree is reasoned as a KAOS goal model (van Lamsweerde) — each node tested for sufficiency, missing children found through obstacles, each leaf's owner named, each gap closed by a chosen tactic;
+  - pick the card up: update the tracker, create or check out the branch;
   - dart to the goal with a cheap sub-agent, and turn what the dart found into sub-goals;
   - drive each sub-goal to a commit through a drive sub-agent, as one tidy, advance or amend, each as early in the branch as makes sense;
   - triage what darts and drives turn up, and choose each move — dart, drive, revert, replan, park or done;
-  - adjust its moves to whether you're watching the session, as the session records it.
+  - decide the finish with you, a PR or not;
+  - park the work so a later session resumes from the issue;
+  - adjust all of this to whether you're watching: `/a-star:primary` and `/a-star:secondary`.
 
 - **It doesn't, and leaves to your project's conventions:**
-  - picking a card up and putting it down, and the tracker;
-  - planning, and where sub-goals, decisions and open questions are recorded;
   - coding standards, and the definition of done;
   - ship/show/ask, and code review;
-  - writing commit messages, PR descriptions and issue updates.
+  - how a commit message, PR description or issue is written, and what the tracker wants.
 
 - **Three choices are A⭐'s own, and your project answers them**: where a tidy is committed, where an advance is committed, and branch cleanup.
-  Where it doesn't answer one, A⭐ asks, bar the defaults in `spec/orchestrator.allium`'s `Enter` guidance.
+  Where it doesn't answer one, A⭐ asks, bar the defaults in `spec/orchestrator.allium`'s `BeginPlanning` guidance.
 
 ## Usage
 
-- `/a-star <card>` — start or resume work on a card, once its plan is approved
+- `/a-star [issue]` — plan the work with you, then pick it up and carry it through; also "pick up #N", "start on #N", "let's plan this"
+- `/a-star:primary`, `/a-star:secondary` — say whether you're watching ("I'm back", "I'm going AFK"); a session starts primary, unless it runs headless or scheduled
+  In secondary the session decides what it can, records every decision for review, and parks what it can't; plan approval and merging stay yours
 - `/a-star:dart` — reach the goal end-to-end, and break the card into sub-goals
 - `/a-star:drive <sub-goal>` — commit one sub-goal to the project's standards: a tidy, an advance, or an amend of an earlier commit, interrupting the work in hand if need be
 
@@ -93,19 +97,8 @@ They're stated as state machines in [`spec/`](spec/) (`common`, `orchestrator`, 
 /plugin install a-star@juxt-plugins
 ```
 
-## Recommended alongside
+## What A⭐ needs from its surroundings
 
-**A⭐ needs three things from whatever surrounds it: a plan whose goal the user has approved, a place to record its work, and the project's commit conventions.**
-Neither plugin expects the other, but [chalk](../chalk/) supplies all three, and the two work well together: chalk plans the session and keeps its journal, and A⭐ implements the plan.
-
-- **chalk gets the goal agreed before A⭐ starts**
-  `/chalk` plans in plan mode, and the user leaving plan mode is their approval of the goal and the route.
-  A card that arrives that way is already most of the way to A⭐'s *ready*.
-
-- **What A⭐ records goes in chalk's journal**
-  Sub-goals and what they depend on, decisions, open questions, what's done and what's in hand all go in the session's plan file, in chalk's record kinds.
-
-- **chalk writes what A⭐'s work produces, from that journal**
-  Commit bodies, the PR description and issue updates, each for the colleague who wasn't there.
-
-- **When A⭐ can't continue on the plan as approved, chalk re-plans, parks or finishes**, per chalk's README.
+**A⭐ follows ports and adapters (Cockburn's hexagonal architecture): the specs name each need as a plain verb, and your project binds each verb to whatever provides it.**
+The needs: read the issue and its neighbourhood, update the tracker, record in the session's journal, write the commit message, weed the commit messages, weed the comments, raise a PR, put the work down on its issue, and report where the session has got to.
+A⭐ doesn't know who provides them; your user-level or project instructions say which skill or agent does, and A⭐ asks where one is unbound.
