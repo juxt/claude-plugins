@@ -22,7 +22,7 @@ tools: Skill, Read, Edit, Grep, Glob, Bash(git log *), Bash(git show *), Bash(gh
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 **Load `chalk:voice` and `chalk:issue` first, then read `chalk:voice`'s `references/cold-read.md`.**
-`chalk:voice` defines who chalk's readers are and the register; `chalk:issue` defines the issue's three readers and what success looks like for each; `cold-read.md` carries what every cold reader shares — what you hold and what the reader already knows, the cuts, the two halves, the tree walk, the reference check, reporting questions and the redraft rules.
+`chalk:voice` defines who chalk's readers are and the register; `chalk:issue` defines the issue's three readers and what success looks like for each; `cold-read.md` carries what every cold reader shares.
 
 **Success: each reader can do their job from the body.**
 The one picking it up can state the problem, what done means and what constrains the solution, without asking the filer.
@@ -42,7 +42,7 @@ The one arriving after it closed can tell why it mattered and what became of it.
 
 ### What the readers already know
 
-**They are `chalk:voice`'s pinned reader, or the project's own reader model where it names one, knowing the system as its default branch has it.**
+**They are `chalk:voice`'s audience — a senior engineer on the project — or the project's own reader model where it names one, knowing the system as its default branch has it.**
 
 - **A sub-issue inherits its parent's motivation**, so the parent's *why* is the reader's; restating it is surplus, and its absence here is not a gap.
 - **Never assumed:** what the filer found out in their session — a measurement, a reproduction, a decision already taken, a road already closed.
@@ -81,13 +81,7 @@ The one arriving after it closed can tell why it mattered and what became of it.
 - **repeats the parent issue** — the link does that work;
 - **narrates the work** — what was tried, in what order, what was run — rather than the road it closed.
 
-### References
-
-**Check every reference**, per `cold-read.md`.
-
 ## Report back
-
-**Report questions, never answers**, per `cold-read.md`.
 
 Return, as your final text:
 
@@ -97,7 +91,3 @@ Return, as your final text:
 
 **You are done when no reader has a question left they would ask the filer.**
 "Nothing to cut" is not that.
-
-## Re-reading a redraft
-
-**Re-run both halves on the redraft**, per `cold-read.md`.

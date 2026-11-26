@@ -24,7 +24,7 @@ tools: Skill, Read, Grep, Glob, Bash(git diff *), Bash(git log *), Bash(git show
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 **Load `chalk:voice` and `chalk:commit` first, then read `chalk:voice`'s `references/cold-read.md`.**
-`chalk:voice` defines who chalk's readers are and the register; `chalk:commit` defines the body's reader and what it carries; `cold-read.md` carries what every cold reader shares — what you hold and what the reader already knows, the cuts, the tree walk, the reference check, reporting questions and the redraft rules.
+`chalk:voice` defines who chalk's readers are and the register; `chalk:commit` defines the body's reader and what it carries; `cold-read.md` carries what every cold reader shares.
 
 **Success: each commit can be discarded or agreed with from its subject line, and checked from its body.**
 The reader arriving from `git blame` on one of its lines, months on, mid-investigation of something else, reads subject lines and leaves (`chalk:commit`).
@@ -55,13 +55,7 @@ The messages are weeded once, when the branch is raised or handed over, rather t
   For each invariant or load-bearing claim, find what makes it true, what test pins it, and what change would break it; one with no test is reported as unpinned.
 - **A commit typed as a refactoring or tidy changes no behaviour**: one whose diff or body shows a behaviour change, error paths included, is a gap against that commit.
 
-### References
-
-**Check every reference**, per `cold-read.md`.
-
 ## Report back
-
-**Report questions, never answers**, per `cold-read.md`.
 
 **Name each finding by the commit's subject**, never its SHA: the caller applies them by rewording, which rewrites every SHA after it.
 
@@ -74,7 +68,3 @@ Return, as your final text, per commit, by subject:
 5. **References** that didn't resolve.
 
 **You are done when no commit has a question left that its readers would ask the author.**
-
-## Re-reading a reword
-
-**Re-run everything on the commit messages as reworded**, per `cold-read.md`.

@@ -15,7 +15,7 @@ The user MAY provide the commit headline as an argument (e.g. `/chalk:commit fix
 
 You MUST load these skills first:
 
-- **`chalk:voice`** — the audience, the specification register, the mindmap structure, the line-format rule.
+- **`chalk:voice`** — the audience, the specification register, the mindmap structure, the layout.
 
 - **`chalk:code-comments`** — the body is where a comment's design rationale belongs, so this is the moment the misfiled ones surface.
 
@@ -26,23 +26,10 @@ You MUST load these skills first:
 1. **Stage relevant changes.**
 
    **Each commit MUST be an atomic, cohesive unit of change** — a transition from one valid state to another — and **unrelated changes MUST NOT be staged together**.
+   Behaviour-preserving changes (refactorings) and behaviour-changing ones MUST NOT share a commit.
 
-   - If two changes don't make sense independently, they're one commit; if they're distinct, they're two.
-     - **A commit's own code calls everything it adds, outside its tests.**
-       An addition that only a later commit calls doesn't make sense without it, however well its own tests let a reviewer check it, so it goes in with its first caller.
-       A preparatory refactoring stands alone only where a reviewer would accept it without the change it prepares: it is worth landing even if that change never came, or it makes that change's diff materially easier to review.
-       One whose only reason to exist is the next commit, and that reads as easily inside it, is part of that commit.
-
-   - Behaviour-preserving changes (refactorings) and behaviour-changing ones MUST NOT share a commit.
-
-   - **On a branch with commits not yet on its base, test the change against their subject lines first**, where no harness has decided the commit's placement — under a-star the drive brief's placement wins, since the orchestrator made the completion call.
-     Where one still holds with this change inside it, the change completes that commit: amend it there — a fixup and an autosquash — rather than committing on top.
-     A reviewer shown a slice and then the rest of the same change agrees with one change twice.
-     - **The test: could a reviewer be told what checking this commit means, apart from its neighbours?**
-       A tidy is checked by "could this change anything?", an advance against its invariants; a commit with no check of its own completes the one whose check it shares.
-     - **It never folds a refactoring into a behaviour change**, however closely they belong together: they are checked differently, so they are two units.
-       A structure change that fails the preparatory-refactoring test above isn't a refactoring here: it is part of the behaviour change's mechanism.
-     - **Amending rewrites the branch**, per `chalk:chalk`'s Feature branches.
+   **Slicing is `chalk:chalk`'s Branches and commits**: a commit's own code calls what it adds, and a change completing an unlanded commit amends it.
+   Where a harness is present its slicing rules refine that, and under a-star the drive brief's placement wins.
 
 2. **Weed the staged comments.**
 
@@ -86,17 +73,7 @@ You MUST load these skills first:
 
    **It MUST name the fact that was true and is no longer**, per `chalk:voice`.
 
-   **What to omit:** 
-
-   - anything self-evident from the diff, the code or the linked issue;
-
-   - play-by-play of mechanical steps ("then I ran the tests"); the journey of how you got there.
-     Not this (mechanical play-by-play):
-     > Investigated the flaky test. Found it only failed in the full suite. Added logging to narrow it down. Discovered a race condition in TemporalBounds.intersect().
-
-     This (what matters to the next person):
-     > Initially suspected a test ordering issue since it only failed in the full suite — red herring.
-     > The full suite just increases thread contention enough to trigger a race in TemporalBounds.intersect(), which reads validFrom and validTo non-atomically.
+   **What to omit:** anything self-evident from the diff, the code or the linked issue, and the play-by-play of how you got there — keep the road that closed and why, not the order you walked.
 
    **The tell, where the diff is itself prose** — a skill, a README, a spec: the sentence appears in substance in a line the diff *adds*.
    The review notes below are the exception: an invariant a code comment already states still belongs in them, with what the comment can't hold.

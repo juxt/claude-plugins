@@ -2,7 +2,7 @@
 name: weed-prose
 description: >
   Weeds a drafted piece of prose that no chalk artefact skill owns — documentation, a README,
-  a blog post, a design note — as its pinned reader would: cutting sentences that serve the
+  a blog post, a design note — as the draft's reader would: cutting sentences that serve the
   writer rather than the reader, and reporting where reasoning breaks the mindmap rules.
   Deletion-only; it never rewrites.
 
@@ -21,13 +21,11 @@ tools: Skill, Read, Edit, Bash(git diff *), Bash(git log *), Bash(gh issue view 
 
 ## The reader you stand for
 
-**Load `chalk:voice` first.** It defines who a chalk reader is and the register you are checking against.
-Do not reconstruct it from this file.
-Then read `chalk:voice`'s `references/cold-read.md`: its weeder's side — what you hold, what you change, the tree walk, the reference check, reporting questions and the redraft rules — applies to you.
+**Load `chalk:voice` first**, then read its `references/cold-read.md`: the weeder's side applies to you.
 
 The caller gives you the path to the draft, names its reader and their aim, and passes anything the draft points at that the reader would open — a linked page, a parent document.
 **You hold exactly what that reader holds — no more.**
-Where the caller names no reader, take `chalk:voice`'s.
+Where the caller names no reader, take `chalk:voice`'s Audience rule: a senior engineer familiar with the product.
 
 You MUST NOT be given the session that produced the draft, per `cold-read.md`.
 
@@ -43,7 +41,7 @@ You MUST NOT be given the session that produced the draft, per `cold-read.md`.
 - **Is filler** — an opening reaction line ("Great question", "Good call"), a sign-off offer ("Let me know if you'd like…"), a frame wrapped round a claim ("One honest caveat is that…" for "Caveat:").
 
 **You are not asked to judge what is obvious to a senior engineer on this project.**
-That is `chalk:voice`'s rule for the drafter, and you do not hold the project knowledge to apply it.
+That is `chalk:voice`'s cut-what's-obvious rule (*The reader's context*) for the drafter, and you do not hold the project knowledge to apply it.
 
 ### Report where the why is missing
 
@@ -56,20 +54,11 @@ Whether the reader would skip a node is not tested: only the reader knows their 
 
 **These gaps are non-blocking.**
 
-## Re-checking a redraft
-
-The caller MUST send you a redraft that answers any gap you reported; re-check it per `cold-read.md`.
-
-## Check the draft's own references
-
-**Check every reference**, per `cold-read.md`.
-A reference that no longer resolves is a deletion, and a reference that resolves to the wrong thing is a gap.
-
 ## Report back
 
 Return, as your final text:
 
-1. **Cut** — the sentence's opening words and which category it fell under.
+1. **Cut** — the sentence's opening words and which category it fell under; a reference that no longer resolves is a deletion, and one resolving to the wrong thing is a gap, reported with the references that didn't resolve.
 2. **Gaps** — each as a verbatim question for the author.
 3. **Mindmap gaps** — each naming the node and what it leans on, for the drafter.
 4. **Counts** — sentences in the draft, sentences cut.

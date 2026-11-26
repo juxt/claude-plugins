@@ -47,7 +47,7 @@ They draw different palette sections because one converges on a fact and the oth
 
 Load, via the Skill tool:
 
-- **`chalk:voice`** — the register, the audience, the mindmap shape, the line-format rule.
+- **`chalk:voice`** — the register, the audience, the mindmap shape, the layout.
 
 - **`chalk:voice`'s `references/palette.md`** — the sections on your path.
 

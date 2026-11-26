@@ -56,7 +56,7 @@ Each section's content is in the palette, and not every change needs every secti
 
 Load, via the Skill tool:
 
-- **`chalk:voice`** — the register, the audience, the mindmap shape, the line-format rule.
+- **`chalk:voice`** — the register, the audience, the mindmap shape, the layout.
 
 - **`chalk:voice`'s `references/palette.md`** — the sections on your path.
 
@@ -125,14 +125,6 @@ Name what would surprise someone familiar with the subsystem, and don't assume t
 
 **Before handing it to `weed-pr`, ask what the reader will ask first, and answer it in place**, and check every `→` reads as "therefore".
 
-Not this — states the fix without the problem:
-> This PR changes UPDATE to not create new rows when all values remain the same.
-
-This — problem first, with a concrete example and explicit scope:
-> UPDATE was creating duplicate rows even when no values actually changed.
-> Uses type-strict equality — `UPDATE docs SET a = 1.0 WHERE _id = 1` on a doc with `{:a 1}` *will* create a new record because `1 ≠ 1.0`.
-> PATCH is out of scope of this PR (see #5030).
-
 ## Weed the draft
 
 **Delegate to the `weed-pr` agent** as the caller's side of `chalk:voice`'s `references/cold-read.md` sets out, passing the description's path, the base branch, and the linked issue if there is one.
@@ -145,7 +137,7 @@ It reads the description cold, as the reviewer, attempts the reviewer's job from
 
 **Delegate the branch's commit messages to the `weed-commits` agent beside it**, per `chalk:commit`, passing the base branch and the head.
 
-- **Apply its findings by rewording each commit through `chalk:commit`**, a rewrite of the branch, per `chalk:chalk`'s Feature branches.
+- **Apply its findings by rewording each commit through `chalk:commit`**, a rewrite of the branch, per `chalk:chalk`'s Branches and commits.
 
 - **Update the journal entries keyed by any subject that changed**, so they still name the commit.
 

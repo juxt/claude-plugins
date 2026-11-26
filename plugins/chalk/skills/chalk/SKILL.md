@@ -36,15 +36,23 @@ Only the main session writes it; a sub-agent MAY be given its path to read, told
 
 - **It links an issue rather than copying it.**
 
-## Feature branches
+## Branches and commits
 
-**A feature branch the session owns may always be rewritten, and pushed with force-with-lease.**
-Amending, reordering and rewording unlanded commits is how a branch reaches review as review units, so it is not left to the project.
+**A branch the session owns may be rewritten, and pushed with force-with-lease; the base branch is never rewritten.**
+A commit on it not yet pushed is still local, and MAY be reworded.
+The session owns a branch it created for its work, one the user handed it, or one an earlier session created for the same card; someone else's branch or PR is theirs.
 
-- **The session owns a branch it created for its work**, one the user handed it, or one an earlier session created for the same card.
-  A branch someone else is working on, or a PR someone else opened, is theirs.
-- **The project's base branch is never rewritten or force-pushed.**
-  A commit not yet pushed to it is still local, and MAY be reworded.
+**A commit's own code calls what it adds, outside its tests**: a commit whose additions only a later commit calls is a slice of that commit, and a caller in another commit's tests doesn't count.
+**A preparatory refactoring stands alone only where a reviewer would accept it without what it prepares** — worth landing if that change never came, or materially easing its diff; otherwise it is part of that commit.
+**The completion test: where an unlanded commit's subject still holds with this change inside it, amend it** — a fixup and an autosquash — rather than following it, and never across kinds: a refactoring never folds into a behaviour change.
+
+Amending, reordering and rewording unlanded commits is how a branch reaches review, so it is not left to the project.
+An implementation harness refines how a branch is sliced.
+
+## Mode
+
+**Whether the user is watching is the session's mode** — primary unless the session runs headless or scheduled, when it starts secondary.
+The session records it in the journal, and each switch as it happens, per `chalk:primary` and `chalk:secondary`.
 
 ## What has landed
 
@@ -122,11 +130,6 @@ At any point it holds the current tree's open leaves; it is what the user sees o
 - **A sub-goal interrupted by another has its task marked blocked by the other's.**
 - **A sub-goal marked done completes its task**, and one reopened reopens it.
 - **An implementation harness keeps it current as sub-goals move**, through the same rules.
-
-## Primary and secondary
-
-**Whether the user is watching is the session's mode**: primary while they are, secondary while they aren't (`chalk:primary`, `chalk:secondary`).
-A session starts primary, unless it runs headless or scheduled, when it starts secondary; the journal records the mode and each switch.
 
 ## `/chalk [issue]`
 

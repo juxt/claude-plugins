@@ -59,7 +59,7 @@ Where they don't say, ask; MUST NOT guess.
 
 **Before pushing, weed the commit messages**, as `chalk:commit` says for a branch handed over without a PR, and apply the findings by rewording each commit through it.
 
-**Push the feature branch, WIP commits included**, per `chalk:chalk`'s Feature branches.
+**Push the feature branch, WIP commits included**, per `chalk:chalk`'s Branches and commits, so the next session can resume from it.
 A branch the session doesn't own is left as it is, and the report says so.
 
 **Then record on the issue, as a comment through `chalk:issue`, what the next session resumes from**: the branch, its head commit's subject, and what was in hand — the stack of sub-goals being worked, innermost first.

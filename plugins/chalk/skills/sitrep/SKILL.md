@@ -100,11 +100,4 @@ A sitrep is chat: it survives until the terminal is closed.
 
 ## Cut hard
 
-**Length is the enemy here.** A sitrep the user skims is worse than three bullets they read.
-
-- **Summarise at the altitude of the work, not the tool calls.**
-  "Reworked the retry path to back off on 429s" — not the six edits that got there.
-
-- **Drop dead ends** unless the reason they failed constrains what comes next, in which case that constraint is the point and the attempt is the elaboration.
-
-- **Don't recap the user's own instructions back to them.**
+**A sitrep the user skims is worse than three bullets they read**: summarise at the altitude of the work, not the tool calls, and drop dead ends unless the reason they failed constrains what comes next; don't recap the user's own instructions back to them.
