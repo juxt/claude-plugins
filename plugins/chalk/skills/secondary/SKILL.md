@@ -42,7 +42,7 @@ Load `chalk:chalk` first.
 
 ## Under a harness
 
-**An implementation harness says what secondary means for its own moves**, in its own skills — for a-star, `a-star:a-star`'s Primary and secondary.
+**An implementation harness says what secondary means for its own moves** — for a-star, in the `OfferMove` and `TakeUnoffered` guidance of `a-star/spec/orchestrator.allium`.
 
 ## Switching back
 

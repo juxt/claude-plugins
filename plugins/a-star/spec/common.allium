@@ -1,0 +1,199 @@
+-- allium: 3
+-- a-star: the Mikado Method's naive attempt (Ellnestam & Brolund) — try the goal, revert, work the prerequisites back, commit the leaves —
+-- with Tidy First? (Beck) splitting structure from behaviour. The dart is the naive attempt; each drive commits a leaf.
+-- Four files: common.allium (the shared types and reporting basics), drive.allium (the branch, slicing and frame rules), orchestrator.allium (the record and conduct rules) and dart.allium.
+-- Reads: the dart agent common and dart; the drive agent common and drive; the orchestrator all four. Where a skill and these specs disagree, the specs govern, and the disagreement is the user's.
+-- common: the types every reader acts on. Agents only report: `SendMessage` to `main` what doesn't stop you and carry on; end your turn with what does. Every decision about what happens next, and every update to the plan, journal and task list, is the orchestrator's.
+
+-- The plan the outer harness hands in, its goal approved by the user — whatever harness surrounds a-star, for example chalk's planning.
+-- a-star records into it and exits back to it; it never approves a plan itself.
+external entity Plan {
+    goal_approved: Boolean
+    route: List<Move>
+
+    @guidance
+        -- A card is ready once its goal, constraints and out-of-scope are agreed with the user and no open question bears on it.
+        -- Its goal is what it is for, and changes only with the user; its target is what its branch is to contain, and changes as darts and drives teach.
+}
+
+-- A commit on the card's feature branch.
+-- It has landed once it reaches the project's base branch; until then it is unlanded,
+-- and amendable.
+external entity Commit {
+    landed: Boolean
+
+    @guidance
+        -- A branch the session owns may be rewritten and pushed with `--force-with-lease`; the project's base branch never is.
+        -- The session owns a branch it created for the card, one the user handed it, or one an earlier session created for the same card.
+        -- A commit has landed once it reaches the base branch: pushing the feature branch, or opening a PR on it, lands nothing.
+}
+
+-- Whether the user is watching: the session's mode, as the session records it, which a-star reads rather than sets. With none recorded, a session is primary unless it runs headless or scheduled.
+enum Mode { primary | secondary }
+
+enum Move { dart | drive | revert | replan | park | done }
+
+enum YieldKind {
+    increment             -- ready to commit as it stands
+    sub_goal              -- new, or an existing one better split
+    unwalked_route        -- a stretch of the goal nobody has darted
+    earlier_commit        -- an unlanded commit superseded, or needing completion
+    constraint            -- a constraint, assumption or risk, recorded on the node it bounds
+    route_question        -- answered, or put to the user, then the agent resumes
+    invalidating_finding  -- changes the card's target or its goal
+    user_decision         -- a tidy's first, later or never; scope
+}
+
+enum FrameKind { tidy | advance | amend }
+
+-- Where a frame is committed: as early in the branch as makes sense, assigned at triage, the user's to override.
+enum Placement {
+    branch_base     -- a prequel: a tidy that would reasonably land on main by itself
+    under_advance   -- a tidy that only makes sense beside the advance it enables, directly under it
+    inside_commit
+    branch_top      -- everything else
+}
+
+entity Session {
+    plan: Plan
+    -- The session's mode, read rather than set: a-star never changes it.
+    mode: Mode
+    -- The unlanded commits read as review units, by the slicing rules in drive.allium.
+    in_review_units: Boolean
+    -- The code review has run over the whole unlanded branch since its last commit changed; its findings are yields.
+    code_reviewed: Boolean
+    status: choosing | offered | reverting | parked | exited
+    offered_move: Move? when status = offered
+    exit: replan | done when status = exited
+
+    sub_goals: SubGoal with session = this
+    darts: Dart with session = this
+    frames: Frame with session = this
+    yields: Yield with session = this
+    untriaged: yields where not triaged
+
+    ready_sub_goals: sub_goals where status = ready and is_ready
+    drivable_sub_goals: ready_sub_goals where is_drivable
+    -- The frame being worked; the rest of the stack is interrupted or pre-empted under it.
+    in_hand: frames where status = in_hand | writing | verifying
+    open_frames: frames where status = in_hand | writing | verifying | interrupted | pre_empted | parked
+
+    transitions status {
+        choosing -> offered
+        offered -> choosing
+        choosing -> reverting
+        reverting -> choosing
+        choosing -> parked
+        offered -> parked
+        parked -> choosing
+        choosing -> exited
+        terminal: exited
+    }
+}
+
+entity SubGoal {
+    session: Session
+    status: pending | ready | in_hand | done | superseded
+    kind: FrameKind
+    placement: Placement
+    amends: Commit? when kind = amend
+    -- Built and run by a dart, rather than reasoned about.
+    exercised: Boolean
+    -- The orchestrator judged it straightforward enough to drive undarted; recorded as a decision.
+    judged_straightforward: Boolean
+    depends_on: Set<SubGoal>
+    blocked_by_question: Boolean
+
+    is_ready: depends_on.all(d => d.status = done) and not blocked_by_question
+    is_drivable: is_ready and (exercised or judged_straightforward)
+
+    transitions status {
+        pending -> ready
+        pending -> in_hand
+        ready -> in_hand
+        in_hand -> done
+        in_hand -> pending
+        in_hand -> ready
+        done -> pending
+        done -> ready
+        pending -> superseded
+        ready -> superseded
+        terminal: superseded
+    }
+}
+
+entity Dart {
+    session: Session
+    status: briefed | running | waiting | reported | evidence | cleared | lost
+    -- Something a remaining sub-goal still needs from its code.
+    still_needed: Boolean
+
+    transitions status {
+        briefed -> running
+        running -> waiting
+        waiting -> running
+        running -> reported
+        waiting -> reported
+        reported -> evidence
+        reported -> cleared
+        evidence -> cleared
+        running -> lost
+        waiting -> lost
+        terminal: cleared, lost
+    }
+}
+
+entity Frame {
+    session: Session
+    sub_goal: SubGoal
+    kind: FrameKind
+    placement: Placement
+    status: in_hand | writing | verifying | interrupted | pre_empted | parked | committed | failed
+    -- The frame this one interrupted, set aside as a WIP commit.
+    interrupts: Frame?
+
+    transitions status {
+        in_hand -> writing
+        writing -> verifying
+        verifying -> writing
+        verifying -> committed
+        in_hand -> failed
+        writing -> failed
+        verifying -> failed
+        interrupted -> failed
+        pre_empted -> failed
+        parked -> failed
+        writing -> interrupted
+        interrupted -> writing
+        writing -> pre_empted
+        pre_empted -> writing
+        in_hand -> parked
+        writing -> parked
+        verifying -> parked
+        parked -> writing
+        terminal: committed, failed
+    }
+}
+
+entity Yield {
+    session: Session
+    kind: YieldKind
+    from_dart: Dart?
+    from_frame: Frame?
+    changes_goal: Boolean
+    changes_target: Boolean
+    -- The kind of frame that would commit it, and where: a dart's or drive's sub-goal carries its kind, and the orchestrator assigns its placement at triage.
+    frame_kind: FrameKind when kind = sub_goal | increment
+    placement: Placement when kind = sub_goal | increment
+    commit: Commit when kind = earlier_commit
+    -- Whether the frame can't be committed correctly on that commit as it stands.
+    blocks_frame: Boolean when kind = earlier_commit
+    -- Commits anywhere in the branch whose approach the reported change replaces.
+    supersedes: Set<Commit> when kind = sub_goal | increment
+    unlanded_superseded: supersedes where not landed
+    -- An unlanded commit whose subject line still holds with the reported scope inside it: the scope completes it.
+    completes: Commit? when kind = sub_goal | increment
+    -- The sub-goals a question or finding blocks until it is settled.
+    bears_on: Set<SubGoal>
+    triaged: Boolean
+}

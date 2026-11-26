@@ -62,7 +62,7 @@ A⭐ aims to solve the following problems, and optimises for sustainability — 
 ## What A⭐ does, and what it doesn't
 
 **A⭐ owns the moves between darts and drives, and nothing else.**
-They're stated as state machines in [`spec/a-star.allium`](spec/a-star.allium): what each move needs to be true, and what it records.
+They're stated as state machines in [`spec/`](spec/) (`common`, `orchestrator`, `dart`, `drive`): what each move needs to be true, and what it records.
 
 - **It does:**
   - check the plan it's handed has an approved goal;
@@ -79,8 +79,7 @@ They're stated as state machines in [`spec/a-star.allium`](spec/a-star.allium): 
   - writing commit messages, PR descriptions and issue updates.
 
 - **Three choices are A⭐'s own, and your project answers them**: where a tidy is committed, where an advance is committed, and branch cleanup.
-  Rewriting a feature branch the session owns, and force-with-lease pushing it, is always allowed; the base branch never is.
-  Where it doesn't answer one, A⭐ asks rather than guessing — except a tidy's branch, which defaults to the feature branch, and branch cleanup, where it deletes local branches and worktrees whose work has fully landed, and only offers to delete remote ones.
+  Where it doesn't answer one, A⭐ asks, bar the defaults in `spec/orchestrator.allium`'s `Enter` guidance.
 
 ## Usage
 
@@ -109,5 +108,4 @@ Neither plugin expects the other, but [chalk](../chalk/) supplies all three, and
 - **chalk writes what A⭐'s work produces, from that journal**
   Commit bodies, the PR description and issue updates, each for the colleague who wasn't there.
 
-- **When A⭐ can't continue on the plan as approved, chalk re-plans, parks or finishes**
-  Re-plan where the goal is invalidated; park the work on its issue with `chalk:put-down`; finish once the sub-goals complete the card, opening a PR with `chalk:pr` where the plan predicted one.
+- **When A⭐ can't continue on the plan as approved, chalk re-plans, parks or finishes**, per chalk's README.

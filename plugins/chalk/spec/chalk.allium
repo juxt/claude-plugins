@@ -1,7 +1,7 @@
 -- allium: 3
 -- The skills say how each artefact is written; this says when each step of a session is open, and what it records.
 -- Scope: chalk's session lifecycle — the session's mode and, in primary, the user's context, planning, approval, the route, the plan file and journal, the task list, feature branches, the hand-off to and from an implementation harness, the finish, the weed loop, and put-down.
--- Excludes: the writing rules (chalk:voice, the palette, chalk:code-comments, chalk:goal-tree's sufficiency test), explicate and rubber-duck, and the harness's own process, which a-star.allium specifies for a-star.
+-- Excludes: the writing rules (chalk:voice, the palette, chalk:code-comments, chalk:goal-tree's sufficiency test), explicate and rubber-duck, and the harness's own process, which a-star's specs specify for a-star.
 
 ------------------------------------------------------------
 -- External Entities
@@ -31,7 +31,7 @@ external entity Commit {
     pushed: Boolean
 }
 
--- An implementation harness's run of an approved plan; a-star is one, specified in a-star.allium.
+-- An implementation harness's run of an approved plan; a-star is one, specified in a-star's specs.
 -- chalk sees only what it hands in and how the run hands back.
 external entity HarnessRun {
     session: Session

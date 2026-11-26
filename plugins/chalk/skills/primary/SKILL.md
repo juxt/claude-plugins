@@ -62,5 +62,5 @@ chalk's deltas:
 
 ## Under a harness
 
-**An implementation harness says what primary means for its own moves**, in its own skills — for a-star, `a-star:a-star`'s Primary and secondary.
+**An implementation harness says what primary means for its own moves** — for a-star, in the `OfferMove` and `TakeUnoffered` guidance of `a-star/spec/orchestrator.allium`.
 What it turns up reaches the user through the inbox above.
