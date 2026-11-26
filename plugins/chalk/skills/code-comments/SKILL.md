@@ -1,6 +1,6 @@
 ---
 name: code-comments
-description: What earns a code comment, and what to delete — the default of silence, the moves that dissolve a comment before you write it, the exceptions that earn one, the pinned readers and the test, and where rejected material goes instead. Load early in any session that touches code, before writing or editing any comment, docstring or kdoc, and again when reviewing a diff, where weeding the comments is part of the review.
+description: What earns a code comment, and what to delete — the default of silence, the moves that dissolve a comment before you write it, the exceptions that earn one, the reader and the test, and where rejected material goes instead. Load early in any session that touches code, before writing or editing any comment, docstring or kdoc, and again when reviewing the comments in a diff.
 user-invocable: true
 ---
 

@@ -115,10 +115,4 @@ Depth is the user's to ask for, so the overview stops at subjects they can agree
 - **Offer to write recovered rationale back** — to the area's issue through `chalk:issue`, or as a comment where `chalk:code-comments` admits one.
   Offer, don't do it unasked: an explication is a read.
 
-## Layout
-
-**Chat, per `chalk:voice`.**
-
-- **The overview ends with a tl;dr**, per `chalk:voice`'s placement for chat.
-
-- **A follow-up ends with its unvisited branches instead**, which are what the user reads first when choosing where to go next.
+**The overview ends with a tl;dr, per `chalk:voice`'s placement for chat; a follow-up ends with its unvisited branches instead.**

@@ -1,6 +1,6 @@
 ---
 name: issue
-description: Create a GitHub issue, or update an existing issue's description, with a body that captures the problem and why it matters, in the chalk voice. Use when the user says "open an issue", "file a bug", "raise an issue", "create an issue", "file a ticket", "write up a feature request", "/chalk:issue"; OR is about to compose, draft, write or update any GitHub issue title, issue body or issue description (e.g. "write up an issue for this", "update the issue description", "put the analysis on the ticket"). Load this skill BEFORE drafting any such prose — it carries the voice guidance the body needs.
+description: File an issue, update an existing issue's description, comment on an issue, or put a dependency onto another card (the blocked-by edge, and the note on the card it blocks), with a body that captures the problem and why it matters, in the chalk voice. Use when the user says "open an issue", "file an issue", "comment on the issue", "put this dependency on the other card", "file a bug", "raise an issue", "create an issue", "file a ticket", "write up a feature request", "/chalk:issue"; OR is about to compose, draft, write or update any GitHub issue title, issue body or issue description (e.g. "write up an issue for this", "update the issue description", "put the analysis on the ticket"). Load this skill BEFORE drafting any such prose — it carries the voice guidance the body needs.
 user-invocable: true
 disable-model-invocation: false
 ---
@@ -47,7 +47,7 @@ They draw different palette sections because one converges on a fact and the oth
 
 Load, via the Skill tool:
 
-- **`chalk:voice`** — the register, the audience, the mindmap shape, the line-format rule.
+- **`chalk:voice`** — the register, the audience, the mindmap shape, the layout.
 
 - **`chalk:voice`'s `references/palette.md`** — the sections on your path.
 
@@ -134,7 +134,7 @@ Each section's content is in the palette, and not every feature needs every sect
   Its couplings are the constraints the design has to respect, so where it appears it is drafted before Potential approach.
 
 - **Potential approach MUST be a goal tree** (`chalk:goal-tree`), not a task list.
-  It answers what has to be true for this to be done, not which files to touch.
+  It answers what has to be true for this to be done, not which files to touch, and it writes down a tree the session already worked out.
   A child MAY be a link to the issue that owns that part.
 
 - **On a parent issue, Potential approach is compulsory.**
@@ -183,9 +183,11 @@ It reads the body cold, as each of the issue's readers, attempts each one's job 
 
 - **Passing the parent is what lets it treat the inherited motivation as the reader's**, and cut a restatement of it.
 
-- **In secondary, per `chalk:secondary`: a question only the user can answer goes into Open questions, marked for the user.**
+- **Where the user can't be asked now, a question only they can answer goes into Open questions, marked for them.**
 
 ### Filing it
+
+**No body is filed before it is weeded** — a new card the session raises, from put-down or the plan, included — until `weed-issue` has no question left.
 
 **All GitHub interaction MUST go through the chalk github agent**; the main context MUST NOT call `gh issue` directly.
 

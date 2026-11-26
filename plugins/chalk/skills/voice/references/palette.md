@@ -114,7 +114,7 @@ It surfaces in three places, and MUST be carried in each.
     `chalk:issue`'s reader 2 is matching their failure against this section rather than reading it, so this is the one section written for search.
 
   - **Neither of `chalk:voice`'s defaults applies here.**
-    Cut-what's-obvious does not license paraphrasing an error message, and the mindmap default does not license turning a trace into prose.
+    `chalk:voice`'s cut-what's-obvious rule does not license paraphrasing an error message, and the mindmap default does not license turning a trace into prose.
 
 - **Root cause / Analysis**
   The mechanism, grounded in evidence, and **marked speculative until confirmed**.
@@ -214,16 +214,16 @@ It surfaces in three places, and MUST be carried in each.
 
   - **A wrong expectation is the one that gets acted on** — someone builds on a behaviour that isn't there, or re-opens a decision that was never made.
 
-  - **The test is `chalk:voice`'s cut-what's-obvious rule run in the other direction**: cut what a reasonable senior engineer already knows, and *keep* what they would reasonably get wrong.
+  - **The test is `chalk:voice`'s cut-what's-obvious rule (*The reader's context*) run in the other direction**: cut what a reasonable senior engineer already knows, and *keep* what they would reasonably get wrong.
     An exclusion nobody would have expected here isn't out of scope, it is just absent.
 
   - **Give each entry its reason**, and the issue or PR that picks it up where one exists.
 
   - **Name the rule you split on** (`chalk:voice`) — this is a section where the reader's next question is "is that all of them?", and a missing sibling otherwise looks exactly like no sibling.
 
-  - **Rust's "Future possibilities" lands here**: an adjacent thing we deliberately didn't do is out of scope.
+  - **Something we chose not to do here is out of scope; something that couldn't start until this landed is context**, per the tl;dr.
 
-  - Against the tl;dr's *what it unblocks*: something we chose not to do here is out of scope, where something that couldn't start until this landed is context.
+  - **Rust's "Future possibilities" lands here**: an adjacent thing we deliberately didn't do is out of scope.
 
 - **Alternative approaches**
   The decision record.

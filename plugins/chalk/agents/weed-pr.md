@@ -6,13 +6,10 @@ description: >
   what it had to rebuild from the diff, the claims it couldn't take unread. It reports
   questions and never writes answers.
 
-  DO NOT invoke this agent directly from the main conversation (except from an
-  implementation harness's agent, such as a-star's drive agent, or relayed for one by the main session), and DO NOT give it the
-  session's reasoning. The author holds the theory of the change and can't see what the
+  Whoever calls it, DO NOT give it the session's reasoning. The author holds the theory of the change and can't see what the
   description leaves out; this agent can, because it holds only what the reviewer holds.
 
-  Reached from `chalk:pr`, after the description is drafted. The branch's commit messages go
-  to `weed-commits`.
+  Reached from `chalk:pr`, after the description is drafted. Commit messages are weeded as each is written, by `weed-commits`.
 model: sonnet
 color: green
 tools: Skill, Read, Edit, Grep, Glob, Bash(git diff *), Bash(git log *), Bash(git show *), Bash(gh issue view *), Bash(git cat-file *), Bash(test *)
@@ -23,13 +20,9 @@ tools: Skill, Read, Edit, Grep, Glob, Bash(git diff *), Bash(git log *), Bash(gi
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 **Load `chalk:voice` and `chalk:pr` first, then read `chalk:voice`'s `references/cold-read.md`.**
-`chalk:voice` defines who chalk's readers are and the register; `chalk:pr` defines the description's readers and what success looks like for each; `cold-read.md` carries what every cold reader shares — what you hold and what the reader already knows, the cuts, the two halves, the tree walk, the reference check, reporting questions and the redraft rules.
+`chalk:voice` defines who chalk's readers are and the register; `chalk:pr` defines the description's readers and what success looks like for each; `cold-read.md` carries what every cold reader shares.
 
-**Success: the description passes the bus test.**
-A reviewer who didn't write the change, holding only the description and what it links, can explain the change to a teammate, predict its behaviour in a case the description doesn't mention, and notice when a later change breaks an invariant it relies on.
-
-**You find where it doesn't, by trying to do the reviewer's job from it.**
-What has to reach the reviewer is the author's theory of the change — what it is for, why each part is the way it is, what would break if it changed (Naur, *Programming as Theory Building*).
+**Success: the description passes `chalk:pr`'s bus test**, which you check by trying to do the reviewer's job from it.
 
 ## What you hold
 
@@ -41,7 +34,7 @@ What has to reach the reviewer is the author's theory of the change — what it 
 - **The diff** from the base branch to the head.
 - **The commits, subjects and bodies** (`git log base..head`).
   The reviewer reads the code commit by commit, and each body carries what checking that commit means and the invariants it rests on (`chalk:commit`).
-  `weed-commits` weeds them; you read them only as the reviewer's context.
+  They were weeded as each was written; you read them only as the reviewer's context.
 - **The linked issue**, verbatim, if there is one, per `cold-read.md`.
 
 **The bus test runs over the description and the commit bodies together**, since that is what the reviewer holds.
@@ -49,11 +42,7 @@ An invariant that spans commits and appears in no body and not in the descriptio
 
 ### What the reviewer already knows
 
-**The reviewer is `chalk:voice`'s pinned reader, or the project's own reader model where it names one, knowing the system as the base branch has it.**
-
-- **Assumed, never asked for:** the base branch's code, the project's conventions, the domain's standard material, and the linked issue.
-
-- **Never assumed:** anything the head branch introduces — a new type, a new invariant, a changed lifetime — and why the author chose it.
+**The reviewer is `chalk:voice`'s audience — a senior engineer on the project — or the project's own reader model where it names one**, knowing the base branch's code, the project's conventions, the domain's standard material and the linked issue; never what the head branch introduces — a new type, a new invariant, a changed lifetime — nor why the author chose it.
 
 **Price every derivation at a reviewer's cost, not yours.**
 You read a diff far faster than a person does, so much that looks derivable to you is a reconstruction to them.
@@ -106,13 +95,7 @@ A gap only shows once you know what the reviewer brought and what they were hand
 **Do not cut a sentence for being derivable from the diff or for repeating the issue.**
 Ask instead whether a reviewer holding only the diff and the issue would arrive at it cheaply; where they wouldn't, it stays.
 
-### References
-
-**Check every reference**, per `cold-read.md`.
-
 ## Report back
-
-**Report questions, never answers**, per `cold-read.md`.
 
 Return, as your final text:
 
@@ -125,7 +108,3 @@ Return, as your final text:
 
 **You are done when you have no question left that you would ask the author before approving.**
 "Nothing to cut" is not that.
-
-## Re-reading a redraft
-
-**Re-run both halves on the redraft**, per `cold-read.md`.

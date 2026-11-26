@@ -38,7 +38,7 @@ Where the author worked in a session nobody watched — a background agent, a lo
 ## Which path
 
 - **Resolves an issue** — the palette's `issue + PR` mode.
-  Reference it at the top (`Resolves #N`, or `Part of #N`). What this adds is the theory as built: the model, how the problem shaped it, the decisions, the trade-offs, the dead ends.
+  Reference it at the top: `Resolves #N` where merging it finishes the issue, `Part of #N` where the issue stays open afterwards. What this adds is the theory as built: the model, how the problem shaped it, the decisions, the trade-offs, the dead ends.
 
   **tl;dr → What changes → Usage / migration → Reviewing this → Consequences → Out of scope → Alternative approaches → Open questions**
 
@@ -56,11 +56,11 @@ Each section's content is in the palette, and not every change needs every secti
 
 Load, via the Skill tool:
 
-- **`chalk:voice`** — the register, the audience, the mindmap shape, the line-format rule.
+- **`chalk:voice`** — the register, the audience, the mindmap shape, the layout.
 
 - **`chalk:voice`'s `references/palette.md`** — the sections on your path.
 
-- **`chalk:chalk`** — the plan file's shape and the journal's record kinds, which the description is written from.
+- **`chalk:journal`** — the plan file's shape and the journal's record kinds, which the description is written from.
 
 **Write each section as a mindmap**, per `chalk:voice`.
 Reader 0 is working through the change in the order it can be checked, reader 1 is scanning for what touches their work, and reader 2 for one decision, so all three skip most of the body: every subject line MUST let them discard the bullet against that goal, or take it unread.
@@ -73,7 +73,7 @@ The first `##` in the body is the section after it.
 
 - Review the commits on this branch — all of them, not just the latest.
 
-- Read the session's plan journal, all of it, where `chalk:chalk` started one.
+- Read the session's plan journal, all of it, where `chalk:journal` started one.
   It's material, not a draft: what reaches the description is what *Your readers* and the palette call for — a decision because it matters to them, whoever made it.
   Its `review:` entries: their durable part is already in the commit bodies, and Reviewing this takes from them only what spans commits, and the evidence.
 
@@ -125,14 +125,6 @@ Name what would surprise someone familiar with the subsystem, and don't assume t
 
 **Before handing it to `weed-pr`, ask what the reader will ask first, and answer it in place**, and check every `→` reads as "therefore".
 
-Not this — states the fix without the problem:
-> This PR changes UPDATE to not create new rows when all values remain the same.
-
-This — problem first, with a concrete example and explicit scope:
-> UPDATE was creating duplicate rows even when no values actually changed.
-> Uses type-strict equality — `UPDATE docs SET a = 1.0 WHERE _id = 1` on a doc with `{:a 1}` *will* create a new record because `1 ≠ 1.0`.
-> PATCH is out of scope of this PR (see #5030).
-
 ## Weed the draft
 
 **Delegate to the `weed-pr` agent** as the caller's side of `chalk:voice`'s `references/cold-read.md` sets out, passing the description's path, the base branch, and the linked issue if there is one.
@@ -141,21 +133,15 @@ It reads the description cold, as the reviewer, attempts the reviewer's job from
 - **Where there is no linked issue, say so**, so it reads the description as carrying the problem too.
 
 - **Where only the user can answer, answer from the branch where the branch genuinely has it**, naming the commit you draw on so the user can correct you.
-  In secondary, per `chalk:secondary`: one the branch can't answer goes into Open questions, marked for the user.
-
-**Delegate the branch's commit messages to the `weed-commits` agent beside it**, per `chalk:commit`, passing the base branch and the head.
-
-- **Apply its findings by rewording each commit through `chalk:commit`**, a rewrite of the branch, per `chalk:chalk`'s Feature branches.
-
-- **Update the journal entries keyed by any subject that changed**, so they still name the commit.
-
-- **The reworded commits go back to `weed-commits`**, until it has no question left.
+  One the branch can't answer is a blocking question, below.
 
 ## Opening it
 
-**Delegate to the chalk github agent.**
+**The PR opens only after the description is weeded**, until `weed-pr` has no question left.
+Every commit message on the branch was weeded when it was written (`chalk:commit`), so this skill weeds none.
 
-- Push the branch if needed.
+**Delegate to the chalk github agent**, once the branch is pushed.
+The caller — the harness running the work or, in a session without one, the main session following the project's conventions — applies any rewording of the branch's commits and pushes it; this skill rewrites no history and pushes nothing, and says so to its caller where the branch isn't on the remote.
 
 - Pass the title and the fully-drafted description, ready to post verbatim.
 
@@ -163,3 +149,6 @@ It reads the description cold, as the reviewer, attempts the reviewer's job from
   They typically live in the project's `CLAUDE.md` or in explicit user instructions for this session.
 
 - The agent assigns the current user by default. Tell it to skip assignment only if the user has asked you to.
+
+**A blocking question on the PR is put to the user where they can be asked, and settled before it opens.**
+Where they can't be asked now, it goes into Open questions, marked for them.

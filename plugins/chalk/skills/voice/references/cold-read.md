@@ -21,9 +21,9 @@ The author can't see what the draft leaves out, because the author holds what it
     A node it couldn't decide on is closed by restructuring that node.
 
   - **Where only the user can answer, relay the question as written.**
-    In secondary, per `chalk:secondary`: record it, and carry it into the artefact as an open question marked for the user.
+    Where the user can't be asked now, record it, and carry it into the artefact as an open question marked for them.
 
-- **The loop ends when the agent has no question left**, or in secondary when only questions marked for the user remain.
+- **The loop ends when the agent has no question left**, or when only questions marked for the user remain.
 
 - **A redraft keeps every answer earlier rounds settled.**
   Restructuring a node to close one gap is where an earlier answer gets dropped.
@@ -54,23 +54,8 @@ The draft opens one or two levels above the work, per `chalk:voice`'s hourglass,
 **You cut whole sentences from the draft file, and report each cut**: deletion only, never adding a sentence or rewording one.
 A commit message isn't a file you hold, so its cuts are reported for the caller to apply by rewording.
 
-**Cut a sentence where it:**
-
-- **argues that a decision was good**, rather than stating it and what constrained it;
-- **ranks or justifies its own material, narrates the document's shape, or advertises diligence**;
-- **persuades** — where the sentence carries the same fact without the evaluative word.
-
+**Cut a sentence on `chalk:voice`'s register rules**, and on the strings it lists as betraying them; a match is grounds to cut the sentence, not the phrase.
 Your agent file adds the cuts its draft's readers call for.
-
-**A match in the phrase inventories below is grounds to cut the sentence, not the phrase.**
-`chalk:voice` states what each rule means; these are the strings that betray it.
-They are the common cases, not exhaustive: cut the variant you find on the same grounds.
-
-- **Persuasion** — "powerful", "seamless", "blazing-fast", "robust", "elegant", "revolutionary", "significantly", "dramatically", "seriously".
-  The deletion test decides the borderline cases: where the sentence carries the same fact without the word, the word was persuading.
-- **Self-ranking** — "the key change here", "importantly", "notably", "crucially", "it's worth noting", "the single most", "critically".
-- **Diligence advertising** — "checked carefully", "thoroughly reviewed", "thoroughly verified", "I verified that", "as expected".
-- **Shape narration** — "what follows is", "this section exists to", "in this PR we will".
 
 ### Run the two halves in order
 

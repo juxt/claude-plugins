@@ -76,7 +76,7 @@ The conversation is the input; the record is the state.
 - **Every entry has a typed ID**, prefixed by its kind, per `chalk:voice`.
   D for a decision and Q for a question; a constraint, an idea or anything else takes whatever prefix fits.
 
-- **A superseded decision keeps its ID**, marked `superseded by D<n>`, per `chalk:voice`'s stable IDs.
+- **A superseded decision keeps its ID**, marked `superseded by D<n>`, per `chalk:voice`'s rule that a published ID is stable.
 
 - **The record is organised by area, not by when things were said.**
   It opens with a one-line thesis once there is one, then the settled claims, then a section per area opening with its claim, then what's out of scope.
@@ -97,11 +97,11 @@ The conversation is the input; the record is the state.
 ## 6. The user chooses the output
 
 **When the user is done, offer what the record could become, and let them pick.**
-A Claude Docs doc or an artifact, cards through `chalk:issue`, a plan through `chalk:chalk`, or nothing beyond the scratch file.
+A Claude Docs doc or an artifact, cards through `chalk:issue`, or nothing beyond the scratch file.
 
 - **You MUST NOT choose for them** or publish before they've chosen.
 
 - **Whatever they choose is written from the record**, in that destination's own form, with its IDs kept where it has a reader who might reply on one.
 
 - **Rubber-ducking stops where a card starts.**
-  Once the work is one card's, or the user wants it built, `chalk:chalk` plans it, taking what bears on it from the record.
+  Once the work is one card's, or the user wants it built, the record is what planning takes what bears on it from.

@@ -3,7 +3,7 @@
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
 **A trace of one interleaving, in columns: the shared state, then one per actor.**
-`chalk:voice`'s routing chain requires one of anything concurrent, distributed or multi-actor.
+`chalk:voice`'s rule for routing a relation (under *Two propositions in a relation*) requires one of anything concurrent, distributed or multi-actor.
 
 - **The shared state the actors contend for MUST take the leftmost column.**
   A row that changes it MUST carry the new state there, and a row that does not MUST leave it blank.

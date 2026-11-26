@@ -1,6 +1,6 @@
 ---
 name: voice
-description: Shared Chalk writing voice — the audience for Chalk artefacts, the specification register, the mindmap structure that two propositions in a relation MUST take (Minto's pyramid, with argument diagramming's linked, convergent and conductive grounds), and the layout rules. The chalk:issue, chalk:commit, chalk:pr and chalk:sitrep skills load this before drafting any prose, and the weed-pr, weed-commits, weed-issue and weed-prose agents load it to review one.
+description: Shared Chalk writing voice — the audience for Chalk artefacts, the specification register, the mindmap structure that two propositions in a relation MUST take (Minto's pyramid, with argument diagramming's linked, convergent and conductive grounds), the layout rules, and the model taxonomy a design, or a model diff, is stated in. The chalk:issue, chalk:commit, chalk:pr and chalk:sitrep skills load this before drafting any prose, and the weed-pr, weed-commits, weed-issue and weed-prose agents load it to review one.
 ---
 
 # Chalk Voice — Writing Principles
@@ -74,10 +74,16 @@ Your overriding success metric is whether the reader reaches that aim — the kn
 - **An artefact recording a change MUST name the fact that was true and is no longer** — a commit body, a PR's What changes.
   It is stated objectively, never as a belief attributed to the reader: "the watermark wasn't being replicated", not "you believed the watermark was replicated".
 
+- **The strings that betray these rules**, as common cases rather than an exhaustive list — cut the variant you find on the same grounds:
+  - **Persuasion** — "powerful", "seamless", "blazing-fast", "robust", "elegant", "revolutionary", "significantly", "dramatically", "seriously".
+  - **Self-ranking** — "the key change here", "importantly", "notably", "crucially", "it's worth noting", "the single most", "critically".
+  - **Diligence advertising** — "checked carefully", "thoroughly reviewed", "thoroughly verified", "I verified that", "as expected".
+  - **Shape narration** — "what follows is", "this section exists to", "in this PR we will".
+
 ### The reader's context is the artefact plus what a senior engineer on this project knows
 
 - **You SHOULD NOT include anything obvious to that reader.**
-  Cut what any reasonable senior developer on the project would know, and any option none of them would consider.
+  Cut what's obvious to that reader — what any reasonable senior developer on the project would know, and any option none of them would consider.
 
 - **You MUST NOT assume the reader has any of your session's context.**
   A sentence that only parses if you know which files were touched, which commit came before, or what was said in chat is a sentence the audience can't use.
@@ -194,7 +200,7 @@ Every node they read is context they hold while reading the next, their capacity
     It preferably leans on those siblings' subject lines only, not their bodies.
 
   - **Depth needs no bound.**
-    A node goes deeper while it still has grounds to give or cases to narrow to, and stops when it runs out, so depth that is doing work is self-limiting.
+    A node goes deeper while it still has grounds to give or cases to narrow to, and stops when it runs out.
 
 - **The relation among siblings is the reader's skip rights over the set, so the parent MUST make it clear.**
   It is what tells them how many of the siblings their goal obliges them to page in.

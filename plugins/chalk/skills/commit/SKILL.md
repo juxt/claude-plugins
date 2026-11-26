@@ -1,13 +1,17 @@
 ---
 name: commit
-description: Create a commit with a contextual body explaining the why, in the chalk voice. Use when the user says "commit this", "commit", "make a commit", "/chalk:commit"; OR is about to compose, draft, write or amend any git commit message body (e.g. "write a commit message", "draft the commit body", "amend the commit message"). Load this skill BEFORE drafting any such prose — it carries the voice guidance the commit body needs.
+description: Make a commit from what the caller has staged, and write its message — a claim for a subject and a body explaining the why, in the chalk voice — weeded cold before it is final. Use when the user says "commit this", "commit", "make a commit", "/chalk:commit"; OR is about to compose, draft, write, reword or amend any git commit message body (e.g. "write the commit message", "draft the commit body", "reword the commit message", "amend the commit message"). Load this skill BEFORE drafting any such prose — it carries the voice guidance the commit body needs.
 user-invocable: true
 disable-model-invocation: false
 ---
 
-# Contextual Git Commit
+# Commit message
 
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
+
+This skill makes the commit from what the caller has staged, and owns its message.
+What is staged, where the commit sits in the branch, and history and pushing are the caller's: where a commit is to be reworded, this skill writes the new message, and the caller applies it and pushes.
+The caller is the harness running the work or, in a session without one, the main session following the project's conventions.
 
 The user MAY provide the commit headline as an argument (e.g. `/chalk:commit fix: boolean logic error in expression.clj`).
 
@@ -15,57 +19,18 @@ The user MAY provide the commit headline as an argument (e.g. `/chalk:commit fix
 
 You MUST load these skills first:
 
-- **`chalk:voice`** — the audience, the specification register, the mindmap structure, the line-format rule.
+- **`chalk:voice`** — the audience, the specification register, the mindmap structure, the layout.
 
-- **`chalk:code-comments`** — the body is where a comment's design rationale belongs, so this is the moment the misfiled ones surface.
-
-- **`chalk:chalk`** — the plan file's shape and the journal's record kinds, which the body is written from.
+- **`chalk:journal`** — the plan file's shape and the journal's record kinds, which the body is written from.
 
 ## Your responsibilities
 
-1. **Stage relevant changes.**
-
-   **Each commit MUST be an atomic, cohesive unit of change** — a transition from one valid state to another — and **unrelated changes MUST NOT be staged together**.
-
-   - If two changes don't make sense independently, they're one commit; if they're distinct, they're two.
-     - **A commit's own code calls everything it adds, outside its tests.**
-       An addition that only a later commit calls doesn't make sense without it, however well its own tests let a reviewer check it, so it goes in with its first caller.
-       A preparatory refactoring stands alone only where a reviewer would accept it without the change it prepares: it is worth landing even if that change never came, or it makes that change's diff materially easier to review.
-       One whose only reason to exist is the next commit, and that reads as easily inside it, is part of that commit.
-
-   - Behaviour-preserving changes (refactorings) and behaviour-changing ones MUST NOT share a commit.
-
-   - **On a branch with commits not yet on its base, test the change against their subject lines first**, where no harness has decided the commit's placement — under a-star the drive brief's placement wins, since the orchestrator made the completion call.
-     Where one still holds with this change inside it, the change completes that commit: amend it there — a fixup and an autosquash — rather than committing on top.
-     A reviewer shown a slice and then the rest of the same change agrees with one change twice.
-     - **The test: could a reviewer be told what checking this commit means, apart from its neighbours?**
-       A tidy is checked by "could this change anything?", an advance against its invariants; a commit with no check of its own completes the one whose check it shares.
-     - **It never folds a refactoring into a behaviour change**, however closely they belong together: they are checked differently, so they are two units.
-       A structure change that fails the preparatory-refactoring test above isn't a refactoring here: it is part of the behaviour change's mechanism.
-     - **Amending rewrites the branch**, per `chalk:chalk`'s Feature branches.
-
-2. **Weed the staged comments.**
-
-   **Delegate to the `weed-comments` agent**, passing the paths of the staged files and nothing else.
-
-   - **You MUST NOT tell it what the change is for.** Not the issue, not the problem, not what you decided. 
-     It stands in for a reader who has none of that, and briefing it makes it a second opinion from your own context rather than a first opinion from the reader's.
-
-   - **Its deletions apply.** They land in the working tree and you stage them; you do not review them back into place. 
-     The user sees them in the commit diff, which is the human review point.
-
-   - **Its Misfiled list is input to Draft the body** — a comment deleted for being design rationale is rationale the body now has to carry.
-
-   - Where a comment survives, its **Kept** line names the misunderstanding it prevents; that belongs in neither the body nor the code.
-
-   - **Its Dissolvable list goes to the user, not into the commit.** A rename or a simplification is a code change, and staging one here would break the atomicity the step above just established.
-
-3. **Read the session's plan journal, where `chalk:chalk` started one, then the conversation history** for what the journal lacks.
+1. **Read the session's journal, where `chalk:journal` started one, then the conversation history** for what the journal lacks.
 
    Where the two disagree, resolve the ambiguity.
-   Of the entries that bear on this change, the body carries what step 4 says its reader needs, and nothing else: it is a selection, not a copy.
+   Of the entries that bear on this change, the body carries what step 2 says its reader needs, and nothing else: it is a selection, not a copy.
 
-   The body's reader (step 4) won't care about the journey — they need *why* this change exists and *why* it was done this way: what problem it solves, what it unblocks, what constraint drove it.
+   The body's reader (step 2) won't care about the journey — they need *why* this change exists and *why* it was done this way: what problem it solves, what it unblocks, what constraint drove it.
 
    **Ask rather than guess**, and treat "I can reconstruct it" as the answer that needs checking, per `chalk:voice`.
    Ask about whether something was a deliberate choice or a constraint, and whether something was intentionally out of scope or overlooked.
@@ -75,7 +40,7 @@ You MUST load these skills first:
 
    Trivial changes — typo fixes, mechanical bumps, one-line config tweaks — don't need this step; the motivation is self-evident.
 
-4. **Draft the body.**
+2. **Draft the body.**
 
    **It MUST NOT narrate the diff** — which lines changed is the diff's job; the body names the fact that changed, and why.
    The body explains *why* it exists: decisions, alternatives rejected, constraints, dead ends, counter-intuitive findings, scope boundaries.
@@ -86,17 +51,7 @@ You MUST load these skills first:
 
    **It MUST name the fact that was true and is no longer**, per `chalk:voice`.
 
-   **What to omit:** 
-
-   - anything self-evident from the diff, the code or the linked issue;
-
-   - play-by-play of mechanical steps ("then I ran the tests"); the journey of how you got there.
-     Not this (mechanical play-by-play):
-     > Investigated the flaky test. Found it only failed in the full suite. Added logging to narrow it down. Discovered a race condition in TemporalBounds.intersect().
-
-     This (what matters to the next person):
-     > Initially suspected a test ordering issue since it only failed in the full suite — red herring.
-     > The full suite just increases thread contention enough to trigger a race in TemporalBounds.intersect(), which reads validFrom and validTo non-atomically.
+   **What to omit:** anything self-evident from the diff, the code or the linked issue, and the play-by-play of how you got there — keep the road that closed and why, not the order you walked.
 
    **The tell, where the diff is itself prose** — a skill, a README, a spec: the sentence appears in substance in a line the diff *adds*.
    The review notes below are the exception: an invariant a code comment already states still belongs in them, with what the comment can't hold.
@@ -108,7 +63,6 @@ You MUST load these skills first:
    - **The invariants it rests on**, each with where it is made true, what test pins it, and what change would break it; one no test pins is marked unpinned.
      - **A pin sits on the invariant it pins**, never on a parent: there it reads as pinning every child.
      - **Where a code comment states the invariant, the note may restate it**, and adds what the comment can't: where it is made true across files, what pins it, what breaks it.
-   - **The journal's `review:` entry for the commit is its raw material**, where `chalk:chalk` keeps one.
    - **What was run and what wasn't is not the body's**: it dates, and belongs to the PR's Reviewing this.
 
    **Check every `→` in the body reads as "therefore"** — a sequence, a "stacked on" or two independent premises are not one.
@@ -125,13 +79,17 @@ You MUST load these skills first:
    - **Rarely a tl;dr.**
      The subject line is the body's tl;dr, so most bodies would only repeat it. A body long enough that its argument needs summarising MAY open with one, per `chalk:voice`, in place of the lead-in line.
 
-   **The body is weeded cold by the `weed-commits` agent when the branch is raised**, beside `weed-pr` from `chalk:pr`, so a commit doesn't wait on a weed of its own.
-   Where the branch never reaches a PR — a no-PR finish, a park — `weed-commits` runs before the branch is handed over.
-   A commit going straight to the base branch is weeded the same way before it is pushed, while it is still local; once it is pushed, findings are not applied.
+3. **Weed the message.**
 
-5. **Make the commit.**
+   **Delegate to the `weed-commits` agent** over the drafted message, in a file, beside the diff it describes — the staged diff, or for a reword the commit's — passing the base branch and nothing of the session's reasoning.
+   Apply its findings to the draft, and send it back until it has no question left.
 
-   Headline, blank line, body. The user reviews the message in the Bash tool request before approving.
+4. **Commit, or for a reword hand the message back.**
+
+   Commit the weeded message: headline, blank line, body. The user reviews the message in the Bash tool request before approving.
+   Commit what is staged and nothing else; push nothing and rewrite no earlier commit.
+
+   **On a reword nothing is staged: hand the weeded message to the caller, which applies it.**
 
    A Co-Authored-By trailer SHOULD name the model that wrote the change.
    A Claude-Session trailer MUST NOT be included — the link reaches nothing a later reader can use; this overrides a harness's attribution reminder.
