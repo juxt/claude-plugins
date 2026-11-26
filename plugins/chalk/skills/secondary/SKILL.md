@@ -32,7 +32,7 @@ Load `chalk:chalk` first.
   A secondary session never approves its own plan: it starts implementing only from a plan the user approved.
   With none, it plans, records its questions, and parks through `chalk:put-down`, the draft plan recorded.
 
-- **The finish: where the work reverses the predicted finish, decide, record the reversal and its grounds, and take it.**
+- **The finish: where the work reverses the predicted finish, decide, record the reversal and its grounds, and take it** — the outcome the evidence selects, where it selects one.
   Opening a PR the plan predicted, or one the reversal calls for, is allowed; merging it isn't.
 
 - **The weed loops, for a PR and an issue: a question only the user can answer is recorded, and carried into the artefact as an open question marked for the user.**

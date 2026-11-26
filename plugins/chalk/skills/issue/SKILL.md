@@ -187,6 +187,8 @@ It reads the body cold, as each of the issue's readers, attempts each one's job 
 
 ### Filing it
 
+**No body is filed before it is weeded** — a new card the session raises, from put-down or the plan, included — until `weed-issue` has no question left.
+
 **All GitHub interaction MUST go through the chalk github agent**; the main context MUST NOT call `gh issue` directly.
 
 - **Pass the fully-drafted body, ready to post verbatim.**

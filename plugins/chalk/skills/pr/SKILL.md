@@ -38,7 +38,7 @@ Where the author worked in a session nobody watched — a background agent, a lo
 ## Which path
 
 - **Resolves an issue** — the palette's `issue + PR` mode.
-  Reference it at the top (`Resolves #N`, or `Part of #N`). What this adds is the theory as built: the model, how the problem shaped it, the decisions, the trade-offs, the dead ends.
+  Reference it at the top: `Resolves #N` where merging it finishes the issue, `Part of #N` where the issue stays open afterwards. What this adds is the theory as built: the model, how the problem shaped it, the decisions, the trade-offs, the dead ends.
 
   **tl;dr → What changes → Usage / migration → Reviewing this → Consequences → Out of scope → Alternative approaches → Open questions**
 
@@ -153,6 +153,8 @@ It reads the description cold, as the reviewer, attempts the reviewer's job from
 
 ## Opening it
 
+**The PR opens only after both the description and the branch's commit messages are weeded**, each until its agent has no question left; neither weed stands in for the other.
+
 **Delegate to the chalk github agent.**
 
 - Push the branch if needed.
@@ -163,3 +165,5 @@ It reads the description cold, as the reviewer, attempts the reviewer's job from
   They typically live in the project's `CLAUDE.md` or in explicit user instructions for this session.
 
 - The agent assigns the current user by default. Tell it to skip assignment only if the user has asked you to.
+
+**The finish doesn't end while a blocking question on the PR is unsettled**; in secondary, one marked for the user is left open on the PR, and the finish ends.

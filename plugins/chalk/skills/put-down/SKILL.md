@@ -64,6 +64,7 @@ A branch the session doesn't own is left as it is, and the report says so.
 
 **Then record on the issue, as a comment through `chalk:issue`, what the next session resumes from**: the branch, its head commit's subject, and what was in hand — the stack of sub-goals being worked, innermost first.
 It goes in a comment, not the description: it moves with the work.
+A secondary session parking an unapproved plan has no branch yet: the comment carries the draft plan instead.
 
 ## 5. Report back
 

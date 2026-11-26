@@ -120,7 +120,7 @@ At any point it holds the current tree's open leaves; it is what the user sees o
 - **A `replan:` or `re-split:` removes the tasks of the leaves it drops, and creates those of the leaves it adds.**
 - **A sub-goal superseded or thrown away removes its task.**
 - **A sub-goal interrupted by another has its task marked blocked by the other's.**
-- **A sub-goal marked done completes its task.**
+- **A sub-goal marked done completes its task**, and one reopened reopens it.
 - **An implementation harness keeps it current as sub-goals move**, through the same rules.
 
 ## Primary and secondary
@@ -219,6 +219,8 @@ Once approved, take the route:
 
 - **File and stop** — file through `chalk:issue`, or with an existing card, correct it there.
 - **Implement**, filed first or not — hand the plan to the implementation harness, or implement it directly where the session has none, taking the same exits as a harness's hand-back: finish, replan and park.
+  - **Before handing the plan to a harness, carry out its first step yourself** — the tracker update and the branch checked out; a-star does neither.
+  - **A plan re-approved after the harness's replan exit goes back to the harness without redoing that pickup**, and a file-and-implement route re-approved after a replan goes straight to implementing without filing again.
 
 ## When an implementation harness exits
 
@@ -233,6 +235,8 @@ Once approved, take the route:
   A PR exists to share what the commit doesn't, so the prediction follows where that knowledge lives.
   - **Ask the user only where the work reverses the prediction.**
     In secondary, per `chalk:secondary`: decide, record the reversal and its grounds, and take it.
+  - **The finish ends only once its drafts are cleared**: the branch's commit messages by `weed-commits`, and for a PR the description by `weed-pr` too, as `chalk:pr` sets out.
+    A no-PR finish weeds the commit messages before its report.
   - **The prediction is one of three outcomes, the first whose condition holds, in the order listed**; where none holds, ask the user.
     - **No PR, where the commit carries it all, or an issue carries the knowledge and nothing in the implementation is counter-intuitive** — first update the issue through `chalk:issue` where the work changed what it should say.
       The finish then hands to nothing: it ends with a report naming the branch and its head sha.
