@@ -69,10 +69,11 @@ entity Session {
     in_review_units: Boolean
     -- The code review has run over the whole unlanded branch since its last commit changed; its findings are yields.
     code_reviewed: Boolean
+    -- A revert taken and not yet replayed, so a session stopped mid-revert resumes it.
+    revert_in_hand: Boolean
     status: planning | choosing | offered | reverting | finishing | parked | exited
     offered_move: Move? when status = offered
     exit: filed | done when status = exited
-    finish: Finish? when exit = done
 
     sub_goals: SubGoal with session = this
     darts: Dart with session = this
@@ -94,10 +95,14 @@ entity Session {
         planning -> exited
         choosing -> finishing
         finishing -> exited
+        finishing -> choosing
+        finishing -> parked
         choosing -> offered
         offered -> choosing
         choosing -> reverting
         reverting -> choosing
+        reverting -> parked
+        parked -> reverting
         choosing -> parked
         offered -> parked
         parked -> choosing
@@ -207,7 +212,14 @@ entity Yield {
     unlanded_superseded: supersedes where not landed
     -- An unlanded commit whose subject line still holds with the reported scope inside it: the scope completes it.
     completes: Commit? when kind = sub_goal | increment
+    -- Whether a dart built and ran the reported scope, rather than only reporting it; never so for a drive's yield or a code-review finding.
+    exercised: Boolean
     -- The sub-goals a question or finding blocks until it is settled.
     bears_on: Set<SubGoal>
     triaged: Boolean
+}
+
+invariant ExercisedOnlyByDart {
+    for y in Yields:
+        y.exercised implies y.from_dart != null
 }

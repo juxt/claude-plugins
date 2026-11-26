@@ -25,18 +25,30 @@ use "./common.allium" as c
 -- Together a card's sub-goals complete it.
 
 -- Planning. The session starts in plan mode, and nothing is built until the user approves the goal and the route.
+-- `parked` is the session an earlier session parked on this card, restored from the record its park left; null where there is none.
+-- The restore is guidance, not a rule: the model treats a parked Session as one entity across sessions, so its frames are already part of what `parked` carries, and rebuilding them from the park's comment is I/O, outside the model.
 rule BeginPlanning {
-    when: UserStartsCard(plan, mode)
+    when: UserStartsCard(plan, mode, parked)
+    requires: parked = null or parked.status = parked
     ensures:
-        let session = c/Session.created(plan: plan, mode: mode, status: planning, picked_up: false)
-        Recorded(session: session, entry: process)
+        if parked != null:
+            parked.mode = mode
+            Recorded(session: parked, entry: process)
+            SessionResumed(session: parked)
+        else:
+            let session = c/Session.created(
+                plan: plan, mode: mode, picked_up: false,
+                status: if plan.status = approved: choosing else: planning)
+            Recorded(session: session, entry: process)
+            if plan.status = approved:
+                PickUpCard(session: session)
 
     @guidance
         -- Enter plan mode first — `EnterPlanMode`, or the host's equivalent — unless the session is already in it: exploring the problem is the planning, and plan mode holds every edit back until the user approves. This plan replaces the host's plan-mode template: no file lists, and sub-agents only where the exploration wants them.
         -- Read the problem and its neighbourhood, grounded in the repo and not the transcript. With a card: read the issue, its parent, its sub-issues, what blocks it and what it blocks, and its linked PRs. Without one: search the existing cards it might duplicate or belong under.
         -- Say what the scan tells you about this work being done now, and carry on; the issue's own why now, where it has one, is the reason, and work without one is opportunistic.
         -- Where the scan changes the picture — an open blocker, a duplicate, a card that supersedes this one, a card assigned to someone else — wait for the user's agreement before changing anything, the tracker included. Where the user named an umbrella, ask which piece; never pick the most plausible sub-task.
-        -- A card an earlier session parked is planned from the record its park left, and its branch is checked out, not recreated.
+        -- A card an earlier session parked is not started afresh: its session is restored from the record its park left and resumed (Resume) — its plan, approved or not; whether the card was picked up; a revert in hand; and the drive stack from the park's comment, innermost first, on the WIP head, so the frame in hand resumes first. A comment that doesn't say whether the card was picked up predates the field, and is restored as picked up. Its branch is checked out, not recreated.
         -- Load the project's answers to the three choices below, from its skills and agent instructions first; only a choice answered nowhere there becomes a question, and an unanswered one is raised, not defaulted — bar a tidy's branch (the feature branch) and branch cleanup (delete local branches and worktrees whose work has fully landed, offer to delete remote ones).
         -- The three: where a tidy is committed, with what to verify, when to push and whether it is done at commit or once CI is green; where an advance is committed, with what to verify and whether to push each; and branch cleanup.
         -- Everything else follows the project's conventions: the tracker's, the base branch, ship/show/ask, the definition of done, coding standards and how a commit is written. What goes in a commit is a-star's: one atomic unit of change.
@@ -67,16 +79,19 @@ rule ApprovePlan {
     requires: session.plan.output = implementation
     ensures: session.plan.status = approved
     ensures: session.status = choosing
-    ensures: PickUpCard(session: session)
     ensures:
-        if session.plan.route.count > 0:
+        if not session.picked_up:
+            PickUpCard(session: session)
+        else if session.plan.route.count > 0:
             Take(session: session, move: session.plan.route.first)
+        else:
+            MoveDue(session: session)
 
     @guidance
         -- `ExitPlanMode`, or the host's equivalent, asks for the approval; never ask for it any other way, and never approve your own plan: a secondary session starts implementing only from a plan the user approved.
         -- Asking is a claim that the plan is aligned, not that it is finished, so answer three questions first: is any part of the plan a guess you'd revise if you asked the user one question; have you taken a neutral acknowledgement for agreement; is there a decision inside the plan you made without surfacing it? Yes to any: ask that instead, and stay in plan mode. Uncertain: stay in plan mode — exiting is the one move within the turn that can't be taken back.
         -- A rejection with comments is planning continuing: revise the plan, record what changed as decisions, each one it replaces marked `superseded by D<m>`, and ask again.
-        -- The first move is the first the approved plan names, taken directly; otherwise a dart where the card has no sub-goals yet or part of its goal is unwalked, else a drive.
+        -- The first move, once picked up, is the first the approved plan names, taken directly; otherwise a dart where the card has no sub-goals yet or part of its goal is unwalked, else a drive.
 }
 
 rule FileAndStop {
@@ -87,21 +102,42 @@ rule FileAndStop {
     ensures: session.plan.status = approved
     ensures: session.status = exited
     ensures: session.exit = filed
+    ensures: SessionEnded(session: session)
 
     @guidance
         -- File the issue, or with an existing card update its description.
 }
 
 -- Pickup is the approved plan's first step, never done while planning: plan mode is read-only, and until the plan is approved nobody has agreed to do the work.
+-- PickUpCard asks for it; the attempt ends in CardPickedUp, or, where the tracker conventions leave a question in secondary, PickUpBlocked (PickUpParks).
 rule PickUp {
-    when: PickUpCard(session)
+    when: CardPickedUp(session)
+    requires: session.status = choosing
     requires: not session.picked_up
     ensures: session.picked_up = true
+    ensures:
+        if session.plan.route.count > 0:
+            Take(session: session, move: session.plan.route.first)
+        else:
+            MoveDue(session: session)
 
     @guidance
         -- With a card, update the tracker first: the user as assignee, then status and board as the project's tracker conventions say for a card being picked up; where they don't say, ask.
         -- Then create or check out the feature branch off the project's base branch, named by the project's convention.
-        -- A file-and-implement route files the issue first. A plan re-approved after a replan goes back to implementing without picking up, or filing, again.
+        -- A file-and-implement route files the issue first. A plan re-approved after a replan goes back to implementing without picking up, or filing, again (ApprovePlan).
+}
+
+-- In secondary, a pickup the tracker conventions leave a question on parks with the card not picked up, so the session that resumes it picks it up again (Resume).
+rule PickUpParks {
+    when: PickUpBlocked(session)
+    requires: session.status = choosing
+    requires: not session.picked_up
+    requires: session.mode = secondary
+    ensures: session.status = parked
+    ensures: Recorded(session: session, entry: open_question)
+
+    @guidance
+        -- Park as TakePark says.
 }
 
 -- A switch is the user's, never the session's own; the session stays secondary until they switch it back explicitly, and a message while it runs doesn't change the mode.
@@ -111,6 +147,10 @@ rule SwitchMode {
     requires: session.mode != mode
     ensures: session.mode = mode
     ensures: Recorded(session: session, entry: mode)
+    ensures:
+        if mode = secondary and session.status = offered:
+            session.status = choosing
+            Choose(session: session, move: session.offered_move)
 
     @guidance
         -- Coming back from secondary, record the mode, then refresh the user's context by reporting where the session has got to, leading with the decisions made while they were away and the questions left for them.
@@ -123,12 +163,26 @@ rule ParkDraft {
     requires: session.mode = secondary
     ensures: session.status = parked
     ensures: Recorded(session: session, entry: draft_plan)
+
+    @guidance
+        -- Park as TakePark says, where a branch with work exists — a replan after work; otherwise the draft goes into the comment on the issue.
+}
+
+-- Every entry into choosing takes a move or chooses one, bar the user's no (DeclineOffer), which leaves the choice with them: ApprovePlan, PickUp, Resume, RevertDone and FinishReopens raise MoveDue where they take none.
+rule ChooseMove {
+    when: MoveDue(session)
+    requires: session.status = choosing
+    -- Which move is the orchestrator's choice, per ApprovePlan's guidance; a drive where one can be taken, else a dart, stands for it.
+    ensures: Choose(session: session, move:
+        if session.open_frames.count = 0 and session.drivable_sub_goals.count > 0: drive else: dart)
 }
 
 -- A move the approved plan's route names is taken in the route's order without being offered: approving the plan was the yes.
+-- No drive or revert is offered or taken before the card is picked up, here, in OfferMove or in TakeUnoffered; PickUp chooses again once it is.
 rule TakeOnRoute {
     when: ChooseOnRoute(session, move)
     requires: session.status = choosing
+    requires: session.picked_up or (move != drive and move != revert)
     ensures: Take(session: session, move: move)
 }
 
@@ -136,6 +190,7 @@ rule OfferMove {
     when: Choose(session, move)
     requires: session.status = choosing
     requires: session.mode = primary
+    requires: session.picked_up or (move != drive and move != revert)
     ensures: session.status = offered
     ensures: session.offered_move = move
 
@@ -167,6 +222,7 @@ rule TakeUnoffered {
     when: Choose(session, move)
     requires: session.status = choosing
     requires: session.mode = secondary
+    requires: session.picked_up or (move != drive and move != revert)
     ensures: Take(session: session, move: move)
     ensures: Recorded(session: session, entry: would_have_offered)
 
@@ -199,6 +255,7 @@ rule TakeDrive {
     when: Take(session, move)
     requires: move = drive
     requires: session.status = choosing
+    requires: session.picked_up
     requires: session.open_frames.count = 0
     requires: session.drivable_sub_goals.count > 0
     -- Which drivable sub-goal is taken is the orchestrator's choice; `.first` stands for it.
@@ -208,7 +265,7 @@ rule TakeDrive {
     ensures: Recorded(session: session, entry: in_hand)
 
     @guidance
-        -- A sub-goal is drivable once a dart has exercised it — built and run, not reasoned about — or once you judge it straightforward, recorded as a decision.
+        -- A sub-goal is drivable once a dart has exercised it — built and run, not reasoned about — or once you judge it straightforward (JudgeStraightforward).
         -- Record it as in hand before anything is edited.
         -- Record the branch's head, check out the branch the frame works from (the feature branch; for a tidy committed on main, its tidy branch off main), then spawn the drive agent in the background with the frame as its brief and nothing else: sub-goal, kind, placement, branch, head, and where the card's work is recorded. Do not restate what it loads for itself — the project's conventions, how to verify — nor dictate a format the conventions own, such as a commit message's. It works in the card's own checkout, with no worktree; do not touch it until the agent ends. A harness hook reporting uncommitted changes meanwhile is reporting the frame's work in progress.
         -- Triage what it reports without stopping the frame. It spawns the sub-agents the conventions call for itself; where it has no Agent tool it asks you, and you spawn each with exactly the inputs it names and resume it. It asks you the questions the commit conventions would put to the user: answer from the record, or put it to the user.
@@ -224,7 +281,9 @@ rule TakeRevert {
     when: Take(session, move)
     requires: move = revert
     requires: session.status = choosing
+    requires: session.picked_up
     ensures: session.status = reverting
+    ensures: session.revert_in_hand = true
     ensures: Recorded(session: session, entry: re_split)
     ensures:
         for frame in session.open_frames:
@@ -241,6 +300,8 @@ rule RevertDone {
     when: Replayed(session, not_replayed)
     requires: session.status = reverting
     ensures: session.status = choosing
+    ensures: session.revert_in_hand = false
+    ensures: MoveDue(session: session)
     ensures:
         for sub_goal in not_replayed:
             sub_goal.status = if sub_goal.is_ready: ready else: pending
@@ -264,9 +325,15 @@ rule TakeReplan {
         for dart in session.darts where status = running or status = waiting:
             dart.status = lost
             Recorded(session: session, entry: dart_lost)
+    ensures:
+        for y in session.untriaged:
+            if y.kind = route_question or y.kind = user_decision:
+                Recorded(session: session, entry: open_question)
+            y.triaged = true
 
     @guidance
-        -- Frames in hand are thrown away with the plan they served; their WIP commits stay as evidence for the re-plan.
+        -- Stop the running dart and drive agents first; the drive agent edits the card's checkout.
+        -- Frames in hand are thrown away with the plan they served; their WIP commits stay as evidence for the re-plan. Record in the `replan:` entry what each lost dart found, and what each untriaged yield of the old plan says, that could feed the re-plan; the yields are then discarded, each question among them kept as an open question with what it blocks.
         -- Re-enter plan mode before any other step, naming in the `replan:` entry what the goal's change invalidated, marked and not deleted; revise the plan and ask for approval as in ApprovePlan.
 }
 
@@ -282,7 +349,7 @@ rule TakePark {
             frame.status = parked
 
     @guidance
-        -- A park leaves what a later session needs to resume, where the project tracks the card. In this order: write the work up on its issue; push the feature branch with `--force-with-lease`, WIP commits included once their messages are written, leaving a branch the session doesn't own as it is and saying so; then comment on the issue with the branch, its head commit's subject and what was in hand — the drive stack, innermost first.
+        -- A park leaves what a later session needs to resume, where the project tracks the card. In this order: write the work up on its issue; push the feature branch with `--force-with-lease`, WIP commits included once their messages are written, leaving a branch the session doesn't own as it is and saying so; then comment on the issue with the branch, its head commit's subject, whether the card was picked up, and what was in hand — the drive stack, innermost first, or a revert with the tag on its old head.
         -- Stopping mid-drive WIP-commits the work and leaves it recorded as in hand. A park with no branch yet — a draft plan — carries the draft in that comment instead.
 }
 
@@ -290,6 +357,7 @@ rule TakePark {
 rule Stop {
     when: UserStops(session)
     requires: session.status = planning or session.status = choosing or session.status = offered
+        or session.status = reverting or session.status = finishing
     ensures: session.status = parked
     ensures:
         for frame in session.in_hand:
@@ -299,23 +367,43 @@ rule Stop {
         -- Park as TakePark says.
 }
 
--- A later session resumes the parked work from that record on the issue, and picks its stack back up; a card whose plan was never approved resumes in plan mode.
+-- One rule resumes parked work, whether the parked session continues or a later session starts on the card, which BeginPlanning restores from the park's record on the issue and resumes here.
+-- A session stopped mid-revert resumes reverting, so RevertDone completes the revert; otherwise an approved plan resumes choosing, picking the card up only where the park left it not picked up, and the frame in hand resumes writing with the rest of the stack still under it; otherwise the plan resumes planning.
 rule Resume {
     when: SessionResumed(session)
     requires: session.status = parked
-    ensures: session.status = if session.plan.status = approved: choosing else: planning
+    ensures: session.status =
+        if session.revert_in_hand: reverting
+        else if session.plan.status = approved: choosing
+        else: planning
+    ensures:
+        if not session.revert_in_hand and session.plan.status = approved:
+            if not session.picked_up:
+                PickUpCard(session: session)
+            else if session.open_frames.count = 0:
+                MoveDue(session: session)
     ensures:
         for frame in session.frames where status = parked:
             frame.status = writing
 }
 
--- A dart in flight when the session ends — exited, or the conversation itself gone — is lost,
+-- A dart in flight when the session ends or parks — exited, parked, or the conversation itself gone — is lost,
 -- and darted again by whichever session picks the work up, where still needed.
 rule DartLost {
     when: SessionEnded(session)
     for dart in session.darts where status = running or status = waiting:
         ensures: dart.status = lost
         ensures: Recorded(session: session, entry: dart_lost)
+}
+
+rule DartLostOnPark {
+    when: session: c/Session.status transitions_to parked
+    for dart in session.darts where status = running or status = waiting:
+        ensures: dart.status = lost
+        ensures: Recorded(session: session, entry: dart_lost)
+
+    @guidance
+        -- Stop the running dart agents before the park's comment on the issue, and carry in it what each lost dart found that the record doesn't hold.
 }
 
 -- Before the done exit, the review-unit pass shapes the unlanded branch into review units.
@@ -345,7 +433,7 @@ rule ReviewBranch {
 
     @guidance
         -- Run the review at the level the project's conventions set — the review they name, or a code-review agent — over the code and its comments.
-        -- Each finding is triaged like any report and driven as an amend of the commit it belongs to, never fixed by you; one may be driven without a dart, recorded as judged straightforward.
+        -- Each finding is triaged like any report and driven as an amend of the commit it belongs to, never fixed by you; one may be driven without a dart once judged straightforward (JudgeStraightforward).
         -- A finding a drive could only have missed because something it reads was silent or wrong is also a gap: fix it where it belongs — the project's instructions or skills, the record, a skill of a-star's, or the session's setup.
         -- Amends reopen both passes: rerun the review-unit pass, and the code review over what the amends changed, until a pass turns up nothing to drive.
 }
@@ -384,7 +472,6 @@ rule Finish {
     requires: outcome = session.plan.finish or user_agreed or (session.mode = secondary and outcome = no_pr)
     ensures: session.status = exited
     ensures: session.exit = done
-    ensures: session.finish = outcome
     ensures: Recorded(session: session, entry: finish)
     ensures:
         if outcome != session.plan.finish:
@@ -393,11 +480,41 @@ rule Finish {
 
     @guidance
         -- Ask the user only where the work reverses the plan's prediction. In secondary, decide: record the reversal and its grounds, and take the outcome the evidence selects, where it selects one and it is the plan's or no PR. A reversal calling for a PR the plan didn't predict is the user's (FinishWithholdsPR). Opening a PR the plan predicted is allowed; merging it never is.
-        -- The outcome is the first whose condition holds, in this order; where none holds, ask the user.
+        -- The outcome is the first whose condition holds, in this order; where none holds, ask the user, and in secondary park (FinishParks).
         -- no_pr, where the commit carries it all, or an issue carries the knowledge and nothing in the implementation is counter-intuitive: first update the issue's description where the work changed what it should say. The finish ends with a report naming the branch and its head sha.
         -- standalone_pr, where there is no issue and something to share beyond the commit: raise a PR that carries the problem itself.
         -- pr_on_issue, where the implementation is worth sharing in its own right: raise a PR that resolves the issue, or is part of it.
         -- Push the branch with `--force-with-lease`, then raise the PR. The finish doesn't end while a blocking question on the PR is unsettled; in secondary it is left open on the PR, marked for the user, and the finish ends.
+}
+
+-- A finish that turns up an amend — CI failing, a finding on the PR — goes back to choosing: the amend is triaged and driven, and the finish is decided again.
+rule FinishReopens {
+    when: FinishFoundAmend(session)
+    requires: session.status = finishing
+    ensures: session.status = choosing
+    ensures: MoveDue(session: session)
+}
+
+-- A reword the finish turns up changes no code, so it needs no triage or drive: the finish applies it in place and carries on.
+rule FinishRewords {
+    when: FinishFoundReword(session)
+    requires: session.status = finishing
+    ensures: Recorded(session: session, entry: reword)
+
+    @guidance
+        -- Write the message through the need, write the commit message; update the journal entries keyed by a subject it changes; push with `--force-with-lease` where the branch is already on the remote.
+}
+
+-- In secondary, a finish no outcome fits is parked, not asked.
+rule FinishParks {
+    when: FinishUndecidable(session)
+    requires: session.status = finishing
+    requires: session.mode = secondary
+    ensures: session.status = parked
+    ensures: Recorded(session: session, entry: open_question)
+
+    @guidance
+        -- Park as TakePark says.
 }
 
 rule SubGoalReady {
@@ -429,6 +546,15 @@ rule SubGoalReReadied {
     requires: sub_goal.status = pending
     requires: sub_goal.is_ready
     ensures: sub_goal.status = ready
+}
+
+-- A sub-goal no dart exercised is driven only once the orchestrator judges it straightforward, recorded as a decision: an amend raised by the code review, say.
+rule JudgeStraightforward {
+    when: JudgedStraightforward(sub_goal)
+    requires: sub_goal.status = pending or sub_goal.status = ready
+    requires: not sub_goal.exercised
+    ensures: sub_goal.judged_straightforward = true
+    ensures: Recorded(session: sub_goal.session, entry: decision)
 }
 
 -- Triage.
@@ -497,7 +623,7 @@ rule TriageSubGoal {
     ensures:
         let sub_goal = c/SubGoal.created(
             session: y.session, status: pending, kind: y.frame_kind, placement: y.placement,
-            exercised: y.from_dart != null, judged_straightforward: false)
+            exercised: y.exercised, judged_straightforward: false)
         Recorded(session: y.session, entry: sub_goal)
         TaskAdded(sub_goal: sub_goal)
 
@@ -518,7 +644,7 @@ rule TriageCompletion {
     ensures:
         let sub_goal = c/SubGoal.created(
             session: y.session, status: pending, kind: amend, placement: inside_commit,
-            amends: y.completes, exercised: y.from_dart != null, judged_straightforward: false)
+            amends: y.completes, exercised: y.exercised, judged_straightforward: false)
         Recorded(session: y.session, entry: sub_goal)
         TaskAdded(sub_goal: sub_goal)
 }
@@ -534,7 +660,7 @@ rule TriageSupersedingChange {
             for commit in y.unlanded_superseded:
                 let sub_goal = c/SubGoal.created(
                     session: y.session, status: pending, kind: amend, placement: inside_commit,
-                    amends: commit, exercised: y.from_dart != null, judged_straightforward: false)
+                    amends: commit, exercised: y.exercised, judged_straightforward: false)
                 Recorded(session: y.session, entry: sub_goal)
                 TaskAdded(sub_goal: sub_goal)
         else:
@@ -564,7 +690,7 @@ rule TriageEarlierCommit {
     ensures:
         let sub_goal = c/SubGoal.created(
             session: y.session, status: pending, kind: amend, placement: inside_commit,
-            amends: y.commit, exercised: true, judged_straightforward: false)
+            amends: y.commit, exercised: y.exercised, judged_straightforward: false)
         Recorded(session: y.session, entry: sub_goal)
         TaskAdded(sub_goal: sub_goal)
         if y.blocks_frame and y.from_frame != null and y.from_frame.status = writing:
@@ -632,7 +758,7 @@ rule DartReports {
 
     @guidance
         -- Harvest into the plan and journal, adding a task for each sub-goal: the sub-goals, each with kind, dependencies and whether the dart exercised it, shaped as review units and together completing the card; the decisions you keep; the questions with what each blocks; the assumptions and risks, including each invariant the dart broke; the data structures that matched the problem; and the dart's branch and head.
-        -- A sub-goal not exercised is darted before it is driven, unless you judge it straightforward and record that as a decision.
+        -- A sub-goal not exercised is darted before it is driven, unless you judge it straightforward (JudgeStraightforward).
 }
 
 rule DartHarvested {
