@@ -1,6 +1,6 @@
 ---
 name: goal-tree
-description: Write a goal as a tree whose children accomplish their parent rather than argue for it — the notation of a KAOS goal model. Load whenever writing something with a goal structure in it — the direction or target end state of a piece of work, an issue's Potential approach section, the shape of a problem, or a plan. Covers the shape, the `C<n>`/`A<n>` annotations on the node they bound, where the tree sits in an issue, and linking a child to its issue. The chalk:issue skill loads it alongside chalk:voice.
+description: Write the goal as a goal tree — a tree whose children accomplish their parent rather than argue for it, the notation of a KAOS goal model, with each node tested for sufficiency. Load whenever writing something with a goal structure in it — the direction or target end state of a piece of work, an issue's Potential approach section, the shape of a problem, or a plan. Covers the shape, the `C<n>`/`A<n>` annotations on the node they bound, where the tree sits in an issue, and linking a child to its issue. The chalk:issue skill loads it alongside chalk:voice.
 user-invocable: true
 ---
 
@@ -47,12 +47,13 @@ So it is an annotation on the node, not a child of it, and so is an assumption t
 
 ## Marks on the tree
 
-- **A node whose children aren't clearly sufficient is marked `check:`**, per `chalk:voice`, rather than left to read as settled.
+- **Each node is tested for sufficiency — complete refinement:** its children, with the domain properties relied on, entail it within its constraints; a set of children that reaches the parent by breaking one of its constraints is not sufficient.
+  A node whose children aren't clearly sufficient is marked `check:`, per `chalk:voice`, rather than left to read as settled.
 
 - **A leaf declares its kind where that isn't obvious** — requirement (something we do), expectation (something expected of someone or something else) or domain property (a plain fact relied on) — so an expectation never reads as work.
   `assumption:` marks a leaf as unverified; the kind is the separate question of who is on the hook.
 
-- **Goal weakening and obstacle tolerance leave no trace in the tree**, so what was cut or accepted is written in **Out of scope** or **Alternative approaches**.
+- **Goal weakening and obstacle tolerance leave no trace in the tree**, so what was cut or accepted is recorded in **Out of scope** or **Alternative approaches**.
 
 ## In an issue description
 

@@ -1,6 +1,6 @@
 ---
 name: put-down
-description: Put the work down on its issue, so the issue and its links say where the work stands — the description corrected, the metadata sorted, and cards the session discovered raised and linked as appropriate. Use when the user says "put this down", "park this", "/chalk:put-down", "put the work down on its issue", or is switching this session away from the issue's work.
+description: Write the work up on its issue, so that the issue and the cards around it hold where the work stands, what the session learned and what it discovered, before only the transcript holds them. It writes nothing to GitHub itself, handing each piece to what claims it. Use when the user says "write the work up on its issue", "write this up on the issue", "/chalk:put-down", or is about to leave the issue's work with only the transcript holding it.
 user-invocable: true
 argument-hint: "[issue, if the session hasn't named one]"
 ---
@@ -40,7 +40,7 @@ Put-down adds no second shape for the description.
 
 If it is in any way unclear, you MUST confirm with the user which ones they want raising.
 
-- **Parent/child relationships MUST be wired in the tracker**, as must blocked-by where the tracker models it.
+- **Parent/child relationships MUST be wired in the tracker**, as must blocked-by where the tracker models it, through `chalk:issue`.
   A child known only from a mention in the parent's text doesn't show up in the tracker's own view of the parent.
 
 - **A card this work turned out to wait on gets the dependency written onto it**, through `chalk:issue`'s own path, and not only the edge.

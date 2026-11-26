@@ -133,20 +133,15 @@ It reads the description cold, as the reviewer, attempts the reviewer's job from
 - **Where there is no linked issue, say so**, so it reads the description as carrying the problem too.
 
 - **Where only the user can answer, answer from the branch where the branch genuinely has it**, naming the commit you draw on so the user can correct you.
-  Where the user can't be asked now, one the branch can't answer goes into Open questions, marked for them.
-
-**Delegate the branch's commit messages to the `weed-commits` agent beside it**, per `chalk:commit`, passing the base branch and the head.
-
-- **Its findings are applied by whoever owns the branch**, by rewording each commit through `chalk:commit`; this skill rewrites no history.
-
-- **The reworded commits go back to `weed-commits`**, until it has no question left.
+  One the branch can't answer is a blocking question, below.
 
 ## Opening it
 
-**The PR opens only after both the description and the branch's commit messages are weeded**, each until its agent has no question left; neither weed stands in for the other.
+**The PR opens only after the description is weeded**, until `weed-pr` has no question left.
+Every commit message on the branch was weeded when it was written (`chalk:commit`), so this skill weeds none.
 
-**Delegate to the chalk github agent.**
-The branch is already on the remote; this skill doesn't push it, and says so to its caller where it isn't.
+**Delegate to the chalk github agent**, once the branch is pushed.
+The caller — the harness running the work or, in a session without one, the main session following the project's conventions — applies any rewording of the branch's commits and pushes it; this skill rewrites no history and pushes nothing, and says so to its caller where the branch isn't on the remote.
 
 - Pass the title and the fully-drafted description, ready to post verbatim.
 
@@ -155,4 +150,5 @@ The branch is already on the remote; this skill doesn't push it, and says so to 
 
 - The agent assigns the current user by default. Tell it to skip assignment only if the user has asked you to.
 
-**A blocking question on the PR stays unsettled only where the user can't be asked now**: it is left open on the PR, marked for them.
+**A blocking question on the PR is put to the user where they can be asked, and settled before it opens.**
+Where they can't be asked now, it goes into Open questions, marked for them.

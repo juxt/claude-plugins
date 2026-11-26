@@ -1,6 +1,6 @@
 ---
 name: issue
-description: Create a GitHub issue, update an existing issue's description, or post a comment on an issue, with a body that captures the problem and why it matters, in the chalk voice. Use when the user says "open an issue", "file a bug", "raise an issue", "create an issue", "file a ticket", "write up a feature request", "/chalk:issue"; OR is about to compose, draft, write or update any GitHub issue title, issue body or issue description (e.g. "write up an issue for this", "update the issue description", "put the analysis on the ticket"). Load this skill BEFORE drafting any such prose — it carries the voice guidance the body needs.
+description: File an issue, update an existing issue's description, comment on an issue, or put a dependency onto another card (the blocked-by edge, and the note on the card it blocks), with a body that captures the problem and why it matters, in the chalk voice. Use when the user says "open an issue", "file an issue", "comment on the issue", "put this dependency on the other card", "file a bug", "raise an issue", "create an issue", "file a ticket", "write up a feature request", "/chalk:issue"; OR is about to compose, draft, write or update any GitHub issue title, issue body or issue description (e.g. "write up an issue for this", "update the issue description", "put the analysis on the ticket"). Load this skill BEFORE drafting any such prose — it carries the voice guidance the body needs.
 user-invocable: true
 disable-model-invocation: false
 ---

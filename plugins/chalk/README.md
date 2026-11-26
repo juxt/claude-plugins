@@ -29,7 +29,7 @@ It keeps the session's journal, and writes issues, commits and PRs in a style th
 It plans nothing, picks nothing up, and never pushes or rewrites a branch.
 
 chalk is the adapter side of ports and adapters (Cockburn's hexagonal architecture).
-A process that needs something written or recorded names the need as a plain verb — write the commit message, raise a PR, weed the commit messages, record in the session's journal, put the work down on its issue — and chalk claims it through its skill and agent descriptions.
+A process that needs something written or recorded names the need as a plain verb — write the commit message, raise a PR, record in the session's journal, write the work up on its issue — and chalk claims it through its skill and agent descriptions.
 The user's own instructions bind the two.
 
 ## Installation
@@ -52,13 +52,13 @@ Requires the `gh` CLI to be installed and authenticated (`gh auth login`).
 
 - `/chalk:issue [title]` — file an issue, or update an existing issue's description
 
-- `/chalk:commit <headline>` — write a contextual commit message
+- `/chalk:commit <headline>` — commit what is staged, with a contextual message
 
 - `/chalk:pr [title]` — create a PR with an intent-driven description
 
 - `/chalk:sitrep [focus]` — report where the session has got to, and what's still open
 
-- `/chalk:put-down [issue]` — put the work down on its issue: description corrected, metadata sorted, discovered cards raised and linked
+- `/chalk:put-down [issue]` — write the work up on its issue: description corrected, metadata sorted, discovered cards raised and linked
 
 - `/chalk:explicate <area> [focus or since-point]` — unfold an area of the code: how it works now, the decisions behind it and their consequences, then follow-ups as a depth-first walk
 

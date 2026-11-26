@@ -6,13 +6,10 @@ description: >
   what it had to rebuild from the diff, the claims it couldn't take unread. It reports
   questions and never writes answers.
 
-  DO NOT invoke this agent directly from the main conversation (except from
-  an implementation harness's agent, or relayed for one by the main session), and DO NOT give it the
-  session's reasoning. The author holds the theory of the change and can't see what the
+  Whoever calls it, DO NOT give it the session's reasoning. The author holds the theory of the change and can't see what the
   description leaves out; this agent can, because it holds only what the reviewer holds.
 
-  Reached from `chalk:pr`, after the description is drafted. The branch's commit messages go
-  to `weed-commits`.
+  Reached from `chalk:pr`, after the description is drafted. Commit messages are weeded as each is written, by `weed-commits`.
 model: sonnet
 color: green
 tools: Skill, Read, Edit, Grep, Glob, Bash(git diff *), Bash(git log *), Bash(git show *), Bash(gh issue view *), Bash(git cat-file *), Bash(test *)
@@ -37,7 +34,7 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 - **The diff** from the base branch to the head.
 - **The commits, subjects and bodies** (`git log base..head`).
   The reviewer reads the code commit by commit, and each body carries what checking that commit means and the invariants it rests on (`chalk:commit`).
-  `weed-commits` weeds them; you read them only as the reviewer's context.
+  They were weeded as each was written; you read them only as the reviewer's context.
 - **The linked issue**, verbatim, if there is one, per `cold-read.md`.
 
 **The bus test runs over the description and the commit bodies together**, since that is what the reviewer holds.

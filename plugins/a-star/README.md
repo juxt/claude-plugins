@@ -100,5 +100,5 @@ It is stated as state machines in [`spec/`](spec/) (`common`, `orchestrator`, `d
 ## What A⭐ needs from its surroundings
 
 **A⭐ follows ports and adapters (Cockburn's hexagonal architecture): the specs name each need as a plain verb, and your project binds each verb to whatever provides it.**
-The needs: read the issue and its neighbourhood, update the tracker, record in the session's journal, write the commit message, weed the commit messages, weed the comments, raise a PR, put the work down on its issue, and report where the session has got to.
-A⭐ doesn't know who provides them; your user-level or project instructions say which skill or agent does, and A⭐ asks where one is unbound.
+The needs: read the issue and its neighbourhood, search existing cards, update the tracker, file an issue, update the issue's description, comment on the issue, put a dependency onto another card, record in the session's journal, write the commit message (rewording included), weed the comments, raise a PR, write the work up on its issue, report where the session has got to, and write the goal as a goal tree.
+A⭐ doesn't know who provides them; your user-level or project instructions and installed skills say which does.

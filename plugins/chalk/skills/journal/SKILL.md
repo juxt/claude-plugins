@@ -66,8 +66,8 @@ A caller MAY keep entries of its own besides these.
 - **`inbox:`** — an arrival held for the user until their current thread closes.
   It is cleared once raised.
 
-- **`review:`** — what a reviewer needs to check a commit, by its subject: what checking it means, the invariants it rests on with where each is made true, what pins it and what would break it, and what was verified and what wasn't.
-  Whoever knows it writes it when the commit is made, into the commit's body through `chalk:commit`.
+- **`review:`** — the journal's entry for a commit, by its subject: what checking it means, the invariants it rests on with where each is made true, what pins it and what would break it, and what was verified and what wasn't.
+  The commit's body carries the review notes (`chalk:commit`); the entry is written from them once the commit is made — by whoever made it, or where a harness's agent made it, from the notes that agent wrote into the body and reported.
   `chalk:pr`'s Reviewing this finds what spans commits and what was verified here.
 
 - **Sub-goals** — each names what it depends on, and is ready once everything it depends on is done and no open question blocks it.
@@ -84,7 +84,7 @@ A caller MAY keep entries of its own besides these.
 
 **Cutting scope and accepting a risk MUST be recorded**; they leave no other trace.
 
-**Everything not the issue's stays in the journal**, naming the sub-goal it bears on only where the entry doesn't make that obvious.
+**What the issue's next reader needs — open questions, and decisions that bear on the problem — goes to the issue; the rest stays in the journal**, naming the sub-goal it bears on only where the entry doesn't make that obvious.
 
 ## The task list
 

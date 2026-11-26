@@ -3,7 +3,7 @@ name: a-star
 description: >
   The a-star process, and the user's entry point to it: plan the goal with them in plan mode until they approve the goal and the route, pick the card up, then choose each move — dart, drive, revert, replan, park or done — by its guard, and finish or park the work.
   Every other a-star skill loads this one first — it points at the four specs that carry the orchestrator, planning, the moves and their guards, triage, the roles, where sub-goals come from, the structure/behaviour split, what a-star records, and what it needs the project to say.
-  Use when the user says "/a-star <issue>", "pick this up", "pick up #N", "start on #N", "let's plan this", or resumes a card from an earlier session.
+  Use when the user says "/a-star <issue>", "pick this up", "pick up #N", "start on #N", "let's plan this", "park this", "put this down", or resumes a card from an earlier session.
 user-invocable: true
 argument-hint: "[issue]"
 ---

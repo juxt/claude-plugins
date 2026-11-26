@@ -5,15 +5,12 @@ description: >
   Applies `chalk:code-comments` — the default of silence, the exceptions, the test —
   against code it has never seen before, and lands the deletions.
 
-  DO NOT invoke this agent directly from the main conversation (except from
-  an implementation harness's agent, or relayed for one by the main session), and DO NOT tell it
-  what the change was for. It works because it arrives without the reasoning that
-  produced the comments — the context that wrote a comment is the one that cannot
-  see it as surplus. A caller who explains the change turns this into same-session
-  self-review, which is the thing it exists to avoid.
+  Whoever calls it, DO NOT tell it what the change was for. It works because it arrives
+  without the reasoning that produced the comments — the context that wrote a comment is
+  the one that cannot see it as surplus. A caller who explains the change turns this into
+  same-session self-review, which is the thing it exists to avoid.
 
-  Reached to weed the comments of a change: from `chalk:commit`, before the commit body is drafted,
-  or on its own over the files a change touched.
+  Reached to weed the comments of a change: over the files the change touched, passed as paths.
 model: sonnet
 effort: low
 color: green

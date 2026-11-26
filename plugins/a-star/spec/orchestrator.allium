@@ -1,7 +1,7 @@
 -- allium: 3
 -- orchestrator: the main session holds this machine, and is the user's entry point: it plans the goal with them, picks the card up, chooses each move, triages what darts and drives turn up, and finishes or parks the work. It never writes code: every code change, an amend included, is a drive's; it may rewrite a commit's place or message. Darts and drives turn up the same kinds of thing, triaged alike.
 -- Prior art: the goal is reasoned as a KAOS goal model (van Lamsweerde, Requirements Engineering, 2009); the route below it is the Mikado Method's.
--- Ports and adapters (Cockburn's hexagonal architecture): a need is named here as a plain verb — read the issue and its neighbourhood, update the tracker, record in the session's journal, write the commit message, weed the commit messages, weed the comments, raise a PR, put the work down on its issue, report where the session has got to — and the project's instructions and installed skills bind each to what claims it.
+-- Ports and adapters (Cockburn's hexagonal architecture): a need is named here as a plain verb — read the issue and its neighbourhood, search existing cards, update the tracker, file an issue, update the issue's description, comment on the issue, put a dependency onto another card, record in the session's journal, write the commit message (rewording included), weed the comments, raise a PR, write the work up on its issue, report where the session has got to, write the goal as a goal tree — and the project's instructions and installed skills bind each to what claims it.
 
 use "./common.allium" as c
 
@@ -15,7 +15,9 @@ use "./common.allium" as c
 -- what a drive's report taught, including where the road departed from the darts' route;
 -- a revert or re-split as a `re-split:` entry, recording what changed and which sub-goals it superseded or reopened, and a replan as `replan:`;
 -- what is in hand — the drive stack, innermost first — before the first edit; and a dart in flight, so a resumed session knows it was lost.
--- Keep the host's task list current, a view of the goal tree and never a second source: approving the plan adds a task per open leaf; a recorded sub-goal adds its task, replacing the leaf it refines; one done completes it; one superseded or thrown away removes it; a replan or re-split removes the tasks of the leaves it drops and adds those of the leaves it adds; and a frame interrupting a drive marks the drive's task blocked by its own.
+-- A decision that changes the problem or the agreed scope goes onto the issue now, at any stage, by updating its description, journalled as having gone; on an unfiled route it goes into the standalone PR where there is one, and otherwise stays in the journal. A dependency the session discovers goes onto the card it depends on, not this one. Triage and UserSettles apply this to every decision they record.
+-- Every commit message — a drive's, a reword, a merged commit's, a split commit's, an amended commit's, a WIP commit's before it is pushed — is written by the need, write the commit message, and nothing is pushed or handed over with a message written otherwise. An amend's `fixup!` commit is the one exception, mechanical because the autosquash folds it away; the commit it lands in is reworded instead (drive.allium's `Committed`).
+-- Keep the host's task list current: approving the plan adds a task per open leaf; a recorded sub-goal adds its task, replacing the leaf it refines; one done completes it; one superseded or thrown away removes it; a replan or re-split removes the tasks of the leaves it drops and adds those of the leaves it adds; and a frame interrupting a drive marks the drive's task blocked by its own.
 
 -- Sub-goals.
 -- Sub-goals come from darts, not from reading the code: the approved plan's leaves are provisional until a dart has exercised them, and harvesting refines each leaf it walked into sub-goals, replacing the leaf's task.
@@ -48,14 +50,13 @@ rule AgreeGoal {
 
     @guidance
         -- Agree the root with the user: what the card is for, never how it gets there. Ask what they can answer now rather than parking it; open questions keep only what nobody can answer yet. Report gaps — a missing goal, unclear scope, open questions nobody has answered — against what the issue should say.
-        -- What is agreed goes on the issue at once, by updating its description: every decision that bears on the problem or the agreed scope, journalled as having gone. On an unfiled route it goes into the standalone PR where there is one, and otherwise stays in the journal. A dependency discovered goes onto the card it depends on rather than this one.
         -- With a card, read its description and resolve its gaps in the issue, not in the plan.
         -- The session's output is an issue, or the implementation, and the plan takes that output's shape; ask where the request doesn't settle it. An issue: the plan is the issue body's draft, correcting the card's or drafting a new one. The implementation: the plan is what has to land, written as a goal tree, the goal at the root and what lands at the leaves. Either way it says what has to be true, not which files to touch; where the change reshapes the design, what has to be true is the target model, stated as a model diff at the root.
         -- The route is part of the plan: file and stop, implement an existing card, file and implement, or implement unfiled. With an existing card, file and stop corrects that card. Unfiled where a card would carry nothing the commit or a standalone PR can't. A route that implements predicts its finish, per the Finish rule's guidance, and MAY name its moves in order.
-        -- The goal tree is a KAOS goal model. Test each node for sufficiency — complete refinement: its children, with the domain properties relied on, entail it within its constraints. A set of children that reaches the parent by breaking one of its constraints is not sufficient. Say the domain properties out loud; mark a node `check:` where its children are not clearly sufficient; say where sufficiency leans on what the user already knows about the system.
+        -- The goal tree is a KAOS goal model. Each node is tested for sufficiency — complete refinement: its children, with the domain properties relied on, entail it within its constraints; a set of children that reaches the parent by breaking one of its constraints is not sufficient. A node whose children aren't clearly sufficient is marked `check:`. Say the domain properties out loud, and where sufficiency leans on what the user already knows about the system.
         -- To find a missing child, identify the parent's obstacles: ask what would stop it, rather than what would achieve it.
         -- A leaf is a requirement (something we do), an expectation (something expected of someone or something else: the user, CI, another team, an upstream library, existing behaviour) or a domain property (a plain fact relied on); say which where it isn't obvious. The kind is who is on the hook, apart from whether it is verified. An expectation never reads as a requirement: it sits in the tree looking like work, and nothing happens until someone notices it was never assigned.
-        -- A gap is an obstacle and invalidates everything above it: surface it. Close it by a deliberate choice of resolution tactic, never by reflexively adding a task: goal substitution, agent substitution, obstacle prevention, obstacle reduction, goal restoration, obstacle mitigation, goal weakening or obstacle tolerance. Goal weakening and obstacle tolerance leave no trace in the tree, so record each as out of scope: scope deliberately cut is a decision someone will want the reasoning for.
+        -- A gap is an obstacle and invalidates everything above it: surface it. Close it by a deliberate choice of resolution tactic, never by reflexively adding a task: goal substitution, agent substitution, obstacle prevention, obstacle reduction, goal restoration, obstacle mitigation, goal weakening or obstacle tolerance. Goal weakening and obstacle tolerance leave no trace in the tree, so record each in Out of scope or Alternative approaches: scope deliberately cut is a decision someone will want the reasoning for.
 }
 
 -- Approving is the user leaving plan mode. Where the plan implements, the session picks the card up and takes the plan's first move; a plan that only files an issue files it and stops.
@@ -88,7 +89,7 @@ rule FileAndStop {
     ensures: session.exit = filed
 
     @guidance
-        -- File the issue, or with an existing card correct it, by its own path.
+        -- File the issue, or with an existing card update its description.
 }
 
 -- Pickup is the approved plan's first step, never done while planning: plan mode is read-only, and until the plan is approved nobody has agreed to do the work.
@@ -141,7 +142,7 @@ rule OfferMove {
     @guidance
         -- Primary: the user is watching and steers as the session goes, so the session manages their context — they see only what their current thread needs, and the session raises everything else at the right time. Escalate what the user should decide and decide the rest yourself; every question costs them context.
         -- Interruption management: defer to breakpoints (Iqbal & Bailey), with the session mediating (McFarlane), and GTD's inbox, open loops and review. A thread is the topic the user's last message engages with, and its close is the breakpoint; it lasts until a decision is reached, the user drops it, or they change the subject. Several questions raised open one thread each: the one the user answers is wrapped up first, and the rest stay open loops.
-        -- Mid-thread, an arrival — a sub-agent's report, a gate, a test run, CI, a weeder's output, a move to offer — goes to the journal as an `inbox:` entry, cleared once raised. A reply inside the thread carries no 'meanwhile…' tail; a turn woken only by an arrival writes at most one short line, never the arrival's content; work an arrival unblocks goes on silently where it needs no yes.
+        -- Mid-thread, an arrival — a sub-agent's report, a gate, a test run, CI, a weeder's output, a move to offer — goes to the journal as an `inbox:` entry. A reply inside the thread carries no 'meanwhile…' tail; a turn woken only by an arrival writes at most one short line, never the arrival's content; work an arrival unblocks goes on silently where it needs no yes.
         -- An arrival breaks into the thread only where it materially affects it — it breaks a premise the user is reasoning from, or answers the question under discussion — framed as what it changes for the thread. You judge materiality, never the user: asking would itself interrupt.
         -- At the breakpoint raise the inbox triaged, not in arrival order: decisions, with the pending move offers batched into one; what changes the user's picture; then the open loops, and one line for the rest. With no thread open, raise each arrival as it lands, under the same triage.
         -- A move off the plan's route is offered then; a dart's route question waits for the user like any other arrival, unless it is yours to answer.
@@ -212,8 +213,8 @@ rule TakeDrive {
         -- Record the branch's head, check out the branch the frame works from (the feature branch; for a tidy committed on main, its tidy branch off main), then spawn the drive agent in the background with the frame as its brief and nothing else: sub-goal, kind, placement, branch, head, and where the card's work is recorded. Do not restate what it loads for itself — the project's conventions, how to verify — nor dictate a format the conventions own, such as a commit message's. It works in the card's own checkout, with no worktree; do not touch it until the agent ends. A harness hook reporting uncommitted changes meanwhile is reporting the frame's work in progress.
         -- Triage what it reports without stopping the frame. It spawns the sub-agents the conventions call for itself; where it has no Agent tool it asks you, and you spawn each with exactly the inputs it names and resume it. It asks you the questions the commit conventions would put to the user: answer from the record, or put it to the user.
         -- When it ends its turn: spawn what it asked for; offer a user's decision in primary; push an amend frame first where an earlier commit can't take this frame; take a better drive as a pre-emption; handle a failure per Fail. Then resume it with SendMessage, or push the new frame.
-        -- Gate the frame's diff from the recorded head before taking its commit: check the review notes the drive agent wrote into the commit's body, and reported, stand apart from the unlanded commits' `review:` entries; a tidy that shows a behaviour change, error paths included, is split or retyped; the diff is the brief's sub-goal at its placement; the branch still reads in review units. A miss inside the frame's scope resumes the agent to fix it; anything else is triaged, including one that completes an earlier unlanded commit, which becomes an amend.
-        -- Take its commit, rewriting its place or message where the branch should read otherwise: rewrite the message to the project's conventions only where the review notes in its body fall short of a `review:` entry. A rewrite that changes a subject updates the journal entries keyed by it. Push where the project's answer says to; the agent never pushes.
+        -- Gate the frame's diff from the recorded head before taking its commit: check the review notes the drive agent wrote into the commit's body, and reported, stand apart from the unlanded commits' `review:` entries; a tidy that shows a behaviour change, error paths included, is split or retyped; the diff is the brief's sub-goal at its placement; every commit an amend landed in has its message written again through write the commit message, against its final diff; the branch still reads in review units. A miss inside the frame's scope resumes the agent to fix it; anything else is triaged, including one that completes an earlier unlanded commit, which becomes an amend.
+        -- Take its commit, rewriting its place or message where the branch should read otherwise: write the commit message again only where the review notes in its body fall short of a `review:` entry. A rewrite that changes a subject updates the journal entries keyed by it. Push where the project's answer says to; the agent never pushes.
         -- Record the sub-goal done and record the commit's `review:` entry, against its subject, with what your check added — the PR's reviewing notes take what spans commits and what was verified from these. A frame that interrupted another pops, rebasing the WIP onto it and resuming what it interrupted; a tidy taken on main returns the checkout to the feature branch. A dart branch under the new commit is the dart's to rebase or redo, its call. Clear the darts this drive superseded: record what each taught that the record doesn't hold, then remove its branch and worktree.
         -- Hand over the branch, its head and what the reviewer has to check; in secondary the handover goes in the session's record and doesn't end the turn. Then you are back to choosing. Merging is the user's; once they have, remove what only served it per the project's branch cleanup.
 }
@@ -281,8 +282,7 @@ rule TakePark {
             frame.status = parked
 
     @guidance
-        -- A park leaves what a later session needs to resume, where the project tracks the card. In this order: put the work down on its issue — its description corrected, the metadata sorted, discovered cards raised and linked; weed the commit messages, applying each finding by rewording the commit — a branch the session owns may be rewritten; push the feature branch with `--force-with-lease`, WIP commits included, leaving a branch the session doesn't own as it is and saying so; then record on the issue, as a comment, the branch, its head commit's subject and what was in hand — the drive stack, innermost first.
-        -- Where the park would ask the user and they aren't there, decide and record.
+        -- A park leaves what a later session needs to resume, where the project tracks the card. In this order: write the work up on its issue; push the feature branch with `--force-with-lease`, WIP commits included once their messages are written, leaving a branch the session doesn't own as it is and saying so; then comment on the issue with the branch, its head commit's subject and what was in hand — the drive stack, innermost first.
         -- Stopping mid-drive WIP-commits the work and leaves it recorded as in hand. A park with no branch yet — a draft plan — carries the draft in that comment instead.
 }
 
@@ -294,6 +294,9 @@ rule Stop {
     ensures:
         for frame in session.in_hand:
             frame.status = parked
+
+    @guidance
+        -- Park as TakePark says.
 }
 
 -- A later session resumes the parked work from that record on the issue, and picks its stack back up; a card whose plan was never approved resumes in plan mode.
@@ -327,7 +330,7 @@ rule ShapeForReview {
         -- Shape the unlanded branch for its reviewer, not the order the work happened in: reorder, merge or split commits until each is independently acceptable and none is a slice of another, leaving the final tree unchanged.
         -- The test is the `review:` entries: a commit whose entry can't say what checking it means apart from its neighbours' is a slice of one of them, and an entry that needs two different checks is two units — so a tidy and an advance never merge.
         -- The slicing rules and the completion test are in drive.allium.
-        -- Merging two commits merges their `review:` entries and redrafts the merged body to the project's commit conventions; a changed subject updates the journal entries keyed by it.
+        -- Merging two commits merges their `review:` entries and writes the merged commit message; splitting one splits its `review:` entry and writes each part's message; a changed subject updates the journal entries keyed by it.
 }
 
 -- After the review-unit pass, the code review runs once over the whole unlanded branch.
@@ -394,8 +397,7 @@ rule Finish {
         -- no_pr, where the commit carries it all, or an issue carries the knowledge and nothing in the implementation is counter-intuitive: first update the issue's description where the work changed what it should say. The finish ends with a report naming the branch and its head sha.
         -- standalone_pr, where there is no issue and something to share beyond the commit: raise a PR that carries the problem itself.
         -- pr_on_issue, where the implementation is worth sharing in its own right: raise a PR that resolves the issue, or is part of it.
-        -- The finish ends only once its drafts are cleared: weed the commit messages until nothing is left to ask, applying each finding by rewording the commit — a rewrite of a branch the session owns, a changed subject updating the journal entries keyed by it — and for a PR the description is weeded too, as raising it does. A no-PR finish weeds the commit messages before its report.
-        -- Push the branch with `--force-with-lease` before raising a PR. A blocking question on the PR that the user can't be asked now is left open on it, marked for them, and the finish ends.
+        -- Push the branch with `--force-with-lease`, then raise the PR. The finish doesn't end while a blocking question on the PR is unsettled; in secondary it is left open on the PR, marked for the user, and the finish ends.
 }
 
 rule SubGoalReady {
@@ -584,7 +586,7 @@ rule TriageRouteQuestion {
             OrchestratorResumes(dart: y.from_dart)
 
     @guidance
-        -- Answer it where it is yours; otherwise it is the user's, asked per OfferMove in primary and recorded as an open question per TakeUnoffered in secondary. Record the answer as a decision.
+        -- Answer it where it is yours; otherwise it is the user's, asked per OfferMove in primary and recorded as an open question per TakeUnoffered in secondary. Record the answer as a decision, which reaches the issue as Record and conduct says.
         -- Two reports that conflict are yours to settle, by your own check where one is cheap, and recorded as a decision.
         -- A report that its brief breaks one of the frame's standards is a wrong brief: re-brief within the standard or put the conflict to the user, never record the standard as waived.
 }
@@ -617,7 +619,7 @@ rule UserSettles {
             OrchestratorResumes(dart: y.from_dart)
 
     @guidance
-        -- An answer that changes the goal or the target is a new yield, triaged as one.
+        -- An answer that changes the goal or the target is a new yield, triaged as one. The decision reaches the issue as Record and conduct says.
 }
 
 -- The orchestrator harvests the report: each finding in it is a Yield, triaged like any other,
