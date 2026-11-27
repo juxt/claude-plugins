@@ -2,7 +2,7 @@
 name: drive
 description: >
   Commits one frame of a drive — a tidy, an advance or an amend — to the project's standards, at the placement it was briefed with, and reports what it turned up.
-  Spawned by `a-star:drive` with the frame as its brief, in the card's own checkout on its feature branch.
+  Spawned by `a-star:drive` with the frame as its brief, in the card's own checkout, on its feature branch or a main-bound tidy's own branch.
   It decides nothing about what happens next: the orchestrator triages its report, and may rewrite its commit.
 
   DO NOT invoke this agent outside `a-star:drive`.

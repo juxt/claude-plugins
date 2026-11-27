@@ -24,6 +24,8 @@ entity Plan {
 -- and amendable.
 external entity Commit {
     landed: Boolean
+    -- A main-bound tidy, carried at the bottom of the feature branch until it lands.
+    main_bound: Boolean
 
     @guidance
         -- A branch the session owns may be rewritten and pushed with `--force-with-lease`; the project's base branch never is.
@@ -52,12 +54,12 @@ enum YieldKind {
 
 enum FrameKind { tidy | advance | amend }
 
--- Where a frame is committed: as early in the branch as makes sense, assigned at triage, the user's to override.
+-- Where a frame is committed, by drive.allium's Placement paragraph: assigned at triage, the user's to override.
 enum Placement {
-    branch_base     -- a prequel: a tidy that would reasonably land on main by itself
-    under_advance   -- a tidy that only makes sense beside the advance it enables, directly under it
-    inside_commit
-    branch_top      -- everything else
+    tidy_branch     -- a main-bound tidy
+    under_advance   -- a tidy whose value is only the option it opens
+    inside_commit   -- an amend
+    top
 }
 
 entity Session {
@@ -126,6 +128,11 @@ entity SubGoal {
     is_ready: depends_on.all(d => d.status = done) and not blocked_by_question
     is_drivable: is_ready and (exercised or judged_straightforward)
 
+    @guidance
+        -- An advance is a vertical slice — elephant carpaccio (Cockburn, Kniberg) — cut along SPIDR's Paths, Data and Rules (Cohn); a tidy or an amend is not cut this way.
+        -- SPIDR's other two cuts are left out: the dart is itself the Spike, and Interfaces splits a user interface, which these sub-goals rarely carry.
+        -- A new slice starts where the reviewer's check changes, not where the count does: every operator, or every type, stays one slice.
+
     transitions status {
         pending -> ready
         pending -> in_hand
@@ -170,6 +177,11 @@ entity Frame {
     status: in_hand | writing | verifying | interrupted | pre_empted | parked | committed | failed
     -- The frame this one interrupted, set aside as a WIP commit.
     interrupts: Frame?
+    -- The project's CI has passed on the pushed branch whose head is this frame's commit; read only for a main-bound frame.
+    ci_passed: Boolean
+
+    -- A main-bound tidy, or an amend of one: committed on that tidy's own branch.
+    main_bound: placement = tidy_branch or (sub_goal.amends != null and sub_goal.amends.main_bound)
 
     transitions status {
         in_hand -> writing
@@ -217,6 +229,28 @@ entity Yield {
     -- The sub-goals a question or finding blocks until it is settled.
     bears_on: Set<SubGoal>
     triaged: Boolean
+}
+
+-- An amend goes inside its commit and nothing else does; only a tidy goes on a tidy branch or under an advance.
+invariant PlacementFitsKind {
+    for s in SubGoals:
+        (s.placement = inside_commit implies s.kind = amend)
+            and (s.kind = amend implies s.placement = inside_commit)
+            and ((s.placement = tidy_branch or s.placement = under_advance) implies s.kind = tidy)
+}
+
+invariant FramePlacementFitsKind {
+    for f in Frames:
+        (f.placement = inside_commit implies f.kind = amend)
+            and (f.kind = amend implies f.placement = inside_commit)
+            and ((f.placement = tidy_branch or f.placement = under_advance) implies f.kind = tidy)
+}
+
+invariant YieldPlacementFitsKind {
+    for y in Yields where kind = sub_goal or kind = increment:
+        (y.placement = inside_commit implies y.frame_kind = amend)
+            and (y.frame_kind = amend implies y.placement = inside_commit)
+            and ((y.placement = tidy_branch or y.placement = under_advance) implies y.frame_kind = tidy)
 }
 
 invariant ExercisedOnlyByDart {
