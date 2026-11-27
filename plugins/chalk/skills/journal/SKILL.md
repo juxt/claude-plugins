@@ -1,7 +1,7 @@
 ---
 name: journal
 description: >
-  The session's journal, and the plan file it lives in: start or read the session's plan file, and record in the session's journal a decision, open question, requirement, assumption, constraint, risk, dead end, sub-goal, review note, re-split or replan, what is in hand, or an agent in flight.
+  The session's journal, and the plan file it lives in: start or read the session's plan file, and record in the session's journal a decision, open question, requirement, assumption, constraint, risk, dead end, sub-goal, commit's review entry, re-split or replan, what is in hand, or an agent in flight.
   Load it before recording anything, before reading the record to write a commit, PR, issue update or sitrep, and when a compaction has left the session to rebuild what it knew.
   The record kinds are open vocabulary: a caller fills them in and MAY add its own.
 user-invocable: false
@@ -38,7 +38,7 @@ The branch, `git status`, `git log` and the linked PRs say what happened; the tr
 ## The record kinds
 
 **Write each entry when it happens, not at the end and not from memory.**
-Each is one claim, terse; an entry that would mean nothing in a commit body, a PR or the issue doesn't belong.
+Each is one claim, terse; an entry that would mean nothing to a commit, a PR, the issue or the caller that keeps it doesn't belong.
 A caller MAY keep entries of its own besides these.
 
 - **`D<n>` decision** — the claim, and its grounds.
@@ -66,9 +66,9 @@ A caller MAY keep entries of its own besides these.
 - **`inbox:`** — an arrival held for the user until their current thread closes.
   It is cleared once raised.
 
-- **`review:`** — the journal's entry for a commit, by its subject: what checking it means, the invariants it rests on with where each is made true, what pins it and what would break it, and what was verified and what wasn't.
-  The commit's body carries the review notes (`chalk:commit`); the entry is written from them once the commit is made — by whoever made it, or where a harness's agent made it, from the notes that agent wrote into the body and reported.
-  `chalk:pr`'s Reviewing this finds what spans commits and what was verified here.
+- **`review:`** — the journal's entry for a commit, by its subject: what checking it means, and what was verified and what wasn't.
+  It is written once the commit is made, by whoever made it, or from the report of a harness's agent that made it; the commit's body doesn't carry it.
+  `chalk:pr` finds what was verified here, for its Evidence and its `assumption:` tags.
 
 - **Sub-goals** — each names what it depends on, and is ready once everything it depends on is done and no open question blocks it.
   When a sub-goal's commit is made, mark it done with the commit's subject, not its SHA, which a rebase rewrites.

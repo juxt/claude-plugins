@@ -12,13 +12,14 @@ Where two entries below overlap, put the material in one of them and don't split
 - **issue, no PR expected** — nothing about the implementation is interesting enough to warrant one.
 
 - **issue + PR** — the issue carries the problem, the prior art, the constraints and the direction.
-  The PR opens `Resolves #N` and carries the theory as built: the model, the mechanism, the decisions inside it.
+  The PR opens `Resolves #N` and carries the theory as built: the model the change sits in, the mechanism, the decisions inside it.
   **It MUST NOT restate the problem**: assume the reader has read the issue.
-  It MAY restate the model where the issue's Potential approach already sketches it — the issue holds a direction, the PR the model as it landed, and each has to stand for its own reader.
+  Its Context MAY restate the model where the issue's Potential approach already sketches it — the issue holds a direction, the PR the model as it landed, and each has to stand for its own reader.
 
-- **standalone PR** — it carries the problem too, so the problem sections are inserted between the tl;dr and What changes: **Symptoms → Root cause** for a bug fix, **Problem** for a feature.
+- **standalone PR** — it carries the problem too, so the problem sections are inserted between Context and What changes: **Symptoms → Root cause** for a bug fix, **Problem** for a feature.
+  Context comes first so that the gap is stated against a model the reader already holds.
   **Those only.** Properties of a good solution, Prior art and Potential approach are design-space or forward-looking material, and a PR is retrospective — evaluation criteria written after the choice read as justification for it.
-  Current state is dropped too: What changes names what was true and no longer is, and a second account of the before splits it.
+  Current state is dropped too: Context states the before only as far as it places the reader, What changes names what was true and no longer is, and a further account of the before splits it.
 
 **The issue is a living document; the PR freezes at merge.**
 That is why an issue MAY hold marked speculation — it has a mechanism for resolving it — and a PR mostly may not.
@@ -28,13 +29,16 @@ That is why an issue MAY hold marked speculation — it has a mechanism for reso
 ## State the confidence, not just the content
 
 **The reader needs to know whether they can act on a line or must re-check it**, and that is a different fact from the line itself.
-It surfaces in three places, and MUST be carried in each.
+It surfaces in four places, and MUST be carried in each.
 
 - **A speculative claim on an issue MUST be marked** — `assumption:` or `idea:` - per `chalk:voice`.
   On the bug path that is the default rather than the exception.
 
 - **An Alternative approaches entry MUST say which road it was**: reasoned against, or tried and abandoned.
   "Tried it and the driver deadlocked" closes a road harder than "considered, and write amplification ruled it out".
+
+- **What wasn't run or measured is tagged `assumption:` at the claim it bears on**, on a PR as on an issue, and so is a motivation not yet confirmed, such as a root cause never reproduced.
+  "Not measured" next to the claim tells the reviewer what to weigh; the same fact in a list of its own leaves them to match it up.
 
 - **A rejection whose premise could expire MUST be dated.**
   "Rejected on 2026-05-23 because the driver had no batch API" tells the next reader what to re-check; an undated one asks them to take it on trust forever.
@@ -68,8 +72,19 @@ It surfaces in three places, and MUST be carried in each.
     - **Where the unblocking is a graph edge, wire the edge.**
       GitHub renders blocked-by with nobody maintaining it, so name the downstream in a clause rather than re-listing what the graph already shows.
 
-  - **On a PR resolving an issue the abstract is what changes in the implementation**, and the context half compresses to the issue link.
+  - **On a PR resolving an issue the abstract names the thing that changes, and what changes in it**; the context half is the issue link and the why-now only, since the model is Context's.
     Where the change adds a capability, name the capability — "you can now query across blocks without a full scan" — never its significance.
+
+- **Context** — **PR only, right after the tl;dr on every path; cut only where a senior engineer on the project already holds the model.**
+  **The model of the subsystem the change sits in, one level above the change**, for a reader who doesn't hold that model — Google design docs' "Context and scope".
+  It places the model and never restates the problem, which on the issue + PR path stays the issue's.
+
+  - **It opens with the model in a sentence, before any type name**, then descends: who calls the subsystem, what shape it has, an analogue the reader already knows, and what the old state cost.
+
+  - **It is neither Current state nor Problem.**
+    Current state is an issue's before, as states and events; Problem is the gap; Context is what the reader must hold for either to make sense.
+
+  - **It states the before only as far as it places the reader**; What changes names the fact that changed.
 
 - **Problem**
   **What someone can't do today, and what it costs them.**
@@ -84,7 +99,7 @@ It surfaces in three places, and MUST be carried in each.
 
   - **What writers drop is the gap itself.**
     A description of today's behaviour with no statement of what it can't do leaves the reader to infer the problem from the absence of a feature.
-    Today's behaviour goes in Current state; the gap stays here.
+    Today's behaviour goes in Current state on an issue, or in Context on a PR; the gap stays here.
 
 - **Current state** — **only where today's behaviour holds details the reader needs to see the problem or bound its solution.**
   A `###` under Problem on a feature; its own section on a bug.
@@ -119,7 +134,7 @@ It surfaces in three places, and MUST be carried in each.
 - **Root cause / Analysis**
   The mechanism, grounded in evidence, and **marked speculative until confirmed**.
 
-  - **Evidence is annotated in place, never a section of its own.**
+  - **Its evidence is annotated next to the claim it supports, not gathered under a heading of its own.**
     Log excerpts, block-file contents, offset tables and message-type distributions sit next to the claim they support.
 
   - **Raw material MUST be annotated wherever it appears** — a dump with no statement of what the reader is looking at is noise.
@@ -150,7 +165,8 @@ It surfaces in three places, and MUST be carried in each.
 - **What changes** — **compulsory.**
   Written to PEP's **"How to Teach This"** test: how would you explain this to someone who already knows the old system?
 
-  **It opens with the model, in a sentence, before any type name**, then descends: the mechanism — walked through, where it is new — then the specifics.
+  **It opens with the delta, in a sentence, against the model Context set up**, then descends: the mechanism — walked through, where it is new — then the specifics.
+  **Where Context is cut, it opens with the model in a sentence instead.**
   Where the change introduces an algorithm or a process, it carries a worked example aimed at the path that isn't obvious.
 
   **It MUST name the fact that was true and is no longer**, per `chalk:voice`.
@@ -159,6 +175,8 @@ It surfaces in three places, and MUST be carried in each.
   - **For an equivalence change: "Behaviour is unchanged."**
     Three words.
     Usage / migration is then omitted, and this section is an implementation-model delta — `chalk:pr`'s reader 1 holds a model of the code, not only of the behaviour.
+
+  - **An invariant that one commit sets up and a later one relies on is argued in the later commit's body** (`chalk:commit`), not here.
 
 - **Usage / migration** — **where the change is user-visible, or needs a step that isn't in the diff.**
   A worked example or a before/after, concrete — SQL with realistic output, a CLI invocation, a config snippet.
@@ -172,25 +190,16 @@ It surfaces in three places, and MUST be carried in each.
   Whether the migration can be undone, whether the old version can still read what the new one wrote, and what someone does who has deployed this and wants out.
   **Where the diff doesn't settle it, ask rather than guess** — a missing rollback note sends someone to find out, and a wrong one doesn't.
 
-- **Reviewing this** — **show and ask PRs, where correctness rests on an argument the diff doesn't show locally.**
-  For `chalk:pr`'s reader 0, at the branch's level: they review the code commit by commit, and each commit's body carries what checking that commit means and the invariants it rests on (`chalk:commit`).
-  This section carries what no single commit can.
-  Concurrency and ordering, algorithms, on-disk formats, cross-cutting invariants and resource lifetimes are the usual cases; a change checkable line by line doesn't need it.
+- **Evidence** — **what was run to show the change is correct, where a claim rests on it and the reviewer can't see it from CI.**
+  **Its heading names what it shows** — "Crash recovery", "Rolling deploy" — never "Evidence".
 
-  - **Which commits carry the subtle argument, and which parts are mechanical** — whole commits, or hunks where the commits are mixed — each commit named by its subject, per `chalk:voice`.
-    A reviewer's attention is the scarce resource; uniform scrutiny spends as little on the subtle part as on the plumbing.
-    **Nothing a commit's body argues or pins is mechanical, nor a test whose assertion changes meaning.**
+  - **What was run, on what, and what it shows**, with the command, so the reader can rerun it.
 
-  - **The invariants that span commits**, each with where it is made true, what test pins it, and what change would break it.
-    One commit's invariants are its body's; an invariant one commit sets up and a later one relies on has no single body to live in.
-    One no test pins is marked unpinned, so nobody assumes it is held.
+  - **Which properties the tests do and don't exercise, where a claim leans on them.**
 
-  - **The evidence, and where it runs out** — what was run to check correctness and how, what wasn't run, what was reasoned rather than measured.
-    A benchmark is a measurement, and goes in Consequences; this cites it where correctness leans on it.
-    **A test-plan checklist belongs nowhere in the description**, since CI renders it: this is what the reviewer can't see from CI — which properties the tests actually exercise, and which they don't.
-    It stays here rather than in a commit body because it dates: true at review, and stale to the reader who arrives from `git blame`.
+  - **What wasn't run is tagged `assumption:` at the claim it bears on**, per *State the confidence*.
 
-  - **How certain the motivation is**, where it is in doubt — a reviewer weighing urgency and blast radius needs to know whether the problem it fixes is confirmed.
+  - **A test-plan checklist belongs nowhere in the description**, since CI renders it.
 
 - **Consequences**
   Nygard's ADR field: what is different as a result, and now inherited.
@@ -204,9 +213,8 @@ It surfaces in three places, and MUST be carried in each.
   - **Gotchas** — Chesterton's fence: **we do it like X because Y**.
     "Be careful of Z" with no reason is an unlabelled fence.
 
-  - **Measurements**, where one exists nowhere else — "p99 340ms → 40ms on the 10M-row fixture", "verified the rolling deploy by hand on staging".
-    A benchmark belongs here, once; the tl;dr may quote its headline.
-    The measurement is what survives; what the tests do and don't exercise, where it matters to review, is Reviewing this.
+  - **Measurements** — what the change did to performance or footprint, where it is recorded nowhere else: "p99 340ms → 40ms on the 10M-row fixture".
+    A benchmark belongs here once, or in a section of its own named for what it shows, such as "Performance", where it is the change's point; the tl;dr may quote its headline.
 
 - **Out of scope**
   **Only the counter-intuitive exclusions**: what would a reasonable reader think is in scope here, and isn't?
