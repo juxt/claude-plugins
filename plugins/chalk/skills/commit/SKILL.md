@@ -63,7 +63,7 @@ You MUST load these skills first:
    - **The invariants it rests on**, each with where it is made true, what test pins it, and what change would break it; one no test pins is marked unpinned.
      - **A pin sits on the invariant it pins**, never on a parent: there it reads as pinning every child.
      - **Where a code comment states the invariant, the note may restate it**, and adds what the comment can't: where it is made true across files, what pins it, what breaks it.
-   - **What was run and what wasn't is not the body's**: it dates, and belongs to the PR's Reviewing this.
+   - **What was run and what wasn't is not the body's**: it dates, and belongs to the PR's Evidence, or an `assumption:` tag at the claim it bears on.
 
    **Check every `→` in the body reads as "therefore"** — a sequence, a "stacked on" or two independent premises are not one.
 

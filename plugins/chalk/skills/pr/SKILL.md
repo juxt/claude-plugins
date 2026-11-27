@@ -38,17 +38,17 @@ Where the author worked in a session nobody watched — a background agent, a lo
 ## Which path
 
 - **Resolves an issue** — the palette's `issue + PR` mode.
-  Reference it at the top: `Resolves #N` where merging it finishes the issue, `Part of #N` where the issue stays open afterwards. What this adds is the theory as built: the model, how the problem shaped it, the decisions, the trade-offs, the dead ends.
+  Reference it at the top: `Resolves #N` where merging it finishes the issue, `Part of #N` where the issue stays open afterwards. What this adds is the theory as built: the model the change sits in, how the problem shaped it, the decisions, the trade-offs, the dead ends.
 
-  **tl;dr → What changes → Usage / migration → Reviewing this → Consequences → Out of scope → Alternative approaches → Open questions**
+  **tl;dr → Context → What changes → Usage / migration → Evidence → Consequences → Out of scope → Alternative approaches → Open questions**
 
 - **Standalone** — the palette's `standalone PR` mode: there is no issue, so this description carries the problem itself.
   **The first line MUST state what and why** — the line that would have been a reference has to do the issue's opening job instead.
   A *why now* belongs there only where the session has one; you MUST NOT invent one.
 
-  - **fixing a bug** — **tl;dr → Symptoms → Root cause → What changes → Usage / migration → Reviewing this → Consequences → Alternative approaches (optional) → Open questions**
+  - **fixing a bug** — **tl;dr → Context → Symptoms → Root cause → What changes → Usage / migration → Evidence → Consequences → Alternative approaches (optional) → Open questions**
 
-  - **adding a feature** — **tl;dr → Problem → What changes → Usage / migration → Reviewing this → Consequences → Out of scope → Alternative approaches → Open questions**
+  - **adding a feature** — **tl;dr → Context → Problem → What changes → Usage / migration → Evidence → Consequences → Out of scope → Alternative approaches → Open questions**
 
 Each section's content is in the palette, and not every change needs every section — but where a section appears, this is its position.
 
@@ -84,7 +84,7 @@ The first `##` in the body is the section after it.
 
 - Read the session's plan journal, all of it, where `chalk:journal` started one.
   It's material, not a draft: what reaches the description is what *Your readers* and the palette call for — a decision because it matters to them, whoever made it.
-  Its `review:` entries: their durable part is already in the commit bodies, and Reviewing this takes from them only what spans commits, and the evidence.
+  Its `review:` entries say what was verified, which Evidence draws on; what wasn't is tagged `assumption:` at the claim it bears on.
 
 - Review the conversation history for context that isn't in the commits or the plan.
 
@@ -125,8 +125,10 @@ It is the theory distilled across the branch.
 
 **Open one or two levels of abstraction above the work**, per `chalk:voice`'s hourglass.
 
-**Teach the mental model the change assumes, before any type name.**
-State the model in a sentence, then descend: the mechanism, then the decisions inside it, then the specifics.
+**Open with Context: teach the model of the subsystem the change sits in, before any type name.**
+State the model in a sentence, then descend: its callers, its shape, an analogue the reader already knows, and what the old state cost.
+**What changes then opens with the delta**, and descends: the mechanism, then the decisions inside it, then the specifics.
+Where Context is cut, What changes opens with the model in a sentence instead.
 Name what would surprise someone familiar with the subsystem, and don't assume the reader holds the model you built while implementing.
 
 - **A new algorithm or process gets a worked example, aimed at the path that isn't obvious.**

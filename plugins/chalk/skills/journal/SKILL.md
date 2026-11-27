@@ -68,7 +68,7 @@ A caller MAY keep entries of its own besides these.
 
 - **`review:`** — the journal's entry for a commit, by its subject: what checking it means, the invariants it rests on with where each is made true, what pins it and what would break it, and what was verified and what wasn't.
   The commit's body carries the review notes (`chalk:commit`); the entry is written from them once the commit is made — by whoever made it, or where a harness's agent made it, from the notes that agent wrote into the body and reported.
-  `chalk:pr`'s Reviewing this finds what spans commits and what was verified here.
+  `chalk:pr` finds what was verified here, for its Evidence and its `assumption:` tags.
 
 - **Sub-goals** — each names what it depends on, and is ready once everything it depends on is done and no open question blocks it.
   When a sub-goal's commit is made, mark it done with the commit's subject, not its SHA, which a rebase rewrites.
