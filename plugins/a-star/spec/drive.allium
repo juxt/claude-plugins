@@ -5,21 +5,32 @@ use "./common.allium" as c
 
 -- Slicing. These bind every drive and the orchestrator's review-unit pass.
 -- A sub-goal is one tidy, one advance or one amend, atomic and green to green, with its own tests and docs. One that can't be committed green wants another ordered before it — asked when it is recorded, not left for its drive to discover.
--- A commit's own code calls everything it adds, so a commit whose additions only a later commit calls is a slice of that commit, and a caller in another commit's tests doesn't count: a new abstraction nothing yet calls is committed with its first caller, while a tidy reshapes code that already runs. A preparatory tidy stands alone only where a reviewer would accept it without the change it prepares — worth landing if that change never came, or materially easing that change's diff, such as a large mechanical move or a rename across many sites — and is otherwise part of that commit.
+-- A commit's own code calls everything it adds, so a commit whose additions only a later commit calls is a slice of that commit, and a caller in another commit's tests doesn't count: a new abstraction nothing yet calls is committed with its first caller, while a tidy reshapes code that already runs. The preparatory-tidy test: a tidy stands alone only where a reviewer would accept it without the change it prepares — worth landing if that change never came, or materially easing that change's diff, such as a large mechanical move or a rename across many sites — and is otherwise part of that commit.
 -- An advance is a vertical slice, as common.allium's `SubGoal` cuts one.
 -- The review-unit test is the `review:` entries: a commit whose entry can't say what checking it means apart from its neighbours' is a slice of one of them, and one whose entry needs two different checks is two units, so a tidy and an advance never merge however closely they belong together.
 -- What a `review:` entry holds: what checking the commit means; the invariants it rests on, each with where it is made true, what pins it and what would break it; and what was verified and what wasn't. The body of a commit carries the notes; the orchestrator records the entry against its subject.
 -- The code a drive commits keeps the data structures a dart got right, and leaves out what it built around the ones it didn't.
 -- The completion test: where an unlanded commit's claim — its subject line — still holds with new scope inside it, that scope is an amend of the commit, a `fixup!` autosquashed into it, never a new commit on top and never across kinds.
 -- A structure change and a behaviour change never share a commit. Which one a change is, is judged against the commits in the branch, not a dart's intermediate states: a change that would be a tidy relative to a state no commit holds is part of the commit that reaches past it.
+-- A main-bound tidy is judged against the base it lands on.
 
 -- Frames.
 -- Every frame is a tidy, an advance or an amend, decided before it starts, and no two kinds share a commit.
 -- Tidy: changes structure, never behaviour — an equivalence change that gives options, reviewable by asking only 'could this change anything?'. Whether to tidy is Tidy First?'s first, later or never, and the user's decision — end your turn with it. First, because it is worth having however the card turns out or the work in hand needs it; later, where it depends on the behaviour change — it is recorded as a sub-goal and the frame carries on; never, where it opens no option — it isn't recorded. Its 'after' is an amend here: a structure change to code this branch introduced, before it has landed, is an amend of the commit that introduced it.
 -- Advance: changes behaviour, moving the base a step towards the goal. A structure change turning up mid-advance is a tidy — decide first, later or never, and if first it interrupts the advance — unless it fails the preparatory-tidy test, when it stays in.
 -- Amend: a `fixup!` autosquashed into the unlanded commit it makes fit or completes. It keeps that commit's kind: an amended tidy still changes no behaviour, and an amended advance keeps its subject line, its claim, true; the mechanism may change completely while the claim holds, and a change to the claim is a new sub-goal or a revert. A new approach to an unlanded commit is an amend of it wherever it sits; where it spans several commits it is a revert. Pushed is not landed: from landing on, a change to its code is an ordinary tidy or advance.
--- Where a tidy is committed is the project's answer: the feature branch by default, at its placement; on main where it says so, as a tidy branch off main for the user to merge, rebasing the feature branch onto it at once.
--- Placement: the branch is reviewed commit by commit, so its order is the order a reviewer is best shown, not the order the work happened in, and anywhere but the top rewrites the branch. A prequel goes at the base, worth having however the advance turns out; a tidy that makes sense only beside its advance goes directly under it; an amend is autosquashed into its commit; anything else goes on top.
+-- Placement. These are a-star's rules, not the project's.
+-- The branch is reviewed commit by commit, so its order is the order a reviewer is best shown, not the order the work happened in.
+-- A tidy that passes the preparatory-tidy test is main-bound only where the base branch is simpler with that tidy alone: in Tidy First?'s terms, its value is realised now, not only as the option it opens.
+-- A main-bound tidy lands on the project's base branch ahead of the feature branch, and the feature branch carries it at its bottom until then.
+-- The main-bound tidies on a feature branch form one ordered prefix of it, and each one's branch carries the ones beneath it, so they land in order.
+-- The user receives each main-bound tidy as a pushed branch whose head is that tidy, done only once the project's CI has passed on that commit.
+-- Whatever rewrites a main-bound tidy — an amend, the review-unit pass, a rebase — re-pushes its branch to match the feature branch's copy, and the tidy waits for CI to pass on it again.
+-- Once a main-bound tidy has landed, by merge, squash or cherry-pick, the feature branch drops its copy.
+-- How branches are cut, rebased and kept in step is the session's to work out.
+-- A tidy whose value is only the option it opens stays on the feature branch, directly under the advance it eases.
+-- An amend goes inside its commit, as the Amend frame says.
+-- Everything else goes at the top of the feature branch, in the order it is committed.
 -- The branch reads as though each commit was right first time: an amended commit's message describes its final shape, the PR mentions an amend only where it leaves a consequence the reader bears, and the journey stays in the session's record.
 -- Obviously no bugs, not no obvious bugs (Hoare): a human reviewing the change in isolation can see it has none; a change that fails wants a tidy under it first, or is two sub-goals.
 -- Simple, not easy (Hickey, Simple Made Easy): un-braid concerns, and derive rather than duplicate state; a reviewer can confirm each concern on its own.
@@ -32,7 +43,7 @@ rule StartWriting {
     ensures: frame.status = writing
 
     @guidance
-        -- You commit one frame, to the project's coding standards, tests and definition of done, at the placement the brief names: the branch's base, directly under a named advance, inside a named commit, or the top. Read the record the brief points at — decisions, principles, darts' evidence — and never write it.
+        -- You commit one frame, to the project's coding standards, tests and definition of done, at the placement the brief names: a main-bound tidy's own branch, directly under a named advance, inside a named commit, or the top of the feature branch. Read the record the brief points at — decisions, principles, darts' evidence — and never write it.
         -- The brief carries nothing else; the project's conventions and how to verify are yours to load, and where the brief dictates otherwise, what you load wins — except the placement, which beats the completion test since the orchestrator made that call.
         -- You work in the card's own checkout, with no worktree of your own.
         -- Before changing anything `HEAD` must be the brief's head; where it isn't, end your turn and say so, and never reset, as the checkout is the card's.
@@ -45,7 +56,7 @@ rule Verify {
     ensures: frame.status = verifying
 
     @guidance
-        -- Verify against the project's definition of done and its answer to where this kind is committed. The code review is the orchestrator's, over the whole branch, and its findings come back as amends.
+        -- Verify against the project's definition of done and what it says to verify: for a main-bound tidy, or an amend of one, on that tidy's branch; for any other frame, on the feature branch. The code review is the orchestrator's, over the whole branch, and its findings come back as amends.
 }
 
 -- Committing: the project's definition of done holds; the commit goes at the frame's placement,
@@ -53,6 +64,7 @@ rule Verify {
 rule Committed {
     when: Verified(frame)
     requires: frame.status = verifying
+    requires: not frame.main_bound or frame.ci_passed
     ensures: frame.status = committed
     ensures: frame.sub_goal.status = done
     ensures: Recorded(session: frame.session, entry: done)

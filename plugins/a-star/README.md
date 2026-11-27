@@ -69,7 +69,7 @@ It is stated as state machines in [`spec/`](spec/) (`common`, `orchestrator`, `d
     the goal tree is reasoned as a KAOS goal model (van Lamsweerde) — each node tested for sufficiency, missing children found through obstacles, each leaf's owner named, each gap closed by a chosen tactic;
   - pick the card up: update the tracker, create or check out the branch;
   - dart to the goal with a cheap sub-agent, and turn what the dart found into sub-goals;
-  - drive each sub-goal to a commit through a drive sub-agent, as one tidy, advance or amend, each as early in the branch as makes sense;
+  - drive each sub-goal to a commit through a drive sub-agent, as one tidy, advance or amend: a main-bound tidy on a pushed branch of its own, landing on your base branch ahead of the rest, a tidy that only eases an advance directly under it, an amend inside its commit, and the rest on top;
   - triage what darts and drives turn up, and choose each move — dart, drive, revert, replan, park or done;
   - decide the finish with you, a PR or not;
   - park the work so a later session resumes from the issue;
@@ -80,8 +80,9 @@ It is stated as state machines in [`spec/`](spec/) (`common`, `orchestrator`, `d
   - ship/show/ask, and code review;
   - how a commit message, PR description or issue is written, and what the tracker wants.
 
-- **Three choices are A⭐'s own, and your project answers them**: where a tidy is committed, where an advance is committed, and branch cleanup.
-  Where it doesn't answer one, A⭐ asks, bar the defaults in `spec/orchestrator.allium`'s `BeginPlanning` guidance.
+- **Three choices are A⭐'s own, and your project answers them**: for a main-bound tidy's branch, what to verify; for the feature branch, what to verify, whether to push each commit and when a commit is done, for every commit on it, tidies that aren't main-bound included; and branch cleanup.
+  Where it doesn't answer one, A⭐ asks, bar the default for branch cleanup in `spec/orchestrator.allium`'s `BeginPlanning` guidance.
+  Where each commit goes is A⭐'s rule, not your project's, and so is that a main-bound tidy's branch is pushed and done once CI passes on it.
 
 ## Usage
 
