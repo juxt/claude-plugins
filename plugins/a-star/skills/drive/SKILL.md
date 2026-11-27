@@ -13,7 +13,7 @@ argument-hint: "<sub-goal, or the structure change needed>"
 
 Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
 
-**Success: a small change, ready to merge, that the user can review from its diff and message alone.**
+**Success: a small change, ready to merge, that the user can review from its diff, its message and its `review:` entry.**
 
 Load `a-star:a-star` first.
 **You, the orchestrator, hold the stack; the `drive` agent commits each frame.**
