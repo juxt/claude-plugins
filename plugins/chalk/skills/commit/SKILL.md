@@ -30,7 +30,7 @@ You MUST load these skills first:
    Where the two disagree, resolve the ambiguity.
    Of the entries that bear on this change, the body carries what step 2 says its reader needs, and nothing else: it is a selection, not a copy.
 
-   The body's reader (step 2) won't care about the journey — they need *why* this change exists and *why* it was done this way: what problem it solves, what it unblocks, what constraint drove it.
+   The body's reader (step 2) won't care about the journey — they need the context this commit relies on, *why* this change exists and *why* it was done this way: what problem it solves, what it unblocks, what constraint drove it.
 
    **Ask rather than guess**, and treat "I can reconstruct it" as the answer that needs checking, per `chalk:voice`.
    Ask about whether something was a deliberate choice or a constraint, and whether something was intentionally out of scope or overlooked.
@@ -44,6 +44,7 @@ You MUST load these skills first:
 
    **It MUST NOT narrate the diff** — which lines changed is the diff's job; the body names the fact that changed, and why.
    The body explains *why* it exists: decisions, alternatives rejected, constraints, dead ends, counter-intuitive findings, scope boundaries.
+   **A fact the change relies on that nothing checks is a counter-intuitive finding**, and goes in the body.
    Embed concrete examples — code snippets, call sites, specific scenarios — as illustrative material.
 
    **A commit is a change-log artefact, so the body carries the *transition*** — why it changed from X to Y, and how to migrate.
@@ -52,36 +53,37 @@ You MUST load these skills first:
    **It MUST name the fact that was true and is no longer**, per `chalk:voice`.
 
    **What to omit:** anything self-evident from the diff, the code or the linked issue, and the play-by-play of how you got there — keep the road that closed and why, not the order you walked.
+   **What was run and what wasn't is not the body's either**: it dates, and belongs to the PR's Evidence, or an `assumption:` tag at the claim it bears on.
 
    **The tell, where the diff is itself prose** — a skill, a README, a spec: the sentence appears in substance in a line the diff *adds*.
-   The review notes below are the exception: an invariant a code comment already states still belongs in them, with what the comment can't hold.
    Read the added lines against the body before you call the draft finished. "Self-evident from the diff" is a judgement you cannot make about your own text.
 
-   **Where correctness rests on an argument the diff doesn't show locally, the body carries it**, because the code is reviewed commit by commit and this is where the reviewer is when they need it.
+   **Where correctness rests on an argument the diff doesn't show locally, the body carries it and names what change would break it**, because the code is reviewed commit by commit and this is where the reviewer is when they need it.
    Concurrency and ordering, algorithms, on-disk formats and resource lifetimes are the usual cases.
-   - **What checking this commit means** — for a tidy, what to look at to answer "could this change anything?"; for an advance, the invariants below.
-   - **The invariants it rests on**, each with where it is made true, what test pins it, and what change would break it; one no test pins is marked unpinned.
-     - **A pin sits on the invariant it pins**, never on a parent: there it reads as pinning every child.
-     - **Where a code comment states the invariant, the note may restate it**, and adds what the comment can't: where it is made true across files, what pins it, what breaks it.
-   - **What was run and what wasn't is not the body's**: it dates, and belongs to the PR's Evidence, or an `assumption:` tag at the claim it bears on.
+   - **An invariant one commit sets up and a later one relies on is argued in the later commit's body**, where the reliance is.
+   - **An invariant this commit sets up that later code relies on is stated in its body too, with what would break it**, so a later reader finds it.
+   - **A test whose assertion changes meaning is called out in the body.**
 
    **Check every `→` in the body reads as "therefore"** — a sequence, a "stacked on" or two independent premises are not one.
 
    **Be concise, but keep the reasoning.**
    Where the reasoning was complex and the change simple, say so: "Simple change in the end: …".
 
-   Open with a lead-in line, then shape the reasoning as a mindmap, per `chalk:voice`.
+   **The body runs: this commit's own context, if any, then what changed, naming the fact that was true and no longer is, then the decisions, each a bullet of a mindmap, per `chalk:voice`.**
+   - **Its context is only what this commit relies on that the PR's Context doesn't give**, such as an invariant this commit sets up; often there is none, and the body opens with the change.
+     Its readers have read the PR, or know the area and reach the PR from `git blame`, or are reading a change simple enough to need none.
+   - **A commit that lands without a PR carries the model a PR's Context would**, since it is the only artefact.
    Your reader arrived from `git blame` on one of these lines months on, mid-investigation of something else, so they are the most impatient reader any chalk artefact has: they will read subject lines and leave. Each one MUST be discardable against that investigation, or agreeable without the body.
 
    - **No headings.**
      The tree's top-level bullets already partition the body.
 
    - **Rarely a tl;dr.**
-     The subject line is the body's tl;dr, so most bodies would only repeat it. A body long enough that its argument needs summarising MAY open with one, per `chalk:voice`, in place of the lead-in line.
+     The subject line is the body's tl;dr, so most bodies would only repeat it. A body long enough that its argument needs summarising MAY open with one, per `chalk:voice`, ahead of the opening paragraph.
 
 3. **Weed the message.**
 
-   **Delegate to the `weed-commits` agent** over the drafted message, in a file, beside the diff it describes — the staged diff, or for a reword the commit's — passing the base branch and nothing of the session's reasoning.
+   **Delegate to the `weed-commits` agent** over the drafted message, in a file, beside the diff it describes — the staged diff, or for a reword the commit's — passing the base branch, the commit's PR or whether it lands without one, and nothing of the session's reasoning.
    Apply its findings to the draft, and send it back until it has no question left.
 
 4. **Commit, or for a reword hand the message back.**

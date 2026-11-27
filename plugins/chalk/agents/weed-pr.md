@@ -33,7 +33,7 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
   You MAY read it freely: the reviewer knew the system before this change.
 - **The diff** from the base branch to the head.
 - **The commits, subjects and bodies** (`git log base..head`).
-  The reviewer reads the code commit by commit, and each body carries what checking that commit means and the invariants it rests on (`chalk:commit`).
+  The reviewer reads the code commit by commit, and each body places them in the model and carries the arguments that commit rests on (`chalk:commit`).
   They were weeded as each was written; you read them only as the reviewer's context.
 - **The linked issue**, verbatim, if there is one, per `cold-read.md`.
 - **The commits that land first**, by subject line, if the caller names any, per `chalk:pr`.
@@ -42,7 +42,7 @@ Interpret MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, etc. per RFC 2119.
   The one exception is a fact this PR relies on that one of them establishes: ask for it only where the description can't be followed without it.
 
 **The bus test runs over the description and the commit bodies together**, since that is what the reviewer holds.
-An invariant that spans commits and appears in no body and not in the description is a gap against the description.
+A load-bearing claim whose argument is in neither is a gap against the description.
 
 ### What the reviewer already knows
 
