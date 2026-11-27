@@ -757,7 +757,7 @@ rule DartReports {
     ensures: Recorded(session: dart.session, entry: harvest)
 
     @guidance
-        -- Harvest into the plan and journal, adding a task for each sub-goal: the sub-goals, each with kind, dependencies and whether the dart exercised it, shaped as review units and together completing the card; the decisions you keep; the questions with what each blocks; the assumptions and risks, including each invariant the dart broke; the data structures that matched the problem; and the dart's branch and head.
+        -- Harvest into the plan and journal, adding a task for each sub-goal: the walking skeleton the dart stood up; the sub-goals, each with kind, dependencies and whether the dart exercised it, shaped as review units and together completing the card; the decisions you keep; the questions with what each blocks; the assumptions and risks, including each invariant the dart broke; the data structures that matched the problem; and the dart's branch and head.
         -- A sub-goal not exercised is darted before it is driven, unless you judge it straightforward (JudgeStraightforward).
 }
 

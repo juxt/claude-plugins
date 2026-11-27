@@ -126,6 +126,11 @@ entity SubGoal {
     is_ready: depends_on.all(d => d.status = done) and not blocked_by_question
     is_drivable: is_ready and (exercised or judged_straightforward)
 
+    @guidance
+        -- An advance is a vertical slice — elephant carpaccio (Cockburn, Kniberg) — cut along SPIDR's Paths, Data and Rules (Cohn); a tidy or an amend is not cut this way.
+        -- SPIDR's other two cuts are left out: the dart is itself the Spike, and Interfaces splits a user interface, which these sub-goals rarely carry.
+        -- A new slice starts where the reviewer's check changes, not where the count does: every operator, or every type, stays one slice.
+
     transitions status {
         pending -> ready
         pending -> in_hand

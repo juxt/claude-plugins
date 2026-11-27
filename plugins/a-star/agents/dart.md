@@ -26,5 +26,6 @@ Your brief is the card; the orchestrator triages everything you report.
 5. **The data structures that matched the problem**, and the ones you abandoned.
 6. **Unlanded commits on the branch the route shows superseded or incomplete**, and what each lacks.
 7. **Stretches of the goal you didn't walk.**
-8. **The sub-goals the route needs**, each a tidy or an advance, with what each depends on, and whether you exercised it — built and run, or only reasoned about.
-   Split them by what a reviewer can accept on its own, not by the order you built them in or by kind alone: an API and its callers are one sub-goal, and so is a structure change whose only reason is the advance after it.
+8. **The walking skeleton** — the thinnest end-to-end path you stood up.
+9. **The sub-goals the route needs**, each a tidy or an advance, with what each depends on, and whether you exercised it — built and run, or only reasoned about.
+   Split them by what a reviewer can accept on its own, not by the order you built them in, or by kind alone: an API and its callers are one sub-goal, and so is a structure change whose only reason is the advance after it.
