@@ -69,9 +69,18 @@ Reader 0 is working through the change in the order it can be checked, reader 1 
 **The body MUST open with a tl;dr**, per `chalk:voice` — the summary sentence, then the mindmap, with no heading over it.
 The first `##` in the body is the section after it.
 
+## Commits that land first
+
+**The caller MAY name, by subject line, commits on the branch that will land on the base before this PR merges.**
+
+- **The title and description MUST cover only the commits after them.**
+- **They MUST NOT name or review the commits that land first.**
+- **Where a commit that lands first establishes something this PR relies on, the description MAY state that fact as context.**
+- **Pass `weed-pr` the same list.**
+
 ## Gather the context
 
-- Review the commits on this branch — all of them, not just the latest.
+- Review the commits on this branch — all of them, not just the latest — bar those that land first.
 
 - Read the session's plan journal, all of it, where `chalk:journal` started one.
   It's material, not a draft: what reaches the description is what *Your readers* and the palette call for — a decision because it matters to them, whoever made it.
@@ -127,7 +136,7 @@ Name what would surprise someone familiar with the subsystem, and don't assume t
 
 ## Weed the draft
 
-**Delegate to the `weed-pr` agent** as the caller's side of `chalk:voice`'s `references/cold-read.md` sets out, passing the description's path, the base branch, and the linked issue if there is one.
+**Delegate to the `weed-pr` agent** as the caller's side of `chalk:voice`'s `references/cold-read.md` sets out, passing the description's path, the base branch, the linked issue if there is one, and the commits that land first if there are any.
 It reads the description cold, as the reviewer, attempts the reviewer's job from it, and reports where it gets stuck.
 
 - **Where there is no linked issue, say so**, so it reads the description as carrying the problem too.

@@ -509,7 +509,7 @@ rule Finish {
         -- no_pr, where the commit carries it all, or an issue carries the knowledge and nothing in the implementation is counter-intuitive: first update the issue's description where the work changed what it should say. The finish ends with a report naming the branch, its head sha and the unmerged main-bound tidies' branches.
         -- standalone_pr, where there is no issue and something to share beyond the commit: raise a PR that carries the problem itself.
         -- pr_on_issue, where the implementation is worth sharing in its own right: raise a PR that resolves the issue, or is part of it.
-        -- Push the branch with `--force-with-lease`, then raise the PR. The finish doesn't end while a blocking question on the PR is unsettled; in secondary it is left open on the PR, marked for the user, and the finish ends.
+        -- Push the branch with `--force-with-lease`, then raise the PR. When asking to raise it, name, by subject, the commits of the unmerged tidy branches under the feature branch as the commits that land on the base first, having checked that each is still unmerged. The finish doesn't end while a blocking question on the PR is unsettled; in secondary it is left open on the PR, marked for the user, and the finish ends.
 }
 
 -- A finish that turns up an amend — CI failing, a finding on the PR — goes back to choosing: the amend is triaged and driven, and the finish is decided again.
