@@ -65,32 +65,32 @@ A gap only shows once you know what the reviewer brought and what they were hand
 
 **Take each of `chalk:pr`'s readers in turn, and ask what they need to reach their goal and whether the description has it.**
 
-- **The reviewer, owning the change commit by commit.**
-  A map of what each commit claims and how to check it; the invariants its correctness rests on; where the subtle parts are and what is mechanical; what was verified, how, and what wasn't.
 - **The teammate getting up to speed.**
-  The arc from the problem to the change; the model in a sentence before any type name; the mechanism, walked through, where it is new.
+  The model of the subsystem the change sits in, in a sentence before any type name; the arc from the problem to the change; the mechanism, walked through, where it is new.
+- **The reviewer, owning the change commit by commit.**
+  The arguments its correctness rests on; the evidence behind each claim that rests on a run, and an `assumption:` tag where nothing was run.
 - **The same reader in a year.**
   The decisions the change settled and what forced each, and the roads not taken, so neither gets reopened.
 
-**Report what is absent as a question to the author** — "What does a reviewer check to know the tidy changes nothing?", "Which invariant does the picker rely on to write groups in order?".
+**Report what is absent as a question to the author** — "What does the rest of the engine call this subsystem for?", "Which invariant does the picker rely on to write groups in order?".
 
 ### 2. The bus test, attempted
 
 **Do each task from the description alone, then check against the diff.**
 
-1. **Explain the change to a teammate in three sentences.**
+1. **Where Context is present, or the reviewer wouldn't already hold the model, say from the tl;dr and Context alone what the subsystem is and where the change sits in it.**
+   Report where you can't, or where you needed What changes or the diff to do it.
+2. **Explain the change to a teammate in three sentences.**
    Mark each sentence you could only write from the diff, and report it.
-2. **Predict three cases the description doesn't mention.**
+3. **Predict three cases the description doesn't mention.**
    Choose them where the mechanism is least obvious — a boundary, an empty input, a second instance, a different type.
    Predict each from the description, then check the diff. **A wrong prediction, or one that needed the diff, is a gap.**
-3. **For each invariant or load-bearing claim, find what makes it true, what test pins it, and what change would break it.**
-   An invariant with no test is reported as unpinned. A claim you can only find support for in the diff is a rebuild.
-   - **An invariant that doesn't say what change would break it is a gap**: that leg is what lets a later reader notice they've broken it.
-   - **A pin on a parent node pins only what its test exercises**; a child it doesn't cover is unpinned, whatever the parent says.
+4. **For each load-bearing claim, find its argument, in the description or in a commit body.**
+   A claim you can only find support for in the diff is a rebuild.
    - **You read for readability, not to verify facts.**
      A measurement, a CI result or a run you can't check from the diff and the description is listed as unchecked, not chased; where it rests on evidence the reviewer can't reach either — an unpublished harness, a local run — say so.
-4. **Walk the tree as the reader takes it**, per `cold-read.md`.
-5. **List the questions you would ask the author before approving.**
+5. **Walk the tree as the reader takes it**, per `cold-read.md`.
+6. **List the questions you would ask the author before approving.**
 
 ### Along the way: what doesn't belong
 
@@ -106,9 +106,8 @@ Return, as your final text:
 1. **Questions before approving** — each marked by which task raised it.
 2. **Rebuilds** — where you had to reconstruct something from the diff, and what one sentence would have spared the reviewer.
 3. **Mindmap gaps**, as `cold-read.md`'s tree walk reports them — claims not safe to agree with unread among them.
-4. **Unpinned invariants.**
-5. **Cuts made**, with each sentence's opening words and its reason, and **references** that didn't resolve.
-6. **Facts not checked** — the load-bearing claims you took on trust, and which of them the reviewer can't reach either.
+4. **Cuts made**, with each sentence's opening words and its reason, and **references** that didn't resolve.
+5. **Facts not checked** — the load-bearing claims you took on trust, and which of them the reviewer can't reach either.
 
 **You are done when you have no question left that you would ask the author before approving.**
 "Nothing to cut" is not that.
