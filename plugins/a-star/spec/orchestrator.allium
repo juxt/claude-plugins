@@ -16,7 +16,7 @@ use "./common.allium" as c
 -- a revert or re-split as a `re-split:` entry, recording what changed and which sub-goals it superseded or reopened, and a replan as `replan:`;
 -- what is in hand — the drive stack, innermost first — before the first edit; each main-bound tidy's pushed branch, until it lands; and a dart in flight, so a resumed session knows it was lost.
 -- A decision that changes the problem or the agreed scope goes onto the issue now, at any stage, by updating its description, journalled as having gone; on an unfiled route it goes into the standalone PR where there is one, and otherwise stays in the journal. A dependency the session discovers goes onto the card it depends on, not this one. Triage and UserSettles apply this to every decision they record.
--- Every commit message — a drive's, a reword, a merged commit's, a split commit's, an amended commit's, a WIP commit's before it is pushed — is written by the need, write the commit message, and nothing is pushed or handed over with a message written otherwise. An amend's `fixup!` commit is the one exception, mechanical because the autosquash folds it away; the commit it lands in is reworded instead (drive.allium's `Committed`).
+-- Every commit message — a drive's, a reword, a merged commit's, a split commit's, a re-sliced commit's, an amended commit's, a WIP commit's before it is pushed — is written by the need, write the commit message, and nothing is pushed or handed over with a message written otherwise. An amend's `fixup!` commit is the one exception, mechanical because the autosquash folds it away; the commit it lands in is reworded instead (drive.allium's `Committed`).
 -- Keep the host's task list current: approving the plan adds a task per open leaf; a recorded sub-goal adds its task, replacing the leaf it refines; one done completes it; one superseded or thrown away removes it; a replan or re-split removes the tasks of the leaves it drops and adds those of the leaves it adds; and a frame interrupting a drive marks the drive's task blocked by its own.
 
 -- Sub-goals.
@@ -417,13 +417,15 @@ rule ShapeForReview {
     ensures: Recorded(session: session, entry: review_units)
 
     @guidance
-        -- Shape the unlanded branch for its reviewer, not the order the work happened in: reorder, merge or split commits until each is independently acceptable and none is a slice of another, leaving the final tree unchanged.
+        -- Shape the unlanded branch for its reviewer, not the order the work happened in: reorder, merge, split or re-slice commits until each is independently acceptable and none is a slice of another, leaving the final tree unchanged.
         -- Main-bound tidies stay at the bottom of the branch, their pushed tidy branches kept in step.
-        -- The test is the `review:` entries: a commit whose entry can't say what checking it means apart from its neighbours' is a slice of one of them, and an entry that needs two different checks is two units — so a tidy and an advance never merge.
+        -- A re-slice moves scope from one commit to another along a slice boundary, and keeps the number of commits the same.
+        -- A re-slice never moves scope beneath anything it needs, or above anything that needs it.
+        -- The test is the `review:` entries: a commit whose entry can't say what checking it means apart from its neighbours' is a slice of one of them, and an entry that needs two different checks is two units — so a tidy and an advance never share a commit.
         -- Run the callers check on every commit once the branch is shaped, and apply the callers check's remedy to each miss.
         -- The pass ends here only once no miss is left whose remedy is a revert or a new amend frame; such a miss is ShapeFindsMiss's.
         -- The slicing rules, the callers check and the completion test are in drive.allium.
-        -- Merging two commits merges their `review:` entries and writes the merged commit message; splitting one splits its `review:` entry and writes each part's message; a changed subject updates the journal entries keyed by it.
+        -- Merging two commits merges their `review:` entries and writes the merged commit message; splitting one splits its `review:` entry and writes each part's message; re-slicing scope between two commits rewrites both their `review:` entries and writes both messages; a changed subject updates the journal entries keyed by it.
 }
 
 -- A callers-check miss the review-unit pass can't fix by moving additions leaves the branch unshaped: a revert is chosen, or an amend of the first caller is recorded, and the pass runs again once it is done.
